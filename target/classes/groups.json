@@ -1,0 +1,122 @@
+{
+  "SKILLS": {
+    "ACROBATICS": {
+      "ABILITY": 1
+    },
+    "ANIMAL_HANDLING": {
+      "ABILITY": 4
+    },
+    "ARCANA": {
+      "ABILITY": 3
+    },
+    "ATHLETICS": {
+      "ABILITY": 0
+    },
+    "DECEPTION": {
+      "ABILITY": 5
+    },
+    "HISTORY": {
+      "ABILITY": 3
+    },
+    "INSIGHT": {
+      "ABILITY": 4
+    },
+    "INTIMIDATION": {
+      "ABILITY": 5
+    },
+    "INVESTIGATION": {
+      "ABILITY": 3
+    },
+    "MEDICINE": {
+      "ABILITY": 4
+    },
+    "NATURE": {
+      "ABILITY": 3
+    },
+    "PERCEPTION": {
+      "ABILITY": 4
+    },
+    "PERFORMANCE": {
+      "ABILITY": 5
+    },
+    "PERSUASION": {
+      "ABILITY": 5
+    },
+    "RELIGION": {
+      "ABILITY": 3
+    },
+    "SLEIGHT_OF_HAND": {
+      "ABILITY": 1
+    },
+    "STEALTH": {
+      "ABILITY": 1
+    },
+    "SURVIVAL": {
+      "ABILITY": 4
+    }
+  },
+
+  "ABILITIES": [
+    "STRENGTH",
+    "DEXTERITY",
+    "CONSTITUTION",
+    "INTELLIGENCE",
+    "WISDOM",
+    "CHARISMA"
+  ],
+
+  "CLASSES": {
+    "NONE_F": {
+      "SUBCLASSES": [
+      ]
+    },
+    "BARBARIAN": {
+      "SUBCLASSES": [
+      ]
+    },
+    "BARD":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "CLERIC":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "DRUID":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "FIGHTER":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "MONK":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "PALADIN":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "RANGER":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "ROGUE":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "SORCERER":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "WARLOCK":  {
+      "SUBCLASSES": [
+      ]
+    },
+    "WIZARD":  {
+      "SUBCLASSES": [
+      ]
+    }
+  }
+}
