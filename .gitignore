@@ -16,6 +16,7 @@
 
 # Development files
 *.py
+src/
 
 # Package Files #
 *.jar
