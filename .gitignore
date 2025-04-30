@@ -14,6 +14,9 @@
 *.json
 *.properties
 
+# Development files
+*.py
+
 # Package Files #
 *.jar
 *.war
