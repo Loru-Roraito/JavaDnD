@@ -67,136 +67,270 @@
 
   "CLASSES": {
     "NONE_F": {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "BARBARIAN": {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "BARD":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "CLERIC":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "DRUID":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "FIGHTER":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "MONK":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "PALADIN":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "RANGER":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "ROGUE":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "SORCERER":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "WARLOCK":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     },
     "WIZARD":  {
-      "SUBCLASSES": [
-      ]
+      "SUBCLASSES":{
+      }
     }
   },
 
   "SPECIES": {
     "AASIMAR": {
+      "SPEED": 30,
+      "DARKVISION": 60,
       "LINEAGES": [
       ]
     },
     "DRAGONBORN": {
-      "LINEAGES": [
-        "SILVER_DRAGONBORN",
-        "WHITE_DRAGONBORN",
-        "BLUE_DRAGONBORN",
-        "BRONZE_DRAGONBORN",
-        "BLACK_DRAGONBORN",
-        "GOLD_DRAGONBORN",
-        "BRASS_DRAGONBORN",
-        "COPPER_DRAGONBORN",
-        "RED_DRAGONBORN",
-        "GREEN_DRAGONBORN"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 60,
+      "LINEAGES": {
+        "SILVER_DRAGONBORN": {
+        },
+        "WHITE_DRAGONBORN": {
+        },
+        "BLUE_DRAGONBORN": {
+        },
+        "BRONZE_DRAGONBORN": {
+        },
+        "BLACK_DRAGONBORN": {
+        },
+        "GOLD_DRAGONBORN": {
+        },
+        "BRASS_DRAGONBORN": {
+        },
+        "COPPER_DRAGONBORN": {
+        },
+        "RED_DRAGONBORN": {
+        },
+        "GREEN_DRAGONBORN": {
+        }
+      }
     },
     "DWARF": {
-      "LINEAGES": [
-        "MOUNTAIN_DWARF",
-        "HILL_DWARF"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 120,
+      "LINEAGES": {
+        "MOUNTAIN_DWARF": {
+        },
+        "HILL_DWARF": {
+        }
+      }
     },
     "ELF": {
-      "LINEAGES": [
-        "HIGH_ELF",
-        "WOOD_ELF",
-        "DROW"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 60,
+      "LINEAGES": {
+        "HIGH_ELF": {
+        },
+        "WOOD_ELF":{
+        },
+        "DROW": {
+        }
+      }
     },
     "GNOME": {
-      "LINEAGES": [
-        "FOREST_GNOME",
-        "ROCK_GNOME"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 60,
+      "LINEAGES": {
+        "FOREST_GNOME": {
+        },
+        "ROCK_GNOME": {
+        }
+      }
     },
     "GOLIATH": {
-      "LINEAGES": [
-        "CLOUD_GIANT",
-        "FIRE_GIANT",
-        "FROST_GIANT",
-        "HILL_GIANT",
-        "STONE_GIANT",
-        "FROST_GIANT"
-      ]
+      "SPEED": 35,
+      "DARKVISION": 0,
+      "LINEAGES": {
+        "CLOUD_GIANT": {
+        },
+        "FIRE_GIANT": {
+        },
+        "FROST_GIANT": {
+        },
+        "HILL_GIANT": {
+        },
+        "STONE_GIANT": {
+        },
+        "STORM_GIANT": {
+        }
+      }
     },
     "HALFLING": {
-      "LINEAGES": [
-        "LIGHTFOOT_HALFLING",
-        "STOUT_HALFLING"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 0,
+      "LINEAGES": {
+        "LIGHTFOOT_HALFLING": {
+        },
+        "STOUT_HALFLING": {
+        }
+      }
     },
     "HUMAN": {
-      "LINEAGES": [
-        "CALISHITA",
-        "CHONDATAN",
-        "DAMARAN",
-        "ILLUSKAN",
-        "MULAN",
-        "RASHEMI",
-        "SHOU",
-        "TETHYRIAN",
-        "TURAMI"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 0,
+      "LINEAGES": {
+        "CALISHITA": {
+        },
+        "CHONDATHAN": {
+        },
+        "DAMARAN": {
+        },
+        "ILLUSKAN": {
+        },
+        "MULAN": {
+        },
+        "RASHEMI": {
+        },
+        "SHOU": {
+        },
+        "TETHYRIAN": {
+        },
+        "TURAMI": {
+        }
+      }
     },
     "ORC": {
-      "LINEAGES": [
-      ]
+      "SPEED": 30,
+      "DARKVISION": 120,
+      "LINEAGES": {
+      }
     },
     "TIEFLING": {
-      "LINEAGES": [
-        "ABYSSAL_TIEFLING",
-        "CHTONIC_TIEFLING",
-        "INFERNAL_TIEFLING"
-      ]
+      "SPEED": 30,
+      "DARKVISION": 60,
+      "LINEAGES": {
+        "ABYSSAL_TIEFLING": {
+        },
+        "CHTONIC_TIEFLING": {
+        },
+        "INFERNAL_TIEFLING": {
+        }
+      }
     }
-  }
+  },
+
+  "BACKGROUNDS": {
+    "ACOLYTE": {
+    
+    },
+    "ARTISAN":{
+
+    },
+    "CHARLATAN": {
+    
+    },
+    "CRIMINAL": {
+    
+    },
+    "ENTERTAINER": {
+    
+    },
+    "FARMER": {
+    
+    },
+    "GUARD": {
+    
+    },
+    "GUIDE": {
+    
+    },
+    "HERMIT": {
+    
+    },
+    "MERCHANT": {
+    
+    },
+    "NOBLE": {
+    
+    },
+    "SAGE": {
+    
+    },
+    "SAILOR": {
+    
+    },
+    "SCRIBE": {
+    
+    },
+    "SOLDIER": {
+    
+    },
+    "WAYFARER": {
+    
+    }
+  },
+
+  "GENDERS": [
+    "NONE_M",
+    "MALE",
+    "FEMALE"
+  ],
+
+  "ALIGNMENTS": [
+    "NONE_M",
+    "LAWFUL_GOOD",
+    "LAWFUL_NEUTRAL",
+    "LAWFUL_EVIL",
+    "NEUTRAL_GOOD",
+    "NEUTRAL_NEUTRAL",
+    "NEUTRAL_EVIL",
+    "CHAOTIC_GOOD",
+    "CHAOTIC_NEUTRAL",
+    "CHAOTIC_EVIL"
+  ],
+
+  "GENERATION_METHODS": [
+    "CUSTOM_M",
+    "RANDOM",
+    "POINT_BUY",
+    "STANDARD_ARRAY"
+  ]
 }

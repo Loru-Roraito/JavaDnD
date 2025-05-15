@@ -34,7 +34,7 @@ public class TooltipLabel extends Label {
     // Set up a key listener for the "T" key
     private void setupKeyListener(String text) {
         // Request focus when the mouse enters the label
-        this.setOnMouseEntered(event -> this.requestFocus());
+        this.setOnMouseEntered(_ -> this.requestFocus());
 
         // Add a key listener for the "T" key
         this.setOnKeyPressed(event -> {

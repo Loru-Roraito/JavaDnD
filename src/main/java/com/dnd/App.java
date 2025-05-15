@@ -58,7 +58,7 @@ public class App extends Application {
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         // Bind font size to the width of the scene
-        scene.widthProperty().addListener((obs, oldVal, newVal) -> {
+        scene.widthProperty().addListener((_, _, newVal) -> {
             double fontSize = newVal.doubleValue() / 110; // Adjust divisor for scaling
             root.setStyle("-fx-font-size: " + fontSize + "px;");
         });

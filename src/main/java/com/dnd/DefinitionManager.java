@@ -107,7 +107,7 @@ public class DefinitionManager {
 
                                 // Underline the word and make it clickable
                                 wordText.setStyle("-fx-underline: true; -fx-fill: blue; -fx-cursor: hand;");
-                                wordText.setOnMouseClicked(event -> openDefinitionTab(clickableText, mainTabPane));
+                                wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
                             }
                         }
 

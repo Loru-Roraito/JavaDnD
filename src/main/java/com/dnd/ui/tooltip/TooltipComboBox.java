@@ -37,7 +37,7 @@ public class TooltipComboBox<T> extends ComboBox<T> {
             Tooltip.uninstall(this, comboBoxTooltip);
         }
 
-        this.valueProperty().addListener((observable, oldValue, newValue) -> {
+        this.valueProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 String tooltipText = fetchTooltip(newValue.toString());
                 comboBoxTooltip.setText(tooltipText.isEmpty() ? "" : tooltipText);
@@ -48,7 +48,7 @@ public class TooltipComboBox<T> extends ComboBox<T> {
             }
         });
 
-        this.setCellFactory(lv -> new ListCell<>() {
+        this.setCellFactory(_ -> new ListCell<>() {
             private final Tooltip tooltip = new Tooltip();
 
             @Override
@@ -67,14 +67,14 @@ public class TooltipComboBox<T> extends ComboBox<T> {
             }
 
             {   // Event to track the hovered item
-                this.setOnMouseEntered(event -> hoveredItem = getItem());
+                this.setOnMouseEntered(_ -> hoveredItem = getItem());
             }
         });
     }
 
     private void setupKeyListener() {
         // Request focus when the mouse enters
-        this.setOnMouseEntered(event -> this.requestFocus());
+        this.setOnMouseEntered(_ -> this.requestFocus());
 
         this.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.T) {

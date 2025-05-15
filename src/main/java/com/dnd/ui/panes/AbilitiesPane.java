@@ -10,6 +10,8 @@ import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -18,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.beans.binding.Bindings;
 
 public class AbilitiesPane extends GridPane {
     private final GameCharacter character;
@@ -32,6 +33,10 @@ public class AbilitiesPane extends GridPane {
     private final List<Button> pluses = new ArrayList<>();
     private final List<Button> buttons = new ArrayList<>();
     private final List<TextField> customs= new ArrayList<>();
+    private final List<ChangeListener<String>> comboToCharListeners = new ArrayList<>();
+    private final List<ChangeListener<String>> charToComboListeners = new ArrayList<>();
+    private final List<ChangeListener<String>> buttonToCharListeners = new ArrayList<>();
+    private final List<ChangeListener<String>> charToButtonListeners = new ArrayList<>();
 
     private final Label points = new Label();
 
@@ -66,6 +71,11 @@ public class AbilitiesPane extends GridPane {
 
     private void setupAbilitiesGeneration() {
         for (int i = 0; i < abilityNames.length; i++) {
+            ChangeListener<String> fill = (_, _, _) -> {};
+            comboToCharListeners.add(fill);
+            charToComboListeners.add(fill);
+            buttonToCharListeners.add(fill);
+            charToButtonListeners.add(fill);
             int index = i; // Capture the index for use in the lambda
             
             String ability = abilityNames[i];
@@ -84,7 +94,7 @@ public class AbilitiesPane extends GridPane {
             bonus2.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
 
             // Add listeners to the CheckBoxes to modify the ability value
-            bonus1.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            bonus1.selectedProperty().addListener((_, _, newValue) -> {
                 if (newValue) {
                     character.addAbilityBonus(index, 1);  // Add +1
                 } else {
@@ -92,7 +102,7 @@ public class AbilitiesPane extends GridPane {
                 }
             });
             
-            bonus2.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            bonus2.selectedProperty().addListener((_, _, newValue) -> {
                 if (newValue) {
                     character.addAbilityBonus(index, 2);  // Add +2
                 } else {
@@ -130,7 +140,7 @@ public class AbilitiesPane extends GridPane {
             comboBox.setPromptText(getTranslation("RANDOM"));
 
             // Bind the selected value of the ComboBox to the corresponding ability in the Character class
-            comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            comboBox.valueProperty().addListener((_, oldValue, newValue) -> {
                 if (newValue != null && oldValue != null && !oldValue.equals(getTranslation("RANDOM"))) {
                     // Add the old value back to all other ComboBoxes
                     for (int j = 0; j < comboBoxes.size(); j++) {
@@ -165,7 +175,7 @@ public class AbilitiesPane extends GridPane {
             pluses.add(plus);
 
             // Add event handlers for the buttons
-            minus.setOnAction(event -> {
+            minus.setOnAction(_ -> {
                 int currentValue = character.getAbilityBase(index).get(); // Get the current value from the character
                 int currentPoints = character.getGenerationPoints().get(); // Get the current generation points
                 int cost = getPointCost(currentValue);
@@ -173,7 +183,7 @@ public class AbilitiesPane extends GridPane {
                 character.setAbilityBase(index, currentValue - 1); // Update the character's base stat
             });
 
-            plus.setOnAction(event -> {
+            plus.setOnAction(_ -> {
                 int currentValue = character.getAbilityBase(index).get(); // Get the current value from the character
                 int currentPoints = character.getGenerationPoints().get(); // Get the current generation points
                 int cost = getPointCost(currentValue + 1);
@@ -199,13 +209,15 @@ public class AbilitiesPane extends GridPane {
             Button button = new Button();
             buttons.add(button);
 
-            button.setOnAction(event -> {
+            button.setText(getTranslation("RANDOM"));
+
+            button.setOnAction(_ -> {
                 String currentValue = character.getAbilityBaseProperty(index).get(); // Get the current value from the character
-                if (currentValue.equals(getTranslation("RANDOM"))) {
+                if (currentValue.equals("RANDOM")) {
                     int result = rollFourDropLowest();
                     character.setAbilityBase(index, result);
                 } else {
-                    character.setAbilityBaseProperty(index, getTranslation("RANDOM"));
+                    character.setAbilityBaseProperty(index, "RANDOM");
                 }
             });
 
@@ -213,7 +225,7 @@ public class AbilitiesPane extends GridPane {
             customs.add(custom);
 
             // Restrict input to positive integers
-            custom.textProperty().addListener((observable, oldValue, newValue) -> {
+            custom.textProperty().addListener((_, oldValue, newValue) -> {
                 if (!newValue.matches("\\d*")) { // Allow only digits
                     custom.setText(oldValue); // Revert to the old value if invalid input is detected
                 }
@@ -264,18 +276,48 @@ public class AbilitiesPane extends GridPane {
             Button plus = pluses.get(i);
             Button button = buttons.get(i);
             TextField custom = customs.get(i);
+            int index = i; // Capture the index for use in the lambda
 
-            if (generationType.equals(getTranslation("STANDARD_ARRAY"))) {
+            if (generationType.equals("STANDARD_ARRAY")) {
                 character.resetAbilityBase(i); // Reset the ability bases to their default values
 
-                comboBox.valueProperty().bindBidirectional(character.getAbilityBaseProperty(i));
+                // ComboBox → Character property
+                ChangeListener<String> comboToChar = (_, _, newVal) -> {
+                    if (newVal == null) return;
+                    if (newVal.equals(getTranslation("RANDOM"))) {
+                        character.getAbilityBaseProperty(index).set("RANDOM");
+                    } else {
+                        character.getAbilityBaseProperty(index).set(newVal);
+                    }
+                };
+                comboBox.valueProperty().addListener(comboToChar);
+                comboToCharListeners.set(i, comboToChar);
+
+                // Character property → ComboBox
+                ChangeListener<String> charToCombo = (_, _, newVal) -> {
+                    if (newVal == null) return;
+                    if (newVal.equalsIgnoreCase("RANDOM")) {
+                        if (!getTranslation("RANDOM").equals(comboBox.getValue())) {
+                            comboBox.setValue(getTranslation("RANDOM"));
+                        }
+                    } else {
+                        if (!newVal.equals(comboBox.getValue())) {
+                            comboBox.setValue(newVal);
+                        }
+                    }
+                };
+                character.getAbilityBaseProperty(i).addListener(charToCombo);
+                charToComboListeners.set(i, charToCombo);
+
                 abilitiesSection.add(comboBox, 3, i); // Column 3, Row i
             } else {
-                comboBox.valueProperty().unbindBidirectional(character.getAbilityBaseProperty(i));
+                comboBox.valueProperty().removeListener(comboToCharListeners.get(i));
+                character.getAbilityBaseProperty(i).removeListener(charToComboListeners.get(i));
+
                 abilitiesSection.getChildren().remove(comboBox);
             }
 
-            if (generationType.equals(getTranslation("POINT_BUY"))) {
+            if (generationType.equals("POINT_BUY")) {
                 character.setAbilityBase(i, 8);
 
                 label.textProperty().bindBidirectional(character.getAbilityBaseProperty(i));
@@ -289,24 +331,56 @@ public class AbilitiesPane extends GridPane {
                 abilitiesSection.getChildren().remove(plus);
             }
 
-            if (generationType.equals(getTranslation("CUSTOM_M"))) {
+            if (generationType.equals("CUSTOM_M")) {
                 abilitiesSection.add(custom, 3, i);
                 custom.textProperty().bindBidirectional(character.getAbilityBaseProperty(i));
             } else {
                 abilitiesSection.getChildren().remove(custom);
                 custom.textProperty().unbindBidirectional(character.getAbilityBaseProperty(i));
+                custom.textProperty().set("10"); // Clear the text field
             }
 
-            if (generationType.equals(getTranslation("RANDOM"))) {
+            if (generationType.equals("RANDOM")) {
+                // button → Character property
+                ChangeListener<String> buttonToChar = (_, _, newVal) -> {
+                    if (newVal == null) return;
+                    if (newVal.equals(getTranslation("RANDOM"))) {
+                        character.getAbilityBaseProperty(index).set("RANDOM");
+                    } else {
+                        character.getAbilityBaseProperty(index).set(newVal);
+                    }
+                };
+                button.textProperty().addListener(buttonToChar);
+                buttonToCharListeners.set(i, buttonToChar);
+
+                // Character property → button
+                ChangeListener<String> charToButton = (_, _, newVal) -> {
+                    if (newVal == null) return;
+                    if (newVal.equalsIgnoreCase("RANDOM")) {
+                        if (!getTranslation("RANDOM").equals(button.textProperty().getValue())) {
+                            button.textProperty().setValue(getTranslation("RANDOM"));
+                        }
+                    } else {
+                        if (!newVal.equals(button.textProperty().getValue())) {
+                            button.textProperty().setValue(newVal);
+                        }
+                    }
+                };
+                character.getAbilityBaseProperty(i).addListener(charToButton);
+                charToButtonListeners.set(i, charToButton);
+                
                 character.resetAbilityBase(i); // Reset the ability bases to their default values
-                button.textProperty().bindBidirectional(character.getAbilityBaseProperty(i));
+
                 abilitiesSection.add(button, 3, i); // Column 3, Row i
             } else {
-                button.textProperty().unbindBidirectional(character.getAbilityBaseProperty(i));
+                button.textProperty().removeListener(buttonToCharListeners.get(i));
+                character.getAbilityBaseProperty(i).removeListener(charToButtonListeners.get(i));
+
                 abilitiesSection.getChildren().remove(button);
             }
         }
-        if (generationType.equals(getTranslation("POINT_BUY"))) {
+
+        if (generationType.equals("POINT_BUY")) {
             abilitiesSection.add(points, 0, 6);
             points.textProperty().bind(
                 Bindings.concat(getTranslation("POINTS"), ": ", character.getGenerationPoints().asString())
@@ -347,7 +421,7 @@ public class AbilitiesPane extends GridPane {
             Button rollButton = new Button(getTranslation("THROW"));
 
             // Add a listener to the button to roll
-            rollButton.setOnAction(event -> {
+            rollButton.setOnAction(_ -> {
                 infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false, false);
             });
             skillsArea.add(rollButton, 4, i); // Column 4, Row i
@@ -385,7 +459,7 @@ public class AbilitiesPane extends GridPane {
             Button rollButton = new Button(getTranslation("THROW"));
 
             // Add a listener to the button to roll
-            rollButton.setOnAction(event -> {
+            rollButton.setOnAction(_ -> {
                 infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false);
             });
             savingThrowsArea.add(rollButton, 3, i); // Column 3, Row i

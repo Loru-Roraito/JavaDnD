@@ -17,10 +17,6 @@ public class GameCharacter {
     private List<String> languages;
     private List<String> proficiencies;
     private List<String> equipment;
-    private String[] alignment;
-    private String background;
-    private String gender;
-    private String name;
     private String saveName;
     private int[] money;
     private int age;
@@ -35,17 +31,23 @@ public class GameCharacter {
     
     private final int[] skillAbilities;
 
+    private final StringProperty name;
+    private final StringProperty gender;
     private final StringProperty levelProperty;
     private final StringProperty classe;
     private final StringProperty subclass;
     private final StringProperty species;
     private final StringProperty lineage;
+    private final StringProperty background;
+    private final StringProperty alignment;
     private final StringProperty generationMethod;
     private final StringProperty[] abilityBaseProperties;
 
     private final IntegerProperty level;
     private final IntegerProperty proficiencyBonus;
     private final IntegerProperty generationPoints;
+    private final IntegerProperty speed;
+    private final IntegerProperty darkvision;
     private final IntegerProperty[] abilityBases;
     private final IntegerProperty[] abilityBonuses;
     private final IntegerProperty[] abilities;
@@ -84,7 +86,7 @@ public class GameCharacter {
 
         abilityBaseProperties = new StringProperty[abilityCount];
 
-        levelProperty = new SimpleStringProperty(getTranslation("RANDOM"));
+        levelProperty = new SimpleStringProperty("RANDOM");
         level = new SimpleIntegerProperty(0);
         proficiencyBonus = new SimpleIntegerProperty(1);
 
@@ -95,7 +97,7 @@ public class GameCharacter {
             // Initialize each ability with a default value of 10
             abilityBases[i] = new SimpleIntegerProperty(0);
 
-            abilityBaseProperties[i] = new SimpleStringProperty(getTranslation("RANDOM"));
+            abilityBaseProperties[i] = new SimpleStringProperty("RANDOM");
 
             // Initialize each abilityBonus with a default value of 0
             abilityBonuses[i] = new SimpleIntegerProperty(0);
@@ -131,14 +133,25 @@ public class GameCharacter {
             bindSkillModifier(i);
         }
 
-        classe = new SimpleStringProperty(getTranslation("RANDOM"));
-        subclass = new SimpleStringProperty(getTranslation("RANDOM"));
+        classe = new SimpleStringProperty("RANDOM");
+        subclass = new SimpleStringProperty("RANDOM");
 
-        species = new SimpleStringProperty(getTranslation("RANDOM"));
-        lineage = new SimpleStringProperty(getTranslation("RANDOM"));
+        species = new SimpleStringProperty("RANDOM");
+        lineage = new SimpleStringProperty("RANDOM");
+        background = new SimpleStringProperty("RANDOM");
 
-        generationMethod = new SimpleStringProperty(getTranslation("STANDARD_ARRAY"));
+        generationMethod = new SimpleStringProperty("STANDARD_ARRAY");
         generationPoints = new SimpleIntegerProperty(27); // Default value for point buy
+
+        name = new SimpleStringProperty();
+        gender = new SimpleStringProperty("RANDOM");
+        alignment = new SimpleStringProperty("RANDOM");
+
+        speed = new SimpleIntegerProperty(); // Default speed
+        darkvision = new SimpleIntegerProperty(); // Default darkvision
+
+        bindSpeed();
+        bindDarkvision();
     }
 
     // Getters
@@ -159,6 +172,10 @@ public class GameCharacter {
         return subclass;
     }
 
+    public StringProperty getBackground() {
+        return background;
+    }
+
     public StringProperty getLevelProperty() {
         return levelProperty;
     }
@@ -169,6 +186,26 @@ public class GameCharacter {
 
     public StringProperty getAbilityBaseProperty(int index) {
         return abilityBaseProperties[index];
+    }
+
+    public StringProperty getName() {
+        return name;
+    }
+
+    public StringProperty getGender() {
+        return gender;
+    }
+
+    public StringProperty getAlignment() {
+        return alignment;
+    }
+
+    public IntegerProperty getSpeed() {
+        return speed;
+    }
+
+    public IntegerProperty getDarkvision() {
+        return darkvision;
     }
 
     public IntegerProperty getAbilityBase(int index) {
@@ -214,7 +251,7 @@ public class GameCharacter {
     // Setters
 
     public void resetAbilityBase(int i) {
-        abilityBaseProperties[i].set(getTranslation("RANDOM"));
+        abilityBaseProperties[i].set("RANDOM");
     }
 
     public void setAbilityBase(int index, int value) {
@@ -275,11 +312,30 @@ public class GameCharacter {
     }
 
     private void bindSkillBonus(int index) {
-        // Bind savingThrowBonuses[index] to include proficiencyBonus if savingThrowProficiency[index] is true
         skillBonuses[index].bind(Bindings.createIntegerBinding(
             () -> skillProficiencies[index].get() ? proficiencyBonus.get() : 0,
             skillProficiencies[index],
             proficiencyBonus
+        ));
+    }
+
+    private void bindSpeed() {
+        speed.bind(Bindings.createIntegerBinding(
+            () -> {
+                int baseSpeed = getInt(new String[] {"SPECIES", species.get(), "SPEED"});
+                return baseSpeed > 0 ? baseSpeed : 30;
+            },
+            species
+        ));
+    }
+
+    private void bindDarkvision() {
+        darkvision.bind(Bindings.createIntegerBinding(
+            () -> {
+                int baseDarkvision = getInt(new String[] {"SPECIES", species.get(), "DARKVISION"});
+                return baseDarkvision > 0 ? baseDarkvision : 0;
+            },
+            species
         ));
     }
 
@@ -288,9 +344,9 @@ public class GameCharacter {
     }
 
     private void bindLevel() {
-        levelProperty.addListener((observable, oldValue, newValue) -> {
+        levelProperty.addListener((_, _, newValue) -> {
             if (newValue != null) {
-                if (newValue.equalsIgnoreCase(getTranslation("RANDOM"))) {
+                if (newValue.equalsIgnoreCase("RANDOM")) {
                     // Handle the "RANDOM" case explicitly
                     level.set(0); // Set level to 0 or any default value for "RANDOM"
                 } else {
@@ -310,11 +366,11 @@ public class GameCharacter {
         });
 
         // Update `levelProperty` when `level` changes
-        level.addListener((observable, oldValue, newValue) -> {
+        level.addListener((_, _, newValue) -> {
             if (newValue != null) {
                 if (newValue.intValue() == 0) {
                     // If level is 0, set `levelProperty` to "RANDOM"
-                    levelProperty.set(getTranslation("RANDOM"));
+                    levelProperty.set("RANDOM");
                 } else {
                     // Otherwise, set `levelProperty` to the string representation of the level
                     levelProperty.set(String.valueOf(newValue.intValue()));
@@ -324,9 +380,9 @@ public class GameCharacter {
     }
 
     private void bindAbilityBase(int index) {
-        abilityBaseProperties[index].addListener((observable, oldValue, newValue) -> {
+        abilityBaseProperties[index].addListener((_, _, newValue) -> {
             if (newValue != null && !newValue.equals("")) {
-                if (newValue.equalsIgnoreCase(getTranslation("RANDOM"))) {
+                if (newValue.equalsIgnoreCase("RANDOM")) {
                     // Handle the "RANDOM" case explicitly
                     abilityBases[index].set(0);
                 } else {
@@ -345,10 +401,10 @@ public class GameCharacter {
             }
         });
 
-        abilityBases[index].addListener((observable, oldValue, newValue) -> {
+        abilityBases[index].addListener((_, _, newValue) -> {
             if (newValue != null) {
                 if (newValue.intValue() == 0) {
-                    abilityBaseProperties[index].set(getTranslation("RANDOM"));
+                    abilityBaseProperties[index].set("RANDOM");
                 } else {
                     abilityBaseProperties[index].set(String.valueOf(newValue.intValue()));
                 }
@@ -357,10 +413,6 @@ public class GameCharacter {
     }
 
     // Helpers
-
-    private String getTranslation(String key) {
-        return TranslationManager.getInstance().getTranslation(key);
-    }
 
     private String[] getGroup(String[] group) {
         return TranslationManager.getInstance().getGroup(group);

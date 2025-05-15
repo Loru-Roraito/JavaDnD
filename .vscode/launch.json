@@ -8,8 +8,8 @@
             "type": "java",
             "name": "App",
             "request": "launch",
-            "mainClass": "com.dnd.App",
-            "projectName": "JavaDnD"
+            "mainClass": "com.dnd/com.dnd.App",
+            "projectName": "demo"
         }
     ]
 }

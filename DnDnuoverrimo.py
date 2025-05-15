@@ -5,9 +5,6 @@ ABILITY_SCORE_INCREASE = "Caratteristiche"
 ALIGNMENTS = [RANDOM, "Legale Buono", "Legale Neutrale", "Legale Malvagio", "Neutrale Buono", "Neutrale Puro", "Neutrale Malvagio", "Caotico Buono", "Caotico Neutrale", "Caotico Malvagio"]
 ALIGNMENTS_1 = ["Caotico", "Neutrale", "Legale"]
 ALIGNMENTS_2 = ["Malvagio", "Neutrale", "Buono"]
-GENDERS = [RANDOM, "Maschio", "Femmina"]
-WEIGHT_MULTIPLIER = 0.5 # lb->kg conversion. 1 lb = 0.5 kg. lb is default
-LENGTH_MULTIPLIER = 0.3 # ft->m conversion. 1 ft = 0.3 m. ft is default
 TIEFLING_VALUES = ["dell'Ambizione", "dell'Arte", "della Carogna", "del Canto", "del Credo", "della Morte", "della Dissolutezza", "della Disperazione", "della Condanna", "del Dubbio", "del Timore", "dell'Estasi", "dell'Anonimato", "dell'Entropia", "dell'Eccellenza", "della Paura", "della Gloria", "della Gola", "del Dolore", "dell'Odio", "della Speranza", "dell'Orrore", "dell'Ideale", "dell'Ignoto", "della Risata", "dell'Amore", "del Desiderio", "del Caos", "della Derisione", "dell'Omicidio", "della Musa", "della Musica", "del Mistero", "del Nulla", "dell'Apertura", "del Dolore", "della Passione", "della Poesia", "della Ricerca", "del Caso", "della Riverenza", "della Rivoltura", "del Cordoglio", "della Temerarietà", "del Tormento", "della Tragedia", "del Vizio", "della Virtù", "dell'Affaticamento", "dello Spirito"]
 
 MISC_AASIMAR = ["Mani Guaritrici: come Magia, puoi toccare una creatura e tirare un numero di d4 pari al tuo Bonus di Competenza. La creatura recupera Punti Ferita pari al totale dei lanci. Può essere usato una volta per Riposo Lungo.", [3, "Rivelazione Celestiale", "Rivelazione Celestiale: come Azione Bonus puoi trasformarti usando una delle opzioni sottostanti (l'opzione può essere scelta ad ogni trasformazione). La trasformazione dura 1 minuto o fino a che non la interrompi (nessuna azione necessaria). Può essere usato una volta per Riposo Lungo.\nUna volta per turno prima che la trasformazione finisca, puoi infliggere danno extra ad un persaglio quando gli infliggi danno con un attacco od un incantesimo. Il danno extra equivale al tuo Bonus di Competenza ed è di tipo Necrotico per Manto Necrotico o Radiante per Ali Celestiali e Splendore Interno.\nLe opzioni di trasformazione sono le seguenti:\n - Ali Celestiali: due ali spettrali emergono temporaneamente dalla tua schiena. Fino alla fine della trasformazione, guadagni Velocità di Volo pari alla tua Velocità.\n - Splendore Interno: irradii temporaneamente una luce accecante da occhi e bocca. Per la durata della trasformazione, emetti Luce Luminosa in un raggio di 3 metri e Luce Fioca per altri 3 metri e, alla fine di ogni turno, ogni creatura entro 3 metri subisce danno Radiante pari al tuo Bonus di Competenza.\n - Manto Necrotico: i tuoi occhi divengono momentaneamente pozzi di oscurità e ali non adatte al volo ti emergono dalla schiena. Le creature non alleate entro 3 metri devono superare un tiro salvezza su Carisma (DC 8 più il tuo modificatore di Carisma ed il tuo Bonus di Competenza) o subire la condizione Spaventato fino alla fine del tuo turno successivo."]]
@@ -336,17 +333,6 @@ FEAT_WEIGHTS = {feat: info["probability"] for feat, info in FEATS.items() if "pr
 
 
 SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
-    RANDOM: {
-        "lineages": {
-            RANDOM: {
-
-            },
-            NONE_F: {
-                "probability": 1
-            }
-        }
-    },
-
     AASIMAR: {
         "probability": 1,
         "type:": HUMANOID,
@@ -355,8 +341,6 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
 
         "misc": MISC_AASIMAR,
         "features": [HEALING_HANDS, [3, CELESTIAL_REVELATION]],
-        "speed": 30,
-        "darkvision": 60,
         "resistances": [NECROTIC, RADIANT],
         "magic": [[SPELL_LIGHT, CHARISMA]],
         "lineages": {
@@ -383,12 +367,7 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "last names": ["Akambherylliax", "Argenthrixus", "Baharoosh", "Beryntolthropal", "Bhenkumbyrznaax", "Caavylteradyn", "Chumbyxirinnish", "Clethtinthiallor", "Daardendrian", "Delmirev", "Dhyrktelonis", "Ebynichtomonis", "Esstyrlynn", "Fharngnarthnost", "Ghaallixirn", "Grrrmmballhyst", "Gygazzylyshrift", "Hashphronyxadyn", "Hshhsstoroth", "Imbixtellrhyst", "Jerynomonis", "Jharthraxyn", "Kerrhylon", "Kimbatuul", "Lhamboldennish", "Linxakasendalor", "Mohradyllion", "Mystan", "Nemmonis", "Norixius", "Ophinshtalajiir", "Orexijandilin", "Pfaphnyrennish", "Phrahdrandon", "Pyraxtallinost", "Qyxpahrgh", "Raghthroknaar", "Shestendeliath", "Skaarzborroosh", "Sumnarghthrysh", "Tiammanthyllish", "Turnuroth", "Umbyrphrael", "Vangdondalor", "Verthisathurgiesh", "Wivvyrholdalphiax", "Wystongjiir", "Xephyrbahnor", "Yarjerit", "Zzzxaaxthroth"],
         
         "misc": MISC_DRAGONBORN,
-        "speed": 30,
-        "darkvision": 60,
         "lineages": {
-            RANDOM: {
-
-            },
             SILVER_DRAGONBORN: {
                 "probability": 1,
                 "probability alignment 1": [45, 10, 45],
@@ -455,16 +434,11 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "female names": ["Adrie", "Ahinar", "Althaea", "Anastrianna", "Andraste", "Antinua", "Arara", "Baelitae", "Bethrynna", "Birel", "Caelynn", "Chaedi", "Claira", "Dara", "Drusilia", "Elama", "Enna", "Faral", "Felosial", "Hatae", "Ielenia", "Ilanis", "Irann", "Jarsali", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Maiathah", "Malquis", "Meriele", "Mialee", "Myathethil", "Naivara", "Quelenna", "Quillathe", "Ridaro", "Sariel", "Shanairla", "Shava", "Silaqui", "Sumnes", "Theirastra", "Thiala", "Tiaathque", "Traulam", "Vadania", "Valanthe", "Valna", "Xanaphia"],
         "last names": ["Aloro", "Amakiir", "Amastacia", "Ariessus", "Arnuanna", "Berevan", "Caerdonel", "Caphaxath", "Casilltenirra", "Cithreth", "Dalanthan", "Eathalena", "Erenaeth", "Ethanasath", "Fasharash", "Firahel", "Floshem", "Galanodel", "Goltorah", "Hanali", "Holimion", "Horineth", "Iathrana", "Ilphelkiir", "Iranapha", "Koehlanna", "Lathalas", "Liadon", "Meliamne", "Mellerelel", "Mystralath", "Naïlo", "Netyoive", "Ofandrus", "Ostoroth", "Othronus", "Qualanthri", "Raethran", "Rothenel", "Selevarun", "Siannodel", "Suithrasas", "Sylvaranth", "Teinithra", "Tiltathana", "Wasanthi", "Withrethin", "Xiloscient", "Xistsrith", "Yaeldrin"],
         
-        "speed": 30,
-        "darkvision": 60,
         "skill proficiencies": [[PERCEPTION, INSIGHT, SURVIVAL]],
         "condition advantages": [CHARMED],
         "condition immunities": [MAGIC_SLEEP],
         "misc": MISC_ELF,
         "lineages": {
-            RANDOM: {
-                
-            },
             HIGH_ELF: {
                 "probability": 1,
                 "probability alignment 1": [90, 7, 3],
@@ -522,14 +496,9 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "female names": ["Abalaba", "Bimpnottin", "Breena", "Buvvie", "Callybon", "Caramip", "Carlin", "Cumpen", "Dalaba", "Donella", "Duvamil", "Ella", "Ellyjoybell", "Ellywick", "Enidda", "Lilli", "Loopmottin", "Lorilla", "Luthra", "Mardnab", "Meena", "Menny", "Mumpena", "Nissa", "Numba", "Nyx", "Oda", "Oppah", "Orla", "Panana", "Pyntle", "Quilla", "Ranala", "Reddlepop", "Roywyn", "Salanop", "Shamil", "Siffress", "Symma", "Tana", "Tenena", "Tervaround", "Tippletoe", "Ulla", "Unvera", "Velptima", "Virra", "Waywocket", "Yebe", "Zanna"],
         "last names": ["Albaratie", "Bafflestone", "Beren", "Boondiggles", "Cobblelob", "Daergel", "Dunben", "Fabblestabble", "Fapplestamp", "Fiddlefen", "Folkor", "Garrick", "Gimlen", "Glittergem", "Gobblefirn", "Gummen", "Horcusporcus", "Humplebumple", "Ironhide", "Leffery", "Lingenhall", "Loofollue", "Maekkelferce", "Miggledy", "Munggen", "Murnig", "Musgraben", "Nackle", "Ningel", "Nopenstallen", "Nucklestamp", "Offund", "Oomtrowl", "Pilwicken", "Pingun", "Quillsharpener", "Raulnor", "Reese", "Rofferton", "Scheppen", "Shadowcloak", "Silverthread", "Sympony", "Tarkelby", "Timbers", "Turen", "Umbodoben", "Waggletop", "Welber", "Wildwander"],
         
-        "speed": 30,
-        "darkvision": 60,
         "save advantages": [INTELLIGENCE, WISDOM, CHARISMA],
         "misc": MISC_GNOME,
         "lineages": {
-            RANDOM: {
-                
-            },
             FOREST_GNOME: {
                 "probability": 1,
                 "magic": [["PLACEHOLDER"]]
@@ -558,11 +527,7 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         
         "condition advantages": [GRAPPLED],
         "misc": MISC_GOLIATH,
-        "speed": 35,
         "lineages": {
-            RANDOM: {
-                
-            },
             CLOUD_GIANT: {
                 "probability": 1,
                 "misc": MISC_CLOUD_GIANT
@@ -608,14 +573,9 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "female names": ["Alain", "Andry", "Anne", "Bella", "Blossom", "Bree", "Callie", "Chenna", "Cora", "Dee", "Dell", "Eida", "Eran", "Euphemia", "Georgina", "Gynnie", "Harriet", "Jasmine", "Jillian", "Jo", "Kithri", "Lavinia", "Lidda", "Maegan", "Marigold", "Merla", "Myria", "Nedda", "Nikki", "Nora", "Olivia", "Paela", "Pearl", "Pennie", "Philomena", "Portia", "Robbie", "Rose", "Saral", "Seraphina", "Shaena", "Stacee", "Tawna", "Thea", "Trym", "Tyna", "Vani", "Verna", "Wella", "Willow"],
         "last names": ["Appleblossom", "Bigheart", "Brightmoon", "Brushgather", "Cherrycheeks", "Copperkettle", "Deephollow", "Elderberry", "Fastfoot", "Fatrabbit", "Glenfellow", "Goldfound", "Tallbarrel", "Tallearth", "Greenbottle", "Greenleaf", "High-hill", "Hilltopple", "Hogcollar", "Honeypot", "Jamjar", "Kettlewhistle", "Leagallow", "Littlefoot", "Nimblefingers", "Porridgepot", "Quickstep", "Reedfellow", "Shadowquick", "Silvereyes", "Smoothhands", "Stonebridge", "Stoutbridge", "Stoutman", "Strongbones", "Sunmeadow", "Swiftwhistle", "Tallfellow", "Tealeaf", "Tenpenny", "Thistletop", "Thorngage", "Tosscobble", "Underbough", "Underfoot", "Warmwater", "Whispermouse", "Wildcloak", "Wildheart", "Wiseacre"],
         
-        "speed": 30,
-        "darkvision": 0,
         "condition advantages": [FRIGHTENED],
         "misc": MISC_HALFLING,
         "lineages": {
-            RANDOM: {
-                
-            },
             LIGHTFOOT_HALFLING: {
                 "probability": 1
             },
@@ -641,13 +601,7 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "female names": ["Arha", "Baggi", "Bendoo", "Bilga", "Brakka", "Creega", "Drenna", "Ekk", "Emen", "Engong", "Fistula", "Gaaki", "Gorga", "Grai", "Greeba", "Grigi", "Gynk", "Hrathy", "Huru", "Ilga", "Kabbarg", "Kansif", "Lagazi", "Lezre", "Murgen", "Murook", "Myev", "Nagrette", "Neega", "Nella", "Nogu", "Oolah", "Ootah", "Ovak", "Ownka", "Puyet", "Reeza", "Shautha", "Silgre", "Sutha", "Tagga", "Tawar", "Tomph", "Ubada", "Vanchu", "Vola", "Volen", "Vorka", "Yevelda", "Zagga"],
         "last names": [],
        
-        "speed": 30,
-        "darkvision": 120,
         "misc": MISC_ORC,
-         "lineages": {
-            NONE_M: {
-                "probability": 1
-            }
         }
     },
 
@@ -666,16 +620,11 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "last names": ["Aranore", "Balderk", "Battlehammer", "Bigtoe", "Bloodkith", "Bofdann", "Brawnanvil", "Brazzik", "Broodfist", "Burrowfound", "Caebrek", "Daerdahk", "Dankil", "Daraln", "Deepdelver", "Durthane", "Eversharp", "Fallack", "Fireforge", "Foamtankard", "Frostbeard", "Glanhig", "Goblinbane", "Goldfinder", "Gorunn", "Graybeard", "Hammerstone", "Helcral", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Morigak", "Orcfoe", "Rakankrak", "Ruby-Eye", "Rumnaheim", "Silveraxe", "Silverstone", "Steelfist", "Stoutale", "Strakeln", "Strongheart", "Thrahak", "Torevir", "Torunn", "Trollbleeder", "Trueanvil", "Trueblood", "Ungart"],
         "age max": 350,
 
-        "speed": 30,
-        "darkvision": 120,
         "condition advantages": [POISONING],
         "resistances": [POISON],
         "health bonus": 1,
         "misc": MISC_DWARF,
         "lineages": {
-            RANDOM: {
-                
-            },
             MOUNTAIN_DWARF: {
                 "probability": 1,
                 "base height": 4,
@@ -711,13 +660,8 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
         "female names": ["Akta", "Anakis", "Armara", "Astaro", "Aym", "Azza", "Beleth", "Bryseis", "Bune", "Criella", "Damaia", "Decarabia", "Ea", "Gadreel", "Gomory", "Hecat", "Ishte", "Jezebeth", "Kali", "Kallista", "Kasdeya", "Lerissa", "Lilith", "Makaria", "Manea", "Markosian", "Mastema", "Naamah", "Nemeia", "Nija", "Orianna", "Osah", "Phelaia", "Prosperine", "Purah", "Pyra", "Rieta", "Ronobe", "Ronwe", "Seddit", "Seere", "Sekhmet", "Semyaza", "Shava", "Shax", "Sorath", "Uzza", "Vapula", "Vepar", "Verin"],
         "last names": TIEFLING_VALUES,
         
-        "speed": 30,
-        "darkvision": 60,
         "magic": [["PLACEHOLDER"]],
         "lineages": {
-            RANDOM: {
-
-            },
             ABYSSAL_TIEFLING: {
                 "probability": 1,
                 "resistances": [POISON],
@@ -752,13 +696,8 @@ SPECIES: Dict[str, Dict[str, Dict[str, Dict]]] = {
 
         "skill proficiencies": [list(SKILLS.keys())],
         "feat": ORIGIN_FEATS,
-        "speed": 30,
-        "darkvision": 0,
         "misc": MISC_HUMAN,
-        "lineages": {
-            RANDOM: {
-                
-            },
+        "lineages": {f
             CALISHITA: {
                 "probability": 1,
                 "male names": ["Aseir", "Bardeid", "Haseid", "Khemed", "Mehmen", "Sudeiman", "Zasheir"],
@@ -1593,60 +1532,6 @@ class CharacterTab(QWidget):
         health_grid.addWidget(self.initiative_button, 4, 1)
         health_grid.addWidget(self.passivePerception_label, 5, 0)
         health_grid.addWidget(self.size_label, 6, 0)
-
-        parameters_groupBox = QGroupBox(PARAMETERS_TRANSLATE)
-        parameters_vBox = QVBoxLayout()
-        parameters_groupBox.setLayout(parameters_vBox)
-        parameters_groupBox.setMinimumWidth(int(scale_factor * 180))
-
-        name_label = HoverableLabel(NAME_TRANSLATE)
-        self.name_lineEdit = QLineEdit()
-        self.name_lineEdit.setValidator(regular_validator)
-        self.name_lineEdit.setMaxLength(27)
-
-        gender_label = HoverableLabel(GENDER_TRANSLATE)
-        self.gender_comboBox = HoverableComboBox()
-        self.gender_comboBox.addItems(GENDERS)
-
-        species_label = HoverableLabel(SPECIES_TRANSLATE)
-        self.species_comboBox = HoverableComboBox()
-        self.species_comboBox.addItems(SPECIES)
-
-        self.lineage_label = HoverableLabel(LINEAGE_TRANSLATE)
-        self.lineage_label.hide()
-        self.lineage_comboBox = HoverableComboBox()
-        self.lineage_comboBox.addItems(SPECIES[RANDOM]["lineages"])
-        self.lineage_comboBox.hide()
-
-        background_label = HoverableLabel(BACKGROUND_TRANSLATE)
-        self.background_comboBox = HoverableComboBox()
-        self.background_comboBox.addItems(BACKGROUNDS)
-
-        self.speed_label = HoverableLabel(SPEED_TRANSLATE + ":")
-        self.flySpeed_label = HoverableLabel()
-        self.flySpeed_label.hide()
-
-        self.darkvision_label = HoverableLabel(DARKVISION_TRANSLATE + ":")
-
-        alignment_label = HoverableLabel(ALIGNMENT_TRANSLATE)
-        self.alignment_comboBox = HoverableComboBox()
-        self.alignment_comboBox.addItems(ALIGNMENTS)
-
-        parameters_vBox.addWidget(name_label)
-        parameters_vBox.addWidget(self.name_lineEdit)
-        parameters_vBox.addWidget(gender_label)
-        parameters_vBox.addWidget(self.gender_comboBox)
-        parameters_vBox.addWidget(species_label)
-        parameters_vBox.addWidget(self.species_comboBox)
-        parameters_vBox.addWidget(self.lineage_label)
-        parameters_vBox.addWidget(self.lineage_comboBox)
-        parameters_vBox.addWidget(background_label)
-        parameters_vBox.addWidget(self.background_comboBox)
-        parameters_vBox.addWidget(alignment_label)
-        parameters_vBox.addWidget(self.alignment_comboBox)
-        parameters_vBox.addWidget(self.speed_label)
-        parameters_vBox.addWidget(self.flySpeed_label)
-        parameters_vBox.addWidget(self.darkvision_label)
 
         class_scrollArea = QScrollArea()
         class_scrollArea.setWidget(class_groupBox)

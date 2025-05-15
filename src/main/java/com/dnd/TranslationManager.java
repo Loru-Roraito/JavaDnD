@@ -70,7 +70,6 @@ public class TranslationManager {
         for (String subGroup : group) {
             node = node.get(subGroup);
             if (node == null) {
-                System.err.println("Warning: subGroup not found: " + subGroup);
                 return 0;
             }
         }
