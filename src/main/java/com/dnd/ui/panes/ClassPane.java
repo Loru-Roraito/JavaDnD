@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dnd.TranslationManager;
-import com.dnd.characters.Character;
+import com.dnd.characters.GameCharacter;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 
@@ -16,7 +16,7 @@ import javafx.scene.layout.GridPane;
 
 public class ClassPane extends GridPane {
     private final Map<String, String> classMap = new HashMap<>();
-    public ClassPane(Character character, TabPane mainTabPane) {
+    public ClassPane(GameCharacter character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
         // Create a label as the title for the ComboBox

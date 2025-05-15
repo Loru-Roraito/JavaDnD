@@ -1,16 +1,16 @@
 package com.dnd.ui.tabs;
 
 import com.dnd.TranslationManager;
-import com.dnd.characters.Character;
+import com.dnd.characters.GameCharacter;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.geometry.Side;
 
 public class CharacterTab extends Tab{
-    private final Character character;
+    private final GameCharacter character;
     private final TabPane mainTabPane; // Reference to the main TabPane
-    public CharacterTab(String title, Character character, TabPane mainTabPane) {
+    public CharacterTab(String title, GameCharacter character, TabPane mainTabPane) {
         this.character = character;
         this.mainTabPane = mainTabPane;
         

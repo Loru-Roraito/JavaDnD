@@ -3,13 +3,13 @@ package com.dnd.ui.panes;
 import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
-import com.dnd.characters.Character;
+import com.dnd.characters.GameCharacter;
 
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 
 public class CustomizationPane extends GridPane {
-    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, Character character) {
+    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, GameCharacter character) {
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
         add(generationLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
 

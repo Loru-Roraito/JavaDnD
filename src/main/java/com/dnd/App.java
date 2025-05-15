@@ -2,7 +2,7 @@ package com.dnd;
 
 import java.io.IOException;
 
-import com.dnd.characters.Character;
+import com.dnd.characters.GameCharacter;
 import com.dnd.ui.tabs.CharacterTab;
 
 import javafx.application.Application;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     private static TabPane mainTabPane;
-    Character character = new Character();
+    GameCharacter character = new GameCharacter();
 
     @Override
     public void start(Stage stage) throws IOException {

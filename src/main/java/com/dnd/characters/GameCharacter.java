@@ -12,14 +12,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Character {
+public class GameCharacter {
     private List<String> feats;
     private List<String> languages;
     private List<String> proficiencies;
     private List<String> equipment;
     private String[] alignment;
-    private String species;
-    private String lineage;
     private String background;
     private String gender;
     private String name;
@@ -40,6 +38,8 @@ public class Character {
     private final StringProperty levelProperty;
     private final StringProperty classe;
     private final StringProperty subclass;
+    private final StringProperty species;
+    private final StringProperty lineage;
     private final StringProperty generationMethod;
     private final StringProperty[] abilityBaseProperties;
 
@@ -60,7 +60,7 @@ public class Character {
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
 
-    public Character() {
+    public GameCharacter() {
         String[] skillNames = getGroup(new String[] {"SKILLS"}); // Get the names of all skills
         int abilityCount = getGroup(new String[] {"ABILITIES"}).length;
         int skillCount = getGroup(new String[] {"SKILLS"}).length;
@@ -134,6 +134,9 @@ public class Character {
         classe = new SimpleStringProperty(getTranslation("RANDOM"));
         subclass = new SimpleStringProperty(getTranslation("RANDOM"));
 
+        species = new SimpleStringProperty(getTranslation("RANDOM"));
+        lineage = new SimpleStringProperty(getTranslation("RANDOM"));
+
         generationMethod = new SimpleStringProperty(getTranslation("STANDARD_ARRAY"));
         generationPoints = new SimpleIntegerProperty(27); // Default value for point buy
     }
@@ -142,6 +145,14 @@ public class Character {
 
     public StringProperty getClasse() {
         return classe;
+    }
+
+    public StringProperty getSpecies() {
+        return species;
+    }
+
+    public StringProperty getLineage() {
+        return lineage;
     }
 
     public StringProperty getSubclass() {

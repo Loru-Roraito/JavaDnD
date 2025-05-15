@@ -118,5 +118,85 @@
       "SUBCLASSES": [
       ]
     }
+  },
+
+  "SPECIES": {
+    "AASIMAR": {
+      "LINEAGES": [
+      ]
+    },
+    "DRAGONBORN": {
+      "LINEAGES": [
+        "SILVER_DRAGONBORN",
+        "WHITE_DRAGONBORN",
+        "BLUE_DRAGONBORN",
+        "BRONZE_DRAGONBORN",
+        "BLACK_DRAGONBORN",
+        "GOLD_DRAGONBORN",
+        "BRASS_DRAGONBORN",
+        "COPPER_DRAGONBORN",
+        "RED_DRAGONBORN",
+        "GREEN_DRAGONBORN"
+      ]
+    },
+    "DWARF": {
+      "LINEAGES": [
+        "MOUNTAIN_DWARF",
+        "HILL_DWARF"
+      ]
+    },
+    "ELF": {
+      "LINEAGES": [
+        "HIGH_ELF",
+        "WOOD_ELF",
+        "DROW"
+      ]
+    },
+    "GNOME": {
+      "LINEAGES": [
+        "FOREST_GNOME",
+        "ROCK_GNOME"
+      ]
+    },
+    "GOLIATH": {
+      "LINEAGES": [
+        "CLOUD_GIANT",
+        "FIRE_GIANT",
+        "FROST_GIANT",
+        "HILL_GIANT",
+        "STONE_GIANT",
+        "FROST_GIANT"
+      ]
+    },
+    "HALFLING": {
+      "LINEAGES": [
+        "LIGHTFOOT_HALFLING",
+        "STOUT_HALFLING"
+      ]
+    },
+    "HUMAN": {
+      "LINEAGES": [
+        "CALISHITA",
+        "CHONDATAN",
+        "DAMARAN",
+        "ILLUSKAN",
+        "MULAN",
+        "RASHEMI",
+        "SHOU",
+        "TETHYRIAN",
+        "TURAMI"
+      ]
+    },
+    "ORC": {
+      "LINEAGES": [
+      ]
+    },
+    "TIEFLING": {
+      "LINEAGES": [
+        "ABYSSAL_TIEFLING",
+        "CHTONIC_TIEFLING",
+        "INFERNAL_TIEFLING"
+      ]
+    }
   }
 }

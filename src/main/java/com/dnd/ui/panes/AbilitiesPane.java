@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
-import com.dnd.characters.Character;
+import com.dnd.characters.GameCharacter;
 import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
@@ -21,7 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.beans.binding.Bindings;
 
 public class AbilitiesPane extends GridPane {
-    private final Character character;
+    private final GameCharacter character;
     private final TabPane mainTabPane;
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
@@ -35,7 +35,7 @@ public class AbilitiesPane extends GridPane {
 
     private final Label points = new Label();
 
-    public AbilitiesPane(Character character, TabPane mainTabPane, InfoTab infoTab) {
+    public AbilitiesPane(GameCharacter character, TabPane mainTabPane, InfoTab infoTab) {
         getStyleClass().add("grid-pane");
         this.character = character;
         this.mainTabPane = mainTabPane;

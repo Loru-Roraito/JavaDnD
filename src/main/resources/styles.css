@@ -64,6 +64,9 @@
 
     background-color: #ffffff;
     -fx-background-color: #ffffff;
+
+    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-insets: 0; /* Prevent background from exceeding the border */
     
     padding: 10px; /* Padding around the title */
     -fx-padding: 10px; /* Padding around the title */
@@ -425,7 +428,7 @@
 
     border-color: #0000ff; /* Standard CSS */
     -fx-border-color: #0000ff; /* JavaFX-specific */
-    border-width: 2 px; /* Standard CSS */
+    border-width: 2px; /* Standard CSS */
     -fx-border-width: 2px; /* JavaFX-specific */
 }
 
