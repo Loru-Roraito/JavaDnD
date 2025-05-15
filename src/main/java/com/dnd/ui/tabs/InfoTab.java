@@ -6,6 +6,7 @@ import com.dnd.characters.GameCharacter;
 import com.dnd.ui.panes.AbilitiesPane;
 import com.dnd.ui.panes.ClassPane;
 import com.dnd.ui.panes.CustomizationPane;
+import com.dnd.ui.panes.HealthPane;
 import com.dnd.ui.panes.ParametersPane;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
@@ -29,7 +30,7 @@ public class InfoTab extends Tab {
         // Add subareas to the grid
         AbilitiesPane abilitiesPane = new AbilitiesPane(character, mainTabPane, this);
         addTitledPane("ABILITIES_AND_SKILLS", abilitiesPane, 0, 0, 3, 1);
-        //GridPane health = createTitledPane("HEALTH", 0, 1, 1, 1);
+        addTitledPane("HEALTH", new HealthPane(character, mainTabPane), 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
         addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 2, 2);
         //GridPane proficiencies = createTitledPane("PROFICIENCIES", 0, 3, 3, 1);
