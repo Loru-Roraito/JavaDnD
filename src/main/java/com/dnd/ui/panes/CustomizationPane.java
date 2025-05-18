@@ -16,7 +16,8 @@ import javafx.scene.layout.GridPane;
 
 public class CustomizationPane extends GridPane {
     private final Map<String, String> generationsMap = new HashMap<>();
-    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, GameCharacter character) {
+    private final Map<String, String> healthsMap = new HashMap<>();
+    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, GameCharacter character) {
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
         add(generationLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
 
@@ -51,6 +52,43 @@ public class CustomizationPane extends GridPane {
 
         generationComboBox.valueProperty().addListener((_, _, _) -> {
             abilitiesPane.chooseAbilitiesUI();
+        });
+
+
+        TooltipLabel healthLabel = new TooltipLabel(getTranslation("HEALTH_METHOD"), mainTabPane);
+        add(healthLabel, 0, 2); // Add the label to the GridPane
+
+        ObservableList<String> healths = FXCollections.observableArrayList();
+        for (String healthKey : getGroup(new String[] {"HEALTH_METHODS"})) {
+            String translatedHealth = getTranslation(healthKey);
+            healths.add(translatedHealth);
+            healthsMap.put(translatedHealth, healthKey); // Map translated name to original key
+        }
+
+        TooltipComboBox<String> healthComboBox = new TooltipComboBox<>(healths, mainTabPane);
+        healthComboBox.setPromptText(getTranslation("MEDIUM_HP"));
+        add(healthComboBox, 0, 3); // Add the ComboBox to the GridPane
+
+        // Listen for ComboBox changes (Translated → English)
+        healthComboBox.valueProperty().addListener((_, _, newVal) -> {
+            if (newVal != null) {
+                String healthKey = healthsMap.get(newVal);
+                if (healthKey != null && !healthKey.equals(character.getHealthMethod().get())) {
+                    character.getHealthMethod().set(healthKey);
+                }
+            }
+        });
+
+        // Listen for character property changes (English → Translated)
+        character.getHealthMethod().addListener((_, _, newVal) -> {
+            String translated = getTranslation(newVal);
+            if (translated != null && !translated.equals(healthComboBox.getValue())) {
+                healthComboBox.setValue(translated);
+            }
+        });
+
+        healthComboBox.valueProperty().addListener((_, _, _) -> {
+            healthPane.chooseHealthUI();
         });
     }   
 

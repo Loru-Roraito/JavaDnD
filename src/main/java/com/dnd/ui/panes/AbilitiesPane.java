@@ -281,18 +281,6 @@ public class AbilitiesPane extends GridPane {
             if (generationType.equals("STANDARD_ARRAY")) {
                 character.resetAbilityBase(i); // Reset the ability bases to their default values
 
-                // ComboBox → Character property
-                ChangeListener<String> comboToChar = (_, _, newVal) -> {
-                    if (newVal == null) return;
-                    if (newVal.equals(getTranslation("RANDOM"))) {
-                        character.getAbilityBaseProperty(index).set("RANDOM");
-                    } else {
-                        character.getAbilityBaseProperty(index).set(newVal);
-                    }
-                };
-                comboBox.valueProperty().addListener(comboToChar);
-                comboToCharListeners.set(i, comboToChar);
-
                 // Character property → ComboBox
                 ChangeListener<String> charToCombo = (_, _, newVal) -> {
                     if (newVal == null) return;
@@ -306,6 +294,19 @@ public class AbilitiesPane extends GridPane {
                         }
                     }
                 };
+
+                // ComboBox → Character property
+                ChangeListener<String> comboToChar = (_, _, newVal) -> {
+                    if (newVal == null) return;
+                    if (newVal.equals(getTranslation("RANDOM"))) {
+                        character.getAbilityBaseProperty(index).set("RANDOM");
+                    } else {
+                        character.getAbilityBaseProperty(index).set(newVal);
+                    }
+                };
+                comboBox.valueProperty().addListener(comboToChar);
+                comboToCharListeners.set(i, comboToChar);
+
                 character.getAbilityBaseProperty(i).addListener(charToCombo);
                 charToComboListeners.set(i, charToCombo);
 
@@ -313,6 +314,8 @@ public class AbilitiesPane extends GridPane {
             } else {
                 comboBox.valueProperty().removeListener(comboToCharListeners.get(i));
                 character.getAbilityBaseProperty(i).removeListener(charToComboListeners.get(i));
+                
+                comboBox.valueProperty().setValue(getTranslation("RANDOM"));
 
                 abilitiesSection.getChildren().remove(comboBox);
             }

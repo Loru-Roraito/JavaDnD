@@ -65,13 +65,22 @@
     "CHARISMA"
   ],
 
+  "MAX_SUBCLASSES": 4,
+
   "CLASSES": {
     "NONE_F": {
       "SUBCLASSES":{
       }
     },
     "BARBARIAN": {
+      "HIT_DIE": 12,
       "SUBCLASSES":{
+        "ONE": {
+        },
+        "TWO": {
+        },
+        "THREE": {
+        }
       }
     },
     "BARD":  {
@@ -119,6 +128,8 @@
       }
     }
   },
+
+  "MAX_LINEAGES": 10,
 
   "SPECIES": {
     "AASIMAR": {
@@ -332,5 +343,11 @@
     "RANDOM",
     "POINT_BUY",
     "STANDARD_ARRAY"
+  ],
+
+  "HEALTH_METHODS": [
+    "MEDIUM_HP",
+    "RANDOM",
+    "CUSTOM_M"
   ]
 }

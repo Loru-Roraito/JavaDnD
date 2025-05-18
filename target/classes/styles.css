@@ -151,8 +151,8 @@
     color: #000000; /* Standard CSS text color */
     -fx-text-fill: #000000; /* JavaFX-specific text color */
 
-    padding: 2px 2px; /* Standard CSS padding */
-    -fx-padding: 2px 2px; /* JavaFX-specific padding */
+    padding: 1px 2px; /* Standard CSS padding */
+    -fx-padding: 1px 2px; /* JavaFX-specific padding */
 
     border-color: #cccccc; /* Standard CSS border color */
     -fx-border-color: #cccccc; /* JavaFX-specific border color */
@@ -162,6 +162,10 @@
 
     border-radius: 5px; /* Standard CSS border radius */
     -fx-border-radius: 5px; /* JavaFX-specific border radius */
+
+    /* Ensure the background respects the rounded corners */
+    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Hover effect for buttons */

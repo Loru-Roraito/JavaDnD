@@ -8,6 +8,7 @@ import com.dnd.characters.GameCharacter;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
@@ -85,6 +86,28 @@ public class ClassPane extends GridPane {
             }
         });
 
+        subclasses.add(getTranslation("RANDOM"));
+        subclassesMap.put(getTranslation("RANDOM"), "RANDOM");
+        subclassComboBox.setItems(subclasses);
+
+        for (StringProperty prop : character.getAvailableSubclasses()) {
+            if (prop != null) {
+                prop.addListener((_, oldVal, newVal) -> {
+                    if (!oldVal.isEmpty()) {
+                        String translated_subclass = getTranslation(oldVal);
+                        subclasses.remove(subclasses.indexOf(translated_subclass));
+                        subclassesMap.remove(translated_subclass);
+                    }
+                    if (!newVal.isEmpty()) {
+                        String translated_subclass = getTranslation(newVal);
+                        subclasses.add(translated_subclass);
+                        subclassesMap.put(translated_subclass, newVal);
+                    }
+                });
+            }
+        }
+
+
         TooltipLabel levelLabel = new TooltipLabel(getTranslation("LEVEL"), mainTabPane);
         add(levelLabel, 0, 4); // Add the label to the GridPane
         
@@ -94,27 +117,29 @@ public class ClassPane extends GridPane {
         levelComboBox.setPromptText(getTranslation("RANDOM"));
         add(levelComboBox, 0, 5);
 
-        levelComboBox.valueProperty().bindBidirectional(character.getLevelProperty());
+        // Listen for ComboBox changes (Translated → English)
+        levelComboBox.valueProperty().addListener((_, _, newVal) -> {
+            if (newVal != null) {
+                if (newVal.equals(getTranslation("RANDOM"))) {
+                    newVal = "RANDOM";
+                }
+                character.getLevelProperty().set(newVal);
+            }
+        });
+
+        // Listen for character property changes (English → Translated)
+        character.getLevelProperty().addListener((_, _, newVal) -> {
+            if (newVal.equals("RANDOM")) {
+                newVal = getTranslation("RANDOM");
+            }
+            levelComboBox.setValue(newVal);
+        });
 
         // Update the subclasses based on the selected class
         classComboBox.valueProperty().addListener((_, _, newValue) -> {
             // Get the original key for the selected class
             String classKey = classesMap.get(newValue);
             if (classKey != null && !classKey.equals("RANDOM")) {
-                subclasses.setAll(getTranslation("RANDOM"));
-                subclassesMap.put(getTranslation("RANDOM"), "RANDOM");
-                subclassComboBox.valueProperty().set(getTranslation("RANDOM"));
-                // Fetch the subclasses for the selected class
-                String[] subclassesGroup = getGroup(new String[]{"CLASSES", classKey, "SUBCLASSES"});
-                if (subclassesGroup.length > 0) {
-                    for (String lineageKey : subclassesGroup) {
-                        String translatedLineage = getTranslation(lineageKey);
-                        subclasses.add(translatedLineage);
-                        subclassesMap.put(translatedLineage, lineageKey); // Map translated name to original key
-                    }
-                } else {
-                    subclasses.clear(); // Clear if no subclasses are found
-                }
 
                 if (newValue.equals(getTranslation("RANDOM")) || newValue.equals(getTranslation("NONE_F"))) {
                     levels.clear();
@@ -129,7 +154,6 @@ public class ClassPane extends GridPane {
                     }
                 }
             } else {
-                subclasses.clear();
                 levels.clear();
             }
 

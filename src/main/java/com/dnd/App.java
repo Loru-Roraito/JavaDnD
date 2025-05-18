@@ -59,7 +59,7 @@ public class App extends Application {
 
         // Bind font size to the width of the scene
         scene.widthProperty().addListener((_, _, newVal) -> {
-            double fontSize = newVal.doubleValue() / 110; // Adjust divisor for scaling
+            double fontSize = newVal.doubleValue() / 120; // Adjust divisor for scaling
             root.setStyle("-fx-font-size: " + fontSize + "px;");
         });
 
@@ -100,6 +100,8 @@ public class App extends Application {
 // morte
 // save advantages
 // no spell se non competenza armature
+// custom health
+// average (medium) health
 
 // QUALITÀ DI VITA
 // aggiungere specifiche categorie di specie (es.: umanoidi, taglia, solo base)

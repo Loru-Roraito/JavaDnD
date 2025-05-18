@@ -10,6 +10,7 @@ import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TabPane;
@@ -118,7 +119,7 @@ public class ParametersPane extends GridPane {
         TooltipLabel lineageLabel = new TooltipLabel(getTranslation("LINEAGE"), mainTabPane);
         add(lineageLabel, 0, 6); // Add the label to the GridPane
 
-        // Create the second ComboBox (subclass selection)
+        // Create the second ComboBox (lineage selection)
         ObservableList<String> lineages = FXCollections.observableArrayList();
         TooltipComboBox<String> lineageComboBox = new TooltipComboBox<>(lineages, mainTabPane);
         lineageComboBox.setPromptText(getTranslation("RANDOM"));
@@ -141,30 +142,30 @@ public class ParametersPane extends GridPane {
                 lineageComboBox.setValue(translated);
             }
         });
+
+        lineages.add(getTranslation("RANDOM"));
+        lineagesMap.put(getTranslation("RANDOM"), "RANDOM");
+        lineageComboBox.setItems(lineages);
+
+        for (StringProperty prop : character.getAvailableLineages()) {
+            if (prop != null) {
+                prop.addListener((_, oldVal, newVal) -> {
+                    if (!oldVal.isEmpty()) {
+                        String translated_lineage = getTranslation(oldVal);
+                        lineages.remove(lineages.indexOf(translated_lineage));
+                        lineagesMap.remove(translated_lineage);
+                    }
+                    if (!newVal.isEmpty()) {
+                        String translated_lineage = getTranslation(newVal);
+                        lineages.add(translated_lineage);
+                        lineagesMap.put(translated_lineage, newVal);
+                    }
+                });
+            }
+        }
     
         // Update the lineages based on the selected species
-        speciesComboBox.valueProperty().addListener((_, _, newValue) -> {
-            // Get the original key for the selected species
-            String classKey = speciesMap.get(newValue);
-            if (classKey != null && !classKey.equals("RANDOM")) {
-                lineages.setAll(getTranslation("RANDOM"));
-                lineagesMap.put(getTranslation("RANDOM"), "RANDOM");
-                lineageComboBox.valueProperty().set(getTranslation("RANDOM"));
-                // Fetch the lineages for the selected class
-                String[] lineagesGroup = getGroup(new String[]{"SPECIES", classKey, "LINEAGES"});
-                if (lineagesGroup.length > 0) {
-                    for (String lineageKey : lineagesGroup) {
-                        String translatedLineage = getTranslation(lineageKey);
-                        lineages.add(translatedLineage);
-                        lineagesMap.put(translatedLineage, lineageKey); // Map translated name to original key
-                    }
-                } else {
-                    lineages.clear(); // Clear if no lineages are found
-                }
-            } else {
-                lineages.clear();
-            }
-
+        speciesComboBox.valueProperty().addListener((_, _, _) -> {
             // Dynamically add or remove the lineage elements
             if (lineages.isEmpty()) {
                 getChildren().removeAll(lineageLabel, lineageComboBox); // Remove from GridPane
@@ -192,6 +193,8 @@ public class ParametersPane extends GridPane {
             backgrounds.add(translatedClass);
             backgroundsMap.put(translatedClass, classKey); // Map translated name to original key
         }
+        backgrounds.add(0, getTranslation("RANDOM"));
+        backgroundsMap.put(getTranslation("RANDOM"), "RANDOM");
 
         TooltipComboBox<String> backgroundComboBox = new TooltipComboBox<>(backgrounds, mainTabPane);
         backgroundComboBox.setPromptText(getTranslation("RANDOM"));
@@ -253,7 +256,7 @@ public class ParametersPane extends GridPane {
         });
 
 
-        TooltipLabel speed = new TooltipLabel("", mainTabPane);
+        TooltipLabel speed = new TooltipLabel("", getTranslation("SPEED"), mainTabPane);
         speed.textProperty().bind(
             Bindings.concat(
                 getTranslation("SPEED"),
@@ -265,7 +268,7 @@ public class ParametersPane extends GridPane {
         add(speed, 0, 12);
 
 
-        TooltipLabel darkvision = new TooltipLabel("", mainTabPane);
+        TooltipLabel darkvision = new TooltipLabel("", getTranslation("DARKVISION"), mainTabPane);
         darkvision.textProperty().bind(
             Bindings.concat(
                 getTranslation("DARKVISION"),

@@ -30,13 +30,14 @@ public class InfoTab extends Tab {
         // Add subareas to the grid
         AbilitiesPane abilitiesPane = new AbilitiesPane(character, mainTabPane, this);
         addTitledPane("ABILITIES_AND_SKILLS", abilitiesPane, 0, 0, 3, 1);
-        addTitledPane("HEALTH", new HealthPane(character, mainTabPane), 0, 1, 1, 1);
+        HealthPane healthPane = new HealthPane(character, mainTabPane, this);
+        addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
         addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 2, 2);
         //GridPane proficiencies = createTitledPane("PROFICIENCIES", 0, 3, 3, 1);
         //GridPane equipment = createTitledPane("EQUIPMENT", 3, 3, 1, 1);
         //GridPane system = createTitledPane("SYSTEM", 3, 0, 1, 3);
-        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, character), 4, 0, 1, 4);
+        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 4, 0, 1, 4);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text

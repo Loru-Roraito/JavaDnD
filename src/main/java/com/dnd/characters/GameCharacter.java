@@ -22,13 +22,12 @@ public class GameCharacter {
     private int age;
     private int height;
     private int weight;    
-    private int health;
     private int currentHealth;
-    private int hitDie;
     private int exhaustion;
     private boolean[] conditions;
-    private boolean fixedHealth;
-    
+
+    private final int maxSubclasses;    
+    private final int maxLineages;   
     private final int[] skillAbilities;
 
     private final StringProperty name;
@@ -41,13 +40,20 @@ public class GameCharacter {
     private final StringProperty background;
     private final StringProperty alignment;
     private final StringProperty generationMethod;
+    private final StringProperty healthMethod;
     private final StringProperty[] abilityBaseProperties;
+    private final StringProperty[] availableSubclasses;
+    private final StringProperty[] availableLineages;
 
     private final IntegerProperty level;
     private final IntegerProperty proficiencyBonus;
+    private final IntegerProperty initiativeBonus;
     private final IntegerProperty generationPoints;
     private final IntegerProperty speed;
     private final IntegerProperty darkvision;
+    private final IntegerProperty armorClass;
+    private final IntegerProperty health;
+    private final IntegerProperty hitDie;
     private final IntegerProperty[] abilityBases;
     private final IntegerProperty[] abilityBonuses;
     private final IntegerProperty[] abilities;
@@ -88,7 +94,8 @@ public class GameCharacter {
 
         levelProperty = new SimpleStringProperty("RANDOM");
         level = new SimpleIntegerProperty(0);
-        proficiencyBonus = new SimpleIntegerProperty(1);
+        proficiencyBonus = new SimpleIntegerProperty();
+        initiativeBonus = new SimpleIntegerProperty();
 
         bindLevel();
         bindProficiencyBonus();
@@ -135,23 +142,40 @@ public class GameCharacter {
 
         classe = new SimpleStringProperty("RANDOM");
         subclass = new SimpleStringProperty("RANDOM");
+        maxSubclasses = getInt(new String[] {"MAX_SUBCLASSES"});
+        availableSubclasses = new StringProperty[maxSubclasses];
+        bindAvailableSubclasses();
 
         species = new SimpleStringProperty("RANDOM");
         lineage = new SimpleStringProperty("RANDOM");
+        maxLineages = getInt(new String[] {"MAX_LINEAGES"});
+        availableLineages = new StringProperty[maxLineages];
+        bindAvailableLineages();
+
         background = new SimpleStringProperty("RANDOM");
 
         generationMethod = new SimpleStringProperty("STANDARD_ARRAY");
         generationPoints = new SimpleIntegerProperty(27); // Default value for point buy
+        healthMethod = new SimpleStringProperty("MEDIUM_HP");
 
         name = new SimpleStringProperty();
         gender = new SimpleStringProperty("RANDOM");
         alignment = new SimpleStringProperty("RANDOM");
 
-        speed = new SimpleIntegerProperty(); // Default speed
-        darkvision = new SimpleIntegerProperty(); // Default darkvision
+        speed = new SimpleIntegerProperty();
+        darkvision = new SimpleIntegerProperty();
+        armorClass = new SimpleIntegerProperty();
 
         bindSpeed();
         bindDarkvision();
+        bindArmorClass();
+        bindInitiativeBonus();
+
+        health = new SimpleIntegerProperty();
+        hitDie = new SimpleIntegerProperty();
+
+        bindHealth();
+        bindHitDie();
     }
 
     // Getters
@@ -184,6 +208,10 @@ public class GameCharacter {
         return generationMethod;
     }
 
+    public StringProperty getHealthMethod() {
+        return healthMethod;
+    }
+
     public StringProperty getAbilityBaseProperty(int index) {
         return abilityBaseProperties[index];
     }
@@ -200,12 +228,36 @@ public class GameCharacter {
         return alignment;
     }
 
+    public StringProperty[] getAvailableSubclasses() {
+        return availableSubclasses;
+    }
+
+    public StringProperty[] getAvailableLineages() {
+        return availableLineages;
+    }
+
+    public IntegerProperty getProficiencyBonus() {
+        return proficiencyBonus;
+    }
+
+    public IntegerProperty getInitiativeBonus() {
+        return initiativeBonus;
+    }
+
     public IntegerProperty getSpeed() {
         return speed;
     }
 
     public IntegerProperty getDarkvision() {
         return darkvision;
+    }
+
+    public IntegerProperty getArmorClass() {
+        return armorClass;
+    }
+
+    public IntegerProperty getHealth() {
+        return health;
     }
 
     public IntegerProperty getAbilityBase(int index) {
@@ -274,6 +326,41 @@ public class GameCharacter {
 
     // Binders
 
+    private void bindAvailableSubclasses() {
+        // Listen for changes to the 'classe' property and update availableSubclasses accordingly
+        classe.addListener((_, _, newVal) -> {
+            String[] subclasses = getGroup(new String[] {"CLASSES", newVal, "SUBCLASSES"});
+            for (int i = 0; i < availableSubclasses.length; i++) {
+                if (subclasses != null && i < subclasses.length) {
+                    availableSubclasses[i].set(subclasses[i]);
+                } else {
+                    availableSubclasses[i].set("");
+                }
+            }
+        });
+
+        for (int i = 0; i < maxSubclasses; i++) {
+            availableSubclasses[i] = new SimpleStringProperty("");
+        }
+    }
+
+    private void bindAvailableLineages() {
+        species.addListener((_, _, newVal) -> {
+            String[] lineages = getGroup(new String[] {"SPECIES", newVal, "LINEAGES"});
+            for (int i = 0; i < availableLineages.length; i++) {
+                if (lineages != null && i < lineages.length) {
+                    availableLineages[i].set(lineages[i]);
+                } else {
+                    availableLineages[i].set("");
+                }
+            }
+        });
+
+        for (int i = 0; i < maxLineages; i++) {
+            availableLineages[i] = new SimpleStringProperty("");
+        }
+    }
+
     private void bindFinalAbility(int index) {
         // Bind finalAbilities to track (abilityBases + abilityBonuses), defaulting to 10 if abilityBases[index] is 0
         abilities[index].bind(Bindings.createIntegerBinding(
@@ -339,9 +426,31 @@ public class GameCharacter {
         ));
     }
 
+    private void bindArmorClass() {
+        armorClass.bind(abilityModifiers[1].add(10));
+    }
+
     private void bindProficiencyBonus() {
         proficiencyBonus.bind(level.add(7).divide(4));
     }
+
+    private void bindInitiativeBonus() {
+        initiativeBonus.bind(abilityModifiers[1]);
+    }
+    
+    private void bindHealth(){
+        health.bind((level.subtract(1)).multiply(hitDie.divide(2).add(1).add(abilityModifiers[2])).add(hitDie).add(abilityModifiers[2]));
+    }
+
+    private void bindHitDie(){
+        hitDie.bind(Bindings.createIntegerBinding(
+            () -> {
+                int baseHitDie = getInt(new String[] {"CLASSES", classe.get(), "HIT_DIE"});
+                return baseHitDie > 0 ? baseHitDie : 4;
+            },
+            classe
+        ));
+        }
 
     private void bindLevel() {
         levelProperty.addListener((_, _, newValue) -> {
