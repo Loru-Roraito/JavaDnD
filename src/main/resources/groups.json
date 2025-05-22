@@ -1,62 +1,62 @@
 {
-  "SKILLS": {
+  "skills": {
     "ACROBATICS": {
-      "ABILITY": 1
+      "ability": 1
     },
     "ANIMAL_HANDLING": {
-      "ABILITY": 4
+      "ability": 4
     },
     "ARCANA": {
-      "ABILITY": 3
+      "ability": 3
     },
     "ATHLETICS": {
-      "ABILITY": 0
+      "ability": 0
     },
     "DECEPTION": {
-      "ABILITY": 5
+      "ability": 5
     },
     "HISTORY": {
-      "ABILITY": 3
+      "ability": 3
     },
     "INSIGHT": {
-      "ABILITY": 4
+      "ability": 4
     },
     "INTIMIDATION": {
-      "ABILITY": 5
+      "ability": 5
     },
     "INVESTIGATION": {
-      "ABILITY": 3
+      "ability": 3
     },
     "MEDICINE": {
-      "ABILITY": 4
+      "ability": 4
     },
     "NATURE": {
-      "ABILITY": 3
+      "ability": 3
     },
     "PERCEPTION": {
-      "ABILITY": 4
+      "ability": 4
     },
     "PERFORMANCE": {
-      "ABILITY": 5
+      "ability": 5
     },
     "PERSUASION": {
-      "ABILITY": 5
+      "ability": 5
     },
     "RELIGION": {
-      "ABILITY": 3
+      "ability": 3
     },
     "SLEIGHT_OF_HAND": {
-      "ABILITY": 1
+      "ability": 1
     },
     "STEALTH": {
-      "ABILITY": 1
+      "ability": 1
     },
     "SURVIVAL": {
-      "ABILITY": 4
+      "ability": 4
     }
   },
 
-  "ABILITIES": [
+  "abilities": [
     "STRENGTH",
     "DEXTERITY",
     "CONSTITUTION",
@@ -65,16 +65,16 @@
     "CHARISMA"
   ],
 
-  "MAX_SUBCLASSES": 4,
+  "max_subclasses": 4,
 
-  "CLASSES": {
+  "classes": {
     "NONE_F": {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "BARBARIAN": {
-      "HIT_DIE": 12,
-      "SUBCLASSES":{
+      "hit_die": 12,
+      "subclasses":{
         "ONE": {
         },
         "TWO": {
@@ -84,64 +84,64 @@
       }
     },
     "BARD":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "CLERIC":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "DRUID":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "FIGHTER":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "MONK":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "PALADIN":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "RANGER":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "ROGUE":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "SORCERER":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "WARLOCK":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     },
     "WIZARD":  {
-      "SUBCLASSES":{
+      "subclasses":{
       }
     }
   },
 
-  "MAX_LINEAGES": 10,
+  "max_lineages": 10,
 
-  "SPECIES": {
+  "species": {
     "AASIMAR": {
-      "SPEED": 30,
-      "DARKVISION": 60,
-      "LINEAGES": [
+      "speed": 30,
+      "darkvision": 60,
+      "lineages": [
       ]
     },
     "DRAGONBORN": {
-      "SPEED": 30,
-      "DARKVISION": 60,
-      "LINEAGES": {
+      "speed": 30,
+      "darkvision": 60,
+      "lineages": {
         "SILVER_DRAGONBORN": {
         },
         "WHITE_DRAGONBORN": {
@@ -165,9 +165,9 @@
       }
     },
     "DWARF": {
-      "SPEED": 30,
-      "DARKVISION": 120,
-      "LINEAGES": {
+      "speed": 30,
+      "darkvision": 120,
+      "lineages": {
         "MOUNTAIN_DWARF": {
         },
         "HILL_DWARF": {
@@ -175,9 +175,9 @@
       }
     },
     "ELF": {
-      "SPEED": 30,
-      "DARKVISION": 60,
-      "LINEAGES": {
+      "speed": 30,
+      "darkvision": 60,
+      "lineages": {
         "HIGH_ELF": {
         },
         "WOOD_ELF":{
@@ -187,9 +187,9 @@
       }
     },
     "GNOME": {
-      "SPEED": 30,
-      "DARKVISION": 60,
-      "LINEAGES": {
+      "speed": 30,
+      "darkvision": 60,
+      "lineages": {
         "FOREST_GNOME": {
         },
         "ROCK_GNOME": {
@@ -197,8 +197,8 @@
       }
     },
     "GOLIATH": {
-      "SPEED": 35,
-      "DARKVISION": 0,
+      "speed": 35,
+      "darkvision": 0,
       "LINEAGES": {
         "CLOUD_GIANT": {
         },
@@ -215,8 +215,8 @@
       }
     },
     "HALFLING": {
-      "SPEED": 30,
-      "DARKVISION": 0,
+      "speed": 30,
+      "darkvision": 0,
       "LINEAGES": {
         "LIGHTFOOT_HALFLING": {
         },
@@ -225,8 +225,8 @@
       }
     },
     "HUMAN": {
-      "SPEED": 30,
-      "DARKVISION": 0,
+      "speed": 30,
+      "darkvision": 0,
       "LINEAGES": {
         "CALISHITA": {
         },
@@ -249,15 +249,15 @@
       }
     },
     "ORC": {
-      "SPEED": 30,
-      "DARKVISION": 120,
+      "speed": 30,
+      "darkvision": 120,
       "LINEAGES": {
       }
     },
     "TIEFLING": {
-      "SPEED": 30,
-      "DARKVISION": 60,
-      "LINEAGES": {
+      "speed": 30,
+      "darkvision": 60,
+      "lineages": {
         "ABYSSAL_TIEFLING": {
         },
         "CHTONIC_TIEFLING": {
@@ -268,64 +268,80 @@
     }
   },
 
-  "BACKGROUNDS": {
+  "backgrounds": {
     "ACOLYTE": {
-    
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "skills": ["INSIGHT", "RELIGION"]
     },
     "ARTISAN":{
-
+      "abilities": ["STRENGTH", "DEXTERITY", "INTELLIGENCE"],
+      "skills": ["INVESTIGATION", "PERSUASION"]
     },
     "CHARLATAN": {
-    
+      "abilities": ["DEXTERITY", "CONSTITUTION", "CHARISMA"],
+      "skills": ["DECEPTION", "SLEIGHT_OF_HAND"]
     },
     "CRIMINAL": {
-    
+      "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
+      "skills": ["SLEIGHT_OF_HAND", "STEALTH"]
     },
     "ENTERTAINER": {
-    
+      "abilities": ["STRENGTH", "DEXTERITY", "CHARISMA"],
+      "skills": ["ACROBATICS", "PERFORMANCE"]
     },
     "FARMER": {
-    
+      "abilities": ["STRENGTH", "CONSTITUTION", "WISDOM"],
+      "skills": ["ANIMAL_HANDLING", "NATURE"]
     },
     "GUARD": {
-    
+      "abilities": ["STRENGTH", "INTELLIGENCE", "WISDOM"],
+      "skills": ["ATHLETICS", "PERCEPTION"]
     },
     "GUIDE": {
-    
+      "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
+      "skills": ["STEALTH", "SURVIVAL"]
     },
     "HERMIT": {
-    
+      "abilities": ["CONSTITUTION", "WISDOM", "CHARISMA"],
+      "skills": ["MEDICINE", "RELIGION"]
     },
     "MERCHANT": {
-    
+      "abilities": ["CONSTITUTION", "INTELLIGENCE", "CHARISMA"],
+      "skills": ["ANIMAL_HANDLING", "PERSUASION"]
     },
     "NOBLE": {
-    
+      "abilities": ["STRENGTH", "INTELLIGENCE", "CHARISMA"],
+      "skills": ["HISTORY", "PERSUASION"]
     },
     "SAGE": {
-    
+      "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
+      "skills": ["ARCANA", "HISTORY"]
     },
     "SAILOR": {
-    
+      "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
+      "skills": ["ACROBATICS", "PERCEPTION"]
     },
     "SCRIBE": {
-    
+      "abilities": ["DEXTERITY", "INTELLIGENCE", "WISDOM"],
+      "skills": ["INVESTIGATION", "PERCEPTION"]
     },
     "SOLDIER": {
-    
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
+      "skills": ["ATHLETICS", "INTIMIDATION"]
     },
     "WAYFARER": {
-    
+      "abilities": ["DEXTERITY", "WISDOM", "CHARISMA"],
+      "skills": ["INSIGHT", "STEALTH"]
     }
   },
 
-  "GENDERS": [
+  "genders": [
     "NONE_M",
     "MALE",
     "FEMALE"
   ],
 
-  "ALIGNMENTS": [
+  "alignments": [
     "NONE_M",
     "LAWFUL_GOOD",
     "LAWFUL_NEUTRAL",
@@ -338,14 +354,14 @@
     "CHAOTIC_EVIL"
   ],
 
-  "GENERATION_METHODS": [
+  "generation_methods": [
     "CUSTOM_M",
     "RANDOM",
     "POINT_BUY",
     "STANDARD_ARRAY"
   ],
 
-  "HEALTH_METHODS": [
+  "health_methods": [
     "MEDIUM_HP",
     "RANDOM",
     "CUSTOM_M"

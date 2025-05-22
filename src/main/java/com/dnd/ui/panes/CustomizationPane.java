@@ -22,7 +22,7 @@ public class CustomizationPane extends GridPane {
         add(generationLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
 
         ObservableList<String> generations = FXCollections.observableArrayList();
-        for (String generationKey : getGroup(new String[] {"GENERATION_METHODS"})) {
+        for (String generationKey : getGroup(new String[] {"generation_methods"})) {
             String translatedGeneration = getTranslation(generationKey);
             generations.add(translatedGeneration);
             generationsMap.put(translatedGeneration, generationKey); // Map translated name to original key
@@ -59,7 +59,7 @@ public class CustomizationPane extends GridPane {
         add(healthLabel, 0, 2); // Add the label to the GridPane
 
         ObservableList<String> healths = FXCollections.observableArrayList();
-        for (String healthKey : getGroup(new String[] {"HEALTH_METHODS"})) {
+        for (String healthKey : getGroup(new String[] {"health_methods"})) {
             String translatedHealth = getTranslation(healthKey);
             healths.add(translatedHealth);
             healthsMap.put(translatedHealth, healthKey); // Map translated name to original key

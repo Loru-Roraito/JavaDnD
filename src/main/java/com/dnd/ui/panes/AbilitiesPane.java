@@ -26,7 +26,7 @@ public class AbilitiesPane extends GridPane {
     private final TabPane mainTabPane;
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
-    private final String[] abilityNames = getTranslations("ABILITIES");
+    private final String[] abilityNames = getTranslations("abilities");
     private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
     private final List<Button> minuses = new ArrayList<>();
     private final List<Label> labels = new ArrayList<>();
@@ -89,6 +89,14 @@ public class AbilitiesPane extends GridPane {
             abilitiesSection.add(bonus1, 1, i); // Column 1, Row i
             abilitiesSection.add(bonus2, 2, i); // Column 2, Row i
 
+            // This needs to be before the bidirectional binding, otherwise the value will be changed before the checkbox realizes it's selecated
+            bonus1.disableProperty().bind(character.getAvailableAbility(index).not() //disable if not enabled by background or the other box is already checked or enough bonuses have been given
+                .or(bonus2.selectedProperty())
+                .or((character.getGivenBonuses().greaterThan(2)).and(bonus1.selectedProperty().not())));
+            bonus2.disableProperty().bind(character.getAvailableAbility(index).not()
+                .or(bonus1.selectedProperty())
+                .or((character.getGivenBonuses().greaterThan(1)).and(bonus2.selectedProperty().not())));
+
             // Bind the CheckBox states to the Character's boolean properties
             bonus1.selectedProperty().bindBidirectional(character.getAbilityPlusOne(index));
             bonus2.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
@@ -107,6 +115,18 @@ public class AbilitiesPane extends GridPane {
                     character.addAbilityBonus(index, 2);  // Add +2
                 } else {
                     character.addAbilityBonus(index, -2);  // Remove +2
+                }
+            });
+
+            bonus1.disabledProperty().addListener((_, _, newValue) -> {
+                if (newValue) {
+                    bonus1.setSelected(false); // Uncheck the box if disabled
+                }
+            });
+            
+            bonus2.disabledProperty().addListener((_, _, newValue) -> {
+                if (newValue) {
+                    bonus2.setSelected(false); // Uncheck the box if disabled
                 }
             });
 
@@ -396,7 +416,7 @@ public class AbilitiesPane extends GridPane {
 
     private void setupSkills(GridPane skillsArea) {
         // Fetch the skills
-        String[] skillNames = getTranslations("SKILLS");
+        String[] skillNames = getTranslations("skills");
 
         for (int i = 0; i < skillNames.length; i++) {
             int index = i; // Capture the index for use in the lambda
@@ -411,6 +431,8 @@ public class AbilitiesPane extends GridPane {
             CheckBox proficiency = new CheckBox();
             skillsArea.add(proficiency, 1, i); // Column 1, Row i
 
+            proficiency.disableProperty().bind(character.getFixedSkill(index).or(character.getAvailableSkill(index).not()));
+            character.getSkillChoice(index).bind(proficiency.selectedProperty().and(proficiency.disabledProperty().not()));
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
 
             // Skill value display
@@ -433,7 +455,7 @@ public class AbilitiesPane extends GridPane {
 
     private void setupSavingThrows(GridPane savingThrowsArea) {
         // Define the saving throws
-        String[] savingThrowNames = getTranslations("ABILITIES");
+        String[] savingThrowNames = getTranslations("abilities");
     
         for (int i = 0; i < savingThrowNames.length; i++) {
             int index = i; // Capture the index for use in the lambda

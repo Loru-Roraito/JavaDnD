@@ -48,7 +48,10 @@ public class TranslationManager {
         JsonNode node = rootNode;
         for (String subGroup : group) {
             node = node.get(subGroup);
-            if (node == null) {
+            if (subGroup.equals("RANDOM")) {
+                return new String[0];
+            }
+            else if (node == null) {
                 System.err.println("Warning: subGroup not found: " + subGroup);
                 return new String[0];
             }

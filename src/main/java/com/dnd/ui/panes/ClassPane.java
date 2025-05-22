@@ -27,7 +27,7 @@ public class ClassPane extends GridPane {
         
         // Populate the class list and translation map
         ObservableList<String> classes = FXCollections.observableArrayList();
-        for (String classKey : getGroup(new String[] {"CLASSES"})) {
+        for (String classKey : getGroup(new String[] {"classes"})) {
             String translatedClass = getTranslation(classKey);
             classes.add(translatedClass);
             classesMap.put(translatedClass, classKey); // Map translated name to original key

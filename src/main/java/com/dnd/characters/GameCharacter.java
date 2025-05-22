@@ -30,6 +30,9 @@ public class GameCharacter {
     private final int maxLineages;   
     private final int[] skillAbilities;
 
+    private final String[] skillNames; // Get the names of all skills
+    private final String[] abilitiesNames ;
+
     private final StringProperty name;
     private final StringProperty gender;
     private final StringProperty levelProperty;
@@ -45,6 +48,7 @@ public class GameCharacter {
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
 
+    // I might want to switch to IntegerBinding for some of these, but there should be no issue in using IntegerProperty. Leaving as is for now.
     private final IntegerProperty level;
     private final IntegerProperty proficiencyBonus;
     private final IntegerProperty initiativeBonus;
@@ -54,6 +58,7 @@ public class GameCharacter {
     private final IntegerProperty armorClass;
     private final IntegerProperty health;
     private final IntegerProperty hitDie;
+    private final IntegerProperty givenBonuses; // Amount of bonuses already given
     private final IntegerProperty[] abilityBases;
     private final IntegerProperty[] abilityBonuses;
     private final IntegerProperty[] abilities;
@@ -63,15 +68,20 @@ public class GameCharacter {
     private final IntegerProperty[] skillBonuses;
     private final IntegerProperty[] skillModifiers;
 
+    private final BooleanProperty[] availableAbilities;
     private final BooleanProperty[] abilityPlusOnes;
     private final BooleanProperty[] abilityPlusTwos;
     private final BooleanProperty[] savingThrowProficiencies;
+    private final BooleanProperty[] skillChoices;
     private final BooleanProperty[] skillProficiencies;
+    private final BooleanProperty[] availableSkills;
+    private final BooleanProperty[] fixedSkills;
 
     public GameCharacter() {
-        String[] skillNames = getGroup(new String[] {"SKILLS"}); // Get the names of all skills
-        int abilityCount = getGroup(new String[] {"ABILITIES"}).length;
-        int skillCount = getGroup(new String[] {"SKILLS"}).length;
+        skillNames = getGroup(new String[] {"skills"});
+        abilitiesNames = getGroup(new String[] {"abilities"});
+        int skillCount = skillNames.length;
+        int abilityCount = abilitiesNames.length;
 
         // Initialize with default values
         skillAbilities = new int[skillCount];
@@ -89,6 +99,7 @@ public class GameCharacter {
         abilityPlusTwos = new BooleanProperty[abilityCount];
         savingThrowProficiencies = new BooleanProperty[abilityCount];
         skillProficiencies = new BooleanProperty[skillCount];
+        skillChoices = new BooleanProperty[skillCount];
 
         abilityBaseProperties = new StringProperty[abilityCount];
 
@@ -130,29 +141,39 @@ public class GameCharacter {
             bindSavingThrowModifier(i);
         }
 
+        givenBonuses = new SimpleIntegerProperty(0);
+        bindGivenBonuses();
+
+        background = new SimpleStringProperty("RANDOM");
+
+        availableSkills = new BooleanProperty[skillCount];
+        fixedSkills = new BooleanProperty[skillCount];
+        bindAvailableSkills();
+        bindFixedSkills();
+
         for (int i = 0; i < skillBonuses.length; i++) {
-            skillAbilities[i] = getInt(new String[] {"SKILLS", skillNames[i], "ABILITY"});
+            skillAbilities[i] = getInt(new String[] {"skills", skillNames[i], "ability"});
             skillProficiencies[i] = new SimpleBooleanProperty(false);
+            skillChoices[i] = new SimpleBooleanProperty(false);
             skillBonuses[i] = new SimpleIntegerProperty(0);
             skillModifiers[i] = new SimpleIntegerProperty();
 
             bindSkillBonus(i);
             bindSkillModifier(i);
+            bindSkillProficiency(i);
         }
 
         classe = new SimpleStringProperty("RANDOM");
         subclass = new SimpleStringProperty("RANDOM");
-        maxSubclasses = getInt(new String[] {"MAX_SUBCLASSES"});
+        maxSubclasses = getInt(new String[] {"max_subclasses"});
         availableSubclasses = new StringProperty[maxSubclasses];
         bindAvailableSubclasses();
 
         species = new SimpleStringProperty("RANDOM");
         lineage = new SimpleStringProperty("RANDOM");
-        maxLineages = getInt(new String[] {"MAX_LINEAGES"});
+        maxLineages = getInt(new String[] {"max_lineages"});
         availableLineages = new StringProperty[maxLineages];
         bindAvailableLineages();
-
-        background = new SimpleStringProperty("RANDOM");
 
         generationMethod = new SimpleStringProperty("STANDARD_ARRAY");
         generationPoints = new SimpleIntegerProperty(27); // Default value for point buy
@@ -176,6 +197,9 @@ public class GameCharacter {
 
         bindHealth();
         bindHitDie();
+
+        availableAbilities = new BooleanProperty[6];
+        bindAvailableAbilities();
     }
 
     // Getters
@@ -260,6 +284,18 @@ public class GameCharacter {
         return health;
     }
 
+    public IntegerProperty getGenerationPoints() {
+        return generationPoints;
+    }
+
+    public IntegerProperty getGivenBonuses() {
+        return givenBonuses;
+    }
+
+    public IntegerProperty getSkillModifier(int index) {
+        return skillModifiers[index];
+    }
+
     public IntegerProperty getAbilityBase(int index) {
         return abilityBases[index];
     }
@@ -276,12 +312,12 @@ public class GameCharacter {
         return savingThrowModifiers[index];
     }
 
-    public IntegerProperty getSkillModifier(int index) {
-        return skillModifiers[index];
+    public BooleanProperty getAvailableAbility(int index) {
+        return availableAbilities[index];
     }
 
-    public IntegerProperty getGenerationPoints() {
-        return generationPoints;
+    public BooleanProperty getAvailableSkill(int index) {
+        return availableSkills[index];
     }
 
     public BooleanProperty getAbilityPlusOne(int index) {
@@ -294,6 +330,14 @@ public class GameCharacter {
 
     public BooleanProperty getSavingThrowProficiency(int index) {
         return savingThrowProficiencies[index];
+    }
+
+    public BooleanProperty getSkillChoice(int index) {
+        return skillChoices[index];
+    }
+
+    public BooleanProperty getFixedSkill(int index) {
+        return fixedSkills[index];
     }
 
     public BooleanProperty getSkillProficiency(int index) {
@@ -329,7 +373,7 @@ public class GameCharacter {
     private void bindAvailableSubclasses() {
         // Listen for changes to the 'classe' property and update availableSubclasses accordingly
         classe.addListener((_, _, newVal) -> {
-            String[] subclasses = getGroup(new String[] {"CLASSES", newVal, "SUBCLASSES"});
+            String[] subclasses = getGroup(new String[] {"classes", newVal, "subclasses"});
             for (int i = 0; i < availableSubclasses.length; i++) {
                 if (subclasses != null && i < subclasses.length) {
                     availableSubclasses[i].set(subclasses[i]);
@@ -339,14 +383,14 @@ public class GameCharacter {
             }
         });
 
-        for (int i = 0; i < maxSubclasses; i++) {
+        for (int i = 0; i < availableSubclasses.length; i++) {
             availableSubclasses[i] = new SimpleStringProperty("");
         }
     }
 
     private void bindAvailableLineages() {
         species.addListener((_, _, newVal) -> {
-            String[] lineages = getGroup(new String[] {"SPECIES", newVal, "LINEAGES"});
+            String[] lineages = getGroup(new String[] {"species", newVal, "lineages"});
             for (int i = 0; i < availableLineages.length; i++) {
                 if (lineages != null && i < lineages.length) {
                     availableLineages[i].set(lineages[i]);
@@ -356,8 +400,48 @@ public class GameCharacter {
             }
         });
 
-        for (int i = 0; i < maxLineages; i++) {
+        for (int i = 0; i < availableLineages.length; i++) {
             availableLineages[i] = new SimpleStringProperty("");
+        }
+    }
+
+    private void bindAvailableAbilities() {
+        background.addListener((_, _, newVal) -> {
+            String[] possibleAbilities = getGroup(new String[] {"backgrounds", newVal, "abilities"});
+            for (int i = 0; i < availableAbilities.length; i++) {
+                if (possibleAbilities != null && java.util.Arrays.asList(possibleAbilities).contains(abilitiesNames[i])) {
+                    availableAbilities[i].set(true);
+                } else {
+                    availableAbilities[i].set(false); 
+                }
+            }
+        });
+
+        for (int i = 0; i < availableAbilities.length; i++) {
+            availableAbilities[i] = new SimpleBooleanProperty(false);
+        }
+    }
+
+    private void bindAvailableSkills() {
+        for (int i = 0; i < availableSkills.length; i++) {
+            availableSkills[i] = new SimpleBooleanProperty(false);
+        }
+    }
+
+    private void bindFixedSkills() {
+        background.addListener((_, _, newVal) -> {
+            String[] possibleSkills = getGroup(new String[] {"backgrounds", newVal, "skills"});
+            for (int i = 0; i < fixedSkills.length; i++) {
+                if (possibleSkills != null && java.util.Arrays.asList(possibleSkills).contains(skillNames[i])) {
+                    fixedSkills[i].set(true);
+                } else {
+                    fixedSkills[i].set(false);
+                }
+            }
+        });
+
+        for (int i = 0; i < fixedSkills.length; i++) {
+            fixedSkills[i] = new SimpleBooleanProperty(false);
         }
     }
 
@@ -406,10 +490,36 @@ public class GameCharacter {
         ));
     }
 
+    private void bindSkillProficiency(int index) {
+        // Bind the skillModifier to the corresponding ability
+        skillProficiencies[index].bind(fixedSkills[index].or(skillChoices[index]));
+    }
+
+    private void bindGivenBonuses() {
+        givenBonuses.bind(Bindings.createIntegerBinding(
+            () -> {
+                int total = 0;
+                for (BooleanProperty plusOne : abilityPlusOnes) {
+                    if (plusOne.get()) {
+                        total++;
+                    }
+                }
+                for (BooleanProperty plusTwo : abilityPlusTwos) {
+                    if (plusTwo.get()) {
+                        total += 2;
+                    }
+                }
+                return total;
+            },
+            abilityPlusOnes[0], abilityPlusOnes[1], abilityPlusOnes[2], abilityPlusOnes[3], abilityPlusOnes[4], abilityPlusOnes[5],
+            abilityPlusTwos[0], abilityPlusTwos[1], abilityPlusTwos[2], abilityPlusTwos[3], abilityPlusTwos[4], abilityPlusTwos[5]
+        ));
+    }
+
     private void bindSpeed() {
         speed.bind(Bindings.createIntegerBinding(
             () -> {
-                int baseSpeed = getInt(new String[] {"SPECIES", species.get(), "SPEED"});
+                int baseSpeed = getInt(new String[] {"species", species.get(), "speed"});
                 return baseSpeed > 0 ? baseSpeed : 30;
             },
             species
@@ -419,7 +529,7 @@ public class GameCharacter {
     private void bindDarkvision() {
         darkvision.bind(Bindings.createIntegerBinding(
             () -> {
-                int baseDarkvision = getInt(new String[] {"SPECIES", species.get(), "DARKVISION"});
+                int baseDarkvision = getInt(new String[] {"species", species.get(), "darkvision"});
                 return baseDarkvision > 0 ? baseDarkvision : 0;
             },
             species
@@ -445,7 +555,7 @@ public class GameCharacter {
     private void bindHitDie(){
         hitDie.bind(Bindings.createIntegerBinding(
             () -> {
-                int baseHitDie = getInt(new String[] {"CLASSES", classe.get(), "HIT_DIE"});
+                int baseHitDie = getInt(new String[] {"classes", classe.get(), "hit_die"});
                 return baseHitDie > 0 ? baseHitDie : 4;
             },
             classe

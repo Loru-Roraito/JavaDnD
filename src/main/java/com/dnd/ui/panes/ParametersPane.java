@@ -47,7 +47,7 @@ public class ParametersPane extends GridPane {
         
         // Populate the class list and translation map
         ObservableList<String> genders = FXCollections.observableArrayList();
-        for (String genderKey : getGroup(new String[] {"GENDERS"})) {
+        for (String genderKey : getGroup(new String[] {"genders"})) {
             String translatedGenders = getTranslation(genderKey);
             genders.add(translatedGenders);
             gendersMap.put(translatedGenders, genderKey); // Map translated name to original key
@@ -84,7 +84,7 @@ public class ParametersPane extends GridPane {
 
         // Populate the class list and translation map
         ObservableList<String> species = FXCollections.observableArrayList();
-        for (String classKey : getGroup(new String[] {"SPECIES"})) {
+        for (String classKey : getGroup(new String[] {"species"})) {
             String translatedSpecies = getTranslation(classKey);
             species.add(translatedSpecies);
             speciesMap.put(translatedSpecies, classKey); // Map translated name to original key
@@ -188,7 +188,7 @@ public class ParametersPane extends GridPane {
         
         // Create the second ComboBox (subclass selection)
         ObservableList<String> backgrounds = FXCollections.observableArrayList();
-        for (String classKey : getGroup(new String[] {"BACKGROUNDS"})) {
+        for (String classKey : getGroup(new String[] {"backgrounds"})) {
             String translatedClass = getTranslation(classKey);
             backgrounds.add(translatedClass);
             backgroundsMap.put(translatedClass, classKey); // Map translated name to original key
@@ -225,7 +225,7 @@ public class ParametersPane extends GridPane {
 
         // Populate the class list and translation map
         ObservableList<String> alignments = FXCollections.observableArrayList();
-        for (String alignmentKey : getGroup(new String[] {"ALIGNMENTS"})) {
+        for (String alignmentKey : getGroup(new String[] {"alignments"})) {
             String translatedAlignments = getTranslation(alignmentKey);
             alignments.add(translatedAlignments);
             alignmentsMap.put(translatedAlignments, alignmentKey); // Map translated name to original key
