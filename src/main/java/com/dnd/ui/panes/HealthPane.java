@@ -1,7 +1,7 @@
 package com.dnd.ui.panes;
 
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 
@@ -13,11 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class HealthPane extends GridPane {
-    GameCharacter character = new GameCharacter();
+    ViewModel character;
     TextField hpCustom = new TextField();
     Label hpMedium = new Label();
     Button hpRandom = new Button();
-    public HealthPane(GameCharacter character, TabPane mainTabPane, InfoTab infoTab) {
+    public HealthPane(ViewModel character, TabPane mainTabPane, InfoTab infoTab) {
         this.character = character;
         getStyleClass().add("grid-pane");
 

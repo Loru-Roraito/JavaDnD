@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 
@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 public class ClassPane extends GridPane {
     private final Map<String, String> classesMap = new HashMap<>();
     private final Map<String, String> subclassesMap = new HashMap<>();
-    public ClassPane(GameCharacter character, TabPane mainTabPane) {
+    public ClassPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
         // Create a label as the title for the ComboBox
@@ -123,12 +123,12 @@ public class ClassPane extends GridPane {
                 if (newVal.equals(getTranslation("RANDOM"))) {
                     newVal = "RANDOM";
                 }
-                character.getLevelProperty().set(newVal);
+                character.getLevelShown().set(newVal);
             }
         });
 
         // Listen for character property changes (English → Translated)
-        character.getLevelProperty().addListener((_, _, newVal) -> {
+        character.getLevelShown().addListener((_, _, newVal) -> {
             if (newVal.equals("RANDOM")) {
                 newVal = getTranslation("RANDOM");
             }

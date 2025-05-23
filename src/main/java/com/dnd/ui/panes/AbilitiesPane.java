@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class AbilitiesPane extends GridPane {
-    private final GameCharacter character;
+    private final ViewModel character;
     private final TabPane mainTabPane;
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
@@ -40,7 +40,7 @@ public class AbilitiesPane extends GridPane {
 
     private final Label points = new Label();
 
-    public AbilitiesPane(GameCharacter character, TabPane mainTabPane, InfoTab infoTab) {
+    public AbilitiesPane(ViewModel character, TabPane mainTabPane, InfoTab infoTab) {
         getStyleClass().add("grid-pane");
         this.character = character;
         this.mainTabPane = mainTabPane;
@@ -84,49 +84,28 @@ public class AbilitiesPane extends GridPane {
             abilitiesSection.add(new TooltipLabel(ability, mainTabPane), 0, i); // Column 0, Row i
 
             // Checkboxes for +1 and +2 bonuses
-            CheckBox bonus1 = new CheckBox();
-            CheckBox bonus2 = new CheckBox();
-            abilitiesSection.add(bonus1, 1, i); // Column 1, Row i
-            abilitiesSection.add(bonus2, 2, i); // Column 2, Row i
+            CheckBox bonusOne = new CheckBox();
+            CheckBox bonusTwo = new CheckBox();
+            abilitiesSection.add(bonusOne, 1, i); // Column 1, Row i
+            abilitiesSection.add(bonusTwo, 2, i); // Column 2, Row i
 
             // This needs to be before the bidirectional binding, otherwise the value will be changed before the checkbox realizes it's selecated
-            bonus1.disableProperty().bind(character.getAvailableAbility(index).not() //disable if not enabled by background or the other box is already checked or enough bonuses have been given
-                .or(bonus2.selectedProperty())
-                .or((character.getGivenBonuses().greaterThan(2)).and(bonus1.selectedProperty().not())));
-            bonus2.disableProperty().bind(character.getAvailableAbility(index).not()
-                .or(bonus1.selectedProperty())
-                .or((character.getGivenBonuses().greaterThan(1)).and(bonus2.selectedProperty().not())));
+            bonusOne.disableProperty().bind(character.getAvailablePlusOne(index).not());
+            bonusTwo.disableProperty().bind(character.getAvailablePlusTwo(index).not());
 
             // Bind the CheckBox states to the Character's boolean properties
-            bonus1.selectedProperty().bindBidirectional(character.getAbilityPlusOne(index));
-            bonus2.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
+            bonusOne.selectedProperty().bindBidirectional(character.getAbilityPlusOne(index));
+            bonusTwo.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
 
-            // Add listeners to the CheckBoxes to modify the ability value
-            bonus1.selectedProperty().addListener((_, _, newValue) -> {
+            bonusOne.disabledProperty().addListener((_, _, newValue) -> {
                 if (newValue) {
-                    character.addAbilityBonus(index, 1);  // Add +1
-                } else {
-                    character.addAbilityBonus(index, -1);  // Remove +1
+                    bonusOne.setSelected(false); // Uncheck the box if disabled
                 }
             });
             
-            bonus2.selectedProperty().addListener((_, _, newValue) -> {
+            bonusTwo.disabledProperty().addListener((_, _, newValue) -> {
                 if (newValue) {
-                    character.addAbilityBonus(index, 2);  // Add +2
-                } else {
-                    character.addAbilityBonus(index, -2);  // Remove +2
-                }
-            });
-
-            bonus1.disabledProperty().addListener((_, _, newValue) -> {
-                if (newValue) {
-                    bonus1.setSelected(false); // Uncheck the box if disabled
-                }
-            });
-            
-            bonus2.disabledProperty().addListener((_, _, newValue) -> {
-                if (newValue) {
-                    bonus2.setSelected(false); // Uncheck the box if disabled
+                    bonusTwo.setSelected(false); // Uncheck the box if disabled
                 }
             });
 
@@ -141,7 +120,7 @@ public class AbilitiesPane extends GridPane {
 
         // Generate abilities UI based on the generation type
         generateAbilitiesUI();
-        chooseAbilitiesUI(); // Default to standard array
+        chooseAbilitiesUI(character.getGenerationMethod().get()); // Default to standard array
     }
 
     private void generateAbilitiesUI() {
@@ -196,35 +175,16 @@ public class AbilitiesPane extends GridPane {
 
             // Add event handlers for the buttons
             minus.setOnAction(_ -> {
-                int currentValue = character.getAbilityBase(index).get(); // Get the current value from the character
-                int currentPoints = character.getGenerationPoints().get(); // Get the current generation points
-                int cost = getPointCost(currentValue);
-                character.setGenerationPoints(currentPoints + cost); // Refund points
-                character.setAbilityBase(index, currentValue - 1); // Update the character's base stat
+                character.AbilityBaseMinus(index);
             });
 
             plus.setOnAction(_ -> {
-                int currentValue = character.getAbilityBase(index).get(); // Get the current value from the character
-                int currentPoints = character.getGenerationPoints().get(); // Get the current generation points
-                int cost = getPointCost(currentValue + 1);
-                character.setGenerationPoints(currentPoints - cost); // Deduct points
-                character.setAbilityBase(index, currentValue + 1); // Update the character's base stat
+                character.AbilityBasePlus(index);
             });
 
             // Bind the disable property of the minus button
-            minus.disableProperty().bind(
-                character.getAbilityBase(index).lessThanOrEqualTo(8) // Disable if the value is <= 8
-            );
-
-            // Bind the disable property of the plus button
-            plus.disableProperty().bind(
-                character.getAbilityBase(index).greaterThanOrEqualTo(15) // Disable if the value is >= 15
-                .or(Bindings.createBooleanBinding(
-                    () -> character.getGenerationPoints().get() < getPointCost(character.getAbilityBase(index).get() + 1),
-                    character.getGenerationPoints(), // Observe generation points
-                    character.getAbilityBase(index)  // Observe ability base value
-                ))
-            );
+            minus.disableProperty().bind(character.getAvailableMinus(index).not());
+            plus.disableProperty().bind(character.getAvailablePlus(index).not());
 
             Button button = new Button();
             buttons.add(button);
@@ -232,12 +192,12 @@ public class AbilitiesPane extends GridPane {
             button.setText(getTranslation("RANDOM"));
 
             button.setOnAction(_ -> {
-                String currentValue = character.getAbilityBaseProperty(index).get(); // Get the current value from the character
-                if (currentValue.equals("RANDOM")) {
+                String currentValue = button.getText();
+                if (currentValue.equals(getTranslation("RANDOM"))) {
                     int result = rollFourDropLowest();
-                    character.setAbilityBase(index, result);
+                    button.setText(String.valueOf(result));
                 } else {
-                    character.setAbilityBaseProperty(index, "RANDOM");
+                    button.setText(getTranslation("RANDOM"));
                 }
             });
 
@@ -277,17 +237,8 @@ public class AbilitiesPane extends GridPane {
     
         return sum;
     }
-
-    private int getPointCost(int score) {
-        if (score <= 13) {
-            return 1; // Cost is 1 point for scores 8–13
-        } else {
-            return 2; // Cost is 2 points for scores 14–15
-        }
-    }
         
-    public void chooseAbilitiesUI() {
-        String generationType = character.getGenerationMethod().get(); // Get the current generation type
+    public void chooseAbilitiesUI(String generationType) {
 
         for (int i = 0; i < abilityNames.length; i++) {
             ComboBox<String> comboBox = comboBoxes.get(i);
@@ -299,8 +250,6 @@ public class AbilitiesPane extends GridPane {
             int index = i; // Capture the index for use in the lambda
 
             if (generationType.equals("STANDARD_ARRAY")) {
-                character.resetAbilityBase(i); // Reset the ability bases to their default values
-
                 // Character property → ComboBox
                 ChangeListener<String> charToCombo = (_, _, newVal) -> {
                     if (newVal == null) return;
@@ -319,36 +268,32 @@ public class AbilitiesPane extends GridPane {
                 ChangeListener<String> comboToChar = (_, _, newVal) -> {
                     if (newVal == null) return;
                     if (newVal.equals(getTranslation("RANDOM"))) {
-                        character.getAbilityBaseProperty(index).set("RANDOM");
+                        character.getAbilityBaseShown(index).set("RANDOM");
                     } else {
-                        character.getAbilityBaseProperty(index).set(newVal);
+                        character.getAbilityBaseShown(index).set(newVal);
                     }
                 };
                 comboBox.valueProperty().addListener(comboToChar);
                 comboToCharListeners.set(i, comboToChar);
 
-                character.getAbilityBaseProperty(i).addListener(charToCombo);
+                character.getAbilityBaseShown(i).addListener(charToCombo);
                 charToComboListeners.set(i, charToCombo);
 
                 abilitiesSection.add(comboBox, 3, i); // Column 3, Row i
             } else {
                 comboBox.valueProperty().removeListener(comboToCharListeners.get(i));
-                character.getAbilityBaseProperty(i).removeListener(charToComboListeners.get(i));
-                
-                comboBox.valueProperty().setValue(getTranslation("RANDOM"));
+                character.getAbilityBaseShown(i).removeListener(charToComboListeners.get(i));
 
                 abilitiesSection.getChildren().remove(comboBox);
             }
 
             if (generationType.equals("POINT_BUY")) {
-                character.setAbilityBase(i, 8);
-
-                label.textProperty().bindBidirectional(character.getAbilityBaseProperty(i));
+                label.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
                 abilitiesSection.add(minus, 3, i);
                 abilitiesSection.add(label, 4, i);
                 abilitiesSection.add(plus, 5, i);
             } else {
-                label.textProperty().unbindBidirectional(character.getAbilityBaseProperty(i));
+                label.textProperty().unbindBidirectional(character.getAbilityBaseShown(i));
                 abilitiesSection.getChildren().remove(minus);
                 abilitiesSection.getChildren().remove(label);
                 abilitiesSection.getChildren().remove(plus);
@@ -356,10 +301,10 @@ public class AbilitiesPane extends GridPane {
 
             if (generationType.equals("CUSTOM_M")) {
                 abilitiesSection.add(custom, 3, i);
-                custom.textProperty().bindBidirectional(character.getAbilityBaseProperty(i));
+                custom.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
             } else {
                 abilitiesSection.getChildren().remove(custom);
-                custom.textProperty().unbindBidirectional(character.getAbilityBaseProperty(i));
+                custom.textProperty().unbindBidirectional(character.getAbilityBaseShown(i));
                 custom.textProperty().set("10"); // Clear the text field
             }
 
@@ -368,9 +313,9 @@ public class AbilitiesPane extends GridPane {
                 ChangeListener<String> buttonToChar = (_, _, newVal) -> {
                     if (newVal == null) return;
                     if (newVal.equals(getTranslation("RANDOM"))) {
-                        character.getAbilityBaseProperty(index).set("RANDOM");
+                        character.getAbilityBaseShown(index).set("RANDOM");
                     } else {
-                        character.getAbilityBaseProperty(index).set(newVal);
+                        character.getAbilityBaseShown(index).set(newVal);
                     }
                 };
                 button.textProperty().addListener(buttonToChar);
@@ -389,15 +334,15 @@ public class AbilitiesPane extends GridPane {
                         }
                     }
                 };
-                character.getAbilityBaseProperty(i).addListener(charToButton);
+                character.getAbilityBaseShown(i).addListener(charToButton);
                 charToButtonListeners.set(i, charToButton);
-                
-                character.resetAbilityBase(i); // Reset the ability bases to their default values
+
+                button.setText(getTranslation("RANDOM"));
 
                 abilitiesSection.add(button, 3, i); // Column 3, Row i
             } else {
                 button.textProperty().removeListener(buttonToCharListeners.get(i));
-                character.getAbilityBaseProperty(i).removeListener(charToButtonListeners.get(i));
+                character.getAbilityBaseShown(i).removeListener(charToButtonListeners.get(i));
 
                 abilitiesSection.getChildren().remove(button);
             }
@@ -410,7 +355,6 @@ public class AbilitiesPane extends GridPane {
             );
         } else {
             abilitiesSection.getChildren().remove(points);
-            character.setGenerationPoints(27);
         }
     }
 
@@ -431,9 +375,7 @@ public class AbilitiesPane extends GridPane {
             CheckBox proficiency = new CheckBox();
             skillsArea.add(proficiency, 1, i); // Column 1, Row i
 
-            proficiency.disableProperty().bind(character.getFixedSkill(index).or(character.getAvailableSkill(index).not()));
-            character.getSkillChoice(index).bind(proficiency.selectedProperty().and(proficiency.disabledProperty().not()));
-            proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
+            proficiency.disableProperty().bind(character.getAvailableSkill(index).not());
 
             // Skill value display
             Label value = new Label();

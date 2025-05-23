@@ -2,7 +2,7 @@ package com.dnd.ui.tabs;
 
 import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.panes.AbilitiesPane;
 import com.dnd.ui.panes.ClassPane;
 import com.dnd.ui.panes.CustomizationPane;
@@ -21,7 +21,7 @@ public class InfoTab extends Tab {
     private final GridPane gridPane = new GridPane(); // Class-level field for the GridPane
     private final Label dieResultLabel; // Shared label for die result
         
-    public InfoTab(GameCharacter character, TabPane mainTabPane){
+    public InfoTab(ViewModel character, TabPane mainTabPane){
         setText(getTranslation("INFO"));
 
         // Add a style class to the GridPane

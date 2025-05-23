@@ -3,11 +3,11 @@ package com.dnd.ui.panes;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dnd.Constants;
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
+import com.dnd.utils.Constants;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
@@ -23,7 +23,7 @@ public class ParametersPane extends GridPane {
     private final Map<String, String> backgroundsMap = new HashMap<>();
     private final Map<String, String> lineagesMap = new HashMap<>();
     private final Map<String, String> alignmentsMap = new HashMap<>();
-    public ParametersPane(GameCharacter character, TabPane mainTabPane) {
+    public ParametersPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
         // Create a label as the title for the ComboBox
@@ -167,7 +167,7 @@ public class ParametersPane extends GridPane {
         // Update the lineages based on the selected species
         speciesComboBox.valueProperty().addListener((_, _, _) -> {
             // Dynamically add or remove the lineage elements
-            if (lineages.isEmpty()) {
+            if (lineages.size() <= 1) {
                 getChildren().removeAll(lineageLabel, lineageComboBox); // Remove from GridPane
             } else {
                 if (!getChildren().contains(lineageLabel)) {

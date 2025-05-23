@@ -1,4 +1,4 @@
-package com.dnd;
+package com.dnd.utils;
 
 public class Constants {
     public static final double WEIGHT_MULTIPLIER = 0.5; // lb->kg conversion. 1 lb = 0.5 kg. lb is default

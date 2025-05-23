@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     private static TabPane mainTabPane;
-    GameCharacter character = new GameCharacter();
+    ViewModel character = new ViewModel(new GameCharacter());
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -73,9 +73,6 @@ public class App extends Application {
     }
 }
 
-////// MIGLIORAMENTI ////// entro 12/24
-
-// NUOVE FUNZIONALITÀ
 // fix ugly tooltips
 // interfaccia per accedere a varie sezioni
 // mostri
@@ -102,8 +99,6 @@ public class App extends Application {
 // no spell se non competenza armature
 // custom health
 // average (medium) health
-
-// QUALITÀ DI VITA
 // aggiungere specifiche categorie di specie (es.: umanoidi, taglia, solo base)
 // possibilità di comprimere alcune finestre
 // sistemare dimensioni relative
@@ -136,8 +131,6 @@ public class App extends Application {
 // personaggio risulta modificato anche se non lo è. Evidentemente viene richiamato erroneamente il metodo dell'*
 // link in dizionario non rimanda a stesso elemento
 // add logger (to file)
-
-// FILL-IN
 // oggetti
 // flavour a pagina 39/40
 // equipaggiamento iniziale a livelli più alti
@@ -146,11 +139,6 @@ public class App extends Application {
 // abilità attive specie
 // features talenti da magic initiate in poi
 // niente magie in Ira
-
-
-////// FUTURO ////// entro 12/25
-
-// NUOVE FUNZIONALITÀ
 // multiclassing
 // mix lignaggi/specie (eredità dai genitori) + schede parenti (usare tabelle di Xanathar)(definire funzione per vari parametri)
 // generatore/caricatore di mappe
@@ -166,8 +154,6 @@ public class App extends Application {
 // allineamento che influenzi caratteristiche di lore
 // tiri abilità con altre caratteristiche (es: storia(forza)). Probabilmente con tasto destro
 // concentrazione
-
-// QUALITÀ DI VITA
 // add other image formats
 // cambiare icona app
 // image and txt saved as one file
@@ -177,10 +163,25 @@ public class App extends Application {
 // voci dizionario con nome di default
 // non più di una copia della stessa voce del dizionario (se già presente, apri quella)
 // LineEdit con possibilità di cliccare parole (e avere prima un tooltip)
-
-// FILL-IN
 // sottoclassi
 // classi
 // nomi d'infanzia (elfi)
 // soprannomi (goliath)
 // molteplici nomi (gnomi)
+// custom abilities che si aggiorni in base alla classe ad ogni generazione (quindi che suggerisca le stat migliori) (in realtà probabilmente meglio fare solo il contrario)
+// add bags to inventory (utile per equipaggiamento iniziale, per esempio). L'ideale sarebbe poter spostare gli oggetti col mouse (drag and drop, magari anche per le tab)
+// tasto destro per avere varie opzioni (come rimuovere oggetto o creare una borsa)
+// creature type (umanoide, ecc.)
+// talenti che possono essere acquisiti solo una volta (non li ho già?)
+// finesse a scelta (anche se inutile)
+// heavy weapons
+// secondo attacco con arma leggera puù avere bonus negativo
+// rivendita oggetti/sistemazione misura armatura
+// sottoclassi dal livello 3
+// forza critico
+// array per probabilità classe/razza dipendente da statistiche
+// forse posso usare meglio i json
+// spostare tutta la logica al back
+// migliorare la logica di traduzione. Caricare tute le traduzioni subito e salvare il termine originale
+// modificare la struttura delle abilità bonus (niente cose complicate, solamente lista e numero di abilità selezionabili)
+// change male/female logic for translation

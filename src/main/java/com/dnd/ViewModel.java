@@ -1,0 +1,383 @@
+package com.dnd;
+
+import com.dnd.characters.GameCharacter;
+import com.dnd.utils.ObservableBoolean;
+import com.dnd.utils.ObservableInteger;
+import com.dnd.utils.ObservableString;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class ViewModel {
+    private final StringProperty name;
+    private final StringProperty gender;
+    private final StringProperty subclass;
+    private final StringProperty lineage;
+    private final StringProperty alignment;
+    private final StringProperty generationMethod;
+    private final StringProperty healthMethod;
+    private final StringProperty levelShown;
+    private final StringProperty classe;
+    private final StringProperty species;
+    private final StringProperty background;
+    private final StringProperty[] availableSubclasses;
+    private final StringProperty[] availableLineages;
+    private final StringProperty[] abilityBasesShown;
+
+    private final IntegerProperty generationPoints;
+    private final IntegerProperty initiativeBonus;
+    private final IntegerProperty proficiencyBonus;
+    private final IntegerProperty speed;
+    private final IntegerProperty darkvision;
+    private final IntegerProperty armorClass;
+    private final IntegerProperty health;
+    private final IntegerProperty[] abilities;
+    private final IntegerProperty[] abilityModifiers;
+    private final IntegerProperty[] savingThrowModifiers;
+    private final IntegerProperty[] skillModifiers;
+    private final IntegerProperty[] abilityBases;
+
+    private final BooleanProperty[] availablePlusOnes;
+    private final BooleanProperty[] availablePlusTwos;
+    private final BooleanProperty[] availablePluses;
+    private final BooleanProperty[] availableMinuses;
+    private final BooleanProperty[] availableSkills;
+    private final BooleanProperty[] abilityPlusOnes;
+    private final BooleanProperty[] abilityPlusTwos;
+    private final BooleanProperty[] savingThrowProficiencies;
+    private final BooleanProperty[] skillProficiencies;
+
+    public ViewModel(GameCharacter backend) {
+        this.name = new SimpleStringProperty(backend.getName().get());
+        bindObservableString(name, backend.getName());
+
+        this.gender = new SimpleStringProperty(backend.getGender().get());
+        bindObservableString(gender, backend.getGender());
+
+        this.subclass = new SimpleStringProperty(backend.getSubclass().get());
+        bindObservableString(subclass, backend.getSubclass());
+
+        this.lineage = new SimpleStringProperty(backend.getLineage().get());
+        bindObservableString(lineage, backend.getLineage());
+
+        this.alignment = new SimpleStringProperty(backend.getAlignment().get());
+        bindObservableString(alignment, backend.getAlignment());
+
+        this.generationMethod = new SimpleStringProperty(backend.getGenerationMethod().get());
+        bindObservableString(generationMethod, backend.getGenerationMethod());
+
+        this.healthMethod = new SimpleStringProperty(backend.getHealthMethod().get());
+        bindObservableString(healthMethod, backend.getHealthMethod());
+
+        this.levelShown = new SimpleStringProperty(backend.getLevelShown().get());
+        bindObservableString(levelShown, backend.getLevelShown());
+
+        this.classe = new SimpleStringProperty(backend.getClasse().get());
+        bindObservableString(classe, backend.getClasse());
+
+        this.species = new SimpleStringProperty(backend.getSpecies().get());
+        bindObservableString(species, backend.getSpecies());
+
+        this.background = new SimpleStringProperty(backend.getBackground().get());
+        bindObservableString(background, backend.getBackground());
+        
+        this.generationPoints = new SimpleIntegerProperty(backend.getGenerationPoints().get());
+        bindObservableInteger(generationPoints, backend.getGenerationPoints());
+
+        this.initiativeBonus = new SimpleIntegerProperty(backend.getInitiativeBonus().get());
+        bindObservableInteger(initiativeBonus, backend.getInitiativeBonus());
+
+        this.proficiencyBonus = new SimpleIntegerProperty(backend.getProficiencyBonus().get());
+        bindObservableInteger(proficiencyBonus, backend.getProficiencyBonus());
+        this.speed = new SimpleIntegerProperty(backend.getSpeed().get());
+        bindObservableInteger(speed, backend.getSpeed());
+
+        this.darkvision = new SimpleIntegerProperty(backend.getDarkvision().get());
+        bindObservableInteger(darkvision, backend.getDarkvision());
+
+        this.armorClass = new SimpleIntegerProperty(backend.getArmorClass().get());
+        bindObservableInteger(armorClass, backend.getArmorClass());
+
+        this.health = new SimpleIntegerProperty(backend.getHealth().get());
+        bindObservableInteger(health, backend.getHealth());
+
+        int maxSubclasses = backend.getMaxSubclasses();
+        int maxLineages = backend.getMaxLineages();
+
+        this.availableSubclasses = new StringProperty[maxSubclasses];
+        for (int i = 0; i < maxSubclasses; i++) {
+            this.availableSubclasses[i] = new SimpleStringProperty(backend.getAvailableSubclass(i).get());
+            bindObservableString(availableSubclasses[i], backend.getAvailableSubclass(i));
+        }
+
+        this.availableLineages = new StringProperty[maxLineages];
+        for (int i = 0; i < maxLineages; i++) {
+            this.availableLineages[i] = new SimpleStringProperty(backend.getAvailableLineage(i).get());
+            bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
+        }
+
+        String[] skillNames = backend.getSkillNames();
+        String[] abilityNames = backend.getAbilityNames();
+
+        this.abilityBasesShown = new StringProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilityBasesShown[i] = new SimpleStringProperty(backend.getAbilityBasesShown(i).get());
+            bindObservableString(abilityBasesShown[i], backend.getAbilityBasesShown(i));
+        }
+
+        this.abilities = new IntegerProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilities[i] = new SimpleIntegerProperty(backend.getAbility(i).get());
+            bindObservableInteger(abilities[i], backend.getAbility(i));
+        }
+
+        this.abilityModifiers = new IntegerProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilityModifiers[i] = new SimpleIntegerProperty(backend.getAbilityModifier(i).get());
+            bindObservableInteger(abilityModifiers[i], backend.getAbilityModifier(i));
+        }
+
+        this.savingThrowModifiers = new IntegerProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.savingThrowModifiers[i] = new SimpleIntegerProperty(backend.getSavingThrowModifier(i).get());
+            bindObservableInteger(savingThrowModifiers[i], backend.getSavingThrowModifier(i));
+        }
+
+        this.skillModifiers = new IntegerProperty[skillNames.length];
+        for (int i = 0; i < skillNames.length; i++) {
+            this.skillModifiers[i] = new SimpleIntegerProperty(backend.getSkillModifier(i).get());
+            bindObservableInteger(skillModifiers[i], backend.getSkillModifier(i));
+        }
+
+        this.abilityBases = new IntegerProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilityBases[i] = new SimpleIntegerProperty(backend.getAbilityBase(i).get());
+            bindObservableInteger(abilityBases[i], backend.getAbilityBase(i));
+        }
+        
+        this.availablePlusOnes = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.availablePlusOnes[i] = new SimpleBooleanProperty(backend.getAvailablePlusOne(i).get());
+            bindObservableBoolean(availablePlusOnes[i], backend.getAvailablePlusOne(i));
+        }
+
+        this.availablePlusTwos = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.availablePlusTwos[i] = new SimpleBooleanProperty(backend.getAvailablePlusTwo(i).get());
+            bindObservableBoolean(availablePlusTwos[i], backend.getAvailablePlusTwo(i));
+        }
+
+        this.availablePluses = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.availablePluses[i] = new SimpleBooleanProperty(backend.getAvailablePlus(i).get());
+            bindObservableBoolean(availablePluses[i], backend.getAvailablePlus(i));
+        }
+
+        this.availableMinuses = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.availableMinuses[i] = new SimpleBooleanProperty(backend.getAvailableMinus(i).get());
+            bindObservableBoolean(availableMinuses[i], backend.getAvailableMinus(i));
+        }
+
+        this.availableSkills = new BooleanProperty[skillNames.length];
+        for (int i = 0; i < skillNames.length; i++) {
+            this.availableSkills[i] = new SimpleBooleanProperty(backend.getAvailableSkill(i).get());
+            bindObservableBoolean(availableSkills[i], backend.getAvailableSkill(i));
+        }
+
+        this.abilityPlusOnes = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilityPlusOnes[i] = new SimpleBooleanProperty(backend.getAbilityPlusOne(i).get());
+            bindObservableBoolean(abilityPlusOnes[i], backend.getAbilityPlusOne(i));
+        }
+
+        this.abilityPlusTwos = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.abilityPlusTwos[i] = new SimpleBooleanProperty(backend.getAbilityPlusTwo(i).get());
+            bindObservableBoolean(abilityPlusTwos[i], backend.getAbilityPlusTwo(i));
+        }
+
+        this.savingThrowProficiencies = new BooleanProperty[abilityNames.length];
+        for (int i = 0; i < abilityNames.length; i++) {
+            this.savingThrowProficiencies[i] = new SimpleBooleanProperty(backend.getSavingThrowProficiency(i).get());
+            bindObservableBoolean(savingThrowProficiencies[i], backend.getSavingThrowProficiency(i));
+        }
+
+        this.skillProficiencies = new BooleanProperty[skillNames.length];
+        for (int i = 0; i < skillNames.length; i++) {
+            this.skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
+            bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
+        }
+    }
+    
+    private void bindObservableString(StringProperty front, ObservableString back) {
+        back.addListener(_ -> front.set(back.get()));
+        front.addListener(_ -> back.set(front.get()));
+    }
+
+    private void bindObservableInteger(IntegerProperty front, ObservableInteger back) {
+        back.addListener(_ -> front.set(back.get()));
+        front.addListener(_ -> back.set(front.get()));
+    }
+
+    private void bindObservableBoolean(BooleanProperty front, ObservableBoolean back) {
+        back.addListener(_ -> front.set(back.get()));
+        front.addListener(_ -> back.set(front.get()));
+    }
+
+    // Editors
+
+    public void AbilityBasePlus(int index) {
+        abilityBases[index].set(abilityBases[index].get() + 1);
+    }
+
+    public void AbilityBaseMinus(int index) {
+        abilityBases[index].set(abilityBases[index].get() - 1);
+    }
+
+    // Getters for all properties
+
+    public StringProperty getName() {
+        return name;
+    }
+
+    public StringProperty getGender() {
+        return gender;
+    }
+
+    public StringProperty getSubclass() {
+        return subclass;
+    }
+
+    public StringProperty getLineage() {
+        return lineage;
+    }
+
+    public StringProperty getAlignment() {
+        return alignment;
+    }
+
+    public StringProperty getGenerationMethod() {
+        return generationMethod;
+    }
+
+    public StringProperty getHealthMethod() {
+        return healthMethod;
+    }
+
+    public StringProperty getLevelShown() {
+        return levelShown;
+    }
+
+    public StringProperty getClasse() {
+        return classe;
+    }
+
+    public StringProperty getSpecies() {
+        return species;
+    }
+
+    public StringProperty getBackground() {
+        return background;
+    }
+
+    public StringProperty getAbilityBaseShown(int index) {
+        return abilityBasesShown[index];
+    }
+
+
+    public StringProperty[] getAvailableSubclasses() {
+        return availableSubclasses;
+    }
+
+    public StringProperty[] getAvailableLineages() {
+        return availableLineages;
+    }
+
+
+
+    public IntegerProperty getGenerationPoints() {
+        return generationPoints;
+    }
+
+    public IntegerProperty getInitiativeBonus() {
+        return initiativeBonus;
+    }
+
+    public IntegerProperty getProficiencyBonus() {
+        return proficiencyBonus;
+    }
+
+    public IntegerProperty getSpeed() {
+        return speed;
+    }
+
+    public IntegerProperty getDarkvision() {
+        return darkvision;
+    }
+
+    public IntegerProperty getArmorClass() {
+        return armorClass;
+    }
+
+    public IntegerProperty getHealth() {
+        return health;
+    }
+
+    public IntegerProperty getAbilityBase(int index) {
+        return abilityBases[index];
+    }
+
+    public IntegerProperty getAbility(int index) {
+        return abilities[index];
+    }
+
+
+    public IntegerProperty getAbilityModifier(int index) {
+        return abilityModifiers[index];
+    }
+
+    public IntegerProperty getSavingThrowModifier(int index) {
+        return savingThrowModifiers[index];
+    }
+
+    public IntegerProperty getSkillModifier(int index) {
+        return skillModifiers[index];
+    }
+    
+
+    public BooleanProperty getAvailableSkill(int index) {
+        return availableSkills[index];
+    }
+
+    public BooleanProperty getAvailablePlusOne(int index) {
+        return availablePlusOnes[index];
+    }
+
+    public BooleanProperty getAvailablePlusTwo(int index) {
+        return availablePlusTwos[index];
+    }
+
+    public BooleanProperty getAvailablePlus(int index) {
+        return availablePluses[index];
+    }
+    public BooleanProperty getAvailableMinus(int index) {
+        return availableMinuses[index];
+    }
+
+    public BooleanProperty getAbilityPlusOne(int index) {
+        return abilityPlusOnes[index];
+    }
+
+    public BooleanProperty getAbilityPlusTwo(int index) {
+        return abilityPlusTwos[index];
+    }
+
+    public BooleanProperty getSavingThrowProficiency(int index) {
+        return savingThrowProficiencies[index];
+    }
+}

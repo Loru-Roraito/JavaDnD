@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dnd.TranslationManager;
-import com.dnd.characters.GameCharacter;
+import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 
@@ -17,7 +17,7 @@ import javafx.scene.layout.GridPane;
 public class CustomizationPane extends GridPane {
     private final Map<String, String> generationsMap = new HashMap<>();
     private final Map<String, String> healthsMap = new HashMap<>();
-    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, GameCharacter character) {
+    public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, ViewModel character) {
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
         add(generationLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
 
@@ -31,6 +31,10 @@ public class CustomizationPane extends GridPane {
         TooltipComboBox<String> generationComboBox = new TooltipComboBox<>(generations, mainTabPane);
         generationComboBox.setPromptText(getTranslation("STANDARD_ARRAY"));
         add(generationComboBox, 0, 1); // Add the ComboBox to the GridPane (Column 0, Row 1)
+
+        generationComboBox.valueProperty().addListener((_, _, newVal) -> {
+            abilitiesPane.chooseAbilitiesUI(generationsMap.get(newVal));
+        });
 
         // Listen for ComboBox changes (Translated → English)
         generationComboBox.valueProperty().addListener((_, _, newVal) -> {
@@ -48,10 +52,6 @@ public class CustomizationPane extends GridPane {
             if (translated != null && !translated.equals(generationComboBox.getValue())) {
                 generationComboBox.setValue(translated);
             }
-        });
-
-        generationComboBox.valueProperty().addListener((_, _, _) -> {
-            abilitiesPane.chooseAbilitiesUI();
         });
 
 
