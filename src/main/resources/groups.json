@@ -220,6 +220,9 @@
     "DWARF": {
       "speed": 30,
       "darkvision": 120,
+      "passives": {
+        "DWARVEN_RESILIENCE": 0
+      },
       "lineages": {
         "MOUNTAIN_DWARF": {
         },
@@ -230,12 +233,17 @@
     "ELF": {
       "speed": 30,
       "darkvision": 60,
+      "passives":{
+        "TRANCE": 0
+      },
       "lineages": {
         "HIGH_ELF": {
         },
         "WOOD_ELF":{
+          "speed": 35
         },
         "DROW": {
+          "darkvision": 120
         }
       }
     },
@@ -252,7 +260,7 @@
     "GOLIATH": {
       "speed": 35,
       "darkvision": 0,
-      "LINEAGES": {
+      "lineages": {
         "CLOUD_GIANT": {
         },
         "FIRE_GIANT": {
@@ -270,7 +278,7 @@
     "HALFLING": {
       "speed": 30,
       "darkvision": 0,
-      "LINEAGES": {
+      "lineages": {
         "LIGHTFOOT_HALFLING": {
         },
         "STOUT_HALFLING": {
@@ -280,7 +288,7 @@
     "HUMAN": {
       "speed": 30,
       "darkvision": 0,
-      "LINEAGES": {
+      "lineages": {
         "CALISHITA": {
         },
         "CHONDATHAN": {
@@ -304,7 +312,7 @@
     "ORC": {
       "speed": 30,
       "darkvision": 120,
-      "LINEAGES": {
+      "lineages": {
       }
     },
     "TIEFLING": {

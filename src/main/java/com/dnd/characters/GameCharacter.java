@@ -1,6 +1,8 @@
 package com.dnd.characters;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.dnd.TranslationManager;
 import com.dnd.utils.BindingBoolean;
@@ -27,6 +29,8 @@ public class GameCharacter {
     private final ObservableString[] availableSubclasses;
     private final ObservableString[] availableLineages;
     private final ObservableString[] abilityBasesShown;
+    
+    private final Map<ObservableString, Integer> passives;
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses; 
@@ -194,6 +198,9 @@ public class GameCharacter {
 
         bindHitDie();
         bindHealth();
+
+        passives = new HashMap<>();
+        bindPassives();
     }
 
     // Getters
@@ -352,6 +359,10 @@ public class GameCharacter {
 
     public ObservableBoolean getSkillProficiency(int index) {
         return skillProficiencies[index];
+    }
+
+    public Map<ObservableString, Integer> getPassives() {
+        return passives;
     }
 
     // Binders
@@ -716,20 +727,32 @@ public class GameCharacter {
     private void bindSpeed() {
         speed = new BindingInteger(
             () -> {
-                int baseSpeed = getInt(new String[] {"species", species.get(), "speed"});
-                return baseSpeed > 0 ? baseSpeed : 30;
+                int baseSpeed = getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "speed"});
+                if (baseSpeed > 0) {
+                    return baseSpeed; // If speed is defined in the lineage, use that, otherwise use the species' value
+                }
+                baseSpeed  = getInt(new String[] {"species", species.get(), "speed"});
+                if (baseSpeed > 0) {
+                    return baseSpeed;
+                }
+                return 30; // Default speed if not defined
             },
-            species
+            species,
+            lineage
         );
     }
 
     private void bindDarkvision() {
         darkvision = new BindingInteger(
             () -> {
-                int baseDarkvision = getInt(new String[] {"species", species.get(), "darkvision"});
-                return baseDarkvision > 0 ? baseDarkvision : 0;
+                int baseDarkvision = getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "darkvision"});
+                if (baseDarkvision > 0) {
+                    return baseDarkvision; // If darkvision is defined in the lineage, use that, otherwise use the species' value
+                }
+                return getInt(new String[] {"species", species.get(), "darkvision"});
             },
-            species
+            species,
+            lineage
         );
     }
 
@@ -837,13 +860,36 @@ public class GameCharacter {
 
         abilityBases[index].addListener((newValue) -> {
             if (newValue != null) {
-                if (newValue.equals(0)) {
+                if (newValue == 0) {
                     abilityBasesShown[index].set("RANDOM");
                 } else {
                     abilityBasesShown[index].set(String.valueOf(newValue));
                 }
             }
         });
+    }
+
+    private void bindPassives() {
+        Runnable updatePassives = () -> {
+            passives.clear();
+            String[] passiveNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "passives"});
+            if (passiveNames != null) {
+                for (String passive : passiveNames) {
+                    passives.put(new ObservableString(passive), getInt(new String[] {"species", species.get(), "passives", passive}));
+                }
+            }
+
+            passiveNames = getGroup(new String[] {"species", species.get(), "passives"});
+            if (passiveNames != null) {
+                for (String passive : passiveNames) {
+                    passives.put(new ObservableString(passive), getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "passives", passive}));
+                }
+            }
+        };
+
+        species.addListener(_ -> updatePassives.run());
+        lineage.addListener(_ -> updatePassives.run());
+        updatePassives.run();
     }
 
     // Helpers

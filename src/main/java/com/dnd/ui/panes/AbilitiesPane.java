@@ -162,6 +162,8 @@ public class AbilitiesPane extends GridPane {
             Button plus = new Button("+");
             pluses.add(plus);
 
+            label.textProperty().bind(character.getAbilityBaseShown(i));
+
             // Add event handlers for the buttons
             minus.setOnAction(_ -> {
                 character.AbilityBaseMinus(index);
@@ -179,6 +181,7 @@ public class AbilitiesPane extends GridPane {
             buttons.add(button);
 
             button.setText(getTranslation("RANDOM"));
+            button.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
 
             button.setOnAction(_ -> {
                 String currentValue = button.getText();
@@ -252,12 +255,10 @@ public class AbilitiesPane extends GridPane {
             }
 
             if (generationType.equals(getTranslation("POINT_BUY"))) {
-                label.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
                 abilitiesSection.add(minus, 3, i);
                 abilitiesSection.add(label, 4, i);
                 abilitiesSection.add(plus, 5, i);
             } else {
-                label.textProperty().unbindBidirectional(character.getAbilityBaseShown(i));
                 abilitiesSection.getChildren().remove(minus);
                 abilitiesSection.getChildren().remove(label);
                 abilitiesSection.getChildren().remove(plus);
@@ -273,14 +274,10 @@ public class AbilitiesPane extends GridPane {
             }
 
             if (generationType.equals(getTranslation("RANDOM"))) {
-                button.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
-
                 button.setText(getTranslation("RANDOM"));
 
                 abilitiesSection.add(button, 3, i); // Column 3, Row i
             } else {
-                button.textProperty().unbindBidirectional(character.getAbilityBaseShown(i));
-
                 abilitiesSection.getChildren().remove(button);
             }
         }

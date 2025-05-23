@@ -1,5 +1,7 @@
 package com.dnd;
 
+import java.util.Map;
+
 import com.dnd.characters.GameCharacter;
 import com.dnd.utils.Constants;
 import com.dnd.utils.ObservableBoolean;
@@ -14,6 +16,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 public class ViewModel {
     private final StringProperty name;
     private final StringProperty gender;
@@ -53,6 +57,8 @@ public class ViewModel {
     private final BooleanProperty[] abilityPlusTwos;
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
+    
+    private final ObservableMap<StringProperty, Integer> passives;
 
     public ViewModel(GameCharacter backend) {
         this.name = new SimpleStringProperty(getTranslation(backend.getName().get()));
@@ -216,6 +222,23 @@ public class ViewModel {
             this.skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
+
+        this.passives = FXCollections.observableHashMap();
+
+        // Helper to update the passives map
+        Runnable updatePassives = () -> {
+            this.passives.clear();
+            for (Map.Entry<ObservableString, Integer> entry : backend.getPassives().entrySet()) {
+                this.passives.put(new SimpleStringProperty(getTranslation(entry.getKey().get())), entry.getValue());
+            }
+        };
+
+        // Listen for backend passives changes
+        backend.getSpecies().addListener(_ -> updatePassives.run());
+        backend.getLineage().addListener(_ -> updatePassives.run());
+
+        // Initialize once at construction
+        updatePassives.run();
     }
     
     private void bindObservableString(StringProperty front, ObservableString back) {
@@ -249,6 +272,14 @@ public class ViewModel {
     }
 
     // Getters for all properties
+
+    public ObservableMap<StringProperty, Integer> getPassives() {
+        return passives;
+    }
+
+    public StringProperty[] getPassivesNames() {
+        return passives.keySet().toArray(StringProperty[]::new);
+    }
 
     public StringProperty getName() {
         return name;

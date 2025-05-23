@@ -38,7 +38,7 @@ public class InfoTab extends Tab {
         addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
         addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 2, 2);
-        addTitledPane("PROFICIENCIES", new ProficienciesPane(), 0, 3, 2, 1);
+        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, gridPane), 0, 3, 2, 1);
         addTitledPane("EQUIPMENT", new EquipmentPane(), 2, 3, 2, 1);
         addTitledPane("SYSTEM", new SystemPane(), 3, 0, 1, 1);
         addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 0, 4, 4, 1);

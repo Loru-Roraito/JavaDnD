@@ -62,7 +62,6 @@ public class TranslationManager {
                 return new String[0];
             }
             else if (node == null) {
-                System.err.println("Warning: subGroup not found: " + subGroup);
                 return new String[0];
             }
         }
