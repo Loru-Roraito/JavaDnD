@@ -1,8 +1,5 @@
 package com.dnd.ui.panes;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
@@ -16,8 +13,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 
 public class ClassPane extends GridPane {
-    private final Map<String, String> classesMap = new HashMap<>();
-    private final Map<String, String> subclassesMap = new HashMap<>();
     public ClassPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
@@ -28,12 +23,9 @@ public class ClassPane extends GridPane {
         // Populate the class list and translation map
         ObservableList<String> classes = FXCollections.observableArrayList();
         for (String classKey : getGroup(new String[] {"classes"})) {
-            String translatedClass = getTranslation(classKey);
-            classes.add(translatedClass);
-            classesMap.put(translatedClass, classKey); // Map translated name to original key
+            classes.add(getTranslation(classKey));
         }
         classes.add(0, getTranslation("RANDOM"));
-        classesMap.put(getTranslation("RANDOM"), "RANDOM");
 
         // Create the first ComboBox (class selection)
         TooltipComboBox<String> classComboBox = new TooltipComboBox<>(classes, mainTabPane);
@@ -41,22 +33,7 @@ public class ClassPane extends GridPane {
         add(classComboBox, 0, 1);
 
         // Listen for ComboBox changes (Translated → English)
-        classComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = classesMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getClasse().get())) {
-                    character.getClasse().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getClasse().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(classComboBox.getValue())) {
-                classComboBox.setValue(translated);
-            }
-        });
+        classComboBox.valueProperty().bindBidirectional(character.getClasse());
 
         // Create a label as the title for the second ComboBox
         TooltipLabel subclassLabel = new TooltipLabel(getTranslation("SUBCLASS"), mainTabPane);
@@ -69,39 +46,18 @@ public class ClassPane extends GridPane {
         add(subclassComboBox, 0, 3);
         
         // Listen for ComboBox changes (Translated → English)
-        subclassComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = subclassesMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getSubclass().get())) {
-                    character.getSubclass().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getSubclass().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(subclassComboBox.getValue())) {
-                subclassComboBox.setValue(translated);
-            }
-        });
-
+        subclassComboBox.valueProperty().bindBidirectional(character.getSubclass());
         subclasses.add(getTranslation("RANDOM"));
-        subclassesMap.put(getTranslation("RANDOM"), "RANDOM");
         subclassComboBox.setItems(subclasses);
 
         for (StringProperty prop : character.getAvailableSubclasses()) {
             if (prop != null) {
                 prop.addListener((_, oldVal, newVal) -> {
                     if (!oldVal.isEmpty()) {
-                        String translated_subclass = getTranslation(oldVal);
-                        subclasses.remove(subclasses.indexOf(translated_subclass));
-                        subclassesMap.remove(translated_subclass);
+                        subclasses.remove(subclasses.indexOf(oldVal));
                     }
                     if (!newVal.isEmpty()) {
-                        String translated_subclass = getTranslation(newVal);
-                        subclasses.add(translated_subclass);
-                        subclassesMap.put(translated_subclass, newVal);
+                        subclasses.add(newVal);
                     }
                 });
             }
@@ -118,30 +74,14 @@ public class ClassPane extends GridPane {
         add(levelComboBox, 0, 5);
 
         // Listen for ComboBox changes (Translated → English)
-        levelComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                if (newVal.equals(getTranslation("RANDOM"))) {
-                    newVal = "RANDOM";
-                }
-                character.getLevelShown().set(newVal);
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getLevelShown().addListener((_, _, newVal) -> {
-            if (newVal.equals("RANDOM")) {
-                newVal = getTranslation("RANDOM");
-            }
-            levelComboBox.setValue(newVal);
-        });
+        levelComboBox.valueProperty().bindBidirectional(character.getLevelShown());
 
         // Update the subclasses based on the selected class
-        classComboBox.valueProperty().addListener((_, _, newValue) -> {
+        classComboBox.valueProperty().addListener((_, _, newVal) -> {
             // Get the original key for the selected class
-            String classKey = classesMap.get(newValue);
-            if (classKey != null && !classKey.equals("RANDOM")) {
+            if (newVal != null && !newVal.equals(getTranslation("RANDOM"))) {
 
-                if (newValue.equals(getTranslation("RANDOM")) || newValue.equals(getTranslation("NONE_F"))) {
+                if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
                     levels.clear();
                 } else if (levels.isEmpty()) {
                     // Add "RANDOM" as the first item

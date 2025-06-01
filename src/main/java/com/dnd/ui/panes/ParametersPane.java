@@ -1,13 +1,9 @@
 package com.dnd.ui.panes;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
-import com.dnd.utils.Constants;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
@@ -18,11 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class ParametersPane extends GridPane {
-    private final Map<String, String> gendersMap = new HashMap<>();
-    private final Map<String, String> speciesMap = new HashMap<>();
-    private final Map<String, String> backgroundsMap = new HashMap<>();
-    private final Map<String, String> lineagesMap = new HashMap<>();
-    private final Map<String, String> alignmentsMap = new HashMap<>();
     public ParametersPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
@@ -48,35 +39,16 @@ public class ParametersPane extends GridPane {
         // Populate the class list and translation map
         ObservableList<String> genders = FXCollections.observableArrayList();
         for (String genderKey : getGroup(new String[] {"genders"})) {
-            String translatedGenders = getTranslation(genderKey);
-            genders.add(translatedGenders);
-            gendersMap.put(translatedGenders, genderKey); // Map translated name to original key
+            genders.add(getTranslation(genderKey));
         }
         genders.add(0, getTranslation("RANDOM"));
-        gendersMap.put(getTranslation("RANDOM"), "RANDOM");
 
         TooltipComboBox<String> genderComboBox = new TooltipComboBox<>(genders, mainTabPane);
         genderComboBox.setPromptText(getTranslation("RANDOM"));
         add(genderComboBox, 0, 3);
 
         // Listen for ComboBox changes (Translated → English)
-        genderComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = gendersMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getGender().get())) {
-                    character.getGender().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getGender().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(genderComboBox.getValue())) {
-                genderComboBox.setValue(translated);
-            }
-        });
-
+        genderComboBox.valueProperty().bindBidirectional(character.getGender());
 
         // Create a label as the title for the ComboBox
         TooltipLabel speciesLabel = new TooltipLabel(getTranslation("SPECIES"), mainTabPane);
@@ -85,35 +57,16 @@ public class ParametersPane extends GridPane {
         // Populate the class list and translation map
         ObservableList<String> species = FXCollections.observableArrayList();
         for (String classKey : getGroup(new String[] {"species"})) {
-            String translatedSpecies = getTranslation(classKey);
-            species.add(translatedSpecies);
-            speciesMap.put(translatedSpecies, classKey); // Map translated name to original key
+            species.add(getTranslation(classKey));
         }
         species.add(0, getTranslation("RANDOM"));
-        speciesMap.put(getTranslation("RANDOM"), "RANDOM");
 
         TooltipComboBox<String> speciesComboBox = new TooltipComboBox<>(species, mainTabPane);
         speciesComboBox.setPromptText(getTranslation("RANDOM"));
         add(speciesComboBox, 0, 5);
 
         // Listen for ComboBox changes (Translated → English)
-        speciesComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = speciesMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getSpecies().get())) {
-                    character.getSpecies().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getSpecies().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(speciesComboBox.getValue())) {
-                speciesComboBox.setValue(translated);
-            }
-        });
-        
+        speciesComboBox.valueProperty().bindBidirectional(character.getSpecies());
 
         // Create a label as the title for the second ComboBox
         TooltipLabel lineageLabel = new TooltipLabel(getTranslation("LINEAGE"), mainTabPane);
@@ -126,39 +79,19 @@ public class ParametersPane extends GridPane {
         add(lineageComboBox, 0, 7);
         
         // Listen for ComboBox changes (Translated → English)
-        lineageComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = lineagesMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getLineage().get())) {
-                    character.getLineage().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getLineage().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(lineageComboBox.getValue())) {
-                lineageComboBox.setValue(translated);
-            }
-        });
+        lineageComboBox.valueProperty().bindBidirectional(character.getLineage());
 
         lineages.add(getTranslation("RANDOM"));
-        lineagesMap.put(getTranslation("RANDOM"), "RANDOM");
         lineageComboBox.setItems(lineages);
 
         for (StringProperty prop : character.getAvailableLineages()) {
             if (prop != null) {
                 prop.addListener((_, oldVal, newVal) -> {
                     if (!oldVal.isEmpty()) {
-                        String translated_lineage = getTranslation(oldVal);
-                        lineages.remove(lineages.indexOf(translated_lineage));
-                        lineagesMap.remove(translated_lineage);
+                        lineages.remove(oldVal);
                     }
                     if (!newVal.isEmpty()) {
-                        String translated_lineage = getTranslation(newVal);
-                        lineages.add(translated_lineage);
-                        lineagesMap.put(translated_lineage, newVal);
+                        lineages.add(newVal);
                     }
                 });
             }
@@ -189,35 +122,16 @@ public class ParametersPane extends GridPane {
         // Create the second ComboBox (subclass selection)
         ObservableList<String> backgrounds = FXCollections.observableArrayList();
         for (String classKey : getGroup(new String[] {"backgrounds"})) {
-            String translatedClass = getTranslation(classKey);
-            backgrounds.add(translatedClass);
-            backgroundsMap.put(translatedClass, classKey); // Map translated name to original key
+            backgrounds.add(getTranslation(classKey));
         }
         backgrounds.add(0, getTranslation("RANDOM"));
-        backgroundsMap.put(getTranslation("RANDOM"), "RANDOM");
 
         TooltipComboBox<String> backgroundComboBox = new TooltipComboBox<>(backgrounds, mainTabPane);
         backgroundComboBox.setPromptText(getTranslation("RANDOM"));
         add(backgroundComboBox, 0, 9);
 
         // Listen for ComboBox changes (Translated → English)
-        backgroundComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = backgroundsMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getBackground().get())) {
-                    character.getBackground().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getBackground().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(backgroundComboBox.getValue())) {
-                backgroundComboBox.setValue(translated);
-            }
-        });
-
+        backgroundComboBox.valueProperty().bindBidirectional(character.getBackground());
 
         // Create a label as the title for the ComboBox
         TooltipLabel alignmentLabel = new TooltipLabel(getTranslation("ALIGNMENT"), mainTabPane);
@@ -226,43 +140,28 @@ public class ParametersPane extends GridPane {
         // Populate the class list and translation map
         ObservableList<String> alignments = FXCollections.observableArrayList();
         for (String alignmentKey : getGroup(new String[] {"alignments"})) {
-            String translatedAlignments = getTranslation(alignmentKey);
-            alignments.add(translatedAlignments);
-            alignmentsMap.put(translatedAlignments, alignmentKey); // Map translated name to original key
+            alignments.add(getTranslation(alignmentKey));
         }
         alignments.add(0, getTranslation("RANDOM"));
-        alignmentsMap.put(getTranslation("RANDOM"), "RANDOM");
 
         TooltipComboBox<String> alignmentComboBox = new TooltipComboBox<>(alignments, mainTabPane);
         alignmentComboBox.setPromptText(getTranslation("RANDOM"));
         add(alignmentComboBox, 0, 11);
 
         // Listen for ComboBox changes (Translated → English)
-        alignmentComboBox.valueProperty().addListener((_, _, newVal) -> {
-            if (newVal != null) {
-                String englishKey = alignmentsMap.get(newVal);
-                if (englishKey != null && !englishKey.equals(character.getAlignment().get())) {
-                    character.getAlignment().set(englishKey);
-                }
-            }
-        });
-
-        // Listen for character property changes (English → Translated)
-        character.getAlignment().addListener((_, _, newVal) -> {
-            String translated = getTranslation(newVal);
-            if (translated != null && !translated.equals(alignmentComboBox.getValue())) {
-                alignmentComboBox.setValue(translated);
-            }
-        });
-
+        alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
 
         TooltipLabel speed = new TooltipLabel("", getTranslation("SPEED"), mainTabPane);
         speed.textProperty().bind(
-            Bindings.concat(
-                getTranslation("SPEED"),
-                ": ",
-                character.getSpeed().multiply(Constants.LENGTH_MULTIPLIER).asString(),
-                getTranslation("LENGTH_UNIT")
+            Bindings.createStringBinding(
+                () -> {
+                    double value = character.getSpeed().get();
+                    String formatted = (value == Math.floor(value))
+                        ? String.format("%.0f", value)
+                        : String.format("%.1f", value);
+                    return getTranslation("SPEED") + ": " + formatted + getTranslation("LENGTH_UNIT");
+                },
+                character.getSpeed()
             )
         );
         add(speed, 0, 12);
@@ -270,11 +169,15 @@ public class ParametersPane extends GridPane {
 
         TooltipLabel darkvision = new TooltipLabel("", getTranslation("DARKVISION"), mainTabPane);
         darkvision.textProperty().bind(
-            Bindings.concat(
-                getTranslation("DARKVISION"),
-                ": ",
-                character.getDarkvision().multiply(Constants.LENGTH_MULTIPLIER).asString(),
-                getTranslation("LENGTH_UNIT")
+            Bindings.createStringBinding(
+                () -> {
+                    double value = character.getDarkvision().get();
+                    String formatted = (value == Math.floor(value))
+                        ? String.format("%.0f", value)
+                        : String.format("%.1f", value);
+                    return getTranslation("DARKVISION") + ": " + formatted + getTranslation("LENGTH_UNIT");
+                },
+                character.getDarkvision()
             )
         );
 

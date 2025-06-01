@@ -1,17 +1,19 @@
 package com.dnd;
 
 import com.dnd.characters.GameCharacter;
+import com.dnd.utils.Constants;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 public class ViewModel {
     private final StringProperty name;
     private final StringProperty gender;
@@ -31,8 +33,6 @@ public class ViewModel {
     private final IntegerProperty generationPoints;
     private final IntegerProperty initiativeBonus;
     private final IntegerProperty proficiencyBonus;
-    private final IntegerProperty speed;
-    private final IntegerProperty darkvision;
     private final IntegerProperty armorClass;
     private final IntegerProperty health;
     private final IntegerProperty[] abilities;
@@ -40,6 +40,9 @@ public class ViewModel {
     private final IntegerProperty[] savingThrowModifiers;
     private final IntegerProperty[] skillModifiers;
     private final IntegerProperty[] abilityBases;
+    
+    private final DoubleProperty speed;
+    private final DoubleProperty darkvision;
 
     private final BooleanProperty[] availablePlusOnes;
     private final BooleanProperty[] availablePlusTwos;
@@ -52,37 +55,37 @@ public class ViewModel {
     private final BooleanProperty[] skillProficiencies;
 
     public ViewModel(GameCharacter backend) {
-        this.name = new SimpleStringProperty(backend.getName().get());
+        this.name = new SimpleStringProperty(getTranslation(backend.getName().get()));
         bindObservableString(name, backend.getName());
 
-        this.gender = new SimpleStringProperty(backend.getGender().get());
+        this.gender = new SimpleStringProperty(getTranslation(backend.getGender().get()));
         bindObservableString(gender, backend.getGender());
 
-        this.subclass = new SimpleStringProperty(backend.getSubclass().get());
+        this.subclass = new SimpleStringProperty(getTranslation(backend.getSubclass().get()));
         bindObservableString(subclass, backend.getSubclass());
 
-        this.lineage = new SimpleStringProperty(backend.getLineage().get());
+        this.lineage = new SimpleStringProperty(getTranslation(backend.getLineage().get()));
         bindObservableString(lineage, backend.getLineage());
 
-        this.alignment = new SimpleStringProperty(backend.getAlignment().get());
+        this.alignment = new SimpleStringProperty(getTranslation(backend.getAlignment().get()));
         bindObservableString(alignment, backend.getAlignment());
 
-        this.generationMethod = new SimpleStringProperty(backend.getGenerationMethod().get());
+        this.generationMethod = new SimpleStringProperty(getTranslation(backend.getGenerationMethod().get()));
         bindObservableString(generationMethod, backend.getGenerationMethod());
 
-        this.healthMethod = new SimpleStringProperty(backend.getHealthMethod().get());
+        this.healthMethod = new SimpleStringProperty(getTranslation(backend.getHealthMethod().get()));
         bindObservableString(healthMethod, backend.getHealthMethod());
 
-        this.levelShown = new SimpleStringProperty(backend.getLevelShown().get());
+        this.levelShown = new SimpleStringProperty(getTranslation(backend.getLevelShown().get()));
         bindObservableString(levelShown, backend.getLevelShown());
 
-        this.classe = new SimpleStringProperty(backend.getClasse().get());
+        this.classe = new SimpleStringProperty(getTranslation(backend.getClasse().get()));
         bindObservableString(classe, backend.getClasse());
 
-        this.species = new SimpleStringProperty(backend.getSpecies().get());
+        this.species = new SimpleStringProperty(getTranslation(backend.getSpecies().get()));
         bindObservableString(species, backend.getSpecies());
 
-        this.background = new SimpleStringProperty(backend.getBackground().get());
+        this.background = new SimpleStringProperty(getTranslation(backend.getBackground().get()));
         bindObservableString(background, backend.getBackground());
         
         this.generationPoints = new SimpleIntegerProperty(backend.getGenerationPoints().get());
@@ -93,11 +96,12 @@ public class ViewModel {
 
         this.proficiencyBonus = new SimpleIntegerProperty(backend.getProficiencyBonus().get());
         bindObservableInteger(proficiencyBonus, backend.getProficiencyBonus());
-        this.speed = new SimpleIntegerProperty(backend.getSpeed().get());
-        bindObservableInteger(speed, backend.getSpeed());
 
-        this.darkvision = new SimpleIntegerProperty(backend.getDarkvision().get());
-        bindObservableInteger(darkvision, backend.getDarkvision());
+        this.speed = new SimpleDoubleProperty(backend.getSpeed().get() * Constants.LENGTH_MULTIPLIER);
+        bindObservableDouble(speed, backend.getSpeed(), Constants.LENGTH_MULTIPLIER);
+
+        this.darkvision = new SimpleDoubleProperty(backend.getDarkvision().get() * Constants.LENGTH_MULTIPLIER);
+        bindObservableDouble(darkvision, backend.getDarkvision(), Constants.LENGTH_MULTIPLIER);
 
         this.armorClass = new SimpleIntegerProperty(backend.getArmorClass().get());
         bindObservableInteger(armorClass, backend.getArmorClass());
@@ -110,13 +114,13 @@ public class ViewModel {
 
         this.availableSubclasses = new StringProperty[maxSubclasses];
         for (int i = 0; i < maxSubclasses; i++) {
-            this.availableSubclasses[i] = new SimpleStringProperty(backend.getAvailableSubclass(i).get());
+            this.availableSubclasses[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i).get()));
             bindObservableString(availableSubclasses[i], backend.getAvailableSubclass(i));
         }
 
         this.availableLineages = new StringProperty[maxLineages];
         for (int i = 0; i < maxLineages; i++) {
-            this.availableLineages[i] = new SimpleStringProperty(backend.getAvailableLineage(i).get());
+            this.availableLineages[i] = new SimpleStringProperty(getTranslation(backend.getAvailableLineage(i).get()));
             bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
         }
 
@@ -125,7 +129,7 @@ public class ViewModel {
 
         this.abilityBasesShown = new StringProperty[abilityNames.length];
         for (int i = 0; i < abilityNames.length; i++) {
-            this.abilityBasesShown[i] = new SimpleStringProperty(backend.getAbilityBasesShown(i).get());
+            this.abilityBasesShown[i] = new SimpleStringProperty(getTranslation(backend.getAbilityBasesShown(i).get()));
             bindObservableString(abilityBasesShown[i], backend.getAbilityBasesShown(i));
         }
 
@@ -215,13 +219,18 @@ public class ViewModel {
     }
     
     private void bindObservableString(StringProperty front, ObservableString back) {
-        back.addListener(_ -> front.set(back.get()));
-        front.addListener(_ -> back.set(front.get()));
+        back.addListener(_ -> front.set(getTranslation(back.get())));
+        front.addListener(_ -> back.set(getOriginal(front.get())));
     }
 
     private void bindObservableInteger(IntegerProperty front, ObservableInteger back) {
         back.addListener(_ -> front.set(back.get()));
         front.addListener(_ -> back.set(front.get()));
+    }
+
+    private void bindObservableDouble(DoubleProperty front, ObservableInteger back, double multiplier) {
+        back.addListener(_ -> front.set(back.get() * multiplier));
+        front.addListener(_ -> back.set((int) (front.get() / multiplier)));
     }
 
     private void bindObservableBoolean(BooleanProperty front, ObservableBoolean back) {
@@ -312,11 +321,11 @@ public class ViewModel {
         return proficiencyBonus;
     }
 
-    public IntegerProperty getSpeed() {
+    public DoubleProperty getSpeed() {
         return speed;
     }
 
-    public IntegerProperty getDarkvision() {
+    public DoubleProperty getDarkvision() {
         return darkvision;
     }
 
@@ -379,5 +388,18 @@ public class ViewModel {
 
     public BooleanProperty getSavingThrowProficiency(int index) {
         return savingThrowProficiencies[index];
+    }
+
+    public BooleanProperty getSkillProficiency(int index) {
+        return skillProficiencies[index];
+    }
+
+
+    private String getTranslation(String key) {
+        return TranslationManager.getInstance().getTranslation(key);
+    }
+
+    private String getOriginal(String key) {
+        return TranslationManager.getInstance().getOriginal(key);
     }
 }

@@ -35,6 +35,7 @@ public class GameCharacter {
 
     private final ObservableInteger generationPointsObservable;
     private final ObservableInteger givenBonusesObservable;
+    private final ObservableInteger givenSkillsObservable;
     private final ObservableInteger level;
     private final ObservableInteger[] abilityBases;
 
@@ -46,6 +47,7 @@ public class GameCharacter {
     private BindingInteger health;
     private BindingInteger hitDie;
     private BindingInteger givenBonuses;
+    private BindingInteger givenSkills;
     private BindingInteger generationPoints;
     private final BindingInteger[] abilities;
     private final BindingInteger[] abilityModifiers;
@@ -57,10 +59,9 @@ public class GameCharacter {
     private final ObservableBoolean[] availableSkills;
     private final ObservableBoolean[] abilityPlusOnes;
     private final ObservableBoolean[] abilityPlusTwos;
-    private final ObservableBoolean[] savingThrowProficiencies;
-    private final ObservableBoolean[] skillChoices;
     private final ObservableBoolean[] fixedSkills;
     
+    private final BindingBoolean[] savingThrowProficiencies;
     private final BindingBoolean[] availablePluses;
     private final BindingBoolean[] availableMinuses;
     private final BindingBoolean[] availablePlusOnes;
@@ -85,9 +86,8 @@ public class GameCharacter {
 
         abilityPlusOnes = new ObservableBoolean[abilityCount];
         abilityPlusTwos = new ObservableBoolean[abilityCount];
-        savingThrowProficiencies = new ObservableBoolean[abilityCount];
+        savingThrowProficiencies = new BindingBoolean[abilityCount];
         skillProficiencies = new BindingBoolean[skillCount];
-        skillChoices = new ObservableBoolean[skillCount];
 
         abilityBasesShown = new ObservableString[abilityCount];
 
@@ -139,32 +139,38 @@ public class GameCharacter {
         for (int i = 0; i < abilityBases.length; i++) {
             bindFinalAbility(i);
             bindAbilityModifier(i);
-
-            savingThrowProficiencies[i] = new ObservableBoolean(false);
-
-            bindSavingThrowBonus(i);
-            bindSavingThrowModifier(i);
         }
 
         bindGivenBonuses();
 
-        bindAvailableSkills();
         bindFixedSkills();
-
-        for (int i = 0; i < skillBonuses.length; i++) {
-            skillAbilities[i] = getInt(new String[] {"skills", skillNames[i], "ability"});
-            skillChoices[i] = new ObservableBoolean(false);
-
-            bindSkillProficiency(i);
-            bindSkillBonus(i);
-            bindSkillModifier(i);
-        }
 
         classe = new ObservableString("RANDOM");
         subclass = new ObservableString("RANDOM");
         maxSubclasses = getInt(new String[] {"max_subclasses"});
         availableSubclasses = new ObservableString[maxSubclasses];
         bindAvailableSubclasses();
+
+        for (int i = 0; i < abilityBases.length; i++) {
+            bindSavingThrowProficiencies(i);
+
+            bindSavingThrowBonus(i);
+            bindSavingThrowModifier(i);
+        }
+
+        givenSkills = new BindingInteger(() -> 0);
+        givenSkillsObservable = new ObservableInteger(0);
+
+        for (int i = 0; i < skillBonuses.length; i++) {
+            skillAbilities[i] = getInt(new String[] {"skills", skillNames[i], "ability"});
+
+            bindSkillProficiency(i);
+            bindSkillBonus(i);
+            bindSkillModifier(i);
+            bindAvailableSkills(i);
+        }
+
+        bindGivenSkills();
 
         species = new ObservableString("RANDOM");
         lineage = new ObservableString("RANDOM");
@@ -268,47 +274,47 @@ public class GameCharacter {
         return abilityBases[index];
     }
 
-    public BindingInteger getGenerationPoints() {
+    public ObservableInteger getGenerationPoints() {
         return generationPoints;
     }
     
-    public BindingInteger getInitiativeBonus() {
+    public ObservableInteger getInitiativeBonus() {
         return initiativeBonus;
     }
 
-    public BindingInteger getProficiencyBonus() {
+    public ObservableInteger getProficiencyBonus() {
         return proficiencyBonus;
     }
 
-    public BindingInteger getSpeed() {
+    public ObservableInteger getSpeed() {
         return speed;
     }
 
-    public BindingInteger getDarkvision() {
+    public ObservableInteger getDarkvision() {
         return darkvision;
     }
 
-    public BindingInteger getArmorClass() {
+    public ObservableInteger getArmorClass() {
         return armorClass;
     }
 
-    public BindingInteger getHealth() {
+    public ObservableInteger getHealth() {
         return health;
     }
 
-    public BindingInteger getAbility(int index) {
+    public ObservableInteger getAbility(int index) {
         return abilities[index];
     }
 
-    public BindingInteger getAbilityModifier(int index) {
+    public ObservableInteger getAbilityModifier(int index) {
         return abilityModifiers[index];
     }
 
-    public BindingInteger getSavingThrowModifier(int index) {
+    public ObservableInteger getSavingThrowModifier(int index) {
         return savingThrowModifiers[index];
     }
 
-    public BindingInteger getSkillModifier(int index) {
+    public ObservableInteger getSkillModifier(int index) {
         return skillModifiers[index];
     }
 
@@ -344,7 +350,7 @@ public class GameCharacter {
         return savingThrowProficiencies[index];
     }
 
-    public BindingBoolean getSkillProficiency(int index) {
+    public ObservableBoolean getSkillProficiency(int index) {
         return skillProficiencies[index];
     }
 
@@ -416,6 +422,33 @@ public class GameCharacter {
         );
     }
 
+    private void bindGivenSkills() {
+        // Bind givenSkills to track the total number of skill proficiencies given
+        givenSkills = new BindingInteger(
+            () -> {
+                int total = 0;
+                for (ObservableBoolean skillProficiency : skillProficiencies) {
+                    if (skillProficiency.get()) {
+                        total++;
+                    }
+                }
+                for (ObservableBoolean fixedSkill : fixedSkills) {
+                    if (fixedSkill.get()) {
+                        total--;
+                    }
+                }
+                return total;
+            },
+            skillProficiencies[0], skillProficiencies[1], skillProficiencies[2], skillProficiencies[3], skillProficiencies[4], skillProficiencies[5], skillProficiencies[6], skillProficiencies[7], skillProficiencies[8], skillProficiencies[9], skillProficiencies[10], skillProficiencies[11], skillProficiencies[12], skillProficiencies[13], skillProficiencies[14], skillProficiencies[15], skillProficiencies[16], skillProficiencies[17],
+            fixedSkills[0], fixedSkills[1], fixedSkills[2], fixedSkills[3], fixedSkills[4], fixedSkills[5], fixedSkills[6], fixedSkills[7], fixedSkills[8], fixedSkills[9], fixedSkills[10], fixedSkills[11], fixedSkills[12], fixedSkills[13], fixedSkills[14], fixedSkills[15], fixedSkills[16], fixedSkills[17]
+        );
+        givenSkills.addListener(
+            (newVal) -> {
+                givenSkillsObservable.set(newVal);
+            }
+        );
+    }
+
     private void bindAvailablePlusOne(int index) {
         availablePlusOnes[index] = new BindingBoolean(
             () -> {
@@ -435,10 +468,6 @@ public class GameCharacter {
                 }
             }
         );
-
-        for (int i = 0; i < abilityPlusOnes.length; i++) {
-            abilityPlusOnes[i] = new ObservableBoolean(false);
-        }
     }
 
     private void bindAvailablePlusTwo(int index) {
@@ -460,10 +489,6 @@ public class GameCharacter {
                 }
             }
         );
-
-        for (int i = 0; i < abilityPlusTwos.length; i++) {
-            abilityPlusTwos[i] = new ObservableBoolean(false);
-        }
     }
 
     private void bindAvailablePluses(int index) {
@@ -498,10 +523,28 @@ public class GameCharacter {
         );
     }
 
-    private void bindAvailableSkills() {
-        for (int i = 0; i < availableSkills.length; i++) {
-            availableSkills[i] = new ObservableBoolean(false);
-        }
+    private void bindAvailableSkills(int index) {
+        availableSkills[index] = new BindingBoolean(
+            () -> {
+                String[] possibleSkills = getGroup(new String[] {"classes", classe.get(), "skills"});
+                int maxSkills = getInt(new String[] {"classes", classe.get(), "skills_number"});
+                return Arrays.asList(possibleSkills).contains(skillNames[index])
+                    && !fixedSkills[index].get()
+                    && (givenSkillsObservable.get() < maxSkills || skillProficiencies[index].get())
+                    && givenSkillsObservable.get() <= maxSkills;
+            },
+            classe,
+            fixedSkills[index],
+            givenSkillsObservable
+        );
+
+        availableSkills[index].addListener(
+            (newVal) -> {
+                if (!newVal && skillProficiencies[index].get() && !fixedSkills[index].get()) {
+                    skillProficiencies[index].set(false);
+                }
+            }
+        );
     }
 
     private void bindFixedSkills() {
@@ -540,6 +583,17 @@ public class GameCharacter {
             () -> 
                 (abilities[index].get() - 10) / 2,
             abilities[index]
+        );
+    }
+
+    private void bindSavingThrowProficiencies(int index) {
+        // Bind the savingThrowProficiencies to the corresponding ability
+        savingThrowProficiencies[index] = new BindingBoolean(
+            () -> {
+                String[] possibleSaves = getGroup(new String[] {"classes", classe.get(), "abilities"});
+                return Arrays.asList(possibleSaves).contains(abilityNames[index]);
+            },
+            classe
         );
     }
 
@@ -648,11 +702,14 @@ public class GameCharacter {
 
     private void bindSkillProficiency(int index) {
         // Bind the skillModifier to the corresponding ability
-        skillProficiencies[index] = new BindingBoolean(
-            () ->
-            fixedSkills[index].get() || skillChoices[index].get(),
-            fixedSkills[index],
-            skillChoices[index]
+        skillProficiencies[index] = new BindingBoolean(() -> false);
+
+        fixedSkills[index].addListener(
+            (newVal) -> {
+                if (newVal) {
+                    skillProficiencies[index].set(newVal);
+                }
+            }
         );
     }
 

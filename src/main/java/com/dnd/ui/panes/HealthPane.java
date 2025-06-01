@@ -86,19 +86,19 @@ public class HealthPane extends GridPane {
     public void chooseHealthUI() {
         String healthType = character.getHealthMethod().get();
         
-        if (healthType.equals("MEDIUM_HP")) {
+        if (healthType.equals(getTranslation("MEDIUM_HP"))) {
             add(hpMedium, 2, 0);
         } else {
             getChildren().remove(hpMedium);
         }
 
-        if (healthType.equals("RANDOM")) {
+        if (healthType.equals(getTranslation("RANDOM"))) {
             add(hpRandom, 2, 0);
         } else {
             getChildren().remove(hpRandom);
         }
 
-        if (healthType.equals("CUSTOM_M")) {
+        if (healthType.equals(getTranslation("CUSTOM_M"))) {
             add(hpCustom, 2, 0);
         } else {
             getChildren().remove(hpCustom);

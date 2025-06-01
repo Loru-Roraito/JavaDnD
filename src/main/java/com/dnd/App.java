@@ -185,3 +185,5 @@ public class App extends Application {
 // migliorare la logica di traduzione. Caricare tute le traduzioni subito e salvare il termine originale
 // modificare la struttura delle abilità bonus (niente cose complicate, solamente lista e numero di abilità selezionabili)
 // change male/female logic for translation
+// migliorare custom binding/observable
+// ordinare funzioni

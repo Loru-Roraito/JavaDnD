@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +17,8 @@ public class TranslationManager {
     private JsonNode rootNode;
     private final Properties languageProperties = new Properties();
     public static String language = "it";
+    private final Map<String, String> keyToTranslation = new HashMap<>();
+    private final Map<String, String> translationToKey = new HashMap<>();
 
     private TranslationManager(String language) {
         try (var inputStream = getClass().getClassLoader().getResourceAsStream("translations_" + language + ".properties")) {
@@ -22,6 +26,12 @@ public class TranslationManager {
                 throw new IOException("Resource not found: translations_" + language + ".properties");
             }
             languageProperties.load(new java.io.InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            // Populate the maps
+            for (String key : languageProperties.stringPropertyNames()) {
+                String value = languageProperties.getProperty(key);
+                keyToTranslation.put(key, value);
+                translationToKey.put(value, key);
+            }
         } catch (IOException e) {
             System.err.println("Error: Failed to load translations file: translations_" + language + ".properties");
         }
@@ -86,25 +96,16 @@ public class TranslationManager {
     }
 
     public String getTranslation(String key) {
-        String translation = languageProperties.getProperty(key);
-        if (translation == null) {
-            System.err.println("Warning: Missing translation for key: " + key);
-            return key; // Return the key as a fallback
-        }
-        return translation;
+        return keyToTranslation.getOrDefault(key, key);
+    }
+
+    // Probably unoptimal, UPDATE
+    public String getOriginal(String translation) {
+        return translationToKey.getOrDefault(translation, translation);
     }
 
     public String[] getTranslations(String key) {
         String[] keys = getGroup(new String[] {key});
-        String[] translations = new String[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            translations[i] = getTranslation(keys[i]);
-        }
-        return translations;
-    }
-
-    public String[] getGroupTranslations(String[] key) {
-        String[] keys = getGroup(key);
         String[] translations = new String[keys.length];
         for (int i = 0; i < keys.length; i++) {
             translations[i] = getTranslation(keys[i]);

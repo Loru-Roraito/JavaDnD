@@ -69,11 +69,18 @@
 
   "classes": {
     "NONE_F": {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "BARBARIAN": {
       "hit_die": 12,
+      "abilities": ["STRENGTH", "CONSTITUTION"],
+      "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
+      "skills_number": 2,
       "subclasses":{
         "ONE": {
         },
@@ -84,46 +91,90 @@
       }
     },
     "BARD":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "CLERIC":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "DRUID":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "FIGHTER":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "MONK":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "PALADIN":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "RANGER":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "ROGUE":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "SORCERER":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "WARLOCK":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     },
     "WIZARD":  {
+      "hit_die": 1,
+      "abilities": [],
+      "skills": [],
+      "skills_number": 0,
       "subclasses":{
       }
     }
