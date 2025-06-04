@@ -98,7 +98,7 @@ public class ClassPane extends GridPane {
             }
 
             // Dynamically add or remove the subclass elements
-            if (subclasses.isEmpty()) {
+            if (subclasses.isEmpty() || subclasses.size() == 1 && subclasses.get(0).equals(getTranslation("RANDOM"))) {
                 getChildren().removeAll(subclassLabel, subclassComboBox); // Remove from GridPane
             } else {
                 if (!getChildren().contains(subclassLabel)) {

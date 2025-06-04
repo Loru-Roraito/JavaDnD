@@ -82,11 +82,13 @@
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "subclasses":{
-        "ONE": {
+        "BERSERKER": {
         },
-        "TWO": {
+        "WILD_HEART": {
         },
-        "THREE": {
+        "WORLD_TREE": {
+        },
+        "ZEALOT": {
         }
       }
     },

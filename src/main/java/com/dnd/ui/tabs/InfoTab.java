@@ -6,12 +6,16 @@ import com.dnd.ViewModel;
 import com.dnd.ui.panes.AbilitiesPane;
 import com.dnd.ui.panes.ClassPane;
 import com.dnd.ui.panes.CustomizationPane;
+import com.dnd.ui.panes.EquipmentPane;
 import com.dnd.ui.panes.HealthPane;
 import com.dnd.ui.panes.ParametersPane;
+import com.dnd.ui.panes.ProficienciesPane;
+import com.dnd.ui.panes.SystemPane;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
@@ -34,10 +38,10 @@ public class InfoTab extends Tab {
         addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
         addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 2, 2);
-        //GridPane proficiencies = createTitledPane("PROFICIENCIES", 0, 3, 3, 1);
-        //GridPane equipment = createTitledPane("EQUIPMENT", 3, 3, 1, 1);
-        //GridPane system = createTitledPane("SYSTEM", 3, 0, 1, 3);
-        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 4, 0, 1, 4);
+        addTitledPane("PROFICIENCIES", new ProficienciesPane(), 0, 3, 2, 1);
+        addTitledPane("EQUIPMENT", new EquipmentPane(), 2, 3, 2, 1);
+        addTitledPane("SYSTEM", new SystemPane(), 3, 0, 1, 1);
+        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 0, 4, 4, 1);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text
@@ -48,7 +52,12 @@ public class InfoTab extends Tab {
     }
 
     private void addTitledPane(String title, GridPane pane, int row, int column, int rowSpan, int columnSpan) {
-        TooltipTitledPane titledPane = new TooltipTitledPane(getTranslation(title), pane);
+        // Wrap the pane in a ScrollPane
+        ScrollPane scrollPane = new ScrollPane(pane);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        TooltipTitledPane titledPane = new TooltipTitledPane(getTranslation(title), scrollPane);
         gridPane.add(titledPane, column, row);
         GridPane.setRowSpan(titledPane, rowSpan);
         GridPane.setColumnSpan(titledPane, columnSpan);
