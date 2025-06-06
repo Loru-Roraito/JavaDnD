@@ -37,6 +37,72 @@ public class DefinitionManager {
         return instance;
     }
 
+    public void fillTextFlow(TextFlow textFlow, String definition, TabPane mainTabPane, String text) {
+        // Split the definition into lines by \n
+        String[] lines = definition.split("\n");
+        Boolean isFirstLine = true; // Flag to check if it's the first line
+        for (String line : lines) {
+            if (isFirstLine) {
+                isFirstLine = false; // Set the flag to false after the first line
+            } else {
+                // Add a newline before each subsequent line
+                textFlow.getChildren().add(new Text("\n"));
+            }
+
+            // Split each line into words and process each word
+            String[] tokens = line.split("(?=[.,;!?])|(?<=[.,;!?])");
+            for (String token : tokens) {
+                String[] subTokens = token.split("(?=[\\s+])|(?<=[\\s+])");
+
+                for (int j = 0; j < subTokens.length; j++) {
+                    String subToken = subTokens[j]; // Trim whitespace from the token
+                    Text wordText = new Text(subToken); // Create a Text node for the word
+                    // Check if the token is a word (not just punctuation or whitespace)
+                    if (subToken.matches("\\w+")) { // Matches words (alphanumeric characters)
+                        definition = "";
+
+                        if (j + 4 < subTokens.length) {
+                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]), "");
+                            if (definition != null && !definition.isEmpty()) {
+                                wordText.setText(subToken.concat(" ").concat(subTokens[j+2]).concat(" ").concat(subTokens[j+4]));
+                                j+=4;
+                            }
+                        }
+                        if(definition == null || definition.isEmpty() && j + 2 < subTokens.length) {
+                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]), "");
+                            if (definition != null && !definition.isEmpty()) {
+                                wordText.setText(subToken.concat(" ").concat(subTokens[j+2]));
+                                j+=2;
+                            }
+                        }
+                        if(definition == null || definition.isEmpty()) {
+                            definition = definitions.getProperty(subToken, "");
+                        }
+
+                        String newerDefinition = definitions.getProperty(definition, "");
+                        String newText = subToken;
+                        if (newerDefinition != null && !newerDefinition.isEmpty()) {
+                            newText = definition;
+                            definition =  newerDefinition; // Update the definition if a new one is found
+                        }
+
+                        if (definition != null && !definition.isEmpty() && !newText.equals(text) && !subToken.equals(text)) {
+                            // Use a final variable to capture the value of newText for the lambda
+                            final String clickableText = newText;
+
+                            // Underline the word and make it clickable
+                            wordText.setStyle("-fx-underline: true; -fx-fill: blue; -fx-cursor: hand;");
+                            wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
+                        }
+                    }
+
+                    // Add the word and the space to the TextFlow
+                    textFlow.getChildren().add(wordText);
+                }
+            }
+        }
+    }
+
     // Open a new tab with the definition of the word
     public void openDefinitionTab(String text, TabPane mainTabPane) {
         String definition = definitions.getProperty(text, "");
@@ -61,64 +127,7 @@ public class DefinitionManager {
             // Create a TextFlow to hold the definition text
             TextFlow textFlow = new TextFlow();
 
-            // Split the definition into lines by \n
-            String[] lines = definition.split("\n");
-            for (String line : lines) {
-                // Split each line into words and process each word
-                String[] tokens = line.split("(?=[.,;!?])|(?<=[.,;!?])");
-                for (String token : tokens) {
-                    String[] subTokens = token.split("(?=[\\s+])|(?<=[\\s+])");
-
-                    for (int j = 0; j < subTokens.length; j++) {
-                        String subToken = subTokens[j]; // Trim whitespace from the token
-                        Text wordText = new Text(subToken); // Create a Text node for the word
-                        // Check if the token is a word (not just punctuation or whitespace)
-                        if (subToken.matches("\\w+")) { // Matches words (alphanumeric characters)
-                            definition = "";
-
-                            if (j + 4 < subTokens.length) {
-                                definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]), "");
-                                if (definition != null && !definition.isEmpty()) {
-                                    wordText.setText(subToken.concat(" ").concat(subTokens[j+2]).concat(" ").concat(subTokens[j+4]));
-                                    j+=4;
-                                }
-                            }
-                            if(definition == null || definition.isEmpty() && j + 2 < subTokens.length) {
-                                definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]), "");
-                                if (definition != null && !definition.isEmpty()) {
-                                    wordText.setText(subToken.concat(" ").concat(subTokens[j+2]));
-                                    j+=2;
-                                }
-                            }
-                            if(definition == null || definition.isEmpty()) {
-                                definition = definitions.getProperty(subToken, "");
-                            }
-
-                            newDefinition = definitions.getProperty(definition, "");
-                            String newText = subToken;
-                            if (newDefinition != null && !newDefinition.isEmpty()) {
-                                newText = definition;
-                                definition =  newDefinition; // Update the definition if a new one is found
-                            }
-
-                            if (definition != null && !definition.isEmpty() && !newText.equals(text) && !subToken.equals(text)) {
-                                // Use a final variable to capture the value of newText for the lambda
-                                final String clickableText = newText;
-
-                                // Underline the word and make it clickable
-                                wordText.setStyle("-fx-underline: true; -fx-fill: blue; -fx-cursor: hand;");
-                                wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
-                            }
-                        }
-
-                        // Add the word and the space to the TextFlow
-                        textFlow.getChildren().add(wordText);
-                    }
-                }
-
-                // Add a newline after each line
-                textFlow.getChildren().add(new Text("\n"));
-            }
+            fillTextFlow(textFlow, definition, mainTabPane, text);
 
             VBox centeredBox = new VBox(textFlow);
             centeredBox.setAlignment(Pos.CENTER); // Center the TextFlow horizontally and vertically

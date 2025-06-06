@@ -1,8 +1,8 @@
 package com.dnd.characters;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import com.dnd.TranslationManager;
 import com.dnd.utils.BindingBoolean;
@@ -30,7 +30,8 @@ public class GameCharacter {
     private final ObservableString[] availableLineages;
     private final ObservableString[] abilityBasesShown;
     
-    private final Map<ObservableString, Integer> passives;
+    private final List<ObservableString> actives;
+    private final List<ObservableString> passives;
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses; 
@@ -199,7 +200,10 @@ public class GameCharacter {
         bindHitDie();
         bindHealth();
 
-        passives = new HashMap<>();
+        actives = new ArrayList<>();
+        bindActives();
+
+        passives = new ArrayList<>();
         bindPassives();
     }
 
@@ -243,6 +247,10 @@ public class GameCharacter {
 
     public ObservableString getLevelShown() {
         return levelShown;
+    }
+
+    public ObservableInteger getLevel() {
+        return level;
     }
 
     public ObservableString getClasse() {
@@ -361,17 +369,21 @@ public class GameCharacter {
         return skillProficiencies[index];
     }
 
-    public Map<ObservableString, Integer> getPassives() {
+    public List<ObservableString> getActives() {
+        return actives;
+    }
+
+    public List<ObservableString> getPassives() {
         return passives;
     }
 
     // Binders
 
     private void bindAvailableSubclasses() {
-        // Listen for changes to the 'classe' property and update availableSubclasses accordingly
-        classe.addListener(
-            (newVal) -> {
-                String[] subclasses = getGroup(new String[] {"classes", newVal, "subclasses"});
+    // Listen for changes to the 'classe' property and update availableSubclasses accordingly
+        Runnable updateSubclasses = () -> {
+            if (level.get() >= 3) {
+                String[] subclasses = getGroup(new String[] {"classes", classe.get(), "subclasses"});
                 for (int i = 0; i < availableSubclasses.length; i++) {
                     if (subclasses != null && i < subclasses.length) {
                         availableSubclasses[i].set(subclasses[i]);
@@ -379,12 +391,23 @@ public class GameCharacter {
                         availableSubclasses[i].set("");
                     }
                 }
+            } else {
+                // If level < 3, clear all subclasses
+                for (ObservableString availableSubclass : availableSubclasses) {
+                    availableSubclass.set("");
+                }
             }
-        );
+        };
+
+        classe.addListener(_ -> updateSubclasses.run());
+        level.addListener(_ -> updateSubclasses.run());
 
         for (int i = 0; i < availableSubclasses.length; i++) {
             availableSubclasses[i] = new ObservableString("");
         }
+
+        // Initial population
+        updateSubclasses.run();
     }
 
     private void bindAvailableLineages() {
@@ -727,11 +750,7 @@ public class GameCharacter {
     private void bindSpeed() {
         speed = new BindingInteger(
             () -> {
-                int baseSpeed = getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "speed"});
-                if (baseSpeed > 0) {
-                    return baseSpeed; // If speed is defined in the lineage, use that, otherwise use the species' value
-                }
-                baseSpeed  = getInt(new String[] {"species", species.get(), "speed"});
+                int baseSpeed  = getInt(new String[] {"species", species.get(), "speed"});
                 if (baseSpeed > 0) {
                     return baseSpeed;
                 }
@@ -745,11 +764,8 @@ public class GameCharacter {
     private void bindDarkvision() {
         darkvision = new BindingInteger(
             () -> {
-                int baseDarkvision = getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "darkvision"});
-                if (baseDarkvision > 0) {
-                    return baseDarkvision; // If darkvision is defined in the lineage, use that, otherwise use the species' value
-                }
-                return getInt(new String[] {"species", species.get(), "darkvision"});
+                int baseDarkvision = getInt(new String[] {"species", species.get(), "darkvision"});
+                return baseDarkvision; // If darkvision is defined in the lineage, use that, otherwise use the species' value
             },
             species,
             lineage
@@ -869,26 +885,63 @@ public class GameCharacter {
         });
     }
 
-    private void bindPassives() {
-        Runnable updatePassives = () -> {
-            passives.clear();
-            String[] passiveNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "passives"});
-            if (passiveNames != null) {
-                for (String passive : passiveNames) {
-                    passives.put(new ObservableString(passive), getInt(new String[] {"species", species.get(), "passives", passive}));
+    private void bindActives() { // Whenever this gets updated, you need to also update the equivalent in ViewModel
+        Runnable updateActives = () -> {
+            actives.clear(); // Keep the list in sync
+            String[] activeNames = getGroup(new String[] {"species", species.get(), "actives"});
+            if (activeNames != null) {
+                for (String active : activeNames) {
+                    if (level.get() >= getInt(new String[] {"species", species.get(), "actives", active})) {
+                        actives.add(new ObservableString(active));
+                    }
                 }
             }
 
-            passiveNames = getGroup(new String[] {"species", species.get(), "passives"});
-            if (passiveNames != null) {
-                for (String passive : passiveNames) {
-                    passives.put(new ObservableString(passive), getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "passives", passive}));
+            activeNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "actives"});
+            if (activeNames != null) {
+                for (String active : activeNames) {
+                    if (level.get() >= getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "actives", active})) {
+                        actives.add(new ObservableString(active));
+                    }
                 }
             }
         };
 
+
+
+        species.addListener(_ -> updateActives.run());
+        lineage.addListener(_ -> updateActives.run());
+        level.addListener(_ -> updateActives.run());
+        updateActives.run();
+    }
+
+    private void bindPassives() { // Whenever this gets updated, you need to also update the equivalent in ViewModel
+        Runnable updatePassives = () -> {
+            passives.clear(); // Keep the list in sync
+            String[] passiveNames = getGroup(new String[] {"species", species.get(), "passives"});
+            if (passiveNames != null) {
+                for (String passive : passiveNames) {
+                    if (level.get() >= getInt(new String[] {"species", species.get(), "passives", passive})) {
+                        passives.add(new ObservableString(passive));
+                    }
+                }
+            }
+
+            passiveNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "passives"});
+            if (passiveNames != null) {
+                for (String passive : passiveNames) {
+                    if (level.get() >= getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "passives", passive})) {
+                        passives.add(new ObservableString(passive));
+                    }
+                }
+            }
+        };
+
+
+
         species.addListener(_ -> updatePassives.run());
         lineage.addListener(_ -> updatePassives.run());
+        level.addListener(_ -> updatePassives.run());
         updatePassives.run();
     }
 

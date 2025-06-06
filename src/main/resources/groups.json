@@ -82,146 +82,320 @@
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "subclasses":{
-        "BERSERKER": {
+        "PATH_OF_THE_BERSERKER": {
         },
-        "WILD_HEART": {
+        "PATH_OF_THE_WILD_HEART": {
         },
-        "WORLD_TREE": {
+        "PATH_OF_THE_WORLD_TREE": {
         },
-        "ZEALOT": {
+        "PATH_OF_THE_ZEALOT": {
         }
       }
     },
     "BARD":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["DEXTERITY", "CHARISMA"],
+      "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ARCANA", "ATHLETICS", "DECEPTION", "HISTORY", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "MEDICINE", "NATURE", "PERCEPTION", "PERFORMANCE", "PERSUASION", "RELIGION", "SLEIGHT_OF_HAND", "STEALTH", "SURVIVAL"],
+      "skills_number": 3,
       "subclasses":{
+        "COLLEGE_OF_DANCE": {
+        },
+        "COLLEGE_OF_GLAMOUR": {
+        },
+        "COLLEGE_OF_LORE": {
+        },
+        "COLLEGE_OF_VALOR": {
+        }
       }
     },
     "CLERIC":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["WISDOM", "CHARISMA"],
+      "skills": ["HISTORY", "INSIGHT", "MEDICINE", "PERSUASION", "RELIGION"],
+      "skills_number": 2,
       "subclasses":{
+        "LIFE_DOMAIN": {
+        },
+        "LIGHT_DOMAIN": {
+        },
+        "TRICKERY_DOMAIN": {
+        },
+        "WAR_DOMAIN": {
+        }
       }
     },
     "DRUID":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["INTELLIGENCE", "WISDOM"],
+      "skills": ["ARCANA", "ANIMAL_HANDLING", "INSIGHT", "MEDICINE", "NATURE", "PERCEPTION", "RELIGION", "SURVIVAL"],
+      "skills_number": 2,
       "subclasses":{
+        "CIRCLE_OF_THE_LAND": {
+        },
+        "CIRCLE_OF_THE_MOON": {
+        },
+        "CIRCLE_OF_THE_SEA": {
+        },
+        "CIRCLE_OF_THE_STARS": {
+        }
       }
     },
     "FIGHTER":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 10,
+      "abilities": ["STRENGTH", "CONSTITUTION"],
+      "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ATHLETICS", "HISTORY", "INSIGHT", "INTIMIDATION", "PERSUASION", "PERCEPTION", "SURVIVAL"],
+      "skills_number": 2,
       "subclasses":{
+        "BATTLE_MASTER": {
+        },
+        "CHAMPION": {
+        },
+        "ELDRITCH_KNIGHT": {
+        },
+        "PSI_WARRIOR": {
+        }
       }
     },
     "MONK":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "skills": ["ACROBATICS", "ATHLETICS", "HISTORY", "INSIGHT", "PERCEPTION", "STEALTH"],
+      "skills_number": 2,
       "subclasses":{
+        "WARRIOR_OF_MERCY": {
+        },
+        "WARRIOR_OF_SHADOW": {
+        },
+        "WARRIOR_OF_THE_ELEMENTS": {
+        },
+        "WARRIOR_OF_THE_OPEN_HAND": {
+        }
       }
     },
     "PALADIN":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 10,
+      "abilities": ["WISDOM", "CHARISMA"],
+      "skills": ["ATHLETICS", "INSIGHT", "INTIMIDATION", "MEDICINE", "PERSUASION", "RELIGION"],
+      "skills_number": 2,
       "subclasses":{
+        "OATH_OF_DEVOTION": {
+        },
+        "OATH_OF_GLORY": {
+        },
+        "OATH_OF_THE_ANCIENTS": {
+        },
+        "OATH_OF_VENGEANCE": {
+        }
       }
     },
     "RANGER":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 10,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INSIGHT", "INVESTIGATION", "NATURE", "PERCEPTION", "STEALTH", "SURVIVAL"],
+      "skills_number": 3,
       "subclasses":{
+        "BEAST_MASTER": {
+        },
+        "FEY_WANDERER": {
+        },
+        "GLOOM_STALKER": {
+        },
+        "HUNTER": {
+        }
       }
     },
     "ROGUE":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["DEXTERITY", "INTELLIGENCE"],
+      "skills": ["ACROBATICS", "ATHLETICS", "DECEPTION", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "PERCEPTION", "PERSUASION", "SLEIGHT_OF_HAND", "STEALTH"],
+      "skills_number": 4,
       "subclasses":{
+        "ARCANE_TRICKSTER": {
+        },
+        "ASSASSIN": {
+        },
+        "SOULKNIFE": {
+        },
+        "THIEF": {
+        }
       }
     },
     "SORCERER":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 6,
+      "abilities": ["CONSTITUTION", "CHARISMA"],
+      "skills": ["ARCANA", "DECEPTION", "INSIGHT", "INTIMIDATION", "PERSUASION", "RELIGION"],
+      "skills_number": 2,
       "subclasses":{
+        "ABERRANT_SORCERY": {
+        },
+        "CLOCKWORK_SORCERY": {
+        },
+        "DRACONIC_SORCERY": {
+        },
+        "WILD_MAGIC_SORCERY": {
+        }
       }
     },
     "WARLOCK":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 8,
+      "abilities": ["WISDOM", "CHARISMA"],
+      "skills": ["ARCANA", "DECEPTION", "HISTORY", "INTIMIDATION", "INVESTIGATION", "NATURE", "RELIGION"],
+      "skills_number": 2,
       "subclasses":{
+        "ARCHFEY_PATRON": {
+        },
+        "CELESTIAL_PATRON": {
+        },
+        "FIEND_PATRON": {
+        },
+        "GREAT_OLD_ONE_PATRON": {
+        }
       }
     },
     "WIZARD":  {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
+      "hit_die": 6,
+      "abilities": ["INTELLIGENCE", "WISDOM"],
+      "skills": ["ARCANA", "HISTORY", "INSIGHT", "INVESTIGATION", "MEDICINE", "NATURE", "RELIGION"],
+      "skills_number": 2,
       "subclasses":{
+        "ABJURER": {
+        },
+        "DIVINER": {
+        },
+        "EVOKER": {
+        },
+        "ILLUSIONIST": {
+        }
       }
     }
   },
+
+  "common_languages": [
+    "COMMON",
+    "COMMON_SIGN_LANGUAGE",
+    "DRACONIC",
+    "DWARVISH",
+    "ELVISH",
+    "GIANT",
+    "GNOMISH",
+    "GOBLIN",
+    "HALFLING",
+    "ORC"
+  ],
+
+  "rare_languages": [
+    "ABYSSAL",
+    "CELESTIAL",
+    "DEEP_SPEECH",
+    "DRUIDIC",
+    "INFERNAL",
+    "PRIMORDIAL",
+    "SYLVAN",
+    "THIEVES_CANT",
+    "UNDERCOMMON"
+  ],
 
   "max_lineages": 10,
 
   "species": {
     "AASIMAR": {
-      "speed": 30,
       "darkvision": 60,
-      "lineages": [
-      ]
+      "type": "HUMANOID",
+      "size": ["SMALL", "MEDIUM"],
+
+      "passives": {
+        "CELESTIAL_RESISTENCE": 0,
+        "LIGHT_BEARER": 0
+      },
+      "actives": {
+        "HEALING_HANDS": 0,
+        "CELESTIAL_REVELATION": 3
+      }
     },
     "DRAGONBORN": {
-      "speed": 30,
       "darkvision": 60,
+      "type": "HUMANOID",
+      "size": "MEDIUM",
+      "actives": {
+        "BREATH_WEAPON": 0,
+        "DRACONIC_FLIGHT": 5
+      },
+      "passives": {
+        "DRACONIC_ANCESTRY": 0
+      },
       "lineages": {
         "SILVER_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_SILVER": 0,
+            "BREATH_WEAPON_SILVER": 0
+          }
         },
         "WHITE_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_WHITE": 0,
+            "BREATH_WEAPON_WHITE": 0
+          }
         },
         "BLUE_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_BLUE": 0,
+            "BREATH_WEAPON_BLUE": 0
+          }
         },
         "BRONZE_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_BRONZE": 0,
+            "BREATH_WEAPON_BRONZE": 0
+          }
         },
         "BLACK_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_BLACK": 0,
+            "BREATH_WEAPON_BLACK": 0
+          }
         },
         "GOLD_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_GOLD": 0,
+            "BREATH_WEAPON_GOLD": 0
+          }
         },
         "BRASS_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_BRASS": 0,
+            "BREATH_WEAPON_BRASS": 0
+          }
         },
         "COPPER_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_COPPER": 0,
+            "BREATH_WEAPON_COPPER": 0
+          }
         },
         "RED_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_RED": 0,
+            "BREATH_WEAPON_RED": 0
+          }
         },
         "GREEN_DRAGONBORN": {
+          "passives": {
+            "DAMAGE_RESISTANCE_GREEN": 0,
+            "BREATH_WEAPON_GREEN": 0
+          }
         }
       }
     },
     "DWARF": {
-      "speed": 30,
       "darkvision": 120,
+      "type": "HUMANOID",
+      "size": "MEDIUM",
       "passives": {
-        "DWARVEN_RESILIENCE": 0
+        "DWARVEN_RESILIENCE": 0,
+        "DWARVEN_TOUGHNESS": 0
+      },
+      "actives":{
+        "STONECUNNING": 0
       },
       "lineages": {
         "MOUNTAIN_DWARF": {
@@ -231,53 +405,115 @@
       }
     },
     "ELF": {
-      "speed": 30,
       "darkvision": 60,
+      "type": "HUMANOID",
+      "size": "MEDIUM",
       "passives":{
-        "TRANCE": 0
+        "TRANCE": 0,
+        "FEY_ANCESTRY": 0,
+        "KEEN_SENSES": 0,
+        "ELVEN_LINEAGE": 0
       },
       "lineages": {
         "HIGH_ELF": {
+          "passives": {
+            "HIGH_ELF_1": 1,
+            "HIGH_ELF_3": 3,
+            "HIGH_ELF_5": 5
+          }
         },
         "WOOD_ELF":{
-          "speed": 35
+          "passives": {
+            "WOOD_ELF_1": 1,
+            "WOOD_ELF_3": 3,
+            "WOOD_ELF_5": 5
+          }
         },
         "DROW": {
-          "darkvision": 120
+          "passives": {
+            "DROW_1": 1,
+            "DROW_3": 3,
+            "DROW_5": 5
+          }
         }
       }
     },
     "GNOME": {
-      "speed": 30,
       "darkvision": 60,
+      "type": "HUMANOID",
+      "size": "SMALL",
+      "passives":{
+        "GNOMISH_CUNNING": 0,
+        "GNOMISH_LINEAGE": 0
+      },
       "lineages": {
         "FOREST_GNOME": {
+          "passives": {
+            "FOREST_GNOME": 0
+          }
         },
         "ROCK_GNOME": {
+          "passives": {
+            "ROCK_GNOME": 0
+          }
         }
       }
     },
     "GOLIATH": {
       "speed": 35,
-      "darkvision": 0,
+      "type": "HUMANOID",
+      "size": "MEDIUM",
+      "actives": {
+        "LARGE_FORM": 5
+      },
+      "passives": {
+        "POWEFRFUL_BUILD": 0,
+        "GIANT_ANCESTRY": 0
+      },
       "lineages": {
         "CLOUD_GIANT": {
+          "passives": {
+            "CLOUDS_JAUNT": 0
+          }
         },
         "FIRE_GIANT": {
+          "passives": {
+            "FIRES_BURN": 0
+          }
         },
         "FROST_GIANT": {
+          "passives": {
+            "FROSTS_CHILL": 0
+          }
         },
         "HILL_GIANT": {
+          "passives": {
+            "HILLS_TUMBLE": 0
+          }
         },
         "STONE_GIANT": {
+          "passives": {
+            "STONES_ENDURANCE": 0
+          }
         },
         "STORM_GIANT": {
+          "passives": {
+            "STORMS_THUNDER": 0
+          }
         }
       }
     },
     "HALFLING": {
-      "speed": 30,
-      "darkvision": 0,
+      "type": "HUMANOID",
+      "size": "SMALL",
+      "passives": {
+        "BRAVE": 0,
+        "HALFLING_NIMBLENESS": 0,
+        "NATURALLY_STEALTHY": 0
+      },
+      "actives": {
+        "LUCK": 0
+      },
       "lineages": {
         "LIGHTFOOT_HALFLING": {
         },
@@ -286,8 +522,13 @@
       }
     },
     "HUMAN": {
-      "speed": 30,
-      "darkvision": 0,
+      "type": "HUMANOID",
+      "size": ["SMALL", "MEDIUM"],
+      "passives": {
+        "RESOURCEFUL": 0,
+        "SKILLFUL": 0,
+        "VERSATILE_PASSIVE": 0
+      },
       "lineages": {
         "CALISHITA": {
         },
@@ -310,20 +551,43 @@
       }
     },
     "ORC": {
-      "speed": 30,
       "darkvision": 120,
-      "lineages": {
+      "type": "HUMANOID",
+      "size": "MEDIUM",
+      "actives": {
+        "ADRENALINE_RUSH": 0,
+        "RELENTLESS_ENDURANCE": 0
       }
     },
     "TIEFLING": {
-      "speed": 30,
       "darkvision": 60,
+      "type": "HUMANOID",
+      "size": "MEDIUM",
+      "passives": {
+        "FIENDISH_LEGACY": 0,
+        "OTHERWORLDLY_PRESENCE": 0
+      },
       "lineages": {
         "ABYSSAL_TIEFLING": {
+          "passives": {
+            "ABYSSAL_TIEFLING_1": 1,
+            "ABYSSAL_TIEFLING_3": 3,
+            "ABYSSAL_TIEFLING_5": 5
+          }
         },
         "CHTONIC_TIEFLING": {
+          "passives": {
+            "CHTONIC_TIEFLING_1": 1,
+            "CHTONIC_TIEFLING_3": 3,
+            "CHTONIC_TIEFLING_5": 5
+          }
         },
         "INFERNAL_TIEFLING": {
+          "passives": {
+            "INFERNAL_TIEFLING_1": 1,
+            "INFERNAL_TIEFLING_3": 3,
+            "INFERNAL_TIEFLING_5": 5
+          }
         }
       }
     }

@@ -1,7 +1,5 @@
 package com.dnd;
 
-import java.util.Map;
-
 import com.dnd.characters.GameCharacter;
 import com.dnd.utils.Constants;
 import com.dnd.utils.ObservableBoolean;
@@ -17,7 +15,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 public class ViewModel {
     private final StringProperty name;
     private final StringProperty gender;
@@ -58,7 +56,8 @@ public class ViewModel {
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
     
-    private final ObservableMap<StringProperty, Integer> passives;
+    private final ObservableList<StringProperty> actives;
+    private final ObservableList<StringProperty> passives;
 
     public ViewModel(GameCharacter backend) {
         this.name = new SimpleStringProperty(getTranslation(backend.getName().get()));
@@ -223,19 +222,38 @@ public class ViewModel {
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
 
-        this.passives = FXCollections.observableHashMap();
+        this.actives = FXCollections.observableArrayList();
 
-        // Helper to update the passives map
+        // Helper to update the actives list
+        Runnable updateActives = () -> {
+            this.actives.clear();
+            for (ObservableString key : backend.getActives()) {
+                this.actives.add(new SimpleStringProperty(getTranslation(key.get())));
+            }
+        };
+
+        // Listen for backend actives changes
+        backend.getSpecies().addListener(_ -> updateActives.run());
+        backend.getLineage().addListener(_ -> updateActives.run());
+        backend.getLevel().addListener(_ -> updateActives.run());
+
+        // Initialize once at construction
+        updateActives.run();
+
+        this.passives = FXCollections.observableArrayList();
+
+        // Helper to update the passives list
         Runnable updatePassives = () -> {
             this.passives.clear();
-            for (Map.Entry<ObservableString, Integer> entry : backend.getPassives().entrySet()) {
-                this.passives.put(new SimpleStringProperty(getTranslation(entry.getKey().get())), entry.getValue());
+            for (ObservableString key : backend.getPassives()) {
+                this.passives.add(new SimpleStringProperty(getTranslation(key.get())));
             }
         };
 
         // Listen for backend passives changes
         backend.getSpecies().addListener(_ -> updatePassives.run());
         backend.getLineage().addListener(_ -> updatePassives.run());
+        backend.getLevel().addListener(_ -> updatePassives.run());
 
         // Initialize once at construction
         updatePassives.run();
@@ -273,12 +291,12 @@ public class ViewModel {
 
     // Getters for all properties
 
-    public ObservableMap<StringProperty, Integer> getPassives() {
-        return passives;
+    public ObservableList<StringProperty> getActives() {
+        return actives;
     }
 
-    public StringProperty[] getPassivesNames() {
-        return passives.keySet().toArray(StringProperty[]::new);
+    public ObservableList<StringProperty> getPassives() {
+        return passives;
     }
 
     public StringProperty getName() {

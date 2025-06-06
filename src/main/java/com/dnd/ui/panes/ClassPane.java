@@ -75,28 +75,8 @@ public class ClassPane extends GridPane {
 
         // Listen for ComboBox changes (Translated → English)
         levelComboBox.valueProperty().bindBidirectional(character.getLevelShown());
-
-        // Update the subclasses based on the selected class
-        classComboBox.valueProperty().addListener((_, _, newVal) -> {
-            // Get the original key for the selected class
-            if (newVal != null && !newVal.equals(getTranslation("RANDOM"))) {
-
-                if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
-                    levels.clear();
-                } else if (levels.isEmpty()) {
-                    // Add "RANDOM" as the first item
-                    levels.add(getTranslation("RANDOM"));
-                    levelComboBox.valueProperty().set(getTranslation("RANDOM"));
-            
-                    // Add levels from 1 to 20
-                    for (int i = 1; i <= 20; i++) {
-                        levels.add(String.valueOf(i));
-                    }
-                }
-            } else {
-                levels.clear();
-            }
-
+        
+        Runnable updateSubclasses = () -> {
             // Dynamically add or remove the subclass elements
             if (subclasses.isEmpty() || subclasses.size() == 1 && subclasses.get(0).equals(getTranslation("RANDOM"))) {
                 getChildren().removeAll(subclassLabel, subclassComboBox); // Remove from GridPane
@@ -119,6 +99,34 @@ public class ClassPane extends GridPane {
                     add(levelComboBox, 0, 5); // Add back to GridPane
                 }
             }
+        };
+
+        // Update the subclasses based on the selected class
+        classComboBox.valueProperty().addListener((_, _, newVal) -> {
+            // Get the original key for the selected class
+            if (newVal != null && !newVal.equals(getTranslation("RANDOM"))) {
+
+                if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
+                    levels.clear();
+                } else if (levels.isEmpty()) {
+                    // Add "RANDOM" as the first item
+                    levels.add(getTranslation("RANDOM"));
+                    levelComboBox.valueProperty().set(getTranslation("RANDOM"));
+            
+                    // Add levels from 1 to 20
+                    for (int i = 1; i <= 20; i++) {
+                        levels.add(String.valueOf(i));
+                    }
+                }
+            } else {
+                levels.clear();
+            }
+
+            updateSubclasses.run();
+        });
+
+        levelComboBox.valueProperty().addListener((_, _, _) -> {
+            updateSubclasses.run();
         });
 
         getChildren().removeAll(subclassLabel, subclassComboBox, levelLabel, levelComboBox); // Initially remove specific elements

@@ -52,14 +52,14 @@ public class App extends Application {
         double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
         // Scale the TabPane based on screen size
-        mainTabPane.setPrefWidth(screenWidth * 0.8);
+        mainTabPane.setPrefWidth(screenWidth * 0.9);
         mainTabPane.setPrefHeight(screenHeight * 0.75);
 
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         // Bind font size to the width of the scene
         scene.widthProperty().addListener((_, _, newVal) -> {
-            double fontSize = newVal.doubleValue() / 130; // Adjust divisor for scaling
+            double fontSize = newVal.doubleValue() / 150; // Adjust divisor for scaling
             root.setStyle("-fx-font-size: " + fontSize + "px;");
         });
 
@@ -192,3 +192,4 @@ public class App extends Application {
 // sistemare bene la questione del lignaggio degli gnomi/elfi. Voglio scrivere esplicitamente dei trucchetti posseduti
 // custom observableMap, mi sembra la cosa più comoda
 // sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
+// riordinare elementi in comboBox
