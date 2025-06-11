@@ -33,15 +33,15 @@ public class InfoTab extends Tab {
 
         // Add subareas to the grid
         AbilitiesPane abilitiesPane = new AbilitiesPane(character, mainTabPane, this);
-        addTitledPane("ABILITIES_AND_SKILLS", abilitiesPane, 0, 0, 3, 1);
+        addTitledPane("ABILITIES_AND_SKILLS", abilitiesPane, 0, 0, 4, 1);
         HealthPane healthPane = new HealthPane(character, mainTabPane, this);
         addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
-        addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
-        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 2, 2);
-        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, gridPane, mainTabPane), 0, 3, 2, 1);
-        addTitledPane("EQUIPMENT", new EquipmentPane(), 2, 3, 2, 1);
-        addTitledPane("SYSTEM", new SystemPane(), 3, 0, 1, 1);
-        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 0, 4, 4, 1);
+        addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 3, 1);
+        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 3, 1, 2, 2);
+        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, gridPane, mainTabPane), 0, 3, 3, 1);
+        addTitledPane("EQUIPMENT", new EquipmentPane(), 3, 3, 2, 1);
+        addTitledPane("SYSTEM", new SystemPane(), 4, 0, 1, 1);
+        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 2, 1, 1, 1);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text
@@ -54,8 +54,7 @@ public class InfoTab extends Tab {
     private void addTitledPane(String title, GridPane pane, int row, int column, int rowSpan, int columnSpan) {
         // Wrap the pane in a ScrollPane
         ScrollPane scrollPane = new ScrollPane(pane);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         TooltipTitledPane titledPane = new TooltipTitledPane(getTranslation(title), scrollPane);
         gridPane.add(titledPane, column, row);

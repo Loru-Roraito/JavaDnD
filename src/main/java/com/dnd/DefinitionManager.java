@@ -60,18 +60,21 @@ public class DefinitionManager {
                     // Check if the token is a word (not just punctuation or whitespace)
                     if (subToken.matches("\\w+")) { // Matches words (alphanumeric characters)
                         definition = "";
+                        String newText = subToken;
 
                         if (j + 4 < subTokens.length) {
                             definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]), "");
                             if (definition != null && !definition.isEmpty()) {
-                                wordText.setText(subToken.concat(" ").concat(subTokens[j+2]).concat(" ").concat(subTokens[j+4]));
+                                newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
+                                wordText.setText(newText.replace("_", " "));
                                 j+=4;
                             }
                         }
                         if(definition == null || definition.isEmpty() && j + 2 < subTokens.length) {
                             definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]), "");
                             if (definition != null && !definition.isEmpty()) {
-                                wordText.setText(subToken.concat(" ").concat(subTokens[j+2]));
+                                newText = subToken.concat("_").concat(subTokens[j+2]);
+                                wordText.setText(newText.replace("_", " "));
                                 j+=2;
                             }
                         }
@@ -80,10 +83,9 @@ public class DefinitionManager {
                         }
 
                         String newerDefinition = definitions.getProperty(definition, "");
-                        String newText = subToken;
                         if (newerDefinition != null && !newerDefinition.isEmpty()) {
                             newText = definition;
-                            definition =  newerDefinition; // Update the definition if a new one is found
+                            definition = newerDefinition; // Update the definition if a new one is found
                         }
 
                         if (definition != null && !definition.isEmpty() && !newText.equals(text) && !subToken.equals(text)) {
@@ -126,6 +128,7 @@ public class DefinitionManager {
 
             // Create a TextFlow to hold the definition text
             TextFlow textFlow = new TextFlow();
+            textFlow.maxWidthProperty().bind(mainTabPane.widthProperty().multiply(0.5));
 
             fillTextFlow(textFlow, definition, mainTabPane, text);
 

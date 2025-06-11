@@ -15,6 +15,8 @@ public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames ;
 
+    private final ObservableString height;
+    private final ObservableString weight;
     private final ObservableString name;
     private final ObservableString gender;
     private final ObservableString subclass;
@@ -205,6 +207,9 @@ public class GameCharacter {
 
         passives = new ArrayList<>();
         bindPassives();
+        
+        height = new ObservableString("");
+        weight = new ObservableString("");
     }
 
     // Getters
@@ -219,6 +224,14 @@ public class GameCharacter {
 
     public ObservableString getName() {
         return name;
+    }
+
+    public ObservableString getHeight() {
+        return height;
+    }
+
+    public ObservableString getWeight() {
+        return weight;
     }
 
     public ObservableString getGender() {

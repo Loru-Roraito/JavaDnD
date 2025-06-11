@@ -52,20 +52,17 @@ public class App extends Application {
         double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
         // Scale the TabPane based on screen size
-        mainTabPane.setPrefWidth(screenWidth * 0.9);
-        mainTabPane.setPrefHeight(screenHeight * 0.75);
+        mainTabPane.setPrefWidth(screenWidth * 0.7);
+        mainTabPane.setPrefHeight(screenHeight * 0.7);
 
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-        // Bind font size to the width of the scene
-        scene.widthProperty().addListener((_, _, newVal) -> {
-            double fontSize = newVal.doubleValue() / 150; // Adjust divisor for scaling
-            root.setStyle("-fx-font-size: " + fontSize + "px;");
-        });
 
         stage.setTitle(TranslationManager.getInstance().getTranslation("MAIN_TITLE"));
         stage.setScene(scene);
         stage.show();
+
+        double fontSize = scene.widthProperty().doubleValue() / 120; // Adjust divisor for scaling
+        root.setStyle("-fx-font-size: " + fontSize + "px;");
     }
 
     public static void main(String[] args) {
@@ -193,3 +190,4 @@ public class App extends Application {
 // custom observableMap, mi sembra la cosa più comoda
 // sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
 // riordinare elementi in comboBox
+// possibilità di scegliere il tipo di calcolo CA

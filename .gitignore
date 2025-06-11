@@ -11,7 +11,14 @@
 .mtj.tmp/
 
 # reference files
-Old/
+old/
+
+# copyrighted files
+actives.json
+passives.json
+definitions_it.properties
+tooltips_it.properties
+miscs_it.properties
 
 # Package Files #
 *.jar

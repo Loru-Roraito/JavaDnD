@@ -17,6 +17,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 public class ViewModel {
+    private final StringProperty height;
+    private final StringProperty weight;
     private final StringProperty name;
     private final StringProperty gender;
     private final StringProperty subclass;
@@ -60,6 +62,12 @@ public class ViewModel {
     private final ObservableList<StringProperty> passives;
 
     public ViewModel(GameCharacter backend) {
+        this.height = new SimpleStringProperty(getTranslation(backend.getHeight().get()));
+        bindObservableString(height, backend.getHeight());
+
+        this.weight = new SimpleStringProperty(getTranslation(backend.getWeight().get()));
+        bindObservableString(weight, backend.getWeight());
+
         this.name = new SimpleStringProperty(getTranslation(backend.getName().get()));
         bindObservableString(name, backend.getName());
 
@@ -297,6 +305,14 @@ public class ViewModel {
 
     public ObservableList<StringProperty> getPassives() {
         return passives;
+    }
+
+    public StringProperty getHeight() {
+        return height;
+    }
+
+    public StringProperty getWeight() {
+        return weight;
     }
 
     public StringProperty getName() {

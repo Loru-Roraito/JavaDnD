@@ -57,15 +57,18 @@ public class TranslationManager {
     public String[] getGroup(String[] group) {
         JsonNode node = rootNode;
         for (String subGroup : group) {
+            if (node == null) { // Check if node is null before accessing
+                return new String[0];
+            }
             node = node.get(subGroup);
             if (subGroup.equals("RANDOM")) {
                 return new String[0];
             }
-            else if (node == null) {
-                return new String[0];
-            }
         }
         List<String> keys = new ArrayList<>();
+        if (node == null) { // Also check after the loop
+            return new String[0];
+        }
         if (node.isObject()) {
             node.fieldNames().forEachRemaining(keys::add); // Add all field names (keys) to the list
         }

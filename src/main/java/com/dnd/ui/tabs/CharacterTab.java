@@ -33,7 +33,7 @@ public class CharacterTab extends Tab{
         InfoTab infoTab = new InfoTab(character, mainTabPane);
         MagicTab magicTab = new MagicTab();
         StatusTab statusTab = new StatusTab();
-        ExtraTab extraTab = new ExtraTab();
+        ExtraTab extraTab = new ExtraTab(character, mainTabPane);
 
         // Add sub-tabs
         subTabPane.getTabs().addAll(infoTab, magicTab, statusTab, extraTab);
