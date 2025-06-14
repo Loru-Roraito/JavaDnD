@@ -17,6 +17,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 public class ViewModel {
+    private final StringProperty creatureType;
+    private final StringProperty languageOne;
+    private final StringProperty languageTwo;
     private final StringProperty height;
     private final StringProperty weight;
     private final StringProperty name;
@@ -30,6 +33,8 @@ public class ViewModel {
     private final StringProperty classe;
     private final StringProperty species;
     private final StringProperty background;
+    private final StringProperty size;
+    private final StringProperty[] availableSizes;
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
     private final StringProperty[] abilityBasesShown;
@@ -45,6 +50,7 @@ public class ViewModel {
     private final IntegerProperty[] skillModifiers;
     private final IntegerProperty[] abilityBases;
     
+    // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
     private final DoubleProperty speed;
     private final DoubleProperty darkvision;
 
@@ -62,6 +68,15 @@ public class ViewModel {
     private final ObservableList<StringProperty> passives;
 
     public ViewModel(GameCharacter backend) {
+        this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
+        bindObservableString(creatureType, backend.getCreatureType());
+
+        this.languageOne = new SimpleStringProperty(getTranslation(backend.getLanguageOne().get()));
+        bindObservableString(languageOne, backend.getLanguageOne());
+
+        this.languageTwo = new SimpleStringProperty(getTranslation(backend.getLanguageTwo().get()));
+        bindObservableString(languageTwo, backend.getLanguageTwo());
+
         this.height = new SimpleStringProperty(getTranslation(backend.getHeight().get()));
         bindObservableString(height, backend.getHeight());
 
@@ -121,6 +136,15 @@ public class ViewModel {
 
         this.health = new SimpleIntegerProperty(backend.getHealth().get());
         bindObservableInteger(health, backend.getHealth());
+
+        this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
+        bindObservableString(size, backend.getSize());
+
+        this.availableSizes = new StringProperty[2];
+        for (int i = 0; i < 2; i++) {
+            this.availableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
+            bindObservableString(availableSizes[i], backend.getAvailableSize(i));
+        }
 
         int maxSubclasses = backend.getMaxSubclasses();
         int maxLineages = backend.getMaxLineages();
@@ -307,6 +331,18 @@ public class ViewModel {
         return passives;
     }
 
+    public StringProperty getCreatureType() {
+        return creatureType;
+    }
+
+    public StringProperty getLanguageOne() {
+        return languageOne;
+    }
+
+    public StringProperty getLanguageTwo() {
+        return languageTwo;
+    }
+
     public StringProperty getHeight() {
         return height;
     }
@@ -361,6 +397,14 @@ public class ViewModel {
 
     public StringProperty getAbilityBaseShown(int index) {
         return abilityBasesShown[index];
+    }
+
+    public StringProperty getSize() {
+        return size;
+    }
+
+    public StringProperty[] getAvailableSizes() {
+        return availableSizes;
     }
 
 

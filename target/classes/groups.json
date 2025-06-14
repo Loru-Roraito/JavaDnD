@@ -271,28 +271,27 @@
   },
 
   "common_languages": [
-    "COMMON",
     "COMMON_SIGN_LANGUAGE",
-    "DRACONIC",
-    "DWARVISH",
-    "ELVISH",
-    "GIANT",
-    "GNOMISH",
-    "GOBLIN",
-    "HALFLING",
-    "ORC"
+    "DRACONIC_LANGUAGE",
+    "DWARVISH_LANGUAGE",
+    "ELVISH_LANGUAGE",
+    "GIANT_LANGUAGE",
+    "GNOMISH_LANGUAGE",
+    "GOBLIN_LANGUAGE",
+    "HALFLING_LANGUAGE",
+    "ORC_LANGUAGE"
   ],
 
   "rare_languages": [
-    "ABYSSAL",
-    "CELESTIAL",
+    "ABYSSAL_LANGUAGE",
+    "CELESTIAL_LANGUAGE",
     "DEEP_SPEECH",
-    "DRUIDIC",
-    "INFERNAL",
-    "PRIMORDIAL",
-    "SYLVAN",
+    "DRUIDIC_LANGUAGE",
+    "INFERNAL_LANGUAGE",
+    "PRIMORDIAL_LANGUAGE",
+    "SYLVAN_LANGUAGE",
     "THIEVES_CANT",
-    "UNDERCOMMON"
+    "UNDERCOMMON_LANGUAGE"
   ],
 
   "max_lineages": 10,
@@ -315,7 +314,7 @@
     "DRAGONBORN": {
       "darkvision": 60,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "actives": {
         "BREATH_WEAPON": 0,
         "DRACONIC_FLIGHT": 5
@@ -389,7 +388,7 @@
     "DWARF": {
       "darkvision": 120,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "passives": {
         "DWARVEN_RESILIENCE": 0,
         "DWARVEN_TOUGHNESS": 0
@@ -407,7 +406,7 @@
     "ELF": {
       "darkvision": 60,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "passives":{
         "TRANCE": 0,
         "FEY_ANCESTRY": 0,
@@ -441,7 +440,7 @@
     "GNOME": {
       "darkvision": 60,
       "type": "HUMANOID",
-      "size": "SMALL",
+      "size": ["SMALL"],
       "passives":{
         "GNOMISH_CUNNING": 0,
         "GNOMISH_LINEAGE": 0
@@ -462,7 +461,7 @@
     "GOLIATH": {
       "speed": 35,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "actives": {
         "LARGE_FORM": 5
       },
@@ -505,7 +504,7 @@
     },
     "HALFLING": {
       "type": "HUMANOID",
-      "size": "SMALL",
+      "size": ["SMALL"],
       "passives": {
         "BRAVE": 0,
         "HALFLING_NIMBLENESS": 0,
@@ -553,7 +552,7 @@
     "ORC": {
       "darkvision": 120,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "actives": {
         "ADRENALINE_RUSH": 0,
         "RELENTLESS_ENDURANCE": 0
@@ -562,7 +561,7 @@
     "TIEFLING": {
       "darkvision": 60,
       "type": "HUMANOID",
-      "size": "MEDIUM",
+      "size": ["MEDIUM"],
       "passives": {
         "FIENDISH_LEGACY": 0,
         "OTHERWORLDLY_PRESENCE": 0

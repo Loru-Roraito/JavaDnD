@@ -28,7 +28,6 @@ public class CustomizationPane extends GridPane {
         // Listen for ComboBox changes
         generationComboBox.valueProperty().bindBidirectional(character.getGenerationMethod());
 
-        // UPDATE: need to check this doesn't cause problems (if chooseAbilitiesUI is called twice while value hasn't changed, it may break)
         generationComboBox.valueProperty().addListener((_, oldVal, newVal) -> {
             if (oldVal == null || !oldVal.equals(newVal)){
                 abilitiesPane.chooseAbilitiesUI();

@@ -80,6 +80,23 @@ public class TranslationManager {
         return keys.toArray(String[]::new); // Use method reference to create the array
     }
 
+    public String getString(String[] group) {
+        JsonNode node = rootNode;
+        for (String subGroup : group) {
+            node = node.get(subGroup);
+            if (node == null) {
+                return ""; // Return empty string if the node is not found
+            }
+        }
+
+        if (node.isTextual()) {
+            return node.asText(); // Convert the node to a string
+        } else {
+            System.err.println("Warning: Expected a string but found something else.");
+            return ""; // Return empty string as a fallback
+        }
+    }
+
     public int getInt(String[] group) {
         JsonNode node = rootNode;
         for (String subGroup : group) {
@@ -101,7 +118,6 @@ public class TranslationManager {
         return keyToTranslation.getOrDefault(key, key);
     }
 
-    // Probably unoptimal, UPDATE
     public String getOriginal(String translation) {
         return translationToKey.getOrDefault(translation, translation);
     }

@@ -15,6 +15,9 @@ public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames ;
 
+    private final ObservableString creatureType;
+    private final ObservableString languageOne;
+    private final ObservableString languageTwo;
     private final ObservableString height;
     private final ObservableString weight;
     private final ObservableString name;
@@ -28,6 +31,8 @@ public class GameCharacter {
     private final ObservableString classe;
     private final ObservableString species;
     private final ObservableString background;
+    private final ObservableString size;
+    private final ObservableString[] availableSizes;
     private final ObservableString[] availableSubclasses;
     private final ObservableString[] availableLineages;
     private final ObservableString[] abilityBasesShown;
@@ -210,6 +215,16 @@ public class GameCharacter {
         
         height = new ObservableString("");
         weight = new ObservableString("");
+
+        languageOne = new ObservableString("RANDOM");
+        languageTwo = new ObservableString("RANDOM");
+
+        creatureType = new ObservableString("");
+        bindCreatureType();
+
+        availableSizes = new ObservableString[2];
+        size = new ObservableString("");
+        bindAvailableSizes();
     }
 
     // Getters
@@ -222,8 +237,28 @@ public class GameCharacter {
         return abilityNames;
     }
 
+    public ObservableString getAvailableSize(int index) {
+        return availableSizes[index];
+    }
+
+    public ObservableString getSize() {
+        return size;
+    }
+
+    public ObservableString getCreatureType() {
+        return creatureType;
+    }
+
     public ObservableString getName() {
         return name;
+    }
+
+    public ObservableString getLanguageOne() {
+        return languageOne;
+    }
+
+    public ObservableString getLanguageTwo() {
+        return languageTwo;
     }
 
     public ObservableString getHeight() {
@@ -423,6 +458,31 @@ public class GameCharacter {
         updateSubclasses.run();
     }
 
+    private void bindAvailableSizes() {
+        species.addListener(
+            (newVal) -> {
+                String[] sizes = getGroup(new String[] {"species", newVal, "size"});
+                for (int i = 0; i < availableSizes.length; i++) {
+                    if (sizes != null && i < sizes.length) {
+                        availableSizes[i].set(sizes[i]);
+                    } else {
+                        availableSizes[i].set("");
+                    }
+                }
+                if (availableSizes[1].get().equals("")) {
+                    size.set(sizes != null && sizes.length > 0 ? sizes[0] : "");
+                } else if (sizes != null && !Arrays.asList(sizes).contains(size.get())) {
+                    size.set("RANDOM");
+                }
+            }
+        );
+
+        // Initialize availableSizes with empty strings
+        for (int i = 0; i < availableSizes.length; i++) {
+            availableSizes[i] = new ObservableString("");
+        }
+    }
+
     private void bindAvailableLineages() {
         species.addListener(
             (newVal) -> {
@@ -486,12 +546,21 @@ public class GameCharacter {
                 }
                 return total;
             },
+            // It only works if you pass all the skillProficiencies and fixedSkills, so I did it manually. Maybe improvable, but should be fine for now.
             skillProficiencies[0], skillProficiencies[1], skillProficiencies[2], skillProficiencies[3], skillProficiencies[4], skillProficiencies[5], skillProficiencies[6], skillProficiencies[7], skillProficiencies[8], skillProficiencies[9], skillProficiencies[10], skillProficiencies[11], skillProficiencies[12], skillProficiencies[13], skillProficiencies[14], skillProficiencies[15], skillProficiencies[16], skillProficiencies[17],
             fixedSkills[0], fixedSkills[1], fixedSkills[2], fixedSkills[3], fixedSkills[4], fixedSkills[5], fixedSkills[6], fixedSkills[7], fixedSkills[8], fixedSkills[9], fixedSkills[10], fixedSkills[11], fixedSkills[12], fixedSkills[13], fixedSkills[14], fixedSkills[15], fixedSkills[16], fixedSkills[17]
         );
         givenSkills.addListener(
             (newVal) -> {
                 givenSkillsObservable.set(newVal);
+            }
+        );
+    }
+
+    private void bindCreatureType() {
+        species.addListener(
+            (newVal) -> {
+                creatureType.set(getString(new String[] {"species", newVal, "type"}));
             }
         );
     }
@@ -962,6 +1031,10 @@ public class GameCharacter {
 
     private String[] getGroup(String[] group) {
         return TranslationManager.getInstance().getGroup(group);
+    }
+
+    private String getString(String[] group) {
+        return TranslationManager.getInstance().getString(group);
     }
 
     private int getInt(String[] group) {

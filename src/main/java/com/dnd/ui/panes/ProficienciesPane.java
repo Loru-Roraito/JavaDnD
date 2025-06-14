@@ -4,9 +4,14 @@ import com.dnd.DefinitionManager;
 import com.dnd.MiscsManager;
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
+import com.dnd.ui.tooltip.TooltipComboBox;
+import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -18,9 +23,41 @@ public class ProficienciesPane extends GridPane {
         this.mainTabPane = mainTabPane;
         getStyleClass().add("grid-pane");
 
+        TooltipLabel languages = new TooltipLabel(getTranslation("LANGUAGES") + ":", getTranslation("LANGUAGES"), mainTabPane);
+        add(languages, 0, 0);
+
+        TooltipLabel common = new TooltipLabel(getTranslation("COMMON_LANGUAGE"), mainTabPane);
+        add(common, 0, 1);
+        
+        // In the future more languages should be available. Take the abilities ComboBoxes as an example for the available values update
+        // Populate the class list and translation map
+        ObservableList<String> commonLanguages = FXCollections.observableArrayList();
+        for (String languageKey : getGroup(new String[] {"common_languages"})) {
+            commonLanguages.add(getTranslation(languageKey));
+        }
+        commonLanguages.add(0, getTranslation("RANDOM"));
+
+        TooltipComboBox<String> languageOne = new TooltipComboBox<>(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        languageOne.setPromptText(getTranslation("RANDOM"));
+        add(languageOne, 0, 2);
+        languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
+
+        TooltipComboBox<String> languageTwo = new TooltipComboBox<>(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        languageTwo.setPromptText(getTranslation("RANDOM"));
+        add(languageTwo, 0, 3);
+        languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
+
+        languageOne.valueProperty().addListener((_, _, newVal) -> {
+            updateComboBox(languageTwo, commonLanguages, newVal);
+        });
+
+        languageTwo.valueProperty().addListener((_, _, newVal) -> {
+            updateComboBox(languageOne, commonLanguages, newVal);
+        });
+
+
         TextFlow activesFlow = new TextFlow();
         activesFlow.maxWidthProperty().bind(gridPane.widthProperty().multiply(0.2));
-
 
         // Initial population
         updateBox(activesFlow, character.getActives());
@@ -31,7 +68,7 @@ public class ProficienciesPane extends GridPane {
         });
 
         TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
-        add(activesPane, 0, 0);
+        add(activesPane, 0, 4);
 
 
         TextFlow passivesFlow = new TextFlow();
@@ -47,7 +84,25 @@ public class ProficienciesPane extends GridPane {
 
         TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesFlow);
 
-        add(passivesPane, 0, 1);
+        add(passivesPane, 0, 5);
+    }
+
+    private void updateComboBox(ComboBox<String> comboBox, ObservableList<String> baseList, String excludedValue) {
+        String currentValue = comboBox.getValue();
+        ObservableList<String> newItems = FXCollections.observableArrayList(
+            baseList.stream()
+                .filter(s -> s.equals(getTranslation("RANDOM")) || !s.equals(excludedValue))
+                .toList()
+        );
+
+        comboBox.setItems(newItems);
+
+        // Preserve the selection if still valid
+        if (currentValue != null && newItems.contains(currentValue)) {
+            comboBox.setValue(currentValue);
+        } else {
+            comboBox.setValue(getTranslation("RANDOM"));
+        }
     }
 
     private void updateBox(TextFlow textFlow, Iterable<StringProperty> properties) {
@@ -76,5 +131,9 @@ public class ProficienciesPane extends GridPane {
     // Helper method to get translations
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
+    }
+
+    private String[] getGroup(String[] key) {
+        return TranslationManager.getInstance().getGroup(key);
     }
 }

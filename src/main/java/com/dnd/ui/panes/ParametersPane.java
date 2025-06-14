@@ -82,7 +82,6 @@ public class ParametersPane extends GridPane {
         lineageComboBox.valueProperty().bindBidirectional(character.getLineage());
 
         lineages.add(getTranslation("RANDOM"));
-        lineageComboBox.setItems(lineages);
 
         for (StringProperty prop : character.getAvailableLineages()) {
             if (prop != null) {
@@ -113,7 +112,6 @@ public class ParametersPane extends GridPane {
         });
 
         getChildren().removeAll(lineageLabel, lineageComboBox); // Initially remove specific elements
-
 
         // Create a label as the title for the ComboBox
         TooltipLabel backgroundLabel = new TooltipLabel(getTranslation("BACKGROUND"), mainTabPane);
@@ -146,10 +144,63 @@ public class ParametersPane extends GridPane {
 
         TooltipComboBox<String> alignmentComboBox = new TooltipComboBox<>(alignments, mainTabPane);
         alignmentComboBox.setPromptText(getTranslation("RANDOM"));
-        add(alignmentComboBox, 0, 11);
 
         // Listen for ComboBox changes (Translated → English)
         alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
+        add(alignmentComboBox, 0, 11);
+
+        TooltipLabel sizeLabel = new TooltipLabel("", getTranslation("SIZE"), mainTabPane);
+
+        ObservableList<String> sizes = FXCollections.observableArrayList();
+        sizes.add(getTranslation("RANDOM"));
+
+        for (StringProperty prop : character.getAvailableSizes()) {
+            if (prop != null) {
+                prop.addListener((_, oldVal, newVal) -> {
+                    if (!oldVal.isEmpty()) {
+                        sizes.remove(oldVal);
+                    }
+                    if (!newVal.isEmpty()) {
+                        sizes.add(newVal);
+                    }
+                });
+            }
+        }
+
+        TooltipComboBox<String>  sizeComboBox = new TooltipComboBox<>(sizes, mainTabPane);
+
+        sizeComboBox.valueProperty().bindBidirectional(character.getSize());
+
+        sizeLabel.textProperty().bind(
+            Bindings.createStringBinding(
+                () -> {
+                    StringProperty[] availableSizes = character.getAvailableSizes();
+                    String text = (availableSizes[1].get().equals(""))
+                        ? getTranslation("SIZE") + ": " + availableSizes[0].get()
+                        : getTranslation("SIZE");
+                    return text;
+                },
+                character.getSpecies()
+            )
+        );
+
+        character.getSpecies().addListener((_,_,_) -> {
+            if (character.getAvailableSizes()[0].get().equals("")) {
+                getChildren().removeAll(sizeLabel, sizeComboBox);
+            } else if (character.getAvailableSizes()[1].get().equals("")) {
+                getChildren().remove(sizeComboBox);
+                if (!getChildren().contains(sizeLabel)) {
+                    add(sizeLabel, 0, 12);
+                }
+            } else {
+                if (!getChildren().contains(sizeLabel)) {
+                    add(sizeLabel, 0, 12);
+                }
+                if (!getChildren().contains(sizeComboBox)) {
+                    add(sizeComboBox, 0, 13);
+                }
+            }
+        });
 
         TooltipLabel speed = new TooltipLabel("", getTranslation("SPEED"), mainTabPane);
         speed.textProperty().bind(
@@ -164,8 +215,7 @@ public class ParametersPane extends GridPane {
                 character.getSpeed()
             )
         );
-        add(speed, 0, 12);
-
+        add(speed, 0, 14);
 
         TooltipLabel darkvision = new TooltipLabel("", getTranslation("DARKVISION"), mainTabPane);
         darkvision.textProperty().bind(
@@ -185,7 +235,7 @@ public class ParametersPane extends GridPane {
         character.getDarkvision().addListener((_, _, newVal) -> {
             if (newVal != null && newVal.intValue() > 0) {
                 if (!getChildren().contains(darkvision)) {
-                    add(darkvision, 0, 13);
+                    add(darkvision, 0, 15);
                 }
             } else {
                 getChildren().remove(darkvision);

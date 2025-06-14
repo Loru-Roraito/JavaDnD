@@ -6,6 +6,7 @@ import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipLabel;
 
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -46,6 +47,26 @@ public class ExtraTab extends Tab{
 
         gridPane.add(weight, 0, 3); // Add the label to the GridPane
         weight.textProperty().bindBidirectional(character.getWeight());
+
+        TooltipLabel type = new TooltipLabel("", mainTabPane);
+        type.textProperty().bind(
+            Bindings.createStringBinding(
+                () -> {
+                    String value = character.getCreatureType().get();
+                    return getTranslation("CREATURE_TYPE") + ": " + value;
+                },
+                character.getCreatureType()
+            )
+        );
+        character.getCreatureType().addListener((_, _, newVal) -> {
+            if (newVal != null && !newVal.isEmpty()) {
+                if (!gridPane.getChildren().contains(type)) {
+                    gridPane.add(type, 0, 5);
+                }
+            } else {
+                gridPane.getChildren().remove(type);
+            }
+        });
 
         // Set the GridPane as the content of the tab
         setContent(gridPane);

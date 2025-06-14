@@ -52,8 +52,8 @@ public class App extends Application {
         double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
         // Scale the TabPane based on screen size
-        mainTabPane.setPrefWidth(screenWidth * 0.7);
-        mainTabPane.setPrefHeight(screenHeight * 0.7);
+        mainTabPane.setPrefWidth(screenWidth * 0.95);
+        mainTabPane.setPrefHeight(screenHeight * 0.9);
 
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
@@ -61,7 +61,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        double fontSize = scene.widthProperty().doubleValue() / 120; // Adjust divisor for scaling
+        double fontSize = scene.widthProperty().doubleValue() / 160; // Adjust divisor for scaling
         root.setStyle("-fx-font-size: " + fontSize + "px;");
     }
 
