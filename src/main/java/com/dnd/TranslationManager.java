@@ -114,6 +114,34 @@ public class TranslationManager {
         }
     }
 
+    public int[] getInts(String[] group) {
+        JsonNode node = rootNode;
+        for (String subGroup : group) {
+            if (node == null) { // Check if node is null before accessing
+                return new int[0];
+            }
+            node = node.get(subGroup);
+            if (subGroup.equals("RANDOM")) {
+                return new int[0];
+            }
+        }
+        List<Integer> keys = new ArrayList<>();
+        if (node == null) { // Also check after the loop
+            return new int[0];
+        }
+        if (node.isObject()) {
+            node.fieldNames().forEachRemaining(fieldName -> {
+                keys.add(Integer.valueOf(fieldName));
+            }); // Add all field names (parsed as integers) to the list
+        }
+        else {
+            for (JsonNode element : node) {
+                keys.add(element.asInt());
+            }
+        }
+        return keys.stream().mapToInt(Integer::intValue).toArray(); // Convert List<Integer> to int[]
+    }
+
     public String getTranslation(String key) {
         return keyToTranslation.getOrDefault(key, key);
     }

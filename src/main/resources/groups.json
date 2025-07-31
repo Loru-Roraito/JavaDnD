@@ -66,6 +66,7 @@
   ],
 
   "max_subclasses": 4,
+  "max_feats": 5,
 
   "classes": {
     "NONE_F": {
@@ -81,6 +82,7 @@
       "abilities": ["STRENGTH", "CONSTITUTION"],
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16, 19],
       "subclasses":{
         "PATH_OF_THE_BERSERKER": {
         },
@@ -595,67 +597,83 @@
   "backgrounds": {
     "ACOLYTE": {
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
-      "skills": ["INSIGHT", "RELIGION"]
+      "skills": ["INSIGHT", "RELIGION"],
+      "feat": "MAGIC_INITIATE"
     },
     "ARTISAN":{
       "abilities": ["STRENGTH", "DEXTERITY", "INTELLIGENCE"],
-      "skills": ["INVESTIGATION", "PERSUASION"]
+      "skills": ["INVESTIGATION", "PERSUASION"],
+      "feat": "CRAFTER"
     },
     "CHARLATAN": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "CHARISMA"],
-      "skills": ["DECEPTION", "SLEIGHT_OF_HAND"]
+      "skills": ["DECEPTION", "SLEIGHT_OF_HAND"],
+      "feat": "SKILLED"
     },
     "CRIMINAL": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
-      "skills": ["SLEIGHT_OF_HAND", "STEALTH"]
+      "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
+      "feat": "ALERT"
     },
     "ENTERTAINER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CHARISMA"],
-      "skills": ["ACROBATICS", "PERFORMANCE"]
+      "skills": ["ACROBATICS", "PERFORMANCE"],
+      "feat": "MUSICIAN"
     },
     "FARMER": {
       "abilities": ["STRENGTH", "CONSTITUTION", "WISDOM"],
-      "skills": ["ANIMAL_HANDLING", "NATURE"]
+      "skills": ["ANIMAL_HANDLING", "NATURE"],
+      "feat": "TOUGH"
     },
     "GUARD": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "WISDOM"],
-      "skills": ["ATHLETICS", "PERCEPTION"]
+      "skills": ["ATHLETICS", "PERCEPTION"],
+      "feat": "ALERT"
     },
     "GUIDE": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
-      "skills": ["STEALTH", "SURVIVAL"]
+      "skills": ["STEALTH", "SURVIVAL"],
+      "feat": "MAGIC_INITIATE"
     },
     "HERMIT": {
       "abilities": ["CONSTITUTION", "WISDOM", "CHARISMA"],
-      "skills": ["MEDICINE", "RELIGION"]
+      "skills": ["MEDICINE", "RELIGION"],
+      "feat": "HEALER"
     },
     "MERCHANT": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "CHARISMA"],
-      "skills": ["ANIMAL_HANDLING", "PERSUASION"]
+      "skills": ["ANIMAL_HANDLING", "PERSUASION"],
+      "feat": "LUCKY"
     },
     "NOBLE": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "CHARISMA"],
-      "skills": ["HISTORY", "PERSUASION"]
+      "skills": ["HISTORY", "PERSUASION"],
+      "feat": "SKILLED"
     },
     "SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
-      "skills": ["ARCANA", "HISTORY"]
+      "skills": ["ARCANA", "HISTORY"],
+      "feat": "MAGIC_INITIATE"
     },
     "SAILOR": {
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
-      "skills": ["ACROBATICS", "PERCEPTION"]
+      "skills": ["ACROBATICS", "PERCEPTION"],
+      "feat": "TAVERN_BROWLER"
     },
     "SCRIBE": {
       "abilities": ["DEXTERITY", "INTELLIGENCE", "WISDOM"],
-      "skills": ["INVESTIGATION", "PERCEPTION"]
+      "skills": ["INVESTIGATION", "PERCEPTION"],
+      "feat": "SKILLED"
     },
     "SOLDIER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
-      "skills": ["ATHLETICS", "INTIMIDATION"]
+      "skills": ["ATHLETICS", "INTIMIDATION"],
+      "feat": "SAVAGE_ATTACKER"
     },
     "WAYFARER": {
       "abilities": ["DEXTERITY", "WISDOM", "CHARISMA"],
-      "skills": ["INSIGHT", "STEALTH"]
+      "skills": ["INSIGHT", "STEALTH"],
+      "feat": "LUCKY"
     }
   },
 

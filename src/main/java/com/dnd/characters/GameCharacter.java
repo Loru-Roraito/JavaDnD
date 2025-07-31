@@ -13,7 +13,7 @@ import com.dnd.utils.ObservableString;
 
 public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
-    private final String[] abilityNames ;
+    private final String[] abilityNames;
 
     private final ObservableString creatureType;
     private final ObservableString languageOne;
@@ -32,6 +32,8 @@ public class GameCharacter {
     private final ObservableString species;
     private final ObservableString background;
     private final ObservableString size;
+    private final ObservableString originFeat;
+    private final ObservableString[] feats;
     private final ObservableString[] availableSizes;
     private final ObservableString[] availableSubclasses;
     private final ObservableString[] availableLineages;
@@ -42,7 +44,8 @@ public class GameCharacter {
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses; 
-    private final int maxLineages; 
+    private final int maxLineages;
+    private final int maxFeats;
     private final int[] skillAbilities;     
 
     private final ObservableInteger generationPointsObservable;
@@ -61,6 +64,7 @@ public class GameCharacter {
     private BindingInteger givenBonuses;
     private BindingInteger givenSkills;
     private BindingInteger generationPoints;
+    private BindingInteger availableFeats;
     private final BindingInteger[] abilities;
     private final BindingInteger[] abilityModifiers;
     private final BindingInteger[] savingThrowBonuses;
@@ -225,6 +229,16 @@ public class GameCharacter {
         availableSizes = new ObservableString[2];
         size = new ObservableString("");
         bindAvailableSizes();
+
+        maxFeats = getInt(new String[] {"max_feats"});
+        feats = new ObservableString[maxFeats];
+        for (int i = 0; i < feats.length; i++) {
+            feats[i] = new ObservableString("RANDOM");
+        }
+        bindAvailableFeats();
+
+        originFeat = new ObservableString("");
+        bindOriginFeat();
     }
 
     // Getters
@@ -293,6 +307,10 @@ public class GameCharacter {
         return healthMethod;
     }
 
+    public ObservableString getOriginFeat() {
+        return originFeat;
+    }
+
     public ObservableString getLevelShown() {
         return levelShown;
     }
@@ -325,12 +343,24 @@ public class GameCharacter {
         return abilityBasesShown[index];
     }
 
+    public ObservableString getFeats(int index) {
+        return feats[index];
+    }
+
     public int getMaxLineages() {
         return maxLineages;
     }
 
     public int getMaxSubclasses() {
         return maxSubclasses;
+    }
+
+    public int getMaxFeats() {
+        return maxFeats;
+    }
+
+    public ObservableInteger getAvailableFeats() {
+        return availableFeats;
     }
 
     public ObservableInteger getAbilityBase(int index) {
@@ -458,6 +488,14 @@ public class GameCharacter {
         updateSubclasses.run();
     }
 
+    private void bindOriginFeat() {
+        background.addListener(
+            (newVal) -> {
+                originFeat.set(getString(new String[] {"backgrounds", newVal, "feat"}));
+            }
+        );
+    }
+
     private void bindAvailableSizes() {
         species.addListener(
             (newVal) -> {
@@ -481,6 +519,37 @@ public class GameCharacter {
         for (int i = 0; i < availableSizes.length; i++) {
             availableSizes[i] = new ObservableString("");
         }
+    }
+
+    private void bindAvailableFeats() {
+        availableFeats = new BindingInteger(
+            () -> {
+                int[] possibleFeats = getInts(new String[] {"classes", classe.get(), "feats"});
+                int i = 0;
+                if (possibleFeats != null) {
+                    for (int possibleFeat : possibleFeats) {
+                        if (possibleFeat <= level.get()) {
+                            i++;
+                        } else {
+                            return i;
+                        }
+                    }
+                }
+                return i;
+            },
+            level,
+            classe
+        );
+
+
+
+        availableFeats.addListener(
+            (newVal) -> {
+                for (int i = newVal; i < feats.length; i++) {
+                    feats[i].set("RANDOM");
+                }
+            }
+        );
     }
 
     private void bindAvailableLineages() {
@@ -1039,5 +1108,9 @@ public class GameCharacter {
 
     private int getInt(String[] group) {
         return TranslationManager.getInstance().getInt(group);
+    }
+
+    private int[] getInts(String[] group) {
+        return TranslationManager.getInstance().getInts(group);
     }
 }

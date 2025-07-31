@@ -34,16 +34,22 @@ public class ViewModel {
     private final StringProperty species;
     private final StringProperty background;
     private final StringProperty size;
+    private final StringProperty originFeat;
+    private final StringProperty[] feats;
     private final StringProperty[] availableSizes;
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
     private final StringProperty[] abilityBasesShown;
+
+    private final int maxFeats;
 
     private final IntegerProperty generationPoints;
     private final IntegerProperty initiativeBonus;
     private final IntegerProperty proficiencyBonus;
     private final IntegerProperty armorClass;
     private final IntegerProperty health;
+    private final IntegerProperty availableFeats;
+    private final IntegerProperty level;
     private final IntegerProperty[] abilities;
     private final IntegerProperty[] abilityModifiers;
     private final IntegerProperty[] savingThrowModifiers;
@@ -137,8 +143,14 @@ public class ViewModel {
         this.health = new SimpleIntegerProperty(backend.getHealth().get());
         bindObservableInteger(health, backend.getHealth());
 
+        this.level = new SimpleIntegerProperty(backend.getLevel().get());
+        bindObservableInteger(level, backend.getLevel());
+
         this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
+
+        this.originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
+        bindObservableString(originFeat, backend.getOriginFeat());
 
         this.availableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
@@ -289,6 +301,17 @@ public class ViewModel {
 
         // Initialize once at construction
         updatePassives.run();
+
+        maxFeats = backend.getMaxFeats();
+
+        this.availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
+        bindObservableInteger(availableFeats, backend.getAvailableFeats());
+
+        this.feats = new StringProperty[maxFeats];
+        for (int i = 0; i < maxFeats; i++) {
+            this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeats(i).get()));
+            bindObservableString(feats[i], backend.getFeats(i));
+        }
     }
     
     private void bindObservableString(StringProperty front, ObservableString back) {
@@ -403,6 +426,14 @@ public class ViewModel {
         return size;
     }
 
+    public StringProperty getOriginFeat() {
+        return originFeat;
+    }
+
+    public StringProperty getFeat(int index) {
+        return feats[index];
+    }
+
     public StringProperty[] getAvailableSizes() {
         return availableSizes;
     }
@@ -417,6 +448,9 @@ public class ViewModel {
     }
 
 
+    public int getMaxFeats() {
+        return maxFeats;
+    }
 
     public IntegerProperty getGenerationPoints() {
         return generationPoints;
@@ -436,6 +470,14 @@ public class ViewModel {
 
     public DoubleProperty getDarkvision() {
         return darkvision;
+    }
+
+    public IntegerProperty getLevel() {
+        return level;
+    }
+
+    public IntegerProperty getAvailableFeats() {
+        return availableFeats;
     }
 
     public IntegerProperty getArmorClass() {

@@ -1,5 +1,8 @@
 package com.dnd.ui.panes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
@@ -37,13 +40,11 @@ public class ClassPane extends GridPane {
 
         // Create a label as the title for the second ComboBox
         TooltipLabel subclassLabel = new TooltipLabel(getTranslation("SUBCLASS"), mainTabPane);
-        add(subclassLabel, 0, 2); // Add the label to the GridPane (Column 0, Row 2)
 
         // Create the second ComboBox (subclass selection)
         ObservableList<String> subclasses = FXCollections.observableArrayList();
         TooltipComboBox<String> subclassComboBox = new TooltipComboBox<>(subclasses, mainTabPane);
         subclassComboBox.setPromptText(getTranslation("RANDOM"));
-        add(subclassComboBox, 0, 3);
         
         // Listen for ComboBox changes (Translated → English)
         subclassComboBox.valueProperty().bindBidirectional(character.getSubclass());
@@ -65,17 +66,16 @@ public class ClassPane extends GridPane {
 
 
         TooltipLabel levelLabel = new TooltipLabel(getTranslation("LEVEL"), mainTabPane);
-        add(levelLabel, 0, 4); // Add the label to the GridPane
         
         ObservableList<String> levels = FXCollections.observableArrayList();
         
         ComboBox<String> levelComboBox = new ComboBox<>(levels);
         levelComboBox.setPromptText(getTranslation("RANDOM"));
-        add(levelComboBox, 0, 5);
 
         // Listen for ComboBox changes (Translated → English)
         levelComboBox.valueProperty().bindBidirectional(character.getLevelShown());
         
+        // Why am I using a runnable instead of a method? I don't remember, but shouldn't change too much
         Runnable updateSubclasses = () -> {
             // Dynamically add or remove the subclass elements
             if (subclasses.isEmpty() || subclasses.size() == 1 && subclasses.get(0).equals(getTranslation("RANDOM"))) {
@@ -98,6 +98,23 @@ public class ClassPane extends GridPane {
                 if (!getChildren().contains(levelComboBox)) {
                     add(levelComboBox, 0, 5); // Add back to GridPane
                 }
+            }
+        };
+
+        TooltipLabel featsLabel = new TooltipLabel(getTranslation("FEATS"), mainTabPane);
+
+        // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
+        int maxFeats = character.getMaxFeats();
+        List<ComboBox<String>> feats = new ArrayList<>(maxFeats);
+        for (int i = 0; i < maxFeats; i++) {
+            feats.add(new ComboBox<>());
+        }
+
+        Runnable updateFeatsLabel = () -> {
+            if (character.getLevel().get() >= 3 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
+                add(featsLabel, 0, 6);
+            } else {
+                getChildren().remove(featsLabel);
             }
         };
 
@@ -127,9 +144,35 @@ public class ClassPane extends GridPane {
 
         levelComboBox.valueProperty().addListener((_, _, _) -> {
             updateSubclasses.run();
+            updateFeatsLabel.run();
         });
 
-        getChildren().removeAll(subclassLabel, subclassComboBox, levelLabel, levelComboBox); // Initially remove specific elements
+        // Done this way so that the tooltip updates when the origin feat changes (could be done by modifying the TooltipLabel class, but it seemed simpler this way... I'll be doing it in the future, for now this should work)
+        List<TooltipLabel> originFeats = new ArrayList<>(1);
+        originFeats.add(new TooltipLabel(getTranslation("FEAT"), mainTabPane));
+
+        character.getBackground().addListener((_, _, newVal) -> {
+            if (!newVal.equals(getTranslation("RANDOM"))) {
+                TooltipLabel originFeat = new TooltipLabel(character.getOriginFeat().get(), mainTabPane);
+                getChildren().remove(originFeats.get(0));
+                originFeats.remove(0);
+                add(originFeat, 0, 7);
+                originFeats.add(originFeat);
+            } else {
+                getChildren().remove(originFeats.get(0));
+            }
+            updateFeatsLabel.run();
+        });
+
+        character.getAvailableFeats().addListener((_, oldVal, newVal) -> {
+            for (int i = 0; i < maxFeats; i++){
+                if (i < newVal.intValue() && i >= oldVal.intValue()) {
+                    add(feats.get(i), 0, 8 + i);
+                } else if (i >= newVal.intValue()) {
+                    getChildren().remove(feats.get(i));
+                }
+            }
+        });
     }    
 
     // Helper method to get translations

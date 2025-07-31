@@ -24,7 +24,7 @@ public class InfoTab extends Tab {
     // Create a GridPane
     private final GridPane gridPane = new GridPane(); // Class-level field for the GridPane
     private final Label dieResultLabel; // Shared label for die result
-        
+    private final CustomizationPane customizationPane;        
     public InfoTab(ViewModel character, TabPane mainTabPane){
         setText(getTranslation("INFO"));
 
@@ -37,11 +37,12 @@ public class InfoTab extends Tab {
         HealthPane healthPane = new HealthPane(character, mainTabPane, this);
         addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 3, 1);
-        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 3, 1, 2, 2);
+        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 3, 1, 2, 1);
         addTitledPane("PROFICIENCIES", new ProficienciesPane(character, gridPane, mainTabPane), 0, 3, 3, 1);
-        addTitledPane("EQUIPMENT", new EquipmentPane(), 3, 3, 2, 1);
+        addTitledPane("EQUIPMENT", new EquipmentPane(), 3, 2, 2, 2);
         addTitledPane("SYSTEM", new SystemPane(), 4, 0, 1, 1);
-        addTitledPane("CUSTOMIZATION", new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character), 2, 1, 1, 1);
+        customizationPane = new CustomizationPane(mainTabPane, abilitiesPane, healthPane, character);
+        addTitledPane("CUSTOMIZATION", customizationPane, 2, 1, 1, 1);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text
@@ -69,6 +70,6 @@ public class InfoTab extends Tab {
 
     // Method to update the die result
     public void throwDie(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
-        dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().ThrowDice(times, size, base, bonus, advantage, disadvantage)));
+        dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().ThrowDice(times, size, base, bonus, advantage, disadvantage, customizationPane)));
     }
 }

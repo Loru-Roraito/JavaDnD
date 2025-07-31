@@ -191,3 +191,4 @@ public class App extends Application {
 // sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
 // riordinare elementi in comboBox
 // possibilità di scegliere il tipo di calcolo CA
+// TooltipLabel che aggiorni il tooltip
