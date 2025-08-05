@@ -184,7 +184,7 @@ public class ParametersPane extends GridPane {
             )
         );
 
-        character.getSpecies().addListener((_,_,_) -> {
+        character.getSpecies().addListener((_, _, _) -> {
             if (character.getAvailableSizes()[0].get().equals("")) {
                 getChildren().removeAll(sizeLabel, sizeComboBox);
             } else if (character.getAvailableSizes()[1].get().equals("")) {

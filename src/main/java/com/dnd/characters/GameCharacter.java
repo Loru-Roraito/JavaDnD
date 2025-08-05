@@ -1057,9 +1057,7 @@ public class GameCharacter {
                 }
             }
         };
-
-
-
+        
         species.addListener(_ -> updateActives.run());
         lineage.addListener(_ -> updateActives.run());
         level.addListener(_ -> updateActives.run());
@@ -1087,8 +1085,6 @@ public class GameCharacter {
                 }
             }
         };
-
-
 
         species.addListener(_ -> updatePassives.run());
         lineage.addListener(_ -> updatePassives.run());

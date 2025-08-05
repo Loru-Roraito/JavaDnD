@@ -598,86 +598,785 @@
     "ACOLYTE": {
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "RELIGION"],
-      "feat": "MAGIC_INITIATE"
+      "feat": "MAGIC_INITIATE",
+      "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
     "ARTISAN":{
       "abilities": ["STRENGTH", "DEXTERITY", "INTELLIGENCE"],
       "skills": ["INVESTIGATION", "PERSUASION"],
-      "feat": "CRAFTER"
+      "feat": "CRAFTER",
+      "equipment": ["2 POUCH", "TRAVELERS_CLOTHES", "32 GOLD"]
     },
     "CHARLATAN": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "CHARISMA"],
       "skills": ["DECEPTION", "SLEIGHT_OF_HAND"],
-      "feat": "SKILLED"
+      "feat": "SKILLED",
+      "equipment": ["FORGERY_KIT", "COSTUME", "FINE_CLOTHES", "15 GOLD"]
     },
     "CRIMINAL": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
       "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
-      "feat": "ALERT"
+      "feat": "ALERT",
+      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "CROWBAR", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
     },
     "ENTERTAINER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CHARISMA"],
       "skills": ["ACROBATICS", "PERFORMANCE"],
-      "feat": "MUSICIAN"
+      "feat": "MUSICIAN",
+      "equipment": ["2 COSTUME", "MIRROR", "PERFUME", "TRAVELERS_CLOTHES", "11 GOLD"]
     },
     "FARMER": {
       "abilities": ["STRENGTH", "CONSTITUTION", "WISDOM"],
       "skills": ["ANIMAL_HANDLING", "NATURE"],
-      "feat": "TOUGH"
+      "feat": "TOUGH",
+      "equipment": ["SICKLE", "CARPENTERS_TOOLS", "HEALERS_KIT", "IRON_POT", "SHOVEL", "TRAVELERS_CLOTHES", "30 GOLD"]
     },
     "GUARD": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "WISDOM"],
       "skills": ["ATHLETICS", "PERCEPTION"],
-      "feat": "ALERT"
+      "feat": "ALERT",
+      "equipment": ["SPEAR", "CROSSBOW_LIGHT", "20 BOLT", "HOODED_LANTERN", "MANACLES", "QUIVER", "TRAVELERS_CLOTHES", "12 GOLD"]
     },
     "GUIDE": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
       "skills": ["STEALTH", "SURVIVAL"],
-      "feat": "MAGIC_INITIATE"
+      "feat": "MAGIC_INITIATE",
+      "equipment": ["SHORTBOW", "20 ARROW", "CARTOGRAPHERS_TOOLS", "BEDROLL", "QUIVER", "TENT", "TRAVELERS_CLOTHES", "3 GOLD"]
     },
     "HERMIT": {
       "abilities": ["CONSTITUTION", "WISDOM", "CHARISMA"],
       "skills": ["MEDICINE", "RELIGION"],
-      "feat": "HEALER"
+      "feat": "HEALER",
+      "equipment": ["HERBALISM_KIT", "BEDROLL", "QUARTERSTAFF", "BOOK_PHILOSOPHY", "LAMP", "3 OIL_FLASK", "TRAVELERS_CLOTHES", "16 GOLD"]
     },
     "MERCHANT": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "CHARISMA"],
       "skills": ["ANIMAL_HANDLING", "PERSUASION"],
-      "feat": "LUCKY"
+      "feat": "LUCKY",
+      "equipment": ["NAVIGATORS_TOOLS", "2 POUCH", "TRAVELERS_CLOTHES", "2 GOLD"]
     },
     "NOBLE": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "CHARISMA"],
       "skills": ["HISTORY", "PERSUASION"],
-      "feat": "SKILLED"
+      "feat": "SKILLED",
+      "equipment": ["FINE_CLOTHES", "PERFUME", "29 GOLD"]
     },
     "SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
-      "feat": "MAGIC_INITIATE"
+      "feat": "MAGIC_INITIATE",
+      "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
     "SAILOR": {
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
       "skills": ["ACROBATICS", "PERCEPTION"],
-      "feat": "TAVERN_BROWLER"
+      "feat": "TAVERN_BROWLER",
+      "equipment": ["DAGGER", "NAVIGATORS_TOOLS", "ROPE", "TRAVELERS_CLOTHES", "20 GOLD"]
     },
     "SCRIBE": {
       "abilities": ["DEXTERITY", "INTELLIGENCE", "WISDOM"],
       "skills": ["INVESTIGATION", "PERCEPTION"],
-      "feat": "SKILLED"
+      "feat": "SKILLED",
+      "equipment": ["CALLIGRAPHERS_SUPPLIES", "FINE_CLOTHES", "12 PARCHMENT_SHEETS", "LAMP", "3 OIL_FLASK", "23 GOLD"]
     },
     "SOLDIER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
       "skills": ["ATHLETICS", "INTIMIDATION"],
-      "feat": "SAVAGE_ATTACKER"
+      "feat": "SAVAGE_ATTACKER",
+      "equipment": ["SPEAR", "SHORTBOW", "20 ARROW", "HEALERS_KIT", "QUIVER", "TRAVELERS_CLOTHES", "14 GOLD"]
     },
     "WAYFARER": {
       "abilities": ["DEXTERITY", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "STEALTH"],
-      "feat": "LUCKY"
+      "feat": "LUCKY",
+      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "BEDROLL", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
     }
   },
 
-  "genders": [
+  "items": {
+    "UNARMED_STRIKE": {
+      "type": "WEAPON",
+      "cost": 0,
+      "currency": "",
+      "weight": 0,
+      "hits": 1,
+      "damage": 1,
+      "attributes": ["BLUDGEONING"],
+      "properties": [],
+      "tags": [],
+      "mastery": ""
+    },
+    "IMPROVISED_WEAPON": {
+      "type": "WEAPON",
+      "cost": 0,
+      "currency": "",
+      "weight": 0,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["THROWN"],
+      "tags": [],
+      "mastery": "",
+      "shortRange": 20,
+      "longRange": 60
+    },
+    "CLUB": {
+      "type": "WEAPON",
+      "cost": 1,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["LIGHT"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "SLOW",
+      "shortRange": 20,
+      "longRange": 60
+    },
+    "DAGGER": {
+      "type": "WEAPON",
+      "cost": 2,
+      "currency": "GOLD",
+      "weight": 1,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["PIERCING"],
+      "properties": ["LIGHT", "FINESSE", "THROWN"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "NICK"
+    },
+    "GREATCLUB": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "SILVER",
+      "weight": 0,
+      "hits": 1,
+      "damage": 1,
+      "attributes": ["BLUDGEONING"],
+      "properties": [],
+      "tags": [],
+      "mastery": ""
+    },
+    "HANDAXE": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["SLASHING"],
+      "properties": ["LIGHT", "THROWN"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "VEX",
+      "shortRange": 20,
+      "longRange": 60
+    },
+    "JAVELIN": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "SILVER",
+      "weight": 2,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["THROWN"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "SLOW",
+      "shortRange": 30,
+      "longRange": 120
+    },
+    "LIGHT_HAMMER": {
+      "type": "WEAPON",
+      "cost": 2,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["LIGHT", "THROWN"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "NICK",
+      "shortRange": 20,
+      "longRange": 60
+    },
+    "MACE": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "GOLD",
+      "weight": 4,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["BLUDGEONING"],
+      "properties": [],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "SAP"
+    },
+    "QUARTERSTAFF": {
+      "type": "WEAPON",
+      "cost": 2,
+      "currency": "SILVER",
+      "weight": 4,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["VERSATILE"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "TOPPLE",
+      "versatileHits": 1,
+      "versatileDamage": 8
+    },
+    "SICKLE": {
+      "type": "WEAPON",
+      "cost": 1,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["SLASHING"],
+      "properties": ["LIGHT"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "NICK"
+    },
+    "SPEAR": {
+      "type": "WEAPON",
+      "cost": 1,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["THROWN", "VERSATILE"],
+      "tags": ["SIMPLE", "MELEE"],
+      "mastery": "SAP",
+      "shortRange": 20,
+      "longRange": 60,
+      "versatileHits": 1,
+      "versatileDamage": 8
+    },
+    "DART": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "SILVER",
+      "weight": 0.25,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["PIERCING"],
+      "properties": ["FINESSE", "THROWN"],
+      "tags": ["SIMPLE", "RANGED"],
+      "mastery": "VEX",
+      "shortRange": 20,
+      "longRange": 60
+    },
+    "CROSSBOW_LIGHT": {
+      "type": "WEAPON",
+      "cost": 25,
+      "currency": "GOLD",
+      "weight": 5,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "LOADING", "TWO_HANDED"],
+      "tags": ["SIMPLE", "RANGED"],
+      "mastery": "SLOW",
+      "shortRange": 80,
+      "longRange": 320,
+      "ammo": "BOLT"
+    },
+    "SHORTBOW": {
+      "type": "WEAPON",
+      "cost": 25,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "TWO_HANDED"],
+      "tags": ["SIMPLE", "RANGED"],
+      "mastery": "VEX",
+      "shortRange": 80,
+      "longRange": 320,
+      "ammo": "ARROW"
+    },
+    "SLING": {
+      "type": "WEAPON",
+      "cost": 1,
+      "currency": "SILVER",
+      "weight": 0,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["AMMUNITION"],
+      "tags": ["SIMPLE", "RANGED"],
+      "mastery": "SLOW",
+      "shortRange": 30,
+      "longRange": 120,
+      "ammo": "BULLET"
+    },
+    "BATTLEAXE": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 4,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["SLASHING"],
+      "properties": ["VERSATILE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "TOPPLE",
+      "versatileHits": 1,
+      "versatileDamage": 10
+    },
+    "FLAIL": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["BLUDGEONING"],
+      "properties": [],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "SAP"
+    },
+    "GLAIVE": {
+      "type": "WEAPON",
+      "cost": 20,
+      "currency": "GOLD",
+      "weight": 6,
+      "hits": 1,
+      "damage": 10,
+      "attributes": ["SLASHING"],
+      "properties": ["HEAVY", "REACH", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "GRAZE"
+    },
+    "GREATAXE": {
+      "type": "WEAPON",
+      "cost": 30,
+      "currency": "GOLD",
+      "weight": 7,
+      "hits": 1,
+      "damage": 12,
+      "attributes": ["SLASHING"],
+      "properties": ["HEAVY", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "CLEAVE"
+    },
+
+    "GREATSWORD": {
+      "type": "WEAPON",
+      "cost": 50,
+      "currency": "GOLD",
+      "weight": 6,
+      "hits": 2,
+      "damage": 6,
+      "attributes": ["SLASHING"],
+      "properties": ["HEAVY", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "GRAZE"
+    },
+    "HALBERD": {
+      "type": "WEAPON",
+      "cost": 20,
+      "currency": "GOLD",
+      "weight": 6,
+      "hits": 1,
+      "damage": 10,
+      "attributes": ["SLASHING"],
+      "properties": ["HEAVY", "REACH", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "CLEAVE"
+    },
+    "LANCE": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 6,
+      "hits": 1,
+      "damage": 12,
+      "attributes": ["PIERCING"],
+      "properties": ["REACH"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "TOPPLE"
+    },
+    "LONGSWORD": {
+      "type": "WEAPON",
+      "cost": 15,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["SLASHING"],
+      "properties": ["VERSATILE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "SAP",
+      "versatileHits": 1,
+      "versatileDamage": 10
+    },
+    "MAUL": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 10,
+      "hits": 2,
+      "damage": 6,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["HEAVY", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "TOPPLE"
+    },
+    "MORNINGSTAR": {
+      "type": "WEAPON",
+      "cost": 15,
+      "currency": "GOLD",
+      "weight": 4,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["PIERCING"],
+      "properties": [],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "SAP"
+    },
+    "PIKE": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "GOLD",
+      "weight": 18,
+      "hits": 1,
+      "damage": 10,
+      "attributes": ["PIERCING"],
+      "properties": ["HEAVY", "REACH", "TWO_HANDED"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "PUSH"
+    },
+    "RAPIER": {
+      "type": "WEAPON",
+      "cost": 25,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["PIERCING"],
+      "properties": ["FINESSE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "VEX"
+    },
+    "SCIMITAR": {
+      "type": "WEAPON",
+      "cost": 25,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["SLASHING"],
+      "properties": ["LIGHT", "FINESSE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "NICK"
+    },
+    "SHORTSWORD": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["FINESSE", "LIGHT"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "VEX"
+    },
+    "TRIDENT": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "GOLD",
+      "weight": 4,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["THROWN", "VERSATILE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "TOPPLE",
+      "shortRange": 20,
+      "longRange": 60,
+      "versatileHits": 1,
+      "versatileDamage": 8
+    },
+    "WARHAMMER": {
+      "type": "WEAPON",
+      "cost": 15,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["BLUDGEONING"],
+      "properties": ["VERSATILE"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "PUSH",
+      "versatileHits": 1,
+      "versatileDamage": 10
+    },
+    "WAR_PICK": {
+      "type": "WEAPON",
+      "cost": 5,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["PIERCING"],
+      "properties": [],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "SAP"
+    },
+    "WHIP": {
+      "type": "WEAPON",
+      "cost": 2,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 4,
+      "attributes": ["SLASHING"],
+      "properties": ["REACH"],
+      "tags": ["MARTIAL", "MELEE"],
+      "mastery": "SLOW"
+    },
+    "BLOWGUN": {
+      "type": "WEAPON",
+      "cost": 10,
+      "currency": "GOLD",
+      "weight": 1,
+      "hits": 1,
+      "damage": 1,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "LOADING"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "VEX",
+      "shortRange": 25,
+      "longRange": 100,
+      "ammo": "NEEDLE"
+    },
+    "CROSSBOW_HAND": {
+      "type": "WEAPON",
+      "cost": 75,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 6,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "LOADING", "LIGHT"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "VEX",
+      "shortRange": 30,
+      "longRange": 120,
+      "ammo": "BOLT"
+    },
+    "CROSSBOW_HEAVY": {
+      "type": "WEAPON",
+      "cost": 50,
+      "currency": "GOLD",
+      "weight": 18,
+      "hits": 1,
+      "damage": 10,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "HEAVY", "LOADING", "TWO_HANDED"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "PUSH",
+      "shortRange": 100,
+      "longRange": 400,
+      "ammo": "BOLT"
+    },
+    "LONGBOW": {
+      "type": "WEAPON",
+      "cost": 50,
+      "currency": "GOLD",
+      "weight": 2,
+      "hits": 1,
+      "damage": 8,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "HEAVY", "TWO_HANDED"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "SLOW",
+      "shortRange": 150,
+      "longRange": 600,
+      "ammo": "ARROW"
+    },
+    "MUSKET": {
+      "type": "WEAPON",
+      "cost": 500,
+      "currency": "GOLD",
+      "weight": 10,
+      "hits": 1,
+      "damage": 12,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "LOADING", "TWO_HANDED"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "SLOW",
+      "shortRange": 40,
+      "longRange": 120,
+      "ammo": "BULLET"
+    },
+    "PISTOL": {
+      "type": "WEAPON",
+      "cost": 250,
+      "currency": "GOLD",
+      "weight": 3,
+      "hits": 1,
+      "damage": 10,
+      "attributes": ["PIERCING"],
+      "properties": ["AMMUNITION", "LOADING"],
+      "tags": ["MARTIAL", "RANGED"],
+      "mastery": "VEX",
+      "shortRange": 30,
+      "longRange": 90,
+      "ammo": "BULLET"
+    },
+
+    "PADDED_ARMOR": {
+      "type": "ARMOR",
+      "cost": 5,
+      "currency": "GOLD",
+      "armorClass": 11,
+      "dexterity": -1,
+      "strength": 0,
+      "stealth": true,
+      "weight": 8,
+      "tags": ["LIGHT"]
+    },
+    "LEATHER_ARMOR": {
+      "type": "ARMOR",
+      "cost": 10,
+      "currency": "GOLD",
+      "armorClass": 11,
+      "dexterity": -1,
+      "strength": 0,
+      "stealth": false,
+      "weight": 10,
+      "tags": ["LIGHT"]
+    },
+    "STUDDED_LEATHER_ARMOR": {
+      "type": "ARMOR",
+      "cost": 45,
+      "currency": "GOLD",
+      "armorClass": 12,
+      "dexterity": -1,
+      "strength": 0,
+      "stealth": false,
+      "weight": 13,
+      "tags": ["LIGHT"]
+    },
+    "HIDE_ARMOR": {
+      "type": "ARMOR",
+      "cost": 10,
+      "currency": "GOLD",
+      "armorClass": 12,
+      "dexterity": 2,
+      "strength": 0,
+      "stealth": false,
+      "weight": 12,
+      "tags": ["MEDIUM"]
+    },
+    "CHAIN_SHIRT": {
+      "type": "ARMOR",
+      "cost": 50,
+      "currency": "GOLD",
+      "armorClass": 13,
+      "dexterity": 2,
+      "strength": 0,
+      "stealth": false,
+      "weight": 20,
+      "tags": ["MEDIUM"]
+    },
+    "SCALE_MAIL": {
+      "type": "ARMOR",
+      "cost": 50,
+      "currency": "GOLD",
+      "armorClass": 14,
+      "dexterity": 2,
+      "strength": 0,
+      "stealth": true,
+      "weight": 45,
+      "tags": ["MEDIUM"]
+    },
+    "BREASTPLATE": {
+      "type": "ARMOR",
+      "cost": 400,
+      "currency": "GOLD",
+      "armorClass": 14,
+      "dexterity": 2,
+      "strength": 0,
+      "stealth": false,
+      "weight": 20,
+      "tags": ["MEDIUM"]
+    },
+    "HALF_PLATE": {
+      "type": "ARMOR",
+      "cost": 750,
+      "currency": "GOLD",
+      "armorClass": 15,
+      "dexterity": 2,
+      "strength": 0,
+      "stealth": true,
+      "weight": 40,
+      "tags": ["HEAVY"]
+    },
+    "RING_MAIL": {
+      "type": "ARMOR",
+      "cost": 30,
+      "currency": "GOLD",
+      "armorClass": 14,
+      "dexterity": 0,
+      "strength": 0,
+      "stealth": true,
+      "weight": 40,
+      "tags": ["HEAVY"]
+    },
+    "CHAIN_MAIL": {
+      "type": "ARMOR",
+      "cost": 75,
+      "currency": "GOLD",
+      "armorClass": 16,
+      "dexterity": 0,
+      "strength": 13,
+      "stealth": true,
+      "weight": 55,
+      "tags": ["HEAVY"]
+    },
+    "SPLINT_ARMOR": {
+      "type": "ARMOR",
+      "cost": 200,
+      "currency": "GOLD",
+      "armorClass": 17,
+      "dexterity": 0,
+      "strength": 15,
+      "stealth": true,
+      "weight": 60,
+      "tags": ["HEAVY"]
+    },
+    "PLATE_ARMOR": {
+      "type": "ARMOR",
+      "cost": 1500,
+      "currency": "GOLD",
+      "armorClass": 18,
+      "dexterity": 0,
+      "strength": 15,
+      "stealth": true,
+      "weight": 65,
+      "tags": ["HEAVY"]
+    },
+    "SHIELD": {
+      "type": "ARMOR",
+      "cost": 10,
+      "currency": "GOLD",
+      "armorClass": 2,
+      "dexterity": 0,
+      "strength": 0,
+      "stealth": false,
+      "weight": 6,
+      "tags": ["SHIELD"]
+    }
+  },
+  
+    "genders": [
     "NONE_M",
     "MALE",
     "FEMALE"

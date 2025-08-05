@@ -97,6 +97,23 @@ public class TranslationManager {
         }
     }
 
+    public Boolean getBoolean(String[] group) {
+        JsonNode node = rootNode;
+        for (String subGroup : group) {
+            node = node.get(subGroup);
+            if (node == null) {
+                return false; // Return false if the node is not found
+            }
+        }
+
+        if (node.isBoolean()) {
+            return node.asBoolean(); // Convert the node to a boolean
+        } else {
+            System.err.println("Warning: Expected a boolean but found something else.");
+            return false; // Return false as a fallback
+        }
+    }
+
     public int getInt(String[] group) {
         JsonNode node = rootNode;
         for (String subGroup : group) {
