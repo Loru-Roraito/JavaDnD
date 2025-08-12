@@ -1,5 +1,9 @@
 package com.dnd.ui.panes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
@@ -10,15 +14,19 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 
 public class EquipmentPane extends GridPane {
+    private final String[] sets;
+    private final List<TooltipComboBox<String>> backgroundComboBoxes = new ArrayList<>();
+    private final List<TooltipComboBox<String>> classComboBoxes = new ArrayList<>();
     public EquipmentPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
+        sets = getGroup(new String[] {"sets"});
 
         ObservableList<String> backgroundEquipments = FXCollections.observableArrayList();
         backgroundEquipments.add(getTranslation("RANDOM"));
         backgroundEquipments.add("50" + getTranslation("GOLD"));
         TooltipComboBox<String> backgroundEquipment = new TooltipComboBox<>(backgroundEquipments, mainTabPane);
         character.getBackground().addListener((_, _, newVal) -> {
-            if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
+            if (newVal.equals(getTranslation("RANDOM"))) {
                 if(getChildren().contains(backgroundEquipment)) {
                     getChildren().remove(backgroundEquipment);
                     backgroundEquipments.remove(2);
@@ -31,7 +39,51 @@ public class EquipmentPane extends GridPane {
                 }
                 String text = getTranslation("EQUIPMENT_OF") + getTranslation(newVal);
                 backgroundEquipments.add(text);
-                backgroundEquipment.setPromptText(text);
+                backgroundEquipment.setValue(text);
+            }
+        });
+
+        character.getBackground().addListener((_, _, _) -> {
+            String newVal = character.getBackgroundEquipment().get(0).get();
+            if(newVal.equals(getTranslation("RANDOM")) || newVal.equals("50" + getTranslation("GOLD"))) {
+                backgroundEquipment.setValue(newVal);                
+            } else {
+                backgroundEquipment.setValue(getTranslation("EQUIPMENT_OF") + newVal);
+            }
+        });
+        
+        backgroundEquipment.valueProperty().addListener((_, _, newVal) -> {
+            for (int index = 0; index < backgroundComboBoxes.size(); index++) {
+                TooltipComboBox<String> comboBox = backgroundComboBoxes.get(index);
+                comboBox.setValue(getTranslation("RANDOM"));
+                comboBox.valueProperty().unbindBidirectional(character.getBackgroundEquipment().get(index));
+                getChildren().remove(comboBox);
+            }
+            backgroundComboBoxes.clear();
+            if (newVal.equals(getTranslation("RANDOM")) || newVal.equals("50" + getTranslation("GOLD"))) {
+                character.getBackgroundEquipment().get(0).set(newVal);
+            }
+            else {
+                String background = character.getBackground().get();
+                if (!character.getBackgroundEquipment().isEmpty()) {
+                    character.getBackgroundEquipment().get(0).set(background);
+                }
+                
+                String[] equips = getGroup(new String[] {"backgrounds", getOriginal(background), "equipment"});
+                for (String equip : equips) {
+                    if (Arrays.asList(sets).contains(equip)) {
+                        String[] set = getGroupTranslations(new String[] {"sets", equip});
+                        ObservableList<String> items = FXCollections.observableArrayList(set);
+                        items.add(0, getTranslation("RANDOM"));
+                        TooltipComboBox<String> comboBox = new TooltipComboBox<>(items, mainTabPane);
+                        comboBox.setPromptText(getTranslation("RANDOM"));
+                        backgroundComboBoxes.add(comboBox);
+                        int index = backgroundComboBoxes.size();
+                        add(comboBox, index, 0);
+
+                        comboBox.valueProperty().bindBidirectional(character.getBackgroundEquipment().get(index));
+                    }
+                }
             }
         });
 
@@ -53,12 +105,66 @@ public class EquipmentPane extends GridPane {
                 }
                 String text = getTranslation("EQUIPMENT_OF") + getTranslation(newVal);
                 classEquipments.add(text);
-                classEquipment.setPromptText(text);
+                classEquipment.setValue(text);
+            }
+        });
+
+        character.getClasse().addListener((_, _, _) -> {
+            String newVal = character.getClassEquipment().get(0).get();
+            if(newVal.equals(getTranslation("RANDOM")) || newVal.equals("50" + getTranslation("GOLD"))) {
+                classEquipment.setValue(newVal);                
+            } else {
+                classEquipment.setValue(getTranslation("EQUIPMENT_OF") + newVal);
+            }
+        });
+
+        classEquipment.valueProperty().addListener((_, _, newVal) -> {
+            for (int index = 0; index < classComboBoxes.size(); index++) {
+                TooltipComboBox<String> comboBox = classComboBoxes.get(index);
+                comboBox.setValue(getTranslation("RANDOM"));
+                comboBox.valueProperty().unbindBidirectional(character.getClassEquipment().get(index));
+                getChildren().remove(comboBox);
+            }
+            classComboBoxes.clear();
+            if (newVal.equals(getTranslation("RANDOM")) || newVal.equals("50" + getTranslation("GOLD"))) {
+                character.getClassEquipment().get(0).set(newVal);
+            } else {
+                if (!character.getClassEquipment().isEmpty()) {
+                    character.getClassEquipment().get(0).set(character.getClasse().get());
+                }
+            }
+            String classe = character.getClasse().get();
+            String[] equips = getGroup(new String[] {"classes", getOriginal(classe), "equipment"});
+            for (String equip : equips) {
+                if (Arrays.asList(sets).contains(equip)) {
+                    String[] set = getGroupTranslations(new String[] {"sets", equip});
+                    ObservableList<String> items = FXCollections.observableArrayList(set);
+                    items.add(0, getTranslation("RANDOM"));
+                    TooltipComboBox<String> comboBox = new TooltipComboBox<>(items, mainTabPane);
+                    comboBox.setPromptText(getTranslation("RANDOM"));
+                    classComboBoxes.add(comboBox);
+                    int index = classComboBoxes.size();
+                    add(comboBox, index, 1);
+
+                    comboBox.valueProperty().bindBidirectional(character.getClassEquipment().get(index));
+                }
             }
         });
     }
 
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
+    }
+
+    private String[] getGroup(String[] key) {
+        return TranslationManager.getInstance().getGroup(key);
+    } 
+
+    private String[] getGroupTranslations(String[] key) {
+        return TranslationManager.getInstance().getGroupTranslations(key);
+    }
+
+    private String getOriginal(String key) {
+        return TranslationManager.getInstance().getOriginal(key);
     }
 }

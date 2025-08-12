@@ -1,5 +1,7 @@
 package com.dnd;
 
+import java.util.List;
+
 import com.dnd.characters.GameCharacter;
 import com.dnd.utils.Constants;
 import com.dnd.utils.ObservableBoolean;
@@ -72,6 +74,12 @@ public class ViewModel {
     
     private final ObservableList<StringProperty> actives;
     private final ObservableList<StringProperty> passives;
+    private final ObservableList<StringProperty> weaponProficiencies;
+    private final ObservableList<StringProperty> armorProficiencies;
+    private final ObservableList<StringProperty> toolProficiencies;
+    private final ObservableList<StringProperty> classEquipment;
+    private final ObservableList<StringProperty> backgroundEquipment;
+    private final ObservableList<StringProperty> choiceProficiencies;
 
     public ViewModel(GameCharacter backend) {
         this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
@@ -267,51 +275,67 @@ public class ViewModel {
         }
 
         this.actives = FXCollections.observableArrayList();
-
-        // Helper to update the actives list
-        Runnable updateActives = () -> {
-            this.actives.clear();
-            for (ObservableString key : backend.getActives()) {
-                this.actives.add(new SimpleStringProperty(getTranslation(key.get())));
-            }
-        };
-
-        // Listen for backend actives changes
+        Runnable updateActives = updateList(actives, backend.getActives());
         backend.getSpecies().addListener(_ -> updateActives.run());
         backend.getLineage().addListener(_ -> updateActives.run());
         backend.getLevel().addListener(_ -> updateActives.run());
-
-        // Initialize once at construction
         updateActives.run();
 
         this.passives = FXCollections.observableArrayList();
-
-        // Helper to update the passives list
-        Runnable updatePassives = () -> {
-            this.passives.clear();
-            for (ObservableString key : backend.getPassives()) {
-                this.passives.add(new SimpleStringProperty(getTranslation(key.get())));
-            }
-        };
-
-        // Listen for backend passives changes
+        Runnable updatePassives = updateList(passives, backend.getPassives());
         backend.getSpecies().addListener(_ -> updatePassives.run());
         backend.getLineage().addListener(_ -> updatePassives.run());
         backend.getLevel().addListener(_ -> updatePassives.run());
-
-        // Initialize once at construction
         updatePassives.run();
+        
+        this.weaponProficiencies = FXCollections.observableArrayList();
+        Runnable updateWeaponProficiencies = updateList(weaponProficiencies, backend.getWeaponProficiencies());
+        updateWeaponProficiencies.run();
+
+        this.armorProficiencies = FXCollections.observableArrayList();
+        Runnable updateArmorProficiencies = updateList(armorProficiencies, backend.getArmorProficiencies());
+        updateArmorProficiencies.run();
+
+        this.classEquipment = FXCollections.observableArrayList();
+        Runnable updateClassEquipment = updateList(classEquipment, backend.getClassEquipment());
+        backend.getClasse().addListener(_ -> updateClassEquipment.run());
+        updateClassEquipment.run();
+
+        // For some lists, I don't actually need to build a runnable, I'm just doing it for coherence sake. I should probably use a method, then. UPDATE
+        this.backgroundEquipment = FXCollections.observableArrayList();
+        Runnable updateBackgroundEquipment = updateList(backgroundEquipment, backend.getBackgroundEquipment());
+        backend.getBackground().addListener(_ -> updateBackgroundEquipment.run());
+        updateBackgroundEquipment.run();
+
+        this.choiceProficiencies = FXCollections.observableArrayList();
+        Runnable updateChoiceProficiencies = updateList(choiceProficiencies, backend.getChoiceProficiencies());
+        backend.getBackground().addListener(_ -> updateChoiceProficiencies.run());
+        updateChoiceProficiencies.run();
+
+        this.toolProficiencies = FXCollections.observableArrayList();
+        Runnable updateToolProficiencies = updateList(toolProficiencies, backend.getToolProficiencies());
+        backend.getBackground().addListener(_ -> updateToolProficiencies.run());
+        updateToolProficiencies.run();
 
         maxFeats = backend.getMaxFeats();
-
         this.availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
         bindObservableInteger(availableFeats, backend.getAvailableFeats());
-
         this.feats = new StringProperty[maxFeats];
         for (int i = 0; i < maxFeats; i++) {
             this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeats(i).get()));
             bindObservableString(feats[i], backend.getFeats(i));
         }
+    }
+
+    private Runnable updateList(ObservableList<StringProperty> front, List<ObservableString> back) {
+        Runnable update = () -> {
+            List<StringProperty> translated = new java.util.ArrayList<>();
+            for (ObservableString key : back) {
+                translated.add(new SimpleStringProperty(getTranslation(key.get())));
+            }
+            front.setAll(translated); // Only triggers listeners once
+        };
+        return update;
     }
     
     private void bindObservableString(StringProperty front, ObservableString back) {
@@ -352,6 +376,30 @@ public class ViewModel {
 
     public ObservableList<StringProperty> getPassives() {
         return passives;
+    }
+
+    public ObservableList<StringProperty> getWeaponProficiencies() {
+        return weaponProficiencies;
+    }
+
+    public ObservableList<StringProperty> getArmorProficiencies() {
+        return armorProficiencies;
+    }
+
+    public ObservableList<StringProperty> getToolProficiencies() {
+        return toolProficiencies;
+    }
+
+    public ObservableList<StringProperty> getClassEquipment() {
+        return classEquipment;
+    }
+
+    public ObservableList<StringProperty> getBackgroundEquipment() {
+        return backgroundEquipment;
+    }
+
+    public ObservableList<StringProperty> getChoiceProficiencies() {
+        return choiceProficiencies;
     }
 
     public StringProperty getCreatureType() {

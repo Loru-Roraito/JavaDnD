@@ -14,6 +14,7 @@ import com.dnd.utils.ObservableString;
 public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames;
+    private final String[] sets;
 
     private final ObservableString creatureType;
     private final ObservableString languageOne;
@@ -41,6 +42,12 @@ public class GameCharacter {
     
     private final List<ObservableString> actives;
     private final List<ObservableString> passives;
+    private final List<ObservableString> weaponProficiencies;
+    private final List<ObservableString> armorProficiencies;
+    private final List<ObservableString> toolProficiencies;
+    private final List<ObservableString> classEquipment;
+    private final List<ObservableString> backgroundEquipment;
+    private final List<ObservableString> choiceProficiencies;
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses; 
@@ -87,6 +94,7 @@ public class GameCharacter {
     public GameCharacter() {
         skillNames = getGroup(new String[] {"skills"});
         abilityNames = getGroup(new String[] {"abilities"});
+        sets = getGroup(new String[] {"sets"});
         int skillCount = skillNames.length;
         int abilityCount = abilityNames.length;
 
@@ -239,6 +247,20 @@ public class GameCharacter {
 
         originFeat = new ObservableString("");
         bindOriginFeat();
+
+        weaponProficiencies = new ArrayList<>();
+        bindWeaponProficiencies();
+        armorProficiencies = new ArrayList<>();
+        bindArmorProficiencies();
+        toolProficiencies = new ArrayList<>();
+        bindToolProficiencies();
+
+        classEquipment = new ArrayList<>();
+        bindClassEquipment();
+        backgroundEquipment = new ArrayList<>();
+        bindBackgroundEquipment();
+        choiceProficiencies = new ArrayList<>();
+        bindChoiceProficiencies();
     }
 
     // Getters
@@ -453,6 +475,30 @@ public class GameCharacter {
 
     public List<ObservableString> getPassives() {
         return passives;
+    }
+
+    public List<ObservableString> getWeaponProficiencies() {
+        return weaponProficiencies;
+    }
+
+    public List<ObservableString> getArmorProficiencies() {
+        return armorProficiencies;
+    }
+
+    public List<ObservableString> getToolProficiencies() {
+        return toolProficiencies;
+    }
+
+    public List<ObservableString> getClassEquipment() {
+        return classEquipment;
+    }
+
+    public List<ObservableString> getBackgroundEquipment() {
+        return backgroundEquipment;
+    }
+
+    public List<ObservableString> getChoiceProficiencies() {
+        return choiceProficiencies;
     }
 
     // Binders
@@ -1064,7 +1110,7 @@ public class GameCharacter {
         updateActives.run();
     }
 
-    private void bindPassives() { // Whenever this gets updated, you need to also update the equivalent in ViewModel
+    private void bindPassives() { // Whenever this part of code gets updated, you need to also update the equivalent in ViewModel
         Runnable updatePassives = () -> {
             passives.clear(); // Keep the list in sync
             String[] passiveNames = getGroup(new String[] {"species", species.get(), "passives"});
@@ -1090,6 +1136,82 @@ public class GameCharacter {
         lineage.addListener(_ -> updatePassives.run());
         level.addListener(_ -> updatePassives.run());
         updatePassives.run();
+    }
+
+    private void bindWeaponProficiencies() {
+        Runnable updateWeaponProficiencies = () -> {
+            weaponProficiencies.clear();
+        };
+
+        updateWeaponProficiencies.run();
+    }
+
+    private void bindArmorProficiencies() {
+        Runnable updateArmorProficiencies = () -> {
+            armorProficiencies.clear();
+        };
+
+        updateArmorProficiencies.run();
+    }
+
+    private void bindToolProficiencies() {
+        Runnable updateToolProficiencies = () -> {
+            toolProficiencies.clear();
+            // in the 2024 rules only one tool proficiency is given for each background. Done like this for future compatibility
+            String[] tools = getGroup(new String[] {"backgrounds", background.get(), "tools"});
+
+            for (String tool : tools) {
+                if (tool != null) {
+                    toolProficiencies.add(new ObservableString(tool));
+                }
+            }
+        };
+
+        background.addListener(_ -> updateToolProficiencies.run());
+        updateToolProficiencies.run();
+    }
+
+    private void bindClassEquipment() {
+        classe.addListener((newVal) -> {
+            classEquipment.clear();
+
+            classEquipment.add(new ObservableString(newVal));
+            
+            String[] equipments = getGroup(new String[] {"classes", newVal, "equipment"});
+            for (String equipment : equipments) {
+                if (Arrays.asList(sets).contains(equipment)) {
+                    classEquipment.add(new ObservableString("RANDOM"));
+                }
+            }
+        });
+    }
+
+    private void bindBackgroundEquipment() {
+        background.addListener((newVal) -> {
+            backgroundEquipment.clear();
+
+            backgroundEquipment.add(new ObservableString(newVal));
+            
+            String[] equipments = getGroup(new String[] {"backgrounds", newVal, "equipment"});
+            for (String equipment : equipments) {
+                if (Arrays.asList(sets).contains(equipment)) {
+                    backgroundEquipment.add(new ObservableString("RANDOM"));
+                }
+            }
+        });
+    }
+
+    private void bindChoiceProficiencies() {
+        background.addListener((newVal) -> {
+            choiceProficiencies.clear();
+            
+            String[] equipments = getGroup(new String[] {"backgrounds", newVal, "tools"});
+            for (String equipment : equipments) {
+                if (Arrays.asList(sets).contains(equipment)) {
+                    choiceProficiencies.add(new ObservableString("RANDOM"));
+                }
+            }
+        });
     }
 
     // Helpers

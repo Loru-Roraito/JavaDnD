@@ -112,7 +112,9 @@ public class ClassPane extends GridPane {
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel().get() >= 3 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
-                add(featsLabel, 0, 6);
+                if (!getChildren().contains(featsLabel)) {
+                    add(featsLabel, 0, 6);
+                }
             } else {
                 getChildren().remove(featsLabel);
             }

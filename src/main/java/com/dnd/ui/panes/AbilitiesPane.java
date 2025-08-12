@@ -2,8 +2,6 @@ package com.dnd.ui.panes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
@@ -11,10 +9,11 @@ import com.dnd.ViewModel;
 import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
+import com.dnd.utils.ComboBoxUtils;
+import com.dnd.ui.tooltip.TooltipComboBox;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -29,7 +28,7 @@ public class AbilitiesPane extends GridPane {
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
     private final String[] abilityNames = getTranslations("abilities");
-    private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
+    private final List<TooltipComboBox<String>> comboBoxes = new ArrayList<>();
     private final List<Button> minuses = new ArrayList<>();
     private final List<Label> labels = new ArrayList<>();
     private final List<Button> pluses = new ArrayList<>();
@@ -115,41 +114,6 @@ public class AbilitiesPane extends GridPane {
         generateAbilitiesUI();
     }
 
-    // Make sure no duplicate values are selected in the ability ComboBoxes
-    private void updateItems(ComboBox<String> comboBox, List<ComboBox<String>> comboBoxes, ObservableList<String> baseValues) {
-        // Collect all selected values except RANDOM and this ComboBox
-        Set<String> selected = comboBoxes.stream()
-            .filter(cb -> cb != comboBox)
-            .map(ComboBox::getValue)
-            .filter(v -> v != null && !v.equals(getTranslation("RANDOM")))
-            .collect(Collectors.toSet());
-
-        // Always start with RANDOM on top
-        List<String> newItems = new ArrayList<>();
-        newItems.add(getTranslation("RANDOM"));
-        
-        // Add all base values except already selected ones and RANDOM
-        for (String val : baseValues) {
-            if (!val.equals(getTranslation("RANDOM")) && !selected.contains(val)) {
-                newItems.add(val);
-            }
-        }
-
-        ObservableList<String> items = comboBox.getItems();
-        if (items == null) {
-            comboBox.setItems(FXCollections.observableArrayList(newItems));
-        } else {
-            items.setAll(newItems);
-        }
-
-        String currentValue = comboBox.getValue();
-        if (currentValue != null && newItems.contains(currentValue)) {
-            comboBox.setValue(currentValue);
-        } else {
-            comboBox.setValue(getTranslation("RANDOM"));
-        }
-    }
-
     private void generateAbilitiesUI() {
         // Define the starting values (8, 10, 12, 13, 14, 15)
         String[] startingValues = {getTranslation("RANDOM"), "8", "10", "12", "13", "14", "15"};
@@ -159,7 +123,7 @@ public class AbilitiesPane extends GridPane {
             int index = i; // Capture the index for use in the lambda
 
             // ComboBox for selecting the starting value
-            ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(startingValues));
+            TooltipComboBox<String> comboBox = new TooltipComboBox<>(FXCollections.observableArrayList(startingValues), mainTabPane);
 
             // Add the ComboBox to the list
             comboBoxes.add(comboBox);
@@ -170,7 +134,7 @@ public class AbilitiesPane extends GridPane {
                 if (character.getGenerationMethod().get().equals(getTranslation("STANDARD_ARRAY"))) {
                     // When any comboBox changes, refresh all lists
                     for (int j = 0; j < comboBoxes.size(); j++) {
-                        updateItems(comboBoxes.get(j), comboBoxes, FXCollections.observableArrayList(startingValues));
+                        ComboBoxUtils.updateItems(comboBoxes.get(j), comboBoxes, FXCollections.observableArrayList(startingValues), getTranslation("RANDOM"));
                     }
                 }
             });

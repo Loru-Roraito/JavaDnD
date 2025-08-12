@@ -189,6 +189,8 @@ public class App extends Application {
 // sistemare bene la questione del lignaggio degli gnomi/elfi. Voglio scrivere esplicitamente dei trucchetti posseduti
 // custom observableMap, mi sembra la cosa più comoda
 // sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
-// riordinare elementi in comboBox
+// riordinare elementi in comboBox (alfabeticamente o boh. Devo creare un metodo nella ComboBox custom)
 // possibilità di scegliere il tipo di calcolo CA
 // TooltipLabel che aggiorni il tooltip
+// valutare se usare (in GameCharacter) Runnable o Binding
+// further divide some files (especially groups.json and TranslationManager.java)

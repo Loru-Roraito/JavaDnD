@@ -599,97 +599,113 @@
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "RELIGION"],
       "feat": "MAGIC_INITIATE",
+      "tools": ["CALLIGRAPHERS_SUPPLIES"],
       "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
     "ARTISAN":{
       "abilities": ["STRENGTH", "DEXTERITY", "INTELLIGENCE"],
       "skills": ["INVESTIGATION", "PERSUASION"],
       "feat": "CRAFTER",
+      "tools": ["ARTISAN_TOOLS"],
       "equipment": ["2 POUCH", "TRAVELERS_CLOTHES", "32 GOLD"]
     },
     "CHARLATAN": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "CHARISMA"],
       "skills": ["DECEPTION", "SLEIGHT_OF_HAND"],
       "feat": "SKILLED",
+      "tools": ["FORGERY_KIT"],
       "equipment": ["FORGERY_KIT", "COSTUME", "FINE_CLOTHES", "15 GOLD"]
     },
     "CRIMINAL": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
       "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
       "feat": "ALERT",
+      "tools": ["THIEVES_TOOLS"],
       "equipment": ["THIEVES_TOOLS", "2 DAGGER", "CROWBAR", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
     },
     "ENTERTAINER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CHARISMA"],
       "skills": ["ACROBATICS", "PERFORMANCE"],
       "feat": "MUSICIAN",
+      "tools": ["MUSICAL_INSTRUMENTS"],
       "equipment": ["2 COSTUME", "MIRROR", "PERFUME", "TRAVELERS_CLOTHES", "11 GOLD"]
     },
     "FARMER": {
       "abilities": ["STRENGTH", "CONSTITUTION", "WISDOM"],
       "skills": ["ANIMAL_HANDLING", "NATURE"],
       "feat": "TOUGH",
+      "tools": ["CARPENTERS_TOOLS"],
       "equipment": ["SICKLE", "CARPENTERS_TOOLS", "HEALERS_KIT", "IRON_POT", "SHOVEL", "TRAVELERS_CLOTHES", "30 GOLD"]
     },
     "GUARD": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "WISDOM"],
       "skills": ["ATHLETICS", "PERCEPTION"],
       "feat": "ALERT",
+      "tools": ["GAMING_SETS"],
       "equipment": ["SPEAR", "CROSSBOW_LIGHT", "20 BOLT", "HOODED_LANTERN", "MANACLES", "QUIVER", "TRAVELERS_CLOTHES", "12 GOLD"]
     },
     "GUIDE": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
       "skills": ["STEALTH", "SURVIVAL"],
       "feat": "MAGIC_INITIATE",
+      "tools": ["CARTOGRAPHERS_TOOLS"],
       "equipment": ["SHORTBOW", "20 ARROW", "CARTOGRAPHERS_TOOLS", "BEDROLL", "QUIVER", "TENT", "TRAVELERS_CLOTHES", "3 GOLD"]
     },
     "HERMIT": {
       "abilities": ["CONSTITUTION", "WISDOM", "CHARISMA"],
       "skills": ["MEDICINE", "RELIGION"],
       "feat": "HEALER",
+      "tools": ["HERBALISM_KIT"],
       "equipment": ["HERBALISM_KIT", "BEDROLL", "QUARTERSTAFF", "BOOK_PHILOSOPHY", "LAMP", "3 OIL_FLASK", "TRAVELERS_CLOTHES", "16 GOLD"]
     },
     "MERCHANT": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "CHARISMA"],
       "skills": ["ANIMAL_HANDLING", "PERSUASION"],
       "feat": "LUCKY",
+      "tools": ["NAVIGATORS_TOOLS"],
       "equipment": ["NAVIGATORS_TOOLS", "2 POUCH", "TRAVELERS_CLOTHES", "2 GOLD"]
     },
     "NOBLE": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "CHARISMA"],
       "skills": ["HISTORY", "PERSUASION"],
       "feat": "SKILLED",
+      "tools": ["GAMING_SETS"],
       "equipment": ["FINE_CLOTHES", "PERFUME", "29 GOLD"]
     },
     "SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
       "feat": "MAGIC_INITIATE",
+      "tools": ["CALLIGRAPHERS_SUPPLIES"],
       "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
     "SAILOR": {
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
       "skills": ["ACROBATICS", "PERCEPTION"],
       "feat": "TAVERN_BROWLER",
+      "tools": ["NAVIGATORS_TOOLS"],
       "equipment": ["DAGGER", "NAVIGATORS_TOOLS", "ROPE", "TRAVELERS_CLOTHES", "20 GOLD"]
     },
     "SCRIBE": {
       "abilities": ["DEXTERITY", "INTELLIGENCE", "WISDOM"],
       "skills": ["INVESTIGATION", "PERCEPTION"],
       "feat": "SKILLED",
+      "tools": ["CALLIGRAPHERS_SUPPLIES"],
       "equipment": ["CALLIGRAPHERS_SUPPLIES", "FINE_CLOTHES", "12 PARCHMENT_SHEETS", "LAMP", "3 OIL_FLASK", "23 GOLD"]
     },
     "SOLDIER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
       "skills": ["ATHLETICS", "INTIMIDATION"],
       "feat": "SAVAGE_ATTACKER",
+      "tools": ["GAMING_SETS"],
       "equipment": ["SPEAR", "SHORTBOW", "20 ARROW", "HEALERS_KIT", "QUIVER", "TRAVELERS_CLOTHES", "14 GOLD"]
     },
     "WAYFARER": {
       "abilities": ["DEXTERITY", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "STEALTH"],
       "feat": "LUCKY",
-      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "BEDROLL", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
+      "tools": ["THIEVES_TOOLS"],
+      "equipment": ["GAMING_SETS", "THIEVES_TOOLS", "2 DAGGER", "BEDROLL", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
     }
   },
 
@@ -1375,8 +1391,14 @@
       "tags": ["SHIELD"]
     }
   },
-  
-    "genders": [
+
+  "sets": {
+    "ARTISAN_TOOLS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS"],
+    "GAMING_SETS": ["DICE", "DRAGONCHESS", "PLAYING_CARDS", "THREE_DRAGON_ANTE"],
+    "MUSICAL_INSTRUMENTS": ["BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"]
+  },
+
+  "genders": [
     "NONE_M",
     "MALE",
     "FEMALE"
