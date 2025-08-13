@@ -28,11 +28,13 @@ public class ProficienciesPane extends GridPane {
     private final String[] choiceArrays;
     private final List<TooltipComboBox<String>> choiceComboBoxes;
     private final List<String[]> startingValues;
+    private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
     public ProficienciesPane(ViewModel character, GridPane gridPane, TabPane mainTabPane) {
         this.character = character;
         this.choiceComboBoxes = new java.util.ArrayList<>();
         this.startingValues = new ArrayList<>();
+        this.groupItemsList = new ArrayList<>();
         this.mainTabPane = mainTabPane;
         getStyleClass().add("grid-pane");
 
@@ -141,6 +143,7 @@ public class ProficienciesPane extends GridPane {
         }
         choiceComboBoxes.clear();
         startingValues.clear();
+        groupItemsList.clear();
 
         Boolean isFirstLine = true;
         for (StringProperty proficiency : properties) {
@@ -153,13 +156,14 @@ public class ProficienciesPane extends GridPane {
                 comboBox.setPromptText(getTranslation("RANDOM"));
                 choiceComboBoxes.add(comboBox); 
                 startingValues.add(items);  
+                groupItemsList.add(groupItems);
 
                 int index = choiceComboBoxes.size();
                 add(comboBox, 0, 6 + index);
 
                 comboBox.valueProperty().addListener((_, _, _) -> {
                     for (int j = 0; j < index; j++) {
-                        ComboBoxUtils.updateItems(choiceComboBoxes.get(j), choiceComboBoxes, FXCollections.observableArrayList(startingValues.get(j)), getTranslation("RANDOM"));
+                        ComboBoxUtils.updateItems(choiceComboBoxes.get(j), choiceComboBoxes, groupItemsList.get(j), startingValues.get(j), new String[] {getTranslation("RANDOM")});
                     }
                 });
 

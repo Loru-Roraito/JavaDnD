@@ -7,10 +7,10 @@ import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tabs.InfoTab;
+import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.utils.ComboBoxUtils;
-import com.dnd.ui.tooltip.TooltipComboBox;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.collections.ObservableList;
 
 public class AbilitiesPane extends GridPane {
     private final ViewModel character;
@@ -34,6 +35,7 @@ public class AbilitiesPane extends GridPane {
     private final List<Button> pluses = new ArrayList<>();
     private final List<Button> buttons = new ArrayList<>();
     private final List<TextField> customs= new ArrayList<>();
+    private final List<ObservableList<String>> groupItemsList;
 
     private final Label points = new Label();
 
@@ -42,6 +44,7 @@ public class AbilitiesPane extends GridPane {
         this.character = character;
         this.mainTabPane = mainTabPane;
         this.infoTab = infoTab;
+        this.groupItemsList = new ArrayList<>();
         // Create sections for abilities, skills, and saving throws
         abilitiesSection.getStyleClass().add("grid-pane");
         GridPane skillsSection = new GridPane();
@@ -123,10 +126,12 @@ public class AbilitiesPane extends GridPane {
             int index = i; // Capture the index for use in the lambda
 
             // ComboBox for selecting the starting value
-            TooltipComboBox<String> comboBox = new TooltipComboBox<>(FXCollections.observableArrayList(startingValues), mainTabPane);
+            ObservableList<String> baseValues = FXCollections.observableArrayList(startingValues);
+            TooltipComboBox<String> comboBox = new TooltipComboBox<>(baseValues, mainTabPane);
 
             // Add the ComboBox to the list
             comboBoxes.add(comboBox);
+            groupItemsList.add(baseValues);
             comboBox.setPromptText(getTranslation("RANDOM"));
 
             // Bind the selected value of the ComboBox to the corresponding ability in the Character class
@@ -134,7 +139,7 @@ public class AbilitiesPane extends GridPane {
                 if (character.getGenerationMethod().get().equals(getTranslation("STANDARD_ARRAY"))) {
                     // When any comboBox changes, refresh all lists
                     for (int j = 0; j < comboBoxes.size(); j++) {
-                        ComboBoxUtils.updateItems(comboBoxes.get(j), comboBoxes, FXCollections.observableArrayList(startingValues), getTranslation("RANDOM"));
+                        ComboBoxUtils.updateItems(comboBoxes.get(j), comboBoxes, groupItemsList.get(j), startingValues, new String[] {getTranslation("RANDOM")});
                     }
                 }
             });
@@ -294,22 +299,18 @@ public class AbilitiesPane extends GridPane {
 
             proficiency.disableProperty().bind(character.getAvailableSkill(index).not());
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
-
-            // Skill value display
-            Label value = new Label();
-            value.textProperty().bind(
-                character.getSkillModifier(index).asString()
-            );
-            skillsArea.add(value, 3, i); // Column 3, Row i
             
             // Button to roll a D20
-            Button rollButton = new Button(getTranslation("THROW"));
+            Button rollButton = new Button("0");
+            rollButton.textProperty().bind(
+                character.getSkillModifier(index).asString()
+            );
 
             // Add a listener to the button to roll
             rollButton.setOnAction(_ -> {
                 infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false, false);
             });
-            skillsArea.add(rollButton, 4, i); // Column 4, Row i
+            skillsArea.add(rollButton, 3, i); // Column 3, Row i
         }
     }
 
@@ -332,23 +333,18 @@ public class AbilitiesPane extends GridPane {
 
             proficiency.selectedProperty().bind(character.getSavingThrowProficiency(index));
             proficiency.setDisable(true);
-
-            // Final value display
-            Label value = new Label();
-            // Bind the text of the label to the ability value and modifier
-            value.textProperty().bind(
-                character.getSavingThrowModifier(index).asString()
-            );
-            savingThrowsArea.add(value, 2, i); // Column 2, Row i
     
             // Button to roll a D20
-            Button rollButton = new Button(getTranslation("THROW"));
+            Button rollButton = new Button("0");
+            rollButton.textProperty().bind(
+                character.getSavingThrowModifier(index).asString()
+            );
 
             // Add a listener to the button to roll
             rollButton.setOnAction(_ -> {
                 infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false);
             });
-            savingThrowsArea.add(rollButton, 3, i); // Column 3, Row i
+            savingThrowsArea.add(rollButton, 2, i); // Column 2, Row i
         }
     }
 

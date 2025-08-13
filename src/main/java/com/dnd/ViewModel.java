@@ -279,6 +279,7 @@ public class ViewModel {
         backend.getSpecies().addListener(_ -> updateActives.run());
         backend.getLineage().addListener(_ -> updateActives.run());
         backend.getLevel().addListener(_ -> updateActives.run());
+        backend.getOriginFeat().addListener(_ -> updateActives.run());
         updateActives.run();
 
         this.passives = FXCollections.observableArrayList();
@@ -286,6 +287,7 @@ public class ViewModel {
         backend.getSpecies().addListener(_ -> updatePassives.run());
         backend.getLineage().addListener(_ -> updatePassives.run());
         backend.getLevel().addListener(_ -> updatePassives.run());
+        backend.getOriginFeat().addListener(_ -> updatePassives.run());
         updatePassives.run();
         
         this.weaponProficiencies = FXCollections.observableArrayList();
@@ -322,8 +324,8 @@ public class ViewModel {
         bindObservableInteger(availableFeats, backend.getAvailableFeats());
         this.feats = new StringProperty[maxFeats];
         for (int i = 0; i < maxFeats; i++) {
-            this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeats(i).get()));
-            bindObservableString(feats[i], backend.getFeats(i));
+            this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
+            bindObservableString(feats[i], backend.getFeat(i));
         }
     }
 

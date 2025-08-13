@@ -218,12 +218,6 @@ public class GameCharacter {
 
         bindHitDie();
         bindHealth();
-
-        actives = new ArrayList<>();
-        bindActives();
-
-        passives = new ArrayList<>();
-        bindPassives();
         
         height = new ObservableString("");
         weight = new ObservableString("");
@@ -247,6 +241,12 @@ public class GameCharacter {
 
         originFeat = new ObservableString("");
         bindOriginFeat();
+
+        actives = new ArrayList<>();
+        bindActives();
+
+        passives = new ArrayList<>();
+        bindPassives();
 
         weaponProficiencies = new ArrayList<>();
         bindWeaponProficiencies();
@@ -365,7 +365,7 @@ public class GameCharacter {
         return abilityBasesShown[index];
     }
 
-    public ObservableString getFeats(int index) {
+    public ObservableString getFeat(int index) {
         return feats[index];
     }
 
@@ -1102,11 +1102,19 @@ public class GameCharacter {
                     }
                 }
             }
+
+            activeNames = getGroup(new String[] {"feats", originFeat.get(), "actives"});
+            if (activeNames != null) {
+                for (String active : activeNames) {
+                    actives.add(new ObservableString(active));
+                }
+            }
         };
         
         species.addListener(_ -> updateActives.run());
         lineage.addListener(_ -> updateActives.run());
         level.addListener(_ -> updateActives.run());
+        originFeat.addListener(_ -> updateActives.run());
         updateActives.run();
     }
 
@@ -1130,11 +1138,21 @@ public class GameCharacter {
                     }
                 }
             }
+
+            passiveNames = getGroup(new String[] {"feats", originFeat.get(), "passives"});
+            if (passiveNames != null) {
+                for (String passive : passiveNames) {
+                    if (level.get() >= getInt(new String[] {"feats", originFeat.get(), "passives", passive})) {
+                        passives.add(new ObservableString(passive));
+                    }
+                }
+            }
         };
 
         species.addListener(_ -> updatePassives.run());
         lineage.addListener(_ -> updatePassives.run());
         level.addListener(_ -> updatePassives.run());
+        originFeat.addListener(_ -> updatePassives.run());
         updatePassives.run();
     }
 

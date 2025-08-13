@@ -66,7 +66,7 @@
   ],
 
   "max_subclasses": 4,
-  "max_feats": 5,
+  "max_feats": 6,
 
   "classes": {
     "NONE_F": {
@@ -82,7 +82,7 @@
       "abilities": ["STRENGTH", "CONSTITUTION"],
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
-      "feats": [4, 8, 12, 16, 19],
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "PATH_OF_THE_BERSERKER": {
         },
@@ -99,6 +99,7 @@
       "abilities": ["DEXTERITY", "CHARISMA"],
       "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ARCANA", "ATHLETICS", "DECEPTION", "HISTORY", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "MEDICINE", "NATURE", "PERCEPTION", "PERFORMANCE", "PERSUASION", "RELIGION", "SLEIGHT_OF_HAND", "STEALTH", "SURVIVAL"],
       "skills_number": 3,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "COLLEGE_OF_DANCE": {
         },
@@ -115,6 +116,7 @@
       "abilities": ["WISDOM", "CHARISMA"],
       "skills": ["HISTORY", "INSIGHT", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "LIFE_DOMAIN": {
         },
@@ -131,6 +133,7 @@
       "abilities": ["INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "ANIMAL_HANDLING", "INSIGHT", "MEDICINE", "NATURE", "PERCEPTION", "RELIGION", "SURVIVAL"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "CIRCLE_OF_THE_LAND": {
         },
@@ -147,6 +150,7 @@
       "abilities": ["STRENGTH", "CONSTITUTION"],
       "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ATHLETICS", "HISTORY", "INSIGHT", "INTIMIDATION", "PERSUASION", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
+      "feats": [4, 6, 8, 12, 14, 16],
       "subclasses":{
         "BATTLE_MASTER": {
         },
@@ -163,6 +167,7 @@
       "abilities": ["STRENGTH", "DEXTERITY"],
       "skills": ["ACROBATICS", "ATHLETICS", "HISTORY", "INSIGHT", "PERCEPTION", "STEALTH"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "WARRIOR_OF_MERCY": {
         },
@@ -179,6 +184,7 @@
       "abilities": ["WISDOM", "CHARISMA"],
       "skills": ["ATHLETICS", "INSIGHT", "INTIMIDATION", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "OATH_OF_DEVOTION": {
         },
@@ -195,6 +201,7 @@
       "abilities": ["STRENGTH", "DEXTERITY"],
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INSIGHT", "INVESTIGATION", "NATURE", "PERCEPTION", "STEALTH", "SURVIVAL"],
       "skills_number": 3,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "BEAST_MASTER": {
         },
@@ -211,6 +218,7 @@
       "abilities": ["DEXTERITY", "INTELLIGENCE"],
       "skills": ["ACROBATICS", "ATHLETICS", "DECEPTION", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "PERCEPTION", "PERSUASION", "SLEIGHT_OF_HAND", "STEALTH"],
       "skills_number": 4,
+      "feats": [4, 8, 10, 12, 16],
       "subclasses":{
         "ARCANE_TRICKSTER": {
         },
@@ -227,6 +235,7 @@
       "abilities": ["CONSTITUTION", "CHARISMA"],
       "skills": ["ARCANA", "DECEPTION", "INSIGHT", "INTIMIDATION", "PERSUASION", "RELIGION"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "ABERRANT_SORCERY": {
         },
@@ -243,6 +252,7 @@
       "abilities": ["WISDOM", "CHARISMA"],
       "skills": ["ARCANA", "DECEPTION", "HISTORY", "INTIMIDATION", "INVESTIGATION", "NATURE", "RELIGION"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "ARCHFEY_PATRON": {
         },
@@ -259,6 +269,7 @@
       "abilities": ["INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY", "INSIGHT", "INVESTIGATION", "MEDICINE", "NATURE", "RELIGION"],
       "skills_number": 2,
+      "feats": [4, 8, 12, 16],
       "subclasses":{
         "ABJURER": {
         },
@@ -598,7 +609,7 @@
     "ACOLYTE": {
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "RELIGION"],
-      "feat": "MAGIC_INITIATE",
+      "feat": "MAGIC_INITIATE_CLERIC",
       "tools": ["CALLIGRAPHERS_SUPPLIES"],
       "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
@@ -647,7 +658,7 @@
     "GUIDE": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
       "skills": ["STEALTH", "SURVIVAL"],
-      "feat": "MAGIC_INITIATE",
+      "feat": "MAGIC_INITIATE_DRUID",
       "tools": ["CARTOGRAPHERS_TOOLS"],
       "equipment": ["SHORTBOW", "20 ARROW", "CARTOGRAPHERS_TOOLS", "BEDROLL", "QUIVER", "TENT", "TRAVELERS_CLOTHES", "3 GOLD"]
     },
@@ -675,14 +686,14 @@
     "SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
-      "feat": "MAGIC_INITIATE",
+      "feat": "MAGIC_INITIATE_WIZARD",
       "tools": ["CALLIGRAPHERS_SUPPLIES"],
       "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
     },
     "SAILOR": {
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
       "skills": ["ACROBATICS", "PERCEPTION"],
-      "feat": "TAVERN_BROWLER",
+      "feat": "TAVERN_BRAWLER",
       "tools": ["NAVIGATORS_TOOLS"],
       "equipment": ["DAGGER", "NAVIGATORS_TOOLS", "ROPE", "TRAVELERS_CLOTHES", "20 GOLD"]
     },
@@ -1389,6 +1400,87 @@
       "stealth": false,
       "weight": 6,
       "tags": ["SHIELD"]
+    }
+  },
+
+  "feats": {
+    "ALERT": {
+      "actives": ["INITIATIVE_PROFICIENCY", "INITIATIVE_SWAP"],
+      "passives": [],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "CRAFTER": {
+      "actives": ["FAST_CRAFTING"],
+      "passives": ["TOOL_PROFICIENCY", "DISCOUNT"],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "HEALER": {
+      "actives": ["BATTLE_MEDIC", "HEALING_REROLLS"],
+      "passives": [],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "LUCKY": {
+      "actives": ["ADVANTAGE", "DISADVANTAGE"],
+      "passives": ["LUCK_POINTS"],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "MAGIC_INITIATE": {
+      "actives": ["MAGIC_INITIATE"],
+      "passives": [],
+      "type": "ORIGIN",
+      "repeatable": true
+    },
+    "MAGIC_INITIATE_CLERIC": {
+      "actives": ["MAGIC_INITIATE_CLERIC"],
+      "passives": [],
+      "type": "",
+      "repeatable": false
+    },
+    "MAGIC_INITIATE_DRUID": {
+      "actives": ["MAGIC_INITIATE_DRUID"],
+      "passives": [],
+      "type": "",
+      "repeatable": false
+    },
+    "MAGIC_INITIATE_WIZARD": {
+      "actives": ["MAGIC_INITIATE_WIZARD"],
+      "passives": [],
+      "type": "",
+      "repeatable": false
+    },
+    "MUSICIAN": {
+      "actives": ["ENCOURAGING_SONG"],
+      "passives": ["INSTRUMENT_TRAINING"],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "SAVAGE_ATTACKER": {
+      "actives": ["SAVAGE_ATTACKER"],
+      "passives": [],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "SKILLED": {
+      "actives": [],
+      "passives": ["SKILLED"],
+      "type": "ORIGIN",
+      "repeatable": true
+    },
+    "TAVERN_BRAWLER": {
+      "actives": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH"],
+      "passives": ["IMPROVISED_WEAPONRY"],
+      "type": "ORIGIN",
+      "repeatable": false
+    },
+    "TOUGH": {
+      "actives": [],
+      "passives": ["TOUGH"],
+      "type": "ORIGIN",
+      "repeatable": false
     }
   },
 

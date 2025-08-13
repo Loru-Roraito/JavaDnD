@@ -1,12 +1,15 @@
 package com.dnd.ui.panes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
+import com.dnd.utils.ComboBoxUtils;
 
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -14,8 +17,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
+import javafx.beans.value.ChangeListener;
 
 public class ClassPane extends GridPane {
+    private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
+    private final Map<TooltipComboBox<String>, ChangeListener<String>> featListeners = new HashMap<>();
     public ClassPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
@@ -105,10 +111,7 @@ public class ClassPane extends GridPane {
 
         // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
         int maxFeats = character.getMaxFeats();
-        List<ComboBox<String>> feats = new ArrayList<>(maxFeats);
-        for (int i = 0; i < maxFeats; i++) {
-            feats.add(new ComboBox<>());
-        }
+        List<TooltipComboBox<String>> feats = new ArrayList<>(maxFeats);
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel().get() >= 3 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
@@ -152,10 +155,11 @@ public class ClassPane extends GridPane {
         // Done this way so that the tooltip updates when the origin feat changes (could be done by modifying the TooltipLabel class, but it seemed simpler this way... I'll be doing it in the future, for now this should work)
         List<TooltipLabel> originFeats = new ArrayList<>(1);
         originFeats.add(new TooltipLabel(getTranslation("FEAT"), mainTabPane));
-
+        
         character.getBackground().addListener((_, _, newVal) -> {
             if (!newVal.equals(getTranslation("RANDOM"))) {
                 TooltipLabel originFeat = new TooltipLabel(character.getOriginFeat().get(), mainTabPane);
+
                 getChildren().remove(originFeats.get(0));
                 originFeats.remove(0);
                 add(originFeat, 0, 7);
@@ -167,7 +171,7 @@ public class ClassPane extends GridPane {
         });
 
         character.getAvailableFeats().addListener((_, oldVal, newVal) -> {
-            for (int i = 0; i < maxFeats; i++){
+            for (int i = 0; i < maxFeats; i++) {
                 if (i < newVal.intValue() && i >= oldVal.intValue()) {
                     add(feats.get(i), 0, 8 + i);
                 } else if (i >= newVal.intValue()) {
@@ -175,7 +179,80 @@ public class ClassPane extends GridPane {
                 }
             }
         });
-    }    
+
+        Runnable updateFeats = () -> {
+            int counter = 0;
+            for (TooltipComboBox<String> feat : feats) {
+                ChangeListener<String> listener = featListeners.remove(feat);
+                if (listener != null) {
+                    feat.valueProperty().removeListener(listener);
+                }
+                if (getChildren().contains(feat)) {
+                    counter ++;
+                    getChildren().remove(feat);
+                }
+            }
+            featListeners.clear();
+
+            baseValuesList.clear();
+            feats.clear();
+            String[] selectableFeats = getSelectableFeatsTranslated();
+            String originFeat = character.getOriginFeat().get();
+            // Filter out originFeat from selectableFeats
+            List<String> filteredFeats = new ArrayList<>();
+            for (String feat : selectableFeats) {
+                if (!feat.equals(originFeat)) {
+                    filteredFeats.add(feat);
+                }
+            }
+
+            // Add "RANDOM" at the front
+            String random = getTranslation("RANDOM");
+            String[] selectableFeatsWithRandom = new String[filteredFeats.size() + 1];
+            selectableFeatsWithRandom[0] = random;
+            for (int i = 0; i < filteredFeats.size(); i++) {
+                selectableFeatsWithRandom[i + 1] = filteredFeats.get(i);
+            }
+
+            String[] repeatableFeats = getRepeatableFeatsTranslated();
+            String[] repeatableFeatsWithRandom = new String[repeatableFeats.length + 1];
+            repeatableFeatsWithRandom[0] = random;
+            System.arraycopy(repeatableFeats, 0, repeatableFeatsWithRandom, 1, repeatableFeats.length);
+
+
+            for (int i = 0; i < maxFeats; i++) {
+                ObservableList<String> baseValues = FXCollections.observableArrayList(selectableFeatsWithRandom);
+                TooltipComboBox<String> comboBox = new TooltipComboBox<>(baseValues, mainTabPane);
+                baseValuesList.add(baseValues);
+                feats.add(comboBox);
+
+                comboBox.setPromptText(getTranslation("RANDOM"));
+                comboBox.valueProperty().bindBidirectional(character.getFeat(i));
+
+                ChangeListener<String> featListener = (_, _, _) -> {
+                    for (int j = 0; j < feats.size(); j++) {
+                        ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), selectableFeatsWithRandom, repeatableFeatsWithRandom);
+                    }
+                };
+                comboBox.valueProperty().addListener(featListener);
+                featListeners.put(comboBox, featListener);
+            }
+            
+            for (int j = 0; j < feats.size(); j++) {
+                ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), selectableFeatsWithRandom, repeatableFeatsWithRandom);
+            }
+
+            for (int i = 0; i < counter; i++) {
+                add(feats.get(i), 0, 8 + i);
+            }
+        };
+
+        character.getOriginFeat().addListener((_, _, _) -> {
+            updateFeats.run();
+        });
+
+        updateFeats.run();
+    }
 
     // Helper method to get translations
     private String getTranslation(String key) {
@@ -184,5 +261,13 @@ public class ClassPane extends GridPane {
 
     private String[] getGroup(String[] key) {
         return TranslationManager.getInstance().getGroup(key);
+    }
+
+    private String[] getSelectableFeatsTranslated() {
+        return TranslationManager.getInstance().getSelectableFeatsTranslated();
+    }
+
+    private String[] getRepeatableFeatsTranslated() {
+        return TranslationManager.getInstance().getRepeatableFeatsTranslated();
     }
 }

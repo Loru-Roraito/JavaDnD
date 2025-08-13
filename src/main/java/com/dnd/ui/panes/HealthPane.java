@@ -24,18 +24,14 @@ public class HealthPane extends GridPane {
         TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS") + ":", mainTabPane);
         add(hpLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
         
-        TooltipLabel initiativeLabel = new TooltipLabel("", getTranslation("INITIATIVE_BONUS"), mainTabPane);
-        initiativeLabel.textProperty().bind(
-            Bindings.concat(
-                getTranslation("INITIATIVE_BONUS"),
-                ": ",
-                character.getInitiativeBonus().asString()
-            )
-        );
+        TooltipLabel initiativeLabel = new TooltipLabel(getTranslation("INITIATIVE_BONUS") + ":", getTranslation("INITIATIVE_BONUS"), mainTabPane);
         add(initiativeLabel, 0, 1); // Add the label to the GridPane (Column 0, Row 0)
         GridPane.setColumnSpan(initiativeLabel, 3);
 
-        Button initiativeButton = new Button(getTranslation("THROW"));
+        Button initiativeButton = new Button(getTranslation("0"));
+        initiativeButton.textProperty().bind(
+            character.getInitiativeBonus().asString()
+        );
         
         // Add a listener to the button to roll
         initiativeButton.setOnAction(_ -> {

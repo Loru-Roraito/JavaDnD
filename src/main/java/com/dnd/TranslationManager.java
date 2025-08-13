@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +182,43 @@ public class TranslationManager {
         String[] translations = new String[keys.length];
         for (int i = 0; i < keys.length; i++) {
             translations[i] = getTranslation(keys[i]);
+        }
+        return translations;
+    }
+
+    public String[] getSelectableFeats() {
+        String[] allFeats = getGroup(new String[] {"feats"});
+        return Arrays.stream(allFeats)
+                .filter(feat -> {
+                    String type = getString(new String[] {"feats", feat, "type"});
+                    return type.equals("ORIGIN") || type.equals("GENERAL");
+                })
+                .toArray(String[]::new);
+    }
+
+    public String[] getSelectableFeatsTranslated() {
+        String[] selectableFeats = getSelectableFeats();
+        String[] translations = new String[selectableFeats.length];
+        for (int i = 0; i < selectableFeats.length; i++) {
+            translations[i] = getTranslation(selectableFeats[i]);
+        }
+        return translations;   
+    }
+
+    public String[] getRepeatableFeats() {
+        String[] selectableFeats = getSelectableFeats();
+        return Arrays.stream(selectableFeats)
+                .filter(feat -> {
+                    return getBoolean(new String[] {"feats", feat, "repeatable"});
+                })
+                .toArray(String[]::new);
+    }
+
+    public String[] getRepeatableFeatsTranslated() {
+        String[] repeatableFeats = getRepeatableFeats();
+        String[] translations = new String[repeatableFeats.length];
+        for (int i = 0; i < repeatableFeats.length; i++) {
+            translations[i] = getTranslation(repeatableFeats[i]);
         }
         return translations;
     }
