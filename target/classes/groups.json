@@ -83,6 +83,8 @@
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
+      "equipment": ["GREATAXE", "4 HANDAXE", "EXPLORERS_PACK"],
+      "gold": 75,
       "subclasses":{
         "PATH_OF_THE_BERSERKER": {
         },
@@ -611,112 +613,128 @@
       "skills": ["INSIGHT", "RELIGION"],
       "feat": "MAGIC_INITIATE_CLERIC",
       "tools": ["CALLIGRAPHERS_SUPPLIES"],
-      "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
+      "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"],
+      "gold": 50
     },
     "ARTISAN":{
       "abilities": ["STRENGTH", "DEXTERITY", "INTELLIGENCE"],
       "skills": ["INVESTIGATION", "PERSUASION"],
       "feat": "CRAFTER",
       "tools": ["ARTISAN_TOOLS"],
-      "equipment": ["2 POUCH", "TRAVELERS_CLOTHES", "32 GOLD"]
+      "equipment": ["2 POUCH", "TRAVELERS_CLOTHES", "32 GOLD"],
+      "gold": 50
     },
     "CHARLATAN": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "CHARISMA"],
       "skills": ["DECEPTION", "SLEIGHT_OF_HAND"],
       "feat": "SKILLED",
       "tools": ["FORGERY_KIT"],
-      "equipment": ["FORGERY_KIT", "COSTUME", "FINE_CLOTHES", "15 GOLD"]
+      "equipment": ["FORGERY_KIT", "COSTUME", "FINE_CLOTHES", "15 GOLD"],
+      "gold": 50
     },
     "CRIMINAL": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
       "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
       "feat": "ALERT",
       "tools": ["THIEVES_TOOLS"],
-      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "CROWBAR", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
+      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "CROWBAR", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"],
+      "gold": 50
     },
     "ENTERTAINER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CHARISMA"],
       "skills": ["ACROBATICS", "PERFORMANCE"],
       "feat": "MUSICIAN",
       "tools": ["MUSICAL_INSTRUMENTS"],
-      "equipment": ["2 COSTUME", "MIRROR", "PERFUME", "TRAVELERS_CLOTHES", "11 GOLD"]
+      "equipment": ["2 COSTUME", "MIRROR", "PERFUME", "TRAVELERS_CLOTHES", "11 GOLD"],
+      "gold": 50
     },
     "FARMER": {
       "abilities": ["STRENGTH", "CONSTITUTION", "WISDOM"],
       "skills": ["ANIMAL_HANDLING", "NATURE"],
       "feat": "TOUGH",
       "tools": ["CARPENTERS_TOOLS"],
-      "equipment": ["SICKLE", "CARPENTERS_TOOLS", "HEALERS_KIT", "IRON_POT", "SHOVEL", "TRAVELERS_CLOTHES", "30 GOLD"]
+      "equipment": ["SICKLE", "CARPENTERS_TOOLS", "HEALERS_KIT", "IRON_POT", "SHOVEL", "TRAVELERS_CLOTHES", "30 GOLD"],
+      "gold": 50
     },
     "GUARD": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "WISDOM"],
       "skills": ["ATHLETICS", "PERCEPTION"],
       "feat": "ALERT",
       "tools": ["GAMING_SETS"],
-      "equipment": ["SPEAR", "CROSSBOW_LIGHT", "20 BOLT", "HOODED_LANTERN", "MANACLES", "QUIVER", "TRAVELERS_CLOTHES", "12 GOLD"]
+      "equipment": ["SPEAR", "CROSSBOW_LIGHT", "20 BOLT", "HOODED_LANTERN", "MANACLES", "QUIVER", "TRAVELERS_CLOTHES", "12 GOLD"],
+      "gold": 50
     },
     "GUIDE": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "WISDOM"],
       "skills": ["STEALTH", "SURVIVAL"],
       "feat": "MAGIC_INITIATE_DRUID",
       "tools": ["CARTOGRAPHERS_TOOLS"],
-      "equipment": ["SHORTBOW", "20 ARROW", "CARTOGRAPHERS_TOOLS", "BEDROLL", "QUIVER", "TENT", "TRAVELERS_CLOTHES", "3 GOLD"]
+      "equipment": ["SHORTBOW", "20 ARROW", "CARTOGRAPHERS_TOOLS", "BEDROLL", "QUIVER", "TENT", "TRAVELERS_CLOTHES", "3 GOLD"],
+      "gold": 50
     },
     "HERMIT": {
       "abilities": ["CONSTITUTION", "WISDOM", "CHARISMA"],
       "skills": ["MEDICINE", "RELIGION"],
       "feat": "HEALER",
       "tools": ["HERBALISM_KIT"],
-      "equipment": ["HERBALISM_KIT", "BEDROLL", "QUARTERSTAFF", "BOOK_PHILOSOPHY", "LAMP", "3 OIL_FLASK", "TRAVELERS_CLOTHES", "16 GOLD"]
+      "equipment": ["HERBALISM_KIT", "BEDROLL", "QUARTERSTAFF", "BOOK_PHILOSOPHY", "LAMP", "3 OIL_FLASK", "TRAVELERS_CLOTHES", "16 GOLD"],
+      "gold": 50
     },
     "MERCHANT": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "CHARISMA"],
       "skills": ["ANIMAL_HANDLING", "PERSUASION"],
       "feat": "LUCKY",
       "tools": ["NAVIGATORS_TOOLS"],
-      "equipment": ["NAVIGATORS_TOOLS", "2 POUCH", "TRAVELERS_CLOTHES", "2 GOLD"]
+      "equipment": ["NAVIGATORS_TOOLS", "2 POUCH", "TRAVELERS_CLOTHES", "2 GOLD"],
+      "gold": 50
     },
     "NOBLE": {
       "abilities": ["STRENGTH", "INTELLIGENCE", "CHARISMA"],
       "skills": ["HISTORY", "PERSUASION"],
       "feat": "SKILLED",
       "tools": ["GAMING_SETS"],
-      "equipment": ["FINE_CLOTHES", "PERFUME", "29 GOLD"]
+      "equipment": ["FINE_CLOTHES", "PERFUME", "29 GOLD"],
+      "gold": 50
     },
     "SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
       "feat": "MAGIC_INITIATE_WIZARD",
       "tools": ["CALLIGRAPHERS_SUPPLIES"],
-      "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"]
+      "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"],
+      "gold": 50
     },
     "SAILOR": {
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
       "skills": ["ACROBATICS", "PERCEPTION"],
       "feat": "TAVERN_BRAWLER",
       "tools": ["NAVIGATORS_TOOLS"],
-      "equipment": ["DAGGER", "NAVIGATORS_TOOLS", "ROPE", "TRAVELERS_CLOTHES", "20 GOLD"]
+      "equipment": ["DAGGER", "NAVIGATORS_TOOLS", "ROPE", "TRAVELERS_CLOTHES", "20 GOLD"],
+      "gold": 50
     },
     "SCRIBE": {
       "abilities": ["DEXTERITY", "INTELLIGENCE", "WISDOM"],
       "skills": ["INVESTIGATION", "PERCEPTION"],
       "feat": "SKILLED",
       "tools": ["CALLIGRAPHERS_SUPPLIES"],
-      "equipment": ["CALLIGRAPHERS_SUPPLIES", "FINE_CLOTHES", "12 PARCHMENT_SHEETS", "LAMP", "3 OIL_FLASK", "23 GOLD"]
+      "equipment": ["CALLIGRAPHERS_SUPPLIES", "FINE_CLOTHES", "12 PARCHMENT_SHEETS", "LAMP", "3 OIL_FLASK", "23 GOLD"],
+      "gold": 50
     },
     "SOLDIER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
       "skills": ["ATHLETICS", "INTIMIDATION"],
       "feat": "SAVAGE_ATTACKER",
       "tools": ["GAMING_SETS"],
-      "equipment": ["SPEAR", "SHORTBOW", "20 ARROW", "HEALERS_KIT", "QUIVER", "TRAVELERS_CLOTHES", "14 GOLD"]
+      "equipment": ["SPEAR", "SHORTBOW", "20 ARROW", "HEALERS_KIT", "QUIVER", "TRAVELERS_CLOTHES", "14 GOLD"],
+      "gold": 50
     },
     "WAYFARER": {
       "abilities": ["DEXTERITY", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "STEALTH"],
       "feat": "LUCKY",
       "tools": ["THIEVES_TOOLS"],
-      "equipment": ["GAMING_SETS", "THIEVES_TOOLS", "2 DAGGER", "BEDROLL", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"]
+      "equipment": ["GAMING_SETS", "THIEVES_TOOLS", "2 DAGGER", "BEDROLL", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"],
+      "gold": 50
     }
   },
 
@@ -1481,6 +1499,58 @@
       "passives": ["TOUGH"],
       "type": "ORIGIN",
       "repeatable": false
+    },
+    "ABILITY_SCORE_IMPROVEMENT": {
+      "actives": [],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": true,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 2,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "ACTOR": {
+      "actives": ["MIMICRY"],
+      "passives": ["IMPERSONATION"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 13]
+    },
+    "ATHLETE": {
+      "actives": ["HOP_UP", "JUMPING"],
+      "passives": ["CLIMB_SPEED"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "ELEMENTAL_ADEPT": {
+      "actives": ["ELEMENTAL_ADEPT"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "magic": true
+    },
+    "HEAVILY_ARMORED": {
+      "actives": [],
+      "passives": ["HEAVY_ARMOR_TRAINING"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "CONSTITUTION"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "armorProficiencies": ["MEDIUM_ARMORS"]
     }
   },
 

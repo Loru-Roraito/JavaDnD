@@ -192,7 +192,8 @@ public class App extends Application {
 // riordinare elementi in comboBox (alfabeticamente o boh. Devo creare un metodo nella ComboBox custom)
 // possibilità di scegliere il tipo di calcolo CA
 // TooltipLabel che aggiorni il tooltip
-// valutare se usare (in GameCharacter) Runnable o Binding
 // further divide some files (especially groups.json and TranslationManager.java)
 // forse l'ho già indicato, ma tiri personalizzati (es: acrobazia su carisma)
 // rimuovere i listener quando elimino un oggetto
+// non distruggere le comboBox delle feat (bisogna modificare CustomObservableList)
+// semplificare CustomObservableList (non serve tenere traccia di tutte le ObservableList, possono essere recuperate con getItems())

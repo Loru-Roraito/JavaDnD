@@ -196,13 +196,9 @@ public class TranslationManager {
                 .toArray(String[]::new);
     }
 
-    public String[] getSelectableFeatsTranslated() {
-        String[] selectableFeats = getSelectableFeats();
-        String[] translations = new String[selectableFeats.length];
-        for (int i = 0; i < selectableFeats.length; i++) {
-            translations[i] = getTranslation(selectableFeats[i]);
-        }
-        return translations;   
+    public String[] getMagicClasses() {
+        // UPDATE
+        return getGroup(new String[] {"magic_classes"});
     }
 
     public String[] getRepeatableFeats() {

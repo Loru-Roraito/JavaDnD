@@ -7,6 +7,7 @@ import com.dnd.utils.Constants;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
+import com.dnd.utils.CustomObservableList;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -80,6 +81,7 @@ public class ViewModel {
     private final ObservableList<StringProperty> classEquipment;
     private final ObservableList<StringProperty> backgroundEquipment;
     private final ObservableList<StringProperty> choiceProficiencies;
+    private final ObservableList<StringProperty> selectableFeats;
 
     public ViewModel(GameCharacter backend) {
         this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
@@ -275,49 +277,32 @@ public class ViewModel {
         }
 
         this.actives = FXCollections.observableArrayList();
-        Runnable updateActives = updateList(actives, backend.getActives());
-        backend.getSpecies().addListener(_ -> updateActives.run());
-        backend.getLineage().addListener(_ -> updateActives.run());
-        backend.getLevel().addListener(_ -> updateActives.run());
-        backend.getOriginFeat().addListener(_ -> updateActives.run());
-        updateActives.run();
+        updateList(actives, backend.getActives());
 
         this.passives = FXCollections.observableArrayList();
-        Runnable updatePassives = updateList(passives, backend.getPassives());
-        backend.getSpecies().addListener(_ -> updatePassives.run());
-        backend.getLineage().addListener(_ -> updatePassives.run());
-        backend.getLevel().addListener(_ -> updatePassives.run());
-        backend.getOriginFeat().addListener(_ -> updatePassives.run());
-        updatePassives.run();
+        updateList(passives, backend.getPassives());
         
         this.weaponProficiencies = FXCollections.observableArrayList();
-        Runnable updateWeaponProficiencies = updateList(weaponProficiencies, backend.getWeaponProficiencies());
-        updateWeaponProficiencies.run();
+        updateList(weaponProficiencies, backend.getWeaponProficiencies());
 
         this.armorProficiencies = FXCollections.observableArrayList();
-        Runnable updateArmorProficiencies = updateList(armorProficiencies, backend.getArmorProficiencies());
-        updateArmorProficiencies.run();
+        updateList(armorProficiencies, backend.getArmorProficiencies());
 
         this.classEquipment = FXCollections.observableArrayList();
-        Runnable updateClassEquipment = updateList(classEquipment, backend.getClassEquipment());
-        backend.getClasse().addListener(_ -> updateClassEquipment.run());
-        updateClassEquipment.run();
+        updateList(classEquipment, backend.getClassEquipment());
 
         // For some lists, I don't actually need to build a runnable, I'm just doing it for coherence sake. I should probably use a method, then. UPDATE
         this.backgroundEquipment = FXCollections.observableArrayList();
-        Runnable updateBackgroundEquipment = updateList(backgroundEquipment, backend.getBackgroundEquipment());
-        backend.getBackground().addListener(_ -> updateBackgroundEquipment.run());
-        updateBackgroundEquipment.run();
+        updateList(backgroundEquipment, backend.getBackgroundEquipment());
 
         this.choiceProficiencies = FXCollections.observableArrayList();
-        Runnable updateChoiceProficiencies = updateList(choiceProficiencies, backend.getChoiceProficiencies());
-        backend.getBackground().addListener(_ -> updateChoiceProficiencies.run());
-        updateChoiceProficiencies.run();
+        updateList(choiceProficiencies, backend.getChoiceProficiencies());
 
         this.toolProficiencies = FXCollections.observableArrayList();
-        Runnable updateToolProficiencies = updateList(toolProficiencies, backend.getToolProficiencies());
-        backend.getBackground().addListener(_ -> updateToolProficiencies.run());
-        updateToolProficiencies.run();
+        updateList(toolProficiencies, backend.getToolProficiencies());
+
+        this.selectableFeats = FXCollections.observableArrayList();
+        updateList(selectableFeats, backend.getNewSelectableFeats());
 
         maxFeats = backend.getMaxFeats();
         this.availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
@@ -329,15 +314,18 @@ public class ViewModel {
         }
     }
 
-    private Runnable updateList(ObservableList<StringProperty> front, List<ObservableString> back) {
+    private void updateList(ObservableList<StringProperty> front, CustomObservableList<ObservableString> back) {
         Runnable update = () -> {
             List<StringProperty> translated = new java.util.ArrayList<>();
-            for (ObservableString key : back) {
+            for (ObservableString key : back.getList()) {
                 translated.add(new SimpleStringProperty(getTranslation(key.get())));
             }
             front.setAll(translated); // Only triggers listeners once
         };
-        return update;
+
+        back.addListener(_ -> update.run());
+
+        update.run();
     }
     
     private void bindObservableString(StringProperty front, ObservableString back) {
@@ -390,6 +378,10 @@ public class ViewModel {
 
     public ObservableList<StringProperty> getToolProficiencies() {
         return toolProficiencies;
+    }
+
+    public ObservableList<StringProperty> getSelectableFeats() {
+        return selectableFeats;
     }
 
     public ObservableList<StringProperty> getClassEquipment() {

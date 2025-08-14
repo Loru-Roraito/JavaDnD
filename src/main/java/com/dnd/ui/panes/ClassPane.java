@@ -70,7 +70,6 @@ public class ClassPane extends GridPane {
             }
         }
 
-
         TooltipLabel levelLabel = new TooltipLabel(getTranslation("LEVEL"), mainTabPane);
         
         ObservableList<String> levels = FXCollections.observableArrayList();
@@ -149,7 +148,6 @@ public class ClassPane extends GridPane {
 
         levelComboBox.valueProperty().addListener((_, _, _) -> {
             updateSubclasses.run();
-            updateFeatsLabel.run();
         });
 
         // Done this way so that the tooltip updates when the origin feat changes (could be done by modifying the TooltipLabel class, but it seemed simpler this way... I'll be doing it in the future, for now this should work)
@@ -196,34 +194,23 @@ public class ClassPane extends GridPane {
 
             baseValuesList.clear();
             feats.clear();
-            String[] selectableFeats = getSelectableFeatsTranslated();
-            String originFeat = character.getOriginFeat().get();
-            // Filter out originFeat from selectableFeats
-            List<String> filteredFeats = new ArrayList<>();
-            for (String feat : selectableFeats) {
-                if (!feat.equals(originFeat)) {
-                    filteredFeats.add(feat);
-                }
-            }
-
-            // Add "RANDOM" at the front
-            String random = getTranslation("RANDOM");
-            String[] selectableFeatsWithRandom = new String[filteredFeats.size() + 1];
-            selectableFeatsWithRandom[0] = random;
-            for (int i = 0; i < filteredFeats.size(); i++) {
-                selectableFeatsWithRandom[i + 1] = filteredFeats.get(i);
-            }
 
             String[] repeatableFeats = getRepeatableFeatsTranslated();
             String[] repeatableFeatsWithRandom = new String[repeatableFeats.length + 1];
-            repeatableFeatsWithRandom[0] = random;
+            repeatableFeatsWithRandom[0] = getTranslation("RANDOM");
             System.arraycopy(repeatableFeats, 0, repeatableFeatsWithRandom, 1, repeatableFeats.length);
 
+            ObservableList<StringProperty> baseValues = character.getSelectableFeats();
+            String[] baseArray = new String[baseValues.size()];
+            for (int i = 0; i < baseValues.size(); i++) {
+                baseArray[i] = baseValues.get(i).get();
+            }
 
             for (int i = 0; i < maxFeats; i++) {
-                ObservableList<String> baseValues = FXCollections.observableArrayList(selectableFeatsWithRandom);
-                TooltipComboBox<String> comboBox = new TooltipComboBox<>(baseValues, mainTabPane);
-                baseValuesList.add(baseValues);
+                ObservableList<String> observableArrayList = FXCollections.observableArrayList(baseArray);
+
+                TooltipComboBox<String> comboBox = new TooltipComboBox<>(observableArrayList, mainTabPane);
+                baseValuesList.add(observableArrayList);
                 feats.add(comboBox);
 
                 comboBox.setPromptText(getTranslation("RANDOM"));
@@ -231,7 +218,7 @@ public class ClassPane extends GridPane {
 
                 ChangeListener<String> featListener = (_, _, _) -> {
                     for (int j = 0; j < feats.size(); j++) {
-                        ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), selectableFeatsWithRandom, repeatableFeatsWithRandom);
+                        ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
                     }
                 };
                 comboBox.valueProperty().addListener(featListener);
@@ -239,7 +226,7 @@ public class ClassPane extends GridPane {
             }
             
             for (int j = 0; j < feats.size(); j++) {
-                ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), selectableFeatsWithRandom, repeatableFeatsWithRandom);
+                ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
             }
 
             for (int i = 0; i < counter; i++) {
@@ -247,7 +234,7 @@ public class ClassPane extends GridPane {
             }
         };
 
-        character.getOriginFeat().addListener((_, _, _) -> {
+        character.getSelectableFeats().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
             updateFeats.run();
         });
 
@@ -261,10 +248,6 @@ public class ClassPane extends GridPane {
 
     private String[] getGroup(String[] key) {
         return TranslationManager.getInstance().getGroup(key);
-    }
-
-    private String[] getSelectableFeatsTranslated() {
-        return TranslationManager.getInstance().getSelectableFeatsTranslated();
     }
 
     private String[] getRepeatableFeatsTranslated() {

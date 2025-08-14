@@ -23,22 +23,25 @@ public class EquipmentPane extends GridPane {
 
         ObservableList<String> backgroundEquipments = FXCollections.observableArrayList();
         backgroundEquipments.add(getTranslation("RANDOM"));
-        backgroundEquipments.add("50" + getTranslation("GOLD"));
         TooltipComboBox<String> backgroundEquipment = new TooltipComboBox<>(backgroundEquipments, mainTabPane);
         character.getBackground().addListener((_, _, newVal) -> {
             if (newVal.equals(getTranslation("RANDOM"))) {
                 if(getChildren().contains(backgroundEquipment)) {
                     getChildren().remove(backgroundEquipment);
                     backgroundEquipments.remove(2);
+                    backgroundEquipments.remove(1);
                 }
             } else {
                 if (!getChildren().contains(backgroundEquipment)) {
                     add(backgroundEquipment, 0, 0);
                 } else {
                     backgroundEquipments.remove(2);
+                    backgroundEquipments.remove(1);
                 }
-                String text = getTranslation("EQUIPMENT_OF") + getTranslation(newVal);
+                String text = getTranslation("EQUIPMENT_OF") + newVal;
+                String gold = String.valueOf(getInt(new String[] {"backgrounds", getOriginal(newVal), "gold"})) + getTranslation("GOLD");
                 backgroundEquipments.add(text);
+                backgroundEquipments.add(gold);
                 backgroundEquipment.setValue(text);
             }
         });
@@ -89,22 +92,25 @@ public class EquipmentPane extends GridPane {
 
         ObservableList<String> classEquipments = FXCollections.observableArrayList();
         classEquipments.add(getTranslation("RANDOM"));
-        classEquipments.add("50" + getTranslation("GOLD"));
         TooltipComboBox<String> classEquipment = new TooltipComboBox<>(classEquipments, mainTabPane);
         character.getClasse().addListener((_, _, newVal) -> {
             if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
                 if(getChildren().contains(classEquipment)) {
                     getChildren().remove(classEquipment);
                     classEquipments.remove(2);
+                    classEquipments.remove(1);
                 }
             } else {
                 if (!getChildren().contains(classEquipment)) {
                     add(classEquipment, 0, 1);
                 } else {
                     classEquipments.remove(2);
+                    classEquipments.remove(1);
                 }
                 String text = getTranslation("EQUIPMENT_OF") + getTranslation(newVal);
+                String gold = String.valueOf(getInt(new String[] {"classes", getOriginal(newVal), "gold"})) + getTranslation("GOLD");
                 classEquipments.add(text);
+                classEquipments.add(gold);
                 classEquipment.setValue(text);
             }
         });
@@ -166,5 +172,9 @@ public class EquipmentPane extends GridPane {
 
     private String getOriginal(String key) {
         return TranslationManager.getInstance().getOriginal(key);
+    }
+
+    private int getInt(String[] key) {
+        return TranslationManager.getInstance().getInt(key);
     }
 }
