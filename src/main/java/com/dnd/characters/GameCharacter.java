@@ -1,12 +1,14 @@
 package com.dnd.characters;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.dnd.TranslationManager;
+import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
-import com.dnd.utils.CustomObservableList;
 
 public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
@@ -31,6 +33,8 @@ public class GameCharacter {
     private final ObservableString background = new ObservableString("RANDOM");
     private final ObservableString size = new ObservableString("");
     private final ObservableString originFeat = new ObservableString("");
+    private final ObservableString[] featOnes;
+    private final ObservableString[] featTwos;
     private final ObservableString[] feats;
     private final ObservableString[] availableSizes;
     private final ObservableString[] availableSubclasses;
@@ -155,7 +159,18 @@ public class GameCharacter {
 
         }
 
+        // TODO: check, maybe now it works
         // I had to separate into 2 loops or FinalAbility wouldn't read the +1/2. Why? I still need to figure out.
+
+        maxFeats = getInt(new String[] {"max_feats"});
+        feats = new ObservableString[maxFeats];
+        featOnes = new ObservableString[maxFeats];
+        featTwos = new ObservableString[maxFeats];
+        for (int i = 0; i < feats.length; i++) {
+            feats[i] = new ObservableString("RANDOM");
+            featOnes[i] = new ObservableString("NONE_M");
+            featTwos[i] = new ObservableString("NONE_M");
+        }
 
         for (int i = 0; i < abilityBases.length; i++) {
             bindFinalAbility(i);
@@ -211,12 +226,8 @@ public class GameCharacter {
         availableSizes = new ObservableString[2];
         bindAvailableSizes();
 
-        maxFeats = getInt(new String[] {"max_feats"});
-        feats = new ObservableString[maxFeats];
-        for (int i = 0; i < feats.length; i++) {
-            feats[i] = new ObservableString("RANDOM");
-        }
         bindAvailableFeats();
+        bindFeatOnesTwos();
 
         bindOriginFeat();
 
@@ -340,6 +351,14 @@ public class GameCharacter {
 
     public ObservableString getFeat(int index) {
         return feats[index];
+    }
+
+    public ObservableString getFeatOne(int index) {
+        return featOnes[index];
+    }
+
+    public ObservableString getFeatTwo(int index) {
+        return featTwos[index];
     }
 
     public int getMaxLineages() {
@@ -573,6 +592,30 @@ public class GameCharacter {
         );
     }
 
+    private void bindFeatOnesTwos() {
+        for (int i = 0; i < feats.length; i++) {
+            int index = i;
+            feats[index].addListener(
+                (newVal) -> {
+                    int n = getInt(new String[] {"feats", newVal, "max"});
+                    switch (n) {
+                        case 2 -> {
+                            featTwos[index].set("RANDOM");
+                            featOnes[index].set("RANDOM");
+                        }
+                        case 1 -> {
+                            featTwos[index].set("NONE_M");
+                            featOnes[index].set("RANDOM");
+                        }
+                        default -> {
+                            featTwos[index].set("NONE_M");
+                            featOnes[index].set("NONE_M");
+                        }
+                    }
+            });
+        }
+    }
+
     private void bindAvailableLineages() {
         species.addListener(
             (newVal) -> {
@@ -785,11 +828,31 @@ public class GameCharacter {
             int base = abilityBases[index].get(); // ObservableInteger
             int one = abilityPlusOnes[index].get() ? 1 : 0;
             int two = abilityPlusTwos[index].get() ? 2 : 0;
-            abilities[index].set((base == 0 ? 10 : base) + one + two);
+            int featOne = 0;
+            int featTwo = 0;
+
+            for (ObservableString featsOne : featOnes) {
+                if (featsOne.get().equals(abilityNames[index])) {
+                    featOne ++;
+                }
+            }
+
+            for (ObservableString featsTwo : featTwos) {
+                if (featsTwo.get().equals(abilityNames[index])) {
+                    featTwo ++;
+                }
+            }
+
+            abilities[index].set((base != 0 ? base : 10) + one + two + featOne + featTwo);
         };
         abilityBases[index].addListener(_ -> updateFinalAbility.run());
         abilityPlusOnes[index].addListener(_ -> updateFinalAbility.run());
         abilityPlusTwos[index].addListener(_ -> updateFinalAbility.run());
+
+        for (int i = 0; i < feats.length; i++) {
+            featOnes[i].addListener(_ -> updateFinalAbility.run());
+            featTwos[i].addListener(_ -> updateFinalAbility.run());
+        }
     }
 
     private void bindAbilityModifier(int index) {
@@ -1138,17 +1201,37 @@ public class GameCharacter {
     private void bindWeaponProficiencies() {
         Runnable updateWeaponProficiencies = () -> {
             weaponProficiencies.clear();
+
+            String[] weapons = getGroup(new String[] {"classes", classe.get(), "weapons"});
+            if (weapons != null) {
+                for (String weapon : weapons) {
+                    if (weapon != null) {
+                        weaponProficiencies.add(new ObservableString(weapon));
+                    }
+                }
+            }
         };
 
         updateWeaponProficiencies.run();
+        classe.addListener(_ -> updateWeaponProficiencies.run());
     }
 
     private void bindArmorProficiencies() {
         Runnable updateArmorProficiencies = () -> {
             armorProficiencies.clear();
+
+            String[] armors = getGroup(new String[] {"classes", classe.get(), "armors"});
+            if (armors != null) {
+                for (String armor : armors) {
+                    if (armor != null) {
+                        armorProficiencies.add(new ObservableString(armor));
+                    }
+                }
+            }
         };
 
         updateArmorProficiencies.run();
+        classe.addListener(_ -> updateArmorProficiencies.run());
     }
 
     private void bindToolProficiencies() {
@@ -1156,23 +1239,33 @@ public class GameCharacter {
             toolProficiencies.clear();
             // in the 2024 rules only one tool proficiency is given for each background. Done like this for future compatibility
             String[] tools = getGroup(new String[] {"backgrounds", background.get(), "tools"});
+            if (tools != null) {
+                for (String tool : tools) {
+                    if (tool != null) {
+                        toolProficiencies.add(new ObservableString(tool));
+                    }
+                }
+            }
 
-            for (String tool : tools) {
-                if (tool != null) {
-                    toolProficiencies.add(new ObservableString(tool));
+            tools = getGroup(new String[] {"classes", classe.get(), "tools"});
+            if (tools != null) {
+                for (String tool : tools) {
+                    if (tool != null) {
+                        toolProficiencies.add(new ObservableString(tool));
+                    }
                 }
             }
         };
 
         background.addListener(_ -> updateToolProficiencies.run());
+        classe.addListener(_ -> updateToolProficiencies.run());
         updateToolProficiencies.run();
     }
 
     private void bindSelectableFeats() {
         Runnable updateSelectableFeats = () -> {
-            selectableFeats.clear();
+            List<ObservableString> newFeats = new ArrayList<>();
             String[] selectableFeatsTotal = getSelectableFeats();
-            // Filter out originFeat from selectableFeats
             for (String feat : selectableFeatsTotal) {
                 int[] stats = getInts(new String[] {"feats", feat, "stats"});
                 Boolean magic = getBoolean(new String[] {"feats", feat, "magic"});
@@ -1215,9 +1308,10 @@ public class GameCharacter {
                 if(!feat.equals(originFeat.get())
                         && (valid || getString(new String[] {"feats", feat, "type"}).equals("ORIGIN"))
                         && level.get() >= getInt(new String[] {"feats", feat, "level"})) {
-                    selectableFeats.add(new ObservableString(feat));
+                    newFeats.add(new ObservableString(feat));
                 }
             }
+            selectableFeats.setAll(newFeats); // Only triggers listeners once
         };
         originFeat.addListener(_ -> updateSelectableFeats.run());
         level.addListener(_ -> updateSelectableFeats.run());
@@ -1225,7 +1319,6 @@ public class GameCharacter {
         for (ObservableInteger ability : abilities) {
             ability.addListener(_ -> updateSelectableFeats.run());
         }
-        abilities[5].addListener(_ -> updateSelectableFeats.run());
         updateSelectableFeats.run();
     }
 
@@ -1260,12 +1353,11 @@ public class GameCharacter {
     }
 
     private void bindChoiceProficiencies() {
-        background.addListener((newVal) -> {
+        toolProficiencies.addListener((newVal) -> {
             choiceProficiencies.clear();
             
-            String[] equipments = getGroup(new String[] {"backgrounds", newVal, "tools"});
-            for (String equipment : equipments) {
-                if (Arrays.asList(sets).contains(equipment)) {
+            for (ObservableString equipment : newVal.getList()) {
+                if (Arrays.asList(sets).contains(equipment.get())) {
                     choiceProficiencies.add(new ObservableString("RANDOM"));
                 }
             }

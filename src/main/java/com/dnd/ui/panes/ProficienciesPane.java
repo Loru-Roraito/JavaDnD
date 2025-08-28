@@ -79,14 +79,28 @@ public class ProficienciesPane extends GridPane {
         Runnable updateProficiencies = () -> {
             proficienciesFlow.getChildren().clear();
             updateProficienciesBox(proficienciesFlow, character.getWeaponProficiencies());
-            if (!proficienciesFlow.getChildren().isEmpty()) {
-                proficienciesFlow.getChildren().add(new Text("\n\n"));
+
+            ObservableList<StringProperty> armorProficiencies = character.getArmorProficiencies();
+            if (!armorProficiencies.isEmpty()) {
+                if (!proficienciesFlow.getChildren().isEmpty()) {
+                    proficienciesFlow.getChildren().add(new Text("\n\n"));
+                }
+                updateProficienciesBox(proficienciesFlow, armorProficiencies);
             }
-            updateProficienciesBox(proficienciesFlow, character.getArmorProficiencies());
-            if (!proficienciesFlow.getChildren().isEmpty()) {
-                proficienciesFlow.getChildren().add(new Text("\n\n"));
+
+            ObservableList<StringProperty> toolProficiencies = character.getToolProficiencies();
+            if (!toolProficiencies.isEmpty()) {
+                // Check if there is at least one proficiency that is NOT a group/set name
+                boolean hasNonArray = toolProficiencies.stream()
+                    .map(StringProperty::get)
+                    .anyMatch(name -> !Arrays.asList(choiceArrays).contains(name));
+                if (hasNonArray) {
+                    if (!proficienciesFlow.getChildren().isEmpty()) {
+                        proficienciesFlow.getChildren().add(new Text("\n\n"));
+                    }
+                }
+                updateProficienciesBox(proficienciesFlow, toolProficiencies);
             }
-            updateProficienciesBox(proficienciesFlow, character.getToolProficiencies());
         };
 
         character.getWeaponProficiencies().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
@@ -162,7 +176,7 @@ public class ProficienciesPane extends GridPane {
                 add(comboBox, 0, 6 + index);
 
                 comboBox.valueProperty().addListener((_, _, _) -> {
-                    for (int j = 0; j < index; j++) {
+                    for (int j = 0; j < choiceComboBoxes.size(); j++) {
                         ComboBoxUtils.updateItems(choiceComboBoxes.get(j), choiceComboBoxes, groupItemsList.get(j), startingValues.get(j), new String[] {getTranslation("RANDOM")});
                     }
                 });

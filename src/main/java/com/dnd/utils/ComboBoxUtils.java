@@ -79,7 +79,5 @@ public class ComboBoxUtils {
         } else {
             comboBox.getSelectionModel().clearSelection();
         }
-
-        comboBox.setVisibleRowCount(Math.min(newItems.size(), 10)); // set new visibleRowCount value
     }
 }

@@ -23,6 +23,12 @@ public class CustomObservableList<T extends Observable<?>> {
         notifyListeners();
     }
 
+    public void setAll(List<T> newItems) {
+        items.clear();
+        items.addAll(newItems);
+        notifyListeners();
+    }
+
     public void clear() {
         items.clear();
         notifyListeners();

@@ -74,7 +74,7 @@
       "abilities": [],
       "skills": [],
       "skills_number": 0,
-      "subclasses":{
+      "subclasses": {
       }
     },
     "BARBARIAN": {
@@ -85,7 +85,9 @@
       "feats": [4, 8, 12, 16],
       "equipment": ["GREATAXE", "4 HANDAXE", "EXPLORERS_PACK"],
       "gold": 75,
-      "subclasses":{
+      "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "SHIELDS"],
+      "subclasses": {
         "PATH_OF_THE_BERSERKER": {
         },
         "PATH_OF_THE_WILD_HEART": {
@@ -102,7 +104,12 @@
       "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ARCANA", "ATHLETICS", "DECEPTION", "HISTORY", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "MEDICINE", "NATURE", "PERCEPTION", "PERFORMANCE", "PERSUASION", "RELIGION", "SLEIGHT_OF_HAND", "STEALTH", "SURVIVAL"],
       "skills_number": 3,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["LEATHER_ARMOR", "2 DAGGER", "MUSICAL_INSTRUMENTS", "ENTERTAINERS_PACK", "19 GOLD"],
+      "gold": 90,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "armors": ["LIGHT_ARMORS"],
+      "tools": ["MUSICAL_INSTRUMENTS", "MUSICAL_INSTRUMENTS", "MUSICAL_INSTRUMENTS"],
+      "subclasses": {
         "COLLEGE_OF_DANCE": {
         },
         "COLLEGE_OF_GLAMOUR": {
@@ -119,7 +126,11 @@
       "skills": ["HISTORY", "INSIGHT", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["CHAIN_SHIRT", "SHIELD", "MACE", "HOLY_SYMBOL", "PRIESTS_PACK", "7 GOLD"],
+      "gold": 110,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "SHIELDS"],
+      "subclasses": {
         "LIFE_DOMAIN": {
         },
         "LIGHT_DOMAIN": {
@@ -136,7 +147,12 @@
       "skills": ["ARCANA", "ANIMAL_HANDLING", "INSIGHT", "MEDICINE", "NATURE", "PERCEPTION", "RELIGION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["LEATHER_ARMOR", "SHIELD", "SICKLE", "QUARTERSTAFF", "EXPLORERS_PACK", "HERBALISM_KIT", "9 GOLD"],
+      "gold": 50,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "SHIELDS"],
+      "tools": ["HERBALISM_KIT"],
+      "subclasses": {
         "CIRCLE_OF_THE_LAND": {
         },
         "CIRCLE_OF_THE_MOON": {
@@ -153,7 +169,11 @@
       "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ATHLETICS", "HISTORY", "INSIGHT", "INTIMIDATION", "PERSUASION", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 6, 8, 12, 14, 16],
-      "subclasses":{
+      "equipment": ["FIGHTER_SET"],
+      "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "HEAVY_ARMORS", "SHIELDS"],
+      "gold": 155,
+      "subclasses": {
         "BATTLE_MASTER": {
         },
         "CHAMPION": {
@@ -170,7 +190,12 @@
       "skills": ["ACROBATICS", "ATHLETICS", "HISTORY", "INSIGHT", "PERCEPTION", "STEALTH"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["SPEAR", "5 DAGGER", "EXPLORERS_PACK", "11 GOLD"],
+      "gold": 50,
+      "weapons": ["SIMPLE_WEAPONS", "LIGHT_MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS"],
+      "tools": ["ARTISAN_TOOLS_MUSICAL_INSTRUMENTS"],
+      "subclasses": {
         "WARRIOR_OF_MERCY": {
         },
         "WARRIOR_OF_SHADOW": {
@@ -187,7 +212,11 @@
       "skills": ["ATHLETICS", "INSIGHT", "INTIMIDATION", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["CHAIN_MAIL", "SHIELD", "LONGSWORD", "6 JAVELIN", "HOLY_SYMBOL", "PRIESTS_PACK", "9 GOLD"],
+      "gold": 150,
+      "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "HEAVY_ARMORS", "SHIELDS"],
+      "subclasses": {
         "OATH_OF_DEVOTION": {
         },
         "OATH_OF_GLORY": {
@@ -204,7 +233,11 @@
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INSIGHT", "INVESTIGATION", "NATURE", "PERCEPTION", "STEALTH", "SURVIVAL"],
       "skills_number": 3,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["STUDDED_LEATHER_ARMOR", "SCIMITAR", "SHORTSWORD", "LONGBOW", "20 ARROW", "QUIVER", "SPRIG_OF_MISTLETOE", "EXPLORERS_PACK", "7 GOLD"],
+      "gold": 150,
+      "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "SHIELDS"],
+      "subclasses": {
         "BEAST_MASTER": {
         },
         "FEY_WANDERER": {
@@ -221,7 +254,12 @@
       "skills": ["ACROBATICS", "ATHLETICS", "DECEPTION", "INSIGHT", "INTIMIDATION", "INVESTIGATION", "PERCEPTION", "PERSUASION", "SLEIGHT_OF_HAND", "STEALTH"],
       "skills_number": 4,
       "feats": [4, 8, 10, 12, 16],
-      "subclasses":{
+      "equipment": ["LEATHER_ARMOR", "2 DAGGER", "SHORTSWORD", "SHORTBOW", "20 ARROW", "QUIVER", "THIEVES_TOOLS", "BURGLARS_PACK", "8 GOLD"],
+      "gold": 100,
+      "weapons": ["SIMPLE_WEAPONS", "FINESSELIGHT_MARTIAL_WEAPONS"],
+      "armors": ["LIGHT_ARMORS"],
+      "tools": ["THIEVES_TOOLS"],
+      "subclasses": {
         "ARCANE_TRICKSTER": {
         },
         "ASSASSIN": {
@@ -238,7 +276,10 @@
       "skills": ["ARCANA", "DECEPTION", "INSIGHT", "INTIMIDATION", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["SPEAR", "2 DAGGER", "CRYSTAL", "DUNGEONEERS_PACK", "28 GOLD"],
+      "gold": 50,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "subclasses": {
         "ABERRANT_SORCERY": {
         },
         "CLOCKWORK_SORCERY": {
@@ -255,7 +296,11 @@
       "skills": ["ARCANA", "DECEPTION", "HISTORY", "INTIMIDATION", "INVESTIGATION", "NATURE", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["LEATHER_ARMOR", "SICKLE", "2 DAGGER", "ORB", "BOOK_OCCULT_LORE", "SCHOLARS_PACK", "15 GOLD"],
+      "gold": 100,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "armors": ["LIGHT_ARMORS"],
+      "subclasses": {
         "ARCHFEY_PATRON": {
         },
         "CELESTIAL_PATRON": {
@@ -272,7 +317,10 @@
       "skills": ["ARCANA", "HISTORY", "INSIGHT", "INVESTIGATION", "MEDICINE", "NATURE", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16],
-      "subclasses":{
+      "equipment": ["2 DAGGER", "QUARTERSTAFF", "ROBE", "SPELLBOOK", "SCHOLARS_PACK", "5 GOLD"],
+      "gold": 55,
+      "weapons": ["SIMPLE_WEAPONS"],
+      "subclasses": {
         "ABJURER": {
         },
         "DIVINER": {
@@ -1557,7 +1605,14 @@
   "sets": {
     "ARTISAN_TOOLS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS"],
     "GAMING_SETS": ["DICE", "DRAGONCHESS", "PLAYING_CARDS", "THREE_DRAGON_ANTE"],
-    "MUSICAL_INSTRUMENTS": ["BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"]
+    "MUSICAL_INSTRUMENTS": ["BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"],
+    "ARTISAN_TOOLS_MUSICAL_INSTRUMENTS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS", "BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"],
+    "FIGHTER_SET": ["FIGHTER_A", "FIGHTER_B"]
+  },
+
+  "packages": {
+    "FIGHTER_A": ["CHAIN_MAIL", "GREATSWORD", "FLAIL", "8 JAVELINS", "DUNGEONEERS_PACK", "4 GOLD"],
+    "FIGHTER_B": ["STUDDED_LEATHER_ARMOR", "SCIMITAR", "SHORTSWORD", "LONGBOW", "20 ARROW", "QUIVER", "DUNGEONEERS_PACK", "11 GOLD"]
   },
 
   "genders": [

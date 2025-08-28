@@ -212,6 +212,10 @@
     -fx-border-color: #aaaaaa; /* JavaFX-specific border color */
 }
 
+.combo-box .list-view .list-cell {
+    -fx-cell-size: 20;
+}
+
 /* Default ComboBox styling */
 .combo-box {
     background-color: #ffffff; /* Standard CSS background color */

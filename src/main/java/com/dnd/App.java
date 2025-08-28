@@ -197,3 +197,6 @@ public class App extends Application {
 // rimuovere i listener quando elimino un oggetto
 // non distruggere le comboBox delle feat (bisogna modificare CustomObservableList)
 // semplificare CustomObservableList (non serve tenere traccia di tutte le ObservableList, possono essere recuperate con getItems())
+// magical focus
+// packages
+// add item whose proficiency you selected (in case it applies)

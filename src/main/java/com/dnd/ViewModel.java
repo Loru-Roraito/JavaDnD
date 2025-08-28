@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.dnd.characters.GameCharacter;
 import com.dnd.utils.Constants;
+import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
-import com.dnd.utils.CustomObservableList;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -39,6 +39,8 @@ public class ViewModel {
     private final StringProperty size;
     private final StringProperty originFeat;
     private final StringProperty[] feats;
+    private final StringProperty[] featOnes;
+    private final StringProperty[] featTwos;
     private final StringProperty[] availableSizes;
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
@@ -312,6 +314,18 @@ public class ViewModel {
             this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
             bindObservableString(feats[i], backend.getFeat(i));
         }
+
+        this.featOnes = new StringProperty[maxFeats];
+        for (int i = 0; i < maxFeats; i++) {
+            this.featOnes[i] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i).get()));
+            bindObservableString(featOnes[i], backend.getFeatOne(i));
+        }
+
+        this.featTwos = new StringProperty[maxFeats];
+        for (int i = 0; i < maxFeats; i++) {
+            this.featTwos[i] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i).get()));
+            bindObservableString(featTwos[i], backend.getFeatTwo(i));
+        }
     }
 
     private void updateList(ObservableList<StringProperty> front, CustomObservableList<ObservableString> back) {
@@ -474,6 +488,14 @@ public class ViewModel {
 
     public StringProperty getFeat(int index) {
         return feats[index];
+    }
+
+    public StringProperty getFeatOne(int index) {
+        return featOnes[index];
+    }
+
+    public StringProperty getFeatTwo(int index) {
+        return featTwos[index];
     }
 
     public StringProperty[] getAvailableSizes() {

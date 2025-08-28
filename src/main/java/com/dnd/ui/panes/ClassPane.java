@@ -12,12 +12,12 @@ import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.utils.ComboBoxUtils;
 
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-import javafx.beans.value.ChangeListener;
 
 public class ClassPane extends GridPane {
     private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
@@ -239,11 +239,43 @@ public class ClassPane extends GridPane {
         });
 
         updateFeats.run();
+
+        for (int i = 0; i < maxFeats; i++) {
+            ObservableList<String> observableArrayList = FXCollections.observableArrayList(getTranslations("abilities"));
+            observableArrayList.add(0, getTranslation("RANDOM"));
+
+            TooltipComboBox<String> one = new TooltipComboBox<>(observableArrayList, mainTabPane);
+            TooltipComboBox<String> two = new TooltipComboBox<>(observableArrayList, mainTabPane);
+            int index = i;
+
+            character.getFeatOne(i).addListener((_, _, newVal) -> {
+                if (!newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(one)) {
+                    add(one, 1, 8 + index);
+                } else if (newVal.equals(getTranslation("NONE_M")) && getChildren().contains(one)) {
+                    getChildren().remove(one);
+                }
+            });
+
+            character.getFeatTwo(i).addListener((_, _, newVal) -> {
+                if (!newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(two)) {
+                    add(two, 2, 8 + index);
+                } else if (newVal.equals(getTranslation("NONE_M")) && getChildren().contains(two)) {
+                    getChildren().remove(two);
+                }
+            });
+
+            one.valueProperty().bindBidirectional(character.getFeatOne(i));
+            two.valueProperty().bindBidirectional(character.getFeatTwo(i));
+        }
     }
 
     // Helper method to get translations
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
+    }
+
+    private String[] getTranslations(String key) {
+        return TranslationManager.getInstance().getTranslations(key);
     }
 
     private String[] getGroup(String[] key) {
