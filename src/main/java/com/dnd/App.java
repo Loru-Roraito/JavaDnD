@@ -70,6 +70,7 @@ public class App extends Application {
     }
 }
 
+// fix any todo
 // fix ugly tooltips
 // interfaccia per accedere a varie sezioni
 // mostri

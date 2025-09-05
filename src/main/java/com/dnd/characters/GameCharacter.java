@@ -148,9 +148,7 @@ public class GameCharacter {
             savingThrowProficiencies[i] = new ObservableBoolean(false);
 
             bindAbilityBase(i);
-        }
         
-        for (int i = 0; i < abilityBases.length; i++) {
             bindAvailablePlusOne(i);
             bindAvailablePlusTwo(i);
 
@@ -158,9 +156,6 @@ public class GameCharacter {
             bindAvailableMinuses(i);
 
         }
-
-        // TODO: check, maybe now it works
-        // I had to separate into 2 loops or FinalAbility wouldn't read the +1/2. Why? I still need to figure out.
 
         maxFeats = getInt(new String[] {"max_feats"});
         feats = new ObservableString[maxFeats];

@@ -293,7 +293,6 @@ public class ViewModel {
         this.classEquipment = FXCollections.observableArrayList();
         updateList(classEquipment, backend.getClassEquipment());
 
-        // For some lists, I don't actually need to build a runnable, I'm just doing it for coherence sake. I should probably use a method, then. UPDATE
         this.backgroundEquipment = FXCollections.observableArrayList();
         updateList(backgroundEquipment, backend.getBackgroundEquipment());
 

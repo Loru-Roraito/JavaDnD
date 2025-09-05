@@ -197,7 +197,7 @@ public class TranslationManager {
     }
 
     public String[] getMagicClasses() {
-        // UPDATE
+        // TODO
         return getGroup(new String[] {"magic_classes"});
     }
 
