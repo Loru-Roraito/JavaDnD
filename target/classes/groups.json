@@ -379,7 +379,6 @@
       "type": "HUMANOID",
       "size": ["MEDIUM"],
       "actives": {
-        "BREATH_WEAPON": 0,
         "DRACONIC_FLIGHT": 5
       },
       "passives": {
@@ -387,63 +386,83 @@
       },
       "lineages": {
         "SILVER_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_SILVER": 0,
+          "actives": {
             "BREATH_WEAPON_SILVER": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_SILVER": 0
           }
         },
         "WHITE_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_WHITE": 0,
+          "actives": {
             "BREATH_WEAPON_WHITE": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_WHITE": 0
           }
         },
         "BLUE_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_BLUE": 0,
+          "actives": {
             "BREATH_WEAPON_BLUE": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_BLUE": 0
           }
         },
         "BRONZE_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_BRONZE": 0,
+          "actives": {
             "BREATH_WEAPON_BRONZE": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_BRONZE": 0
           }
         },
         "BLACK_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_BLACK": 0,
+          "actives": {
             "BREATH_WEAPON_BLACK": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_BLACK": 0
           }
         },
         "GOLD_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_GOLD": 0,
+          "actives": {
             "BREATH_WEAPON_GOLD": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_GOLD": 0
           }
         },
         "BRASS_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_BRASS": 0,
+          "actives": {
             "BREATH_WEAPON_BRASS": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_BRASS": 0
           }
         },
         "COPPER_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_COPPER": 0,
+          "actives": {
             "BREATH_WEAPON_COPPER": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_COPPER": 0
           }
         },
         "RED_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_RED": 0,
+          "actives": {
             "BREATH_WEAPON_RED": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_RED": 0
           }
         },
         "GREEN_DRAGONBORN": {
-          "passives": {
-            "DAMAGE_RESISTANCE_GREEN": 0,
+          "actives": {
             "BREATH_WEAPON_GREEN": 0
+          },
+          "passives": {
+            "DAMAGE_RESISTANCE_GREEN": 0
           }
         }
       }
@@ -457,7 +476,7 @@
         "DWARVEN_TOUGHNESS": 0
       },
       "actives":{
-        "STONECUNNING": 0
+        "STONECUTTING": 0
       },
       "lineages": {
         "MOUNTAIN_DWARF": {
@@ -529,7 +548,7 @@
         "LARGE_FORM": 5
       },
       "passives": {
-        "POWEFRFUL_BUILD": 0,
+        "POWERFUL_BUILD": 0,
         "GIANT_ANCESTRY": 0
       },
       "lineages": {

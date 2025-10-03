@@ -58,19 +58,20 @@ public class GameCharacter {
     private final int[] skillAbilities;
 
     private final ObservableInteger level = new ObservableInteger(0);
-    private final ObservableInteger[] abilityBases;
-
     private final ObservableInteger initiativeBonus = new ObservableInteger(0);
     private final ObservableInteger proficiencyBonus = new ObservableInteger(2);
     private final ObservableInteger speed = new ObservableInteger(30);
     private final ObservableInteger darkvision = new ObservableInteger(60);
     private final ObservableInteger armorClass = new ObservableInteger(10);
-    private final ObservableInteger health = new ObservableInteger(8);
+    private final ObservableInteger health = new ObservableInteger(1);
+    private final ObservableInteger fixedHealth = new ObservableInteger(0);
     private final ObservableInteger hitDie = new ObservableInteger(0);
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
     private final ObservableInteger givenSkills = new ObservableInteger(0);
     private final ObservableInteger generationPoints = new ObservableInteger(0);
     private final ObservableInteger availableFeats = new ObservableInteger(0);
+    private final ObservableInteger exhaustion = new ObservableInteger(0);
+    private final ObservableInteger[] abilityBases;
     private final ObservableInteger[] abilities;
     private final ObservableInteger[] abilityModifiers;
     private final ObservableInteger[] savingThrowBonuses;
@@ -78,11 +79,25 @@ public class GameCharacter {
     private final ObservableInteger[] skillBonuses;
     private final ObservableInteger[] skillModifiers;
 
+    private final ObservableBoolean blinded = new ObservableBoolean(false);
+    private final ObservableBoolean charmed = new ObservableBoolean(false);
+    private final ObservableBoolean deafened = new ObservableBoolean(false);
+    private final ObservableBoolean frightened = new ObservableBoolean(false);
+    private final ObservableBoolean grappled = new ObservableBoolean(false);
+    private final ObservableBoolean incapacitated = new ObservableBoolean(false);
+    private final ObservableBoolean invisible = new ObservableBoolean(false);
+    private final ObservableBoolean paralyzed = new ObservableBoolean(false);
+    private final ObservableBoolean petrified = new ObservableBoolean(false);
+    private final ObservableBoolean poisoned = new ObservableBoolean(false);
+    private final ObservableBoolean prone = new ObservableBoolean(false);
+    private final ObservableBoolean restrained = new ObservableBoolean(false);
+    private final ObservableBoolean stunned = new ObservableBoolean(false);
+    private final ObservableBoolean unconscious = new ObservableBoolean(false);
+
     private final ObservableBoolean[] availableSkills;
     private final ObservableBoolean[] abilityPlusOnes;
     private final ObservableBoolean[] abilityPlusTwos;
     private final ObservableBoolean[] fixedSkills;
-
     private final ObservableBoolean[] savingThrowProficiencies;
     private final ObservableBoolean[] availablePluses;
     private final ObservableBoolean[] availableMinuses;
@@ -376,6 +391,10 @@ public class GameCharacter {
         return abilityBases[index];
     }
 
+    public ObservableInteger getExhaustion() {
+        return exhaustion;
+    }
+
     public ObservableInteger getGenerationPoints() {
         return generationPoints;
     }
@@ -404,6 +423,14 @@ public class GameCharacter {
         return health;
     }
 
+    public ObservableInteger getFixedHealth() {
+        return fixedHealth;
+    }
+
+    public ObservableInteger getHitDie() {
+        return hitDie;
+    }
+
     public ObservableInteger getAbility(int index) {
         return abilities[index];
     }
@@ -418,6 +445,62 @@ public class GameCharacter {
 
     public ObservableInteger getSkillModifier(int index) {
         return skillModifiers[index];
+    }
+
+    public ObservableBoolean getBlinded() {
+        return blinded;
+    }
+
+    public ObservableBoolean getCharmed() {
+        return charmed;
+    }
+
+    public ObservableBoolean getDeafened() {
+        return deafened;
+    }
+
+    public ObservableBoolean getFrightened() {
+        return frightened;
+    }
+
+    public ObservableBoolean getGrappled() {
+        return grappled;
+    }
+
+    public ObservableBoolean getIncapacitated() {
+        return incapacitated;
+    }
+
+    public ObservableBoolean getInvisible() {
+        return invisible;
+    }
+
+    public ObservableBoolean getParalyzed() {
+        return paralyzed;
+    }
+
+    public ObservableBoolean getPetrified() {
+        return petrified;
+    }
+
+    public ObservableBoolean getPoisoned() {
+        return poisoned;
+    }
+
+    public ObservableBoolean getProne() {
+        return prone;
+    }
+
+    public ObservableBoolean getRestrained() {
+        return restrained;
+    }
+
+    public ObservableBoolean getStunned() {
+        return stunned;
+    }
+
+    public ObservableBoolean getUnconscious() {
+        return unconscious;
     }
 
     public ObservableBoolean getAvailablePlusOne(int index) {
@@ -1033,12 +1116,16 @@ public class GameCharacter {
     
     private void bindHealth(){
         Runnable updateHealth = () -> {
-            health.set(
-                (level.get() - 1) * (hitDie.get() / 2 + 1 + abilityModifiers[2].get()) + hitDie.get() + abilityModifiers[2].get()
-            );
+            fixedHealth.set(Math.max(hitDie.get() + abilityModifiers[2].get() + (level.get() - 1) * abilityModifiers[2].get(), 1));
+            if (healthMethod.get().equals("MEDIUM_HP")) {
+                health.set(Math.max((fixedHealth.get() + (level.get() - 1) * (hitDie.get() / 2 + 1)), 1));
+            } else if (healthMethod.get().equals("RANDOM")) {
+                health.set(0);
+            }
         };
         level.addListener(_ -> updateHealth.run());
         hitDie.addListener(_ -> updateHealth.run());
+        healthMethod.addListener(_ -> updateHealth.run());
         abilityModifiers[2].addListener(_ -> updateHealth.run());
     }
 

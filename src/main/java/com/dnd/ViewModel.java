@@ -53,8 +53,11 @@ public class ViewModel {
     private final IntegerProperty proficiencyBonus;
     private final IntegerProperty armorClass;
     private final IntegerProperty health;
+    private final IntegerProperty fixedHealth;
+    private final IntegerProperty hitDie;
     private final IntegerProperty availableFeats;
     private final IntegerProperty level;
+    private final IntegerProperty exhaustion;
     private final IntegerProperty[] abilities;
     private final IntegerProperty[] abilityModifiers;
     private final IntegerProperty[] savingThrowModifiers;
@@ -64,6 +67,21 @@ public class ViewModel {
     // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
     private final DoubleProperty speed;
     private final DoubleProperty darkvision;
+
+    private final BooleanProperty blinded;
+    private final BooleanProperty charmed;
+    private final BooleanProperty deafened;
+    private final BooleanProperty frightened;
+    private final BooleanProperty grappled;
+    private final BooleanProperty incapacitated;
+    private final BooleanProperty invisible;
+    private final BooleanProperty paralyzed;
+    private final BooleanProperty petrified;
+    private final BooleanProperty poisoned;
+    private final BooleanProperty prone;
+    private final BooleanProperty restrained;
+    private final BooleanProperty stunned;
+    private final BooleanProperty unconscious;
 
     private final BooleanProperty[] availablePlusOnes;
     private final BooleanProperty[] availablePlusTwos;
@@ -155,14 +173,65 @@ public class ViewModel {
         this.health = new SimpleIntegerProperty(backend.getHealth().get());
         bindObservableInteger(health, backend.getHealth());
 
+        this.fixedHealth = new SimpleIntegerProperty(backend.getFixedHealth().get());
+        bindObservableInteger(fixedHealth, backend.getFixedHealth());
+
+        this.hitDie = new SimpleIntegerProperty(backend.getHitDie().get());
+        bindObservableInteger(hitDie, backend.getHitDie());
+
         this.level = new SimpleIntegerProperty(backend.getLevel().get());
         bindObservableInteger(level, backend.getLevel());
+
+        this.exhaustion = new SimpleIntegerProperty(backend.getExhaustion().get());
+        bindObservableInteger(exhaustion, backend.getExhaustion());
 
         this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
 
         this.originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
         bindObservableString(originFeat, backend.getOriginFeat());
+
+        this.blinded = new SimpleBooleanProperty(backend.getBlinded().get());
+        bindObservableBoolean(blinded, backend.getBlinded());
+
+        this.charmed = new SimpleBooleanProperty(backend.getCharmed().get());
+        bindObservableBoolean(charmed, backend.getCharmed());
+
+        this.deafened = new SimpleBooleanProperty(backend.getDeafened().get());
+        bindObservableBoolean(deafened, backend.getDeafened());
+
+        this.frightened = new SimpleBooleanProperty(backend.getFrightened().get());
+        bindObservableBoolean(frightened, backend.getFrightened());
+
+        this.grappled = new SimpleBooleanProperty(backend.getGrappled().get());
+        bindObservableBoolean(grappled, backend.getGrappled());
+
+        this.incapacitated = new SimpleBooleanProperty(backend.getIncapacitated().get());
+        bindObservableBoolean(incapacitated, backend.getIncapacitated());
+
+        this.invisible = new SimpleBooleanProperty(backend.getInvisible().get());
+        bindObservableBoolean(invisible, backend.getInvisible());
+
+        this.paralyzed = new SimpleBooleanProperty(backend.getParalyzed().get());
+        bindObservableBoolean(paralyzed, backend.getParalyzed());
+
+        this.petrified = new SimpleBooleanProperty(backend.getPetrified().get());
+        bindObservableBoolean(petrified, backend.getPetrified());
+
+        this.poisoned = new SimpleBooleanProperty(backend.getPoisoned().get());
+        bindObservableBoolean(poisoned, backend.getPoisoned());
+
+        this.prone = new SimpleBooleanProperty(backend.getProne().get());
+        bindObservableBoolean(prone, backend.getProne());
+
+        this.restrained = new SimpleBooleanProperty(backend.getRestrained().get());
+        bindObservableBoolean(restrained, backend.getRestrained());
+
+        this.stunned = new SimpleBooleanProperty(backend.getStunned().get());
+        bindObservableBoolean(stunned, backend.getStunned());
+
+        this.unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
+        bindObservableBoolean(unconscious, backend.getUnconscious());
 
         this.availableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
@@ -515,6 +584,10 @@ public class ViewModel {
         return maxFeats;
     }
 
+    public IntegerProperty getExhaustion() {
+        return exhaustion;
+    }
+
     public IntegerProperty getGenerationPoints() {
         return generationPoints;
     }
@@ -551,6 +624,14 @@ public class ViewModel {
         return health;
     }
 
+    public IntegerProperty getFixedHealth() {
+        return fixedHealth;
+    }
+
+    public IntegerProperty getHitDie() {
+        return hitDie;
+    }
+
     public IntegerProperty getAbilityBase(int index) {
         return abilityBases[index];
     }
@@ -571,7 +652,63 @@ public class ViewModel {
     public IntegerProperty getSkillModifier(int index) {
         return skillModifiers[index];
     }
-    
+
+
+    public BooleanProperty getBlinded() {
+        return blinded;
+    }
+
+    public BooleanProperty getCharmed() {
+        return charmed;
+    }
+
+    public BooleanProperty getDeafened() {
+        return deafened;
+    }
+
+    public BooleanProperty getFrightened() {
+        return frightened;
+    }
+
+    public BooleanProperty getGrappled() {
+        return grappled;
+    }
+
+    public BooleanProperty getIncapacitated() {
+        return incapacitated;
+    }
+
+    public BooleanProperty getInvisible() {
+        return invisible;
+    }
+
+    public BooleanProperty getParalyzed() {
+        return paralyzed;
+    }
+
+    public BooleanProperty getPetrified() {
+        return petrified;
+    }
+
+    public BooleanProperty getPoisoned() {
+        return poisoned;
+    }
+
+    public BooleanProperty getProne() {
+        return prone;
+    }
+
+    public BooleanProperty getRestrained() {
+        return restrained;
+    }
+
+    public BooleanProperty getStunned() {
+        return stunned;
+    }
+
+    public BooleanProperty getUnconscious() {
+        return unconscious;
+    }
 
     public BooleanProperty getAvailableSkill(int index) {
         return availableSkills[index];

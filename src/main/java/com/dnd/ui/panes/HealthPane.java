@@ -16,7 +16,7 @@ public class HealthPane extends GridPane {
     ViewModel character;
     TextField hpCustom = new TextField();
     Label hpMedium = new Label();
-    Button hpRandom = new Button();
+    Label hpRandom = new Label();
     public HealthPane(ViewModel character, TabPane mainTabPane, InfoTab infoTab) {
         this.character = character;
         getStyleClass().add("grid-pane");
@@ -70,10 +70,28 @@ public class HealthPane extends GridPane {
             if (!newValue.matches("\\d*")) { // Allow only digits
                 hpCustom.setText(oldValue); // Revert to the old value if invalid input is detected
             }
+            if (!newValue.isEmpty()) {
+                character.getHealth().set(Integer.parseInt(newValue));
+            } else {
+                character.getHealth().set(0);
+            }
         });
 
         hpMedium.textProperty().bind(
             character.getHealth().asString()
+        );
+
+        hpRandom.textProperty().bind(
+            Bindings.createStringBinding(() -> {
+                int level = character.getLevel().get();
+                String fixed = character.getFixedHealth().asString().get();
+                if (level > 1) {
+                    String hitDie = character.getHitDie().asString().get();
+                    return fixed + " + " + (level - 1) + "d" + hitDie;
+                } else {
+                    return fixed;
+                }
+            }, character.getLevel(), character.getFixedHealth(), character.getHitDie())
         );
 
         chooseHealthUI();
@@ -82,21 +100,21 @@ public class HealthPane extends GridPane {
     public void chooseHealthUI() {
         String healthType = character.getHealthMethod().get();
         
-        if (healthType.equals(getTranslation("MEDIUM_HP"))) {
+        if (healthType.equals(getTranslation("MEDIUM_HP")) && !getChildren().contains(hpMedium)) {
             add(hpMedium, 2, 0);
-        } else {
+        } else if (getChildren().contains(hpMedium)) {
             getChildren().remove(hpMedium);
         }
 
-        if (healthType.equals(getTranslation("RANDOM"))) {
+        if (healthType.equals(getTranslation("RANDOM")) && !getChildren().contains(hpRandom)) {
             add(hpRandom, 2, 0);
-        } else {
+        } else if (getChildren().contains(hpRandom)) {
             getChildren().remove(hpRandom);
         }
 
-        if (healthType.equals(getTranslation("CUSTOM_M"))) {
+        if (healthType.equals(getTranslation("CUSTOM_M")) && !getChildren().contains(hpCustom)) {
             add(hpCustom, 2, 0);
-        } else {
+        } else if (getChildren().contains(hpCustom)) {
             getChildren().remove(hpCustom);
         }
     }

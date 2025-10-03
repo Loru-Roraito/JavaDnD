@@ -114,9 +114,10 @@ public class DefinitionManager {
             definition =  newDefinition; // Update the definition if a new one is found
         }
 
+
         // Check if a tab with the same title already exists
         for (Tab tab : mainTabPane.getTabs()) {
-            if (tab.getText().equals(text)) {
+            if (tab.getText().replace(" ", "_").equals(text)) {
                 // If the tab exists, select it and return
                 mainTabPane.getSelectionModel().select(tab);
                 return;

@@ -113,7 +113,7 @@ public class ClassPane extends GridPane {
         List<TooltipComboBox<String>> feats = new ArrayList<>(maxFeats);
 
         Runnable updateFeatsLabel = () -> {
-            if (character.getLevel().get() >= 3 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
+            if (character.getLevel().get() >= 4 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
                 if (!getChildren().contains(featsLabel)) {
                     add(featsLabel, 0, 6);
                 }
@@ -121,6 +121,10 @@ public class ClassPane extends GridPane {
                 getChildren().remove(featsLabel);
             }
         };
+
+        character.getLevel().addListener((_, _, _) -> {
+            updateFeatsLabel.run();
+        });
 
         // Update the subclasses based on the selected class
         classComboBox.valueProperty().addListener((_, _, newVal) -> {

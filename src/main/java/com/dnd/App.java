@@ -21,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        TranslationManager.language = "it"; // Change the language to English
+        TranslationManager.language = "it"; // Change the language (relevant files need to be present in resources)
 
         BorderPane root = new BorderPane();
 
@@ -199,5 +199,8 @@ public class App extends Application {
 // non distruggere le comboBox delle feat (bisogna modificare CustomObservableList)
 // semplificare CustomObservableList (non serve tenere traccia di tutte le ObservableList, possono essere recuperate con getItems())
 // magical focus
-// packages
+// packages (like adventurer's stuff)
 // add item whose proficiency you selected (in case it applies)
+// sound effects
+// redesign HP for no class
+// finish writing feats
