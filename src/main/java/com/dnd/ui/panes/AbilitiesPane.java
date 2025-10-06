@@ -14,6 +14,7 @@ import com.dnd.utils.ComboBoxUtils;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -21,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.collections.ObservableList;
 
 public class AbilitiesPane extends GridPane {
     private final ViewModel character;
@@ -308,7 +308,7 @@ public class AbilitiesPane extends GridPane {
 
             // Add a listener to the button to roll
             rollButton.setOnAction(_ -> {
-                infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false, false);
+                infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false, character.getPoisoned().get());
             });
             skillsArea.add(rollButton, 3, i); // Column 3, Row i
         }
@@ -341,9 +341,20 @@ public class AbilitiesPane extends GridPane {
             );
 
             // Add a listener to the button to roll
-            rollButton.setOnAction(_ -> {
-                infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false);
-            });
+            switch (i) {
+                case 0 -> // Strength saving throw
+                    rollButton.setOnAction(_ -> {
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false, character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get());
+                    });
+                case 1 -> // Dexterity saving throw
+                    rollButton.setOnAction(_ -> {
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false, character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get() || character.getRestrained().get());
+                    });
+                default -> 
+                    rollButton.setOnAction(_ -> {
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false);
+                    });
+            }
             savingThrowsArea.add(rollButton, 2, i); // Column 2, Row i
         }
     }

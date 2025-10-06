@@ -1556,7 +1556,7 @@
       "repeatable": true
     },
     "TAVERN_BRAWLER": {
-      "actives": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH"],
+      "actives": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH_BRAWLER"],
       "passives": ["IMPROVISED_WEAPONRY"],
       "type": "ORIGIN",
       "repeatable": false
@@ -1567,6 +1567,7 @@
       "type": "ORIGIN",
       "repeatable": false
     },
+
     "ABILITY_SCORE_IMPROVEMENT": {
       "actives": [],
       "passives": [],
@@ -1597,8 +1598,78 @@
       "level": 4,
       "stats": [13, 13, 0, 0, 0, 0]
     },
+    "CHARGER": {
+      "actives": ["CHARGE_ATTACK"],
+      "passives": ["IMPROVED_DASH"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "CHEF": {
+      "actives": ["REPLENISHING_MEAL", "BOLSTERING_TREATS"],
+      "passives": ["COOKS_UTENSILS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["CONSTITUTION", "WISDOM"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "CROSSBOW_EXPERT": {
+      "actives": ["DUAL_WIELDING"],
+      "passives": ["IGNORE_LOADING", "FIRING_IN_MELEE"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 13, 0, 0, 0, 0]
+    },
+    "CRUSHER": {
+      "actives": ["PUSH_CRUSHER"],
+      "passives": ["ENHANCED_CRITICAL_BLUDGEONING"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "CONSTITUTION"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "DEFENSIVE_DUELIST": {
+      "actives": ["PARRY"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 13, 0, 0, 0, 0]
+    },
+    "DUAL_WIELDER": {
+      "actives": ["ENHANCED_DUAL_WIELDING"],
+      "passives": ["QUICK_DRAW"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "DURABLE": {
+      "actives": ["SPEEDY_RECOVERY"],
+      "passives": ["DEFY_DEATH"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["CONSTITUTION"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },    
     "ELEMENTAL_ADEPT": {
-      "actives": ["ELEMENTAL_ADEPT"],
+      "actives": ["ELEMENTAL_ADEPT_SPELLS"],
       "passives": [],
       "type": "GENERAL",
       "repeatable": false,
@@ -1608,9 +1679,39 @@
       "stats": [0, 0, 0, 0, 0, 0],
       "magic": true
     },
+    "FEY_TOUCHED": {
+      "actives": ["FEY_MAGIC"],
+      "passives": [],
+      "type": "MAGICAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "GRAPPLER": {
+      "actives": ["PUNCH_AND_GRAB"],
+      "passives": ["ATTACK_ADVANTAGE", "FAST_WRESTLER"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "GREAT_WEAPON_MASTER": {
+      "actives": ["HEAVY_WEAPON_MASTERY"],
+      "passives": ["HEW"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 0, 0, 0, 0, 0]
+    },
     "HEAVILY_ARMORED": {
       "actives": [],
-      "passives": ["HEAVY_ARMOR_TRAINING"],
+      "passives": ["ARMOR_TRAINING_HEAVY"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "CONSTITUTION"],
@@ -1618,6 +1719,282 @@
       "level": 4,
       "stats": [0, 0, 0, 0, 0, 0],
       "armorProficiencies": ["MEDIUM_ARMORS"]
+    },
+    "HEAVY_ARMOR_MASTER": {
+      "actives": [],
+      "passives": ["DAMAGE_REDUCTION"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "CONSTITUTION"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "armorProficiencies": ["HEAVY_ARMORS"]
+    },
+    "INSPIRING_LEADER": {
+      "actives": ["BOLSTERING_PERFORMANCE"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 13, 13]
+    },
+    "KEEN_MIND": {
+      "actives": ["QUICK_STUDY"],
+      "passives": ["LORE_KNOWLEDGE"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 13, 0, 0]
+    },
+    "LIGHTLY_ARMORED": {
+      "actives": [],
+      "passives": ["ARMOR_TRAINING_LIGHT"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "MAGE_SLAYER": {
+      "actives": ["GUARDED_MIND"],
+      "passives": ["CONCENTRATION_BREAKER"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "MARTIAL_WEAPON_TRAINING": {
+      "actives": [],
+      "passives": ["WEAPON_PROFICIENCY_MARTIAL"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "MEDIUM_ARMOR_MASTER": {
+      "actives": ["DEXTEROUS_WEARER"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "armorProficiencies": ["MEDIUM_ARMORS"]
+    },
+    "MODERATELY_ARMORED": {
+      "actives": [],
+      "passives": ["ARMOR_TRAINING_MEDIUM"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "armorProficiencies": ["LIGHT_ARMORS"]
+    },
+    "MOUNTED_COMBATANT": {
+      "actives": ["VEER"],
+      "passives": ["MOUNTED_STRIKE", "LEAP_ASIDE"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "OBSERVANT": {
+      "actives": ["QUICK_SEARCH"],
+      "passives": ["KEEN_OBSERVER"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 13, 13, 0]
+    },
+    "PIERCER": {
+      "actives": ["PUNCTURE", "ENHANCED_CRITICAL_PIERCING"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "POISONER": {
+      "actives": ["BREW_POISON"],
+      "passives": ["POTENT_POISON"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY", "INTELLIGENCE"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "POLEARM_MASTER": {
+      "actives": ["POLE_STRIKE", "REACTIVE_STRIKE"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "RESILIENT": {
+      "actives": [],
+      "passives": ["SAVING_THROW_PROFICIENCY"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": [],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "RITUAL_CASTER": {
+      "actives": ["QUICK_RITUAL"],
+      "passives": ["RITUAL_SPELLS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 13, 13, 13]
+    },
+    "SENTINEL": {
+      "actives": [],
+      "passives": ["GUARDIAN", "HALT"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [13, 13, 0, 0, 0, 0]
+    },
+    "SHADOW_TOUCHED": {
+      "actives": [],
+      "passives": ["SHADOW_MAGIC"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "SHARPSHOOTER": {
+      "actives": [],
+      "passives": ["BYPASS_COVER", "FIRING_IN_MELEE", "LONG_SHOTS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 13, 0, 0, 0, 0]
+    },
+    "SHIELD_MASTER": {
+      "actives": ["SHIELD_BASH", "INTERPOSE_SHIELD"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "armorProficiencies": ["SHIELDS"]
+    },
+    "SKILL_EXPERT": {
+      "actives": [],
+      "passives": ["SKILL_PROFICIENCY", "EXPERTISE"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "SKULKER": {
+      "actives": [],
+      "passives": ["BLINDSIGHT", "FOG_OF_WAR", "SNIPER"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 13, 0, 0, 0, 0]
+    },
+    "SLASHER": {
+      "actives": ["HAMSTRING"],
+      "passives": ["ENHANCED_CRITICAL_SLASHING"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "SPEEDY": {
+      "actives": [],
+      "passives": ["SPEED_INCREASE", "DASH_OVER_DIFFICULT_TERRAIN", "AGILE_MOVEMENT"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["DEXTERITY", "CONSTITUTION"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 13, 13, 0, 0, 0]
+    },
+    "SPELL_SNIPER": {
+      "actives": ["TELEKINETIC_SHOVE"],
+      "passives": ["MINOR_TELEKINESIS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "magic": true
+    },
+    "TELEPATHIC": {
+      "actives": ["TELEPATHIC_UTTERANCE"],
+      "passives": ["DETECT_THOUGHTS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
+    },
+    "WAR_CASTER": {
+      "actives": ["REACTIVE_SPELL"],
+      "passives": ["CONCENTRATION_ADVANTAGE", "SOMATIC_COMPONENTS"],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0],
+      "magic": true
+    },
+    "WEAPON_MASTER": {
+      "actives": ["MASTER_PROPERTY"],
+      "passives": [],
+      "type": "GENERAL",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY"],
+      "max": 1,
+      "level": 4,
+      "stats": [0, 0, 0, 0, 0, 0]
     }
   },
 

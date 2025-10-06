@@ -35,7 +35,7 @@ public class HealthPane extends GridPane {
         
         // Add a listener to the button to roll
         initiativeButton.setOnAction(_ -> {
-            infoTab.throwDie(1, 20, 0, character.getInitiativeBonus().get(), false, false);
+            infoTab.throwDie(1, 20, 0, character.getInitiativeBonus().get(), character.getInvisible().get(), !character.getIncapacitated().get());
         });
         add(initiativeButton, 3, 1);
             

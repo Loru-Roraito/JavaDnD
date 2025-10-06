@@ -74,11 +74,13 @@ public class ViewModel {
     private final BooleanProperty frightened;
     private final BooleanProperty grappled;
     private final BooleanProperty incapacitated;
+    private final BooleanProperty incapacitation;
     private final BooleanProperty invisible;
     private final BooleanProperty paralyzed;
     private final BooleanProperty petrified;
     private final BooleanProperty poisoned;
     private final BooleanProperty prone;
+    private final BooleanProperty proneness;
     private final BooleanProperty restrained;
     private final BooleanProperty stunned;
     private final BooleanProperty unconscious;
@@ -209,6 +211,9 @@ public class ViewModel {
         this.incapacitated = new SimpleBooleanProperty(backend.getIncapacitated().get());
         bindObservableBoolean(incapacitated, backend.getIncapacitated());
 
+        this.incapacitation = new SimpleBooleanProperty(backend.getIncapacitation().get());
+        bindObservableBoolean(incapacitation, backend.getIncapacitation());
+
         this.invisible = new SimpleBooleanProperty(backend.getInvisible().get());
         bindObservableBoolean(invisible, backend.getInvisible());
 
@@ -223,6 +228,9 @@ public class ViewModel {
 
         this.prone = new SimpleBooleanProperty(backend.getProne().get());
         bindObservableBoolean(prone, backend.getProne());
+
+        this.proneness = new SimpleBooleanProperty(backend.getProneness().get());
+        bindObservableBoolean(proneness, backend.getProneness());
 
         this.restrained = new SimpleBooleanProperty(backend.getRestrained().get());
         bindObservableBoolean(restrained, backend.getRestrained());
@@ -678,6 +686,10 @@ public class ViewModel {
         return incapacitated;
     }
 
+    public BooleanProperty getIncapacitation() {
+        return incapacitation;
+    }
+
     public BooleanProperty getInvisible() {
         return invisible;
     }
@@ -696,6 +708,10 @@ public class ViewModel {
 
     public BooleanProperty getProne() {
         return prone;
+    }
+
+    public BooleanProperty getProneness() {
+        return proneness;
     }
 
     public BooleanProperty getRestrained() {

@@ -85,11 +85,13 @@ public class GameCharacter {
     private final ObservableBoolean frightened = new ObservableBoolean(false);
     private final ObservableBoolean grappled = new ObservableBoolean(false);
     private final ObservableBoolean incapacitated = new ObservableBoolean(false);
+    private final ObservableBoolean incapacitation = new ObservableBoolean(false);
     private final ObservableBoolean invisible = new ObservableBoolean(false);
     private final ObservableBoolean paralyzed = new ObservableBoolean(false);
     private final ObservableBoolean petrified = new ObservableBoolean(false);
     private final ObservableBoolean poisoned = new ObservableBoolean(false);
     private final ObservableBoolean prone = new ObservableBoolean(false);
+    private final ObservableBoolean proneness = new ObservableBoolean(false);
     private final ObservableBoolean restrained = new ObservableBoolean(false);
     private final ObservableBoolean stunned = new ObservableBoolean(false);
     private final ObservableBoolean unconscious = new ObservableBoolean(false);
@@ -255,6 +257,8 @@ public class GameCharacter {
         bindBackgroundEquipment();
 
         bindSelectableFeats();
+        bindIncapacitated();
+        bindProne();
     }
 
     // Getters
@@ -471,6 +475,10 @@ public class GameCharacter {
         return incapacitated;
     }
 
+    public ObservableBoolean getIncapacitation() {
+        return incapacitation;
+    }
+
     public ObservableBoolean getInvisible() {
         return invisible;
     }
@@ -489,6 +497,10 @@ public class GameCharacter {
 
     public ObservableBoolean getProne() {
         return prone;
+    }
+
+    public ObservableBoolean getProneness() {
+        return proneness;
     }
 
     public ObservableBoolean getRestrained() {
@@ -921,7 +933,7 @@ public class GameCharacter {
                 }
             }
 
-            abilities[index].set((base != 0 ? base : 10) + one + two + featOne + featTwo);
+            abilities[index].set(Math.min((base != 0 ? base : 10) + one + two + featOne + featTwo, 20));
         };
         abilityBases[index].addListener(_ -> updateFinalAbility.run());
         abilityPlusOnes[index].addListener(_ -> updateFinalAbility.run());
@@ -1073,9 +1085,23 @@ public class GameCharacter {
             if (baseSpeed > 0) {
                 speed.set(baseSpeed);
             }
+            else {
+                speed.set(30);
+            }
+            if (grappled.get() || paralyzed.get() || petrified.get() || restrained.get() || unconscious.get()) {
+                speed.set(0);
+            } else {
+                speed.set(Math.max(speed.get() - exhaustion.get() * 5, 0));
+            }
         };
         species.addListener(_ -> updateSpeed.run());
         lineage.addListener(_ -> updateSpeed.run());
+        exhaustion.addListener(_ -> updateSpeed.run());
+        grappled.addListener(_ -> updateSpeed.run());
+        paralyzed.addListener(_ -> updateSpeed.run());
+        petrified.addListener(_ -> updateSpeed.run());
+        restrained.addListener(_ -> updateSpeed.run());
+        unconscious.addListener(_ -> updateSpeed.run());
     }
 
     private void bindDarkvision() {
@@ -1233,12 +1259,26 @@ public class GameCharacter {
                     actives.add(new ObservableString(active));
                 }
             }
+
+            for (ObservableString feat : feats) {
+                activeNames = getGroup(new String[] {"feats", feat.get(), "actives"});
+                if (activeNames != null) {
+                    for (String active : activeNames) {
+                        if (level.get() >= getInt(new String[] {"feats", feat.get(), "actives", active})) {
+                            actives.add(new ObservableString(active));
+                        }
+                    }
+                }
+            }
         };
         
         species.addListener(_ -> updateActives.run());
         lineage.addListener(_ -> updateActives.run());
         level.addListener(_ -> updateActives.run());
         originFeat.addListener(_ -> updateActives.run());
+        for (ObservableString feat : feats) {
+            feat.addListener(_ -> updateActives.run());
+        }
         updateActives.run();
     }
 
@@ -1271,12 +1311,26 @@ public class GameCharacter {
                     }
                 }
             }
+
+            for (ObservableString feat : feats) {
+                passiveNames = getGroup(new String[] {"feats", feat.get(), "passives"});
+                if (passiveNames != null) {
+                    for (String passive : passiveNames) {
+                        if (level.get() >= getInt(new String[] {"feats", feat.get(), "passives", passive})) {
+                            passives.add(new ObservableString(passive));
+                        }
+                    }
+                }
+            }
         };
 
         species.addListener(_ -> updatePassives.run());
         lineage.addListener(_ -> updatePassives.run());
         level.addListener(_ -> updatePassives.run());
         originFeat.addListener(_ -> updatePassives.run());
+        for (ObservableString feat : feats) {
+            feat.addListener(_ -> updatePassives.run());
+        }
         updatePassives.run();
     }
 
@@ -1342,6 +1396,32 @@ public class GameCharacter {
         background.addListener(_ -> updateToolProficiencies.run());
         classe.addListener(_ -> updateToolProficiencies.run());
         updateToolProficiencies.run();
+    }
+
+    private void bindIncapacitated() {
+        Runnable updateIncapacitated = () -> {
+            if (paralyzed.get() || petrified.get() || stunned.get() || unconscious.get()) {
+                incapacitation.set(true);
+            } else {
+                incapacitation.set(false);
+            }
+        };
+        paralyzed.addListener(_ -> updateIncapacitated.run());
+        petrified.addListener(_ -> updateIncapacitated.run());
+        stunned.addListener(_ -> updateIncapacitated.run());
+        unconscious.addListener(_ -> updateIncapacitated.run());
+    }
+
+    private void bindProne() {
+        Runnable updateProne = () -> {
+            if (unconscious.get()) {
+                prone.set(true);
+                proneness.set(true);
+            } else {
+                proneness.set(false);
+            }
+        };
+        unconscious.addListener(_ -> updateProne.run());
     }
 
     private void bindSelectableFeats() {

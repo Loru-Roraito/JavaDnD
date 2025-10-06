@@ -48,7 +48,21 @@ public class StatusTab extends Tab{
 
         TooltipLabel incapacitated = new TooltipLabel(getTranslation("INCAPACITATED"), mainTabPane);
         CheckBox incapacitatedCheckBox = new CheckBox();
-        incapacitatedCheckBox.selectedProperty().bindBidirectional(character.getIncapacitated());
+        incapacitatedCheckBox.selectedProperty().addListener((_, _, newVal) -> {
+            if (!character.getIncapacitation().get()) {
+                character.getIncapacitated().set(newVal);
+            }
+        });
+        Runnable updateIncapacitated = () -> {
+            if (character.getIncapacitation().get() || character.getIncapacitated().get()) {
+                incapacitatedCheckBox.setSelected(true);
+            } else {
+                incapacitatedCheckBox.setSelected(false);
+            }
+        };
+        character.getIncapacitation().addListener((_, _, _) -> updateIncapacitated.run());
+        character.getIncapacitated().addListener((_, _, _) -> updateIncapacitated.run());
+        incapacitatedCheckBox.disableProperty().bind(character.getIncapacitation());
         gridPane.add(incapacitated, 0, 5);
         gridPane.add(incapacitatedCheckBox, 1, 5);
 
@@ -79,6 +93,7 @@ public class StatusTab extends Tab{
         TooltipLabel prone = new TooltipLabel(getTranslation("PRONE"), mainTabPane);
         CheckBox proneCheckBox = new CheckBox();
         proneCheckBox.selectedProperty().bindBidirectional(character.getProne());
+        proneCheckBox.disableProperty().bind(character.getProneness());
         gridPane.add(prone, 0, 10);
         gridPane.add(proneCheckBox, 1, 10);
 
@@ -103,7 +118,15 @@ public class StatusTab extends Tab{
         TooltipLabel exhaustion = new TooltipLabel(getTranslation("EXHAUSTION"), mainTabPane);
         ComboBox<Integer> exhaustionCheckBox = new ComboBox<>();
         exhaustionCheckBox.getItems().addAll(0, 1, 2, 3, 4, 5, 6);
-        exhaustionCheckBox.valueProperty().bindBidirectional(character.getExhaustion().asObject());
+        exhaustionCheckBox.valueProperty().addListener((_, _, newVal) -> {
+            if (newVal != null) {
+                character.getExhaustion().set(newVal);
+            }
+        });
+        character.getExhaustion().addListener((_, _, newValue) -> {
+            exhaustionCheckBox.setValue(newValue.intValue());
+        });
+        exhaustionCheckBox.setValue(character.getExhaustion().get());
         gridPane.add(exhaustion, 0, 14);
         gridPane.add(exhaustionCheckBox, 1, 14);
 

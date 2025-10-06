@@ -31,11 +31,15 @@ public class ThrowManager {
             }
         }
 
+        if (size == 20 && times == 1) { // Exhaustion affects D20 tests
+            int exhaustion = customizationPane.getCharacter().getExhaustion().get();
+            bonus -= exhaustion * 2;
+        }
+
         return ThrowDice(times, size, base, bonus, adv, disadv);
     }
 
     public int ThrowDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
-        
         if (size <= 0) {
             throw new IllegalArgumentException("Die size must be greater than 0");
         }

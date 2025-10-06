@@ -68,6 +68,14 @@ public class InfoTab extends Tab {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
+    public void throwDie(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage, Boolean failState) {
+        if (failState) {
+            dieResultLabel.setText(getTranslation("FAILURE"));
+        } else {
+            throwDie(times, size, base, bonus, advantage, disadvantage);
+        }
+    }
+
     // Method to update the die result
     public void throwDie(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
         dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().ThrowDice(times, size, base, bonus, advantage, disadvantage, customizationPane)));

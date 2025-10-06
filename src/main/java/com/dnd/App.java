@@ -188,7 +188,7 @@ public class App extends Application {
 // scurovisione per sottorazze e simili
 // tooltip per origine che mostra passive sbloccate e simili
 // sistemare bene la questione del lignaggio degli gnomi/elfi. Voglio scrivere esplicitamente dei trucchetti posseduti
-// custom observableMap, mi sembra la cosa più comoda
+// custom observableMap, mi sembra la cosa più comoda (E PER COSA??)
 // sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
 // riordinare elementi in comboBox (alfabeticamente o boh. Devo creare un metodo nella ComboBox custom)
 // possibilità di scegliere il tipo di calcolo CA
@@ -204,3 +204,8 @@ public class App extends Application {
 // sound effects
 // redesign HP for no class
 // finish writing feats
+// popup (critico, miss, debolezza, resistenza, immunità, vantaggio, svantaggio, ecc.)
+// mostrare icone per effetti di stato in schermata principale
+// peso aumenta sotto pietrificazione (in generale rivedere vari effetti di stato, come resistenza di pietrificazione)
+// custom skill/ability check (es: storia con forza)
+// consenti solo certe caratteristiche per ogni talento
