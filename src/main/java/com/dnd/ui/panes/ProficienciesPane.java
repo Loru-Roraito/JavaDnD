@@ -26,7 +26,7 @@ import javafx.scene.text.TextFlow;
 public class ProficienciesPane extends GridPane {
     private final TabPane mainTabPane;
     private final String[] choiceArrays;
-    private final List<TooltipComboBox<String>> choiceComboBoxes;
+    private final List<ComboBox<String>> choiceComboBoxes;
     private final List<String[]> startingValues;
     private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
@@ -54,12 +54,12 @@ public class ProficienciesPane extends GridPane {
         }
         commonLanguages.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox<String> languageOne = new TooltipComboBox<>(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        TooltipComboBox languageOne = new TooltipComboBox(FXCollections.observableArrayList(commonLanguages), mainTabPane);
         languageOne.setPromptText(getTranslation("RANDOM"));
         add(languageOne, 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
 
-        TooltipComboBox<String> languageTwo = new TooltipComboBox<>(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        TooltipComboBox languageTwo = new TooltipComboBox(FXCollections.observableArrayList(commonLanguages), mainTabPane);
         languageTwo.setPromptText(getTranslation("RANDOM"));
         add(languageTwo, 0, 3);
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
@@ -152,7 +152,7 @@ public class ProficienciesPane extends GridPane {
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
-        for (TooltipComboBox<String> comboBox : choiceComboBoxes) {
+        for (ComboBox<String> comboBox : choiceComboBoxes) {
             getChildren().remove(comboBox);
         }
         choiceComboBoxes.clear();
@@ -166,7 +166,7 @@ public class ProficienciesPane extends GridPane {
                 String[] items = getGroupTranslations(new String[] {"sets", name});
                 ObservableList<String> groupItems = FXCollections.observableArrayList(items);
                 groupItems.add(0, getTranslation("RANDOM"));
-                TooltipComboBox<String> comboBox = new TooltipComboBox<>(groupItems, mainTabPane);
+                TooltipComboBox comboBox = new TooltipComboBox(groupItems, mainTabPane);
                 comboBox.setPromptText(getTranslation("RANDOM"));
                 choiceComboBoxes.add(comboBox); 
                 startingValues.add(items);  

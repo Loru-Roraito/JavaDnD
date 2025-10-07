@@ -3,30 +3,194 @@ package com.dnd.ui.tooltip;
 import com.dnd.DefinitionManager;
 import com.dnd.TooltipManager;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
-
-public class TooltipComboBox<T> extends ComboBox<T> {
-
+import javafx.scene.layout.StackPane;
+public class TooltipComboBox extends ComboBox<String> {
     private final TabPane mainTabPane;
-    private T hoveredItem; // Store the currently hovered item
+    private String hoveredItem; // Store the currently hovered item
+    private ListView<String> listView;
+    private PopupControl popup;
 
-    public TooltipComboBox(ObservableList<T> items, TabPane mainTabPane) {
+    public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
         super(items);
         this.mainTabPane = mainTabPane;
+        createPopup();
         assignTooltip();
         setupKeyListener();
+        setupComboBoxScrolling();
+        setupClickHandling();
     }
 
     public TooltipComboBox(TabPane mainTabPane) {
         super();
         this.mainTabPane = mainTabPane;
+        createPopup();
         assignTooltip();
         setupKeyListener();
+        setupComboBoxScrolling();
+        setupClickHandling();
+    }
+
+    private void createPopup() {
+        // Create the ListView that will be in the popup
+        listView = new ListView<>(getItems());
+        updateListViewSize();
+        
+        // Apply ComboBox popup CSS classes
+        listView.getStyleClass().add("list-view");
+        
+        // Listen for changes in items to update size
+        getItems().addListener((javafx.collections.ListChangeListener<String>) _ -> {
+            updateListViewSize();
+        });
+        
+        // Create custom cells with tooltips
+        listView.setCellFactory(_ -> new ListCell<String>() {
+            private final Tooltip tooltip = new Tooltip();
+
+            {
+                // Apply ComboBox list-cell styling
+                this.getStyleClass().add("list-cell");
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setTooltip(null);
+                } else {
+                    setText(item);
+                    tooltip.setText(fetchTooltip(item));
+                    if (!tooltip.getText().isEmpty()) {
+                        setTooltip(tooltip);
+                    }
+                }
+            }
+
+            {   // Event to track the hovered item
+                this.setOnMouseEntered(_ -> hoveredItem = getItem());
+                
+                // Handle mouse clicks on cells
+                this.setOnMouseClicked(event -> {
+                    if (!isEmpty() && getItem() != null) {
+                        setValue(getItem()); // Set the value (even if it's the same)
+                        hide(); // Always close the popup
+                        event.consume(); // Prevent event from bubbling up
+                    }
+                });
+            }
+        });
+
+        // Create the popup
+        popup = new PopupControl() {
+            {
+                // Create a container that will hold the ListView
+                StackPane container = new StackPane();
+                container.getStyleClass().add("combo-box-popup");
+                container.getChildren().add(listView);
+                
+                // Set the container as the scene root
+                getScene().setRoot(container);
+                setAutoFix(true);
+                setAutoHide(true);
+                setHideOnEscape(true);
+            }
+        };
+    }
+
+    private void updateListViewSize() {
+        Platform.runLater(() -> {
+            try {
+                int itemCount = Math.max(0, getItems().size());
+                int maxRows = itemCount == 0 ? 1 : Math.min(itemCount, 10);
+
+                double cellHeight = 20;
+                double padding = 2;
+                double totalHeight = (maxRows * cellHeight) + padding;
+                
+                listView.setPrefHeight(totalHeight);
+                listView.setMinHeight(totalHeight);
+                listView.setMaxHeight(totalHeight);
+                listView.refresh(); // Force refresh after size change
+            } catch (Exception e) {
+                System.err.println("Error updating ListView size: " + e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void show() {
+        if (!popup.isShowing()) {
+            Platform.runLater(() -> {
+                if (!popup.isShowing()) { // Double-check in the runLater
+                    // Apply font scaling when showing
+                    Scene scene = this.getScene();
+                    if (scene != null) {
+                        double fontSize = scene.getWidth() / 160;
+                        popup.getScene().getRoot().setStyle("-fx-font-size: " + fontSize + "px;");
+                    }
+                    
+                    // Get the bounds of this ComboBox
+                    Bounds bounds = this.localToScreen(this.getBoundsInLocal());
+                    popup.show(this, bounds.getMinX(), bounds.getMaxY());
+                    scrollToSelectedItem();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void hide() {
+        popup.hide();
+    }
+    
+    private void setupClickHandling() {
+        this.setOnMouseClicked(event -> {
+            if (popup.isShowing()) {
+                hide();
+            } else {
+                show();
+            }
+            event.consume(); // Prevent event from bubbling up
+        });
+    }
+
+    private void scrollToSelectedItem() {
+        Platform.runLater(() -> {
+            try {
+                if (getValue() != null && listView.getItems() != null && !listView.getItems().isEmpty()) {
+                    int selectedIndex = listView.getItems().indexOf(getValue());
+                    if (selectedIndex >= 0 && selectedIndex < listView.getItems().size()) {
+                        if (selectedIndex >= 5) {
+                            listView.scrollTo(Math.max(0, selectedIndex - 3));
+                        }
+                        listView.getSelectionModel().select(selectedIndex);
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Error scrolling to selected item: " + e.getMessage());
+            }
+        });
+    }
+
+    private void setupComboBoxScrolling() {
+        this.setOnShowing(_ -> scrollToSelectedItem());
+    }
+
+    // Direct access to ListView - no casting needed!
+    public ListView<String> getListView() {
+        return listView;
     }
 
     private void assignTooltip() {
@@ -36,38 +200,15 @@ public class TooltipComboBox<T> extends ComboBox<T> {
         if (comboBoxTooltip.getText().isEmpty()) {
             Tooltip.uninstall(this, comboBoxTooltip);
         }
-
+    
         this.valueProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
-                String tooltipText = fetchTooltip(newValue.toString());
+                String tooltipText = fetchTooltip(newValue);
                 comboBoxTooltip.setText(tooltipText.isEmpty() ? "" : tooltipText);
                 Tooltip.install(this, comboBoxTooltip);
             }
             if (comboBoxTooltip.getText().isEmpty()) {
                 Tooltip.uninstall(this, comboBoxTooltip);
-            }
-        });
-
-        this.setCellFactory(_ -> new ListCell<>() {
-            private final Tooltip tooltip = new Tooltip();
-
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText(null);
-                    setTooltip(null);
-                } else {
-                    setText(item.toString());
-                    tooltip.setText(fetchTooltip(item.toString()));
-                    if (!tooltip.getText().isEmpty()) {
-                        setTooltip(tooltip);
-                    }
-                }
-            }
-
-            {   // Event to track the hovered item
-                this.setOnMouseEntered(_ -> hoveredItem = getItem());
             }
         });
     }
@@ -79,7 +220,7 @@ public class TooltipComboBox<T> extends ComboBox<T> {
         this.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.T) {
                 if (hoveredItem != null) {
-                    openDefinitionTab(hoveredItem.toString()); // Use hovered item, not selected one
+                    openDefinitionTab(hoveredItem); // Use hovered item, not selected one
                 }
             }
         });

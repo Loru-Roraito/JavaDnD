@@ -43,7 +43,7 @@ public class ParametersPane extends GridPane {
         }
         genders.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox<String> genderComboBox = new TooltipComboBox<>(genders, mainTabPane);
+        TooltipComboBox genderComboBox = new TooltipComboBox(genders, mainTabPane);
         genderComboBox.setPromptText(getTranslation("RANDOM"));
         add(genderComboBox, 0, 3);
 
@@ -61,7 +61,7 @@ public class ParametersPane extends GridPane {
         }
         species.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox<String> speciesComboBox = new TooltipComboBox<>(species, mainTabPane);
+        TooltipComboBox speciesComboBox = new TooltipComboBox(species, mainTabPane);
         speciesComboBox.setPromptText(getTranslation("RANDOM"));
         add(speciesComboBox, 0, 5);
 
@@ -74,7 +74,7 @@ public class ParametersPane extends GridPane {
 
         // Create the second ComboBox (lineage selection)
         ObservableList<String> lineages = FXCollections.observableArrayList();
-        TooltipComboBox<String> lineageComboBox = new TooltipComboBox<>(lineages, mainTabPane);
+        TooltipComboBox lineageComboBox = new TooltipComboBox(lineages, mainTabPane);
         lineageComboBox.setPromptText(getTranslation("RANDOM"));
         add(lineageComboBox, 0, 7);
         
@@ -124,7 +124,7 @@ public class ParametersPane extends GridPane {
         }
         backgrounds.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox<String> backgroundComboBox = new TooltipComboBox<>(backgrounds, mainTabPane);
+        TooltipComboBox backgroundComboBox = new TooltipComboBox(backgrounds, mainTabPane);
         backgroundComboBox.setPromptText(getTranslation("RANDOM"));
         add(backgroundComboBox, 0, 9);
 
@@ -142,7 +142,7 @@ public class ParametersPane extends GridPane {
         }
         alignments.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox<String> alignmentComboBox = new TooltipComboBox<>(alignments, mainTabPane);
+        TooltipComboBox alignmentComboBox = new TooltipComboBox(alignments, mainTabPane);
         alignmentComboBox.setPromptText(getTranslation("RANDOM"));
 
         // Listen for ComboBox changes (Translated → English)
@@ -167,7 +167,7 @@ public class ParametersPane extends GridPane {
             }
         }
 
-        TooltipComboBox<String>  sizeComboBox = new TooltipComboBox<>(sizes, mainTabPane);
+        TooltipComboBox  sizeComboBox = new TooltipComboBox(sizes, mainTabPane);
 
         sizeComboBox.valueProperty().bindBidirectional(character.getSize());
 

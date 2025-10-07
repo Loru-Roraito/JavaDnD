@@ -21,7 +21,7 @@ import javafx.scene.layout.GridPane;
 
 public class ClassPane extends GridPane {
     private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
-    private final Map<TooltipComboBox<String>, ChangeListener<String>> featListeners = new HashMap<>();
+    private final Map<ComboBox<String>, ChangeListener<String>> featListeners = new HashMap<>();
     public ClassPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
@@ -37,7 +37,7 @@ public class ClassPane extends GridPane {
         classes.add(0, getTranslation("RANDOM"));
 
         // Create the first ComboBox (class selection)
-        TooltipComboBox<String> classComboBox = new TooltipComboBox<>(classes, mainTabPane);
+        TooltipComboBox classComboBox = new TooltipComboBox(classes, mainTabPane);
         classComboBox.setPromptText(getTranslation("RANDOM"));
         add(classComboBox, 0, 1);
 
@@ -49,7 +49,7 @@ public class ClassPane extends GridPane {
 
         // Create the second ComboBox (subclass selection)
         ObservableList<String> subclasses = FXCollections.observableArrayList();
-        TooltipComboBox<String> subclassComboBox = new TooltipComboBox<>(subclasses, mainTabPane);
+        TooltipComboBox subclassComboBox = new TooltipComboBox(subclasses, mainTabPane);
         subclassComboBox.setPromptText(getTranslation("RANDOM"));
         
         // Listen for ComboBox changes (Translated → English)
@@ -110,7 +110,7 @@ public class ClassPane extends GridPane {
 
         // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
         int maxFeats = character.getMaxFeats();
-        List<TooltipComboBox<String>> feats = new ArrayList<>(maxFeats);
+        List<ComboBox<String>> feats = new ArrayList<>(maxFeats);
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel().get() >= 4 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
@@ -184,7 +184,7 @@ public class ClassPane extends GridPane {
 
         Runnable updateFeats = () -> {
             int counter = 0;
-            for (TooltipComboBox<String> feat : feats) {
+            for (ComboBox<String> feat : feats) {
                 ChangeListener<String> listener = featListeners.remove(feat);
                 if (listener != null) {
                     feat.valueProperty().removeListener(listener);
@@ -213,7 +213,7 @@ public class ClassPane extends GridPane {
             for (int i = 0; i < maxFeats; i++) {
                 ObservableList<String> observableArrayList = FXCollections.observableArrayList(baseArray);
 
-                TooltipComboBox<String> comboBox = new TooltipComboBox<>(observableArrayList, mainTabPane);
+                TooltipComboBox comboBox = new TooltipComboBox(observableArrayList, mainTabPane);
                 baseValuesList.add(observableArrayList);
                 feats.add(comboBox);
 
@@ -245,28 +245,65 @@ public class ClassPane extends GridPane {
         updateFeats.run();
 
         for (int i = 0; i < maxFeats; i++) {
-            ObservableList<String> observableArrayList = FXCollections.observableArrayList(getTranslations("abilities"));
-            observableArrayList.add(0, getTranslation("RANDOM"));
+            ObservableList<String> observableArrayListOne = FXCollections.observableArrayList();
 
-            TooltipComboBox<String> one = new TooltipComboBox<>(observableArrayList, mainTabPane);
-            TooltipComboBox<String> two = new TooltipComboBox<>(observableArrayList, mainTabPane);
+            ObservableList<String> observableArrayListTwo = FXCollections.observableArrayList();
+
+            TooltipComboBox one = new TooltipComboBox(observableArrayListOne, mainTabPane);
+            TooltipComboBox two = new TooltipComboBox(observableArrayListTwo, mainTabPane);
             int index = i;
 
             character.getFeatOne(i).addListener((_, _, newVal) -> {
-                if (!newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(one)) {
+                if (newVal != null && !newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(one)) {
                     add(one, 1, 8 + index);
-                } else if (newVal.equals(getTranslation("NONE_M")) && getChildren().contains(one)) {
+                } else if (newVal != null && newVal.equals(getTranslation("NONE_M")) && getChildren().contains(one)) {
                     getChildren().remove(one);
                 }
             });
+            for (StringProperty featAbility : character.getFeatAbilities(index)) {
+                featAbility.addListener((_, oldVal, newVal) -> {
+                    if (observableArrayListOne.contains(oldVal)) {
+                        observableArrayListOne.remove(oldVal);
+                    }
+                    if (!newVal.isEmpty()) {
+                        observableArrayListOne.add(newVal);
+                    }
+                    if (observableArrayListOne.size() > 1 && !observableArrayListOne.contains(getTranslation("RANDOM"))) {
+                        observableArrayListOne.add(0, getTranslation("RANDOM"));
+                        one.setDisable(false);
+                    } else if (observableArrayListOne.size() <= 2 && observableArrayListOne.contains(getTranslation("RANDOM"))) {
+                        observableArrayListOne.remove(getTranslation("RANDOM"));
+                        one.setDisable(true);
+                    } else if (observableArrayListOne.size() <= 1) {
+                        one.setDisable(true);
+                    }
+                });
+            }
 
             character.getFeatTwo(i).addListener((_, _, newVal) -> {
-                if (!newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(two)) {
+                if (newVal != null && !newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(two)) {
                     add(two, 2, 8 + index);
-                } else if (newVal.equals(getTranslation("NONE_M")) && getChildren().contains(two)) {
+                } else if (newVal != null && newVal.equals(getTranslation("NONE_M")) && getChildren().contains(two)) {
                     getChildren().remove(two);
                 }
             });
+            for (StringProperty featAbility : character.getFeatAbilities(index)) {
+                featAbility.addListener((_, oldVal, newVal) -> {
+                    if (observableArrayListTwo.contains(oldVal)) {
+                        observableArrayListTwo.remove(oldVal);
+                    }
+                    if (!newVal.isEmpty()) {
+                        observableArrayListTwo.add(newVal);
+                    }
+                    if (observableArrayListTwo.size() != 1 && !observableArrayListTwo.contains(getTranslation("RANDOM"))) {
+                        observableArrayListTwo.add(0, getTranslation("RANDOM"));
+                        two.setDisable(false);
+                    } else if (observableArrayListTwo.size() == 1 && observableArrayListTwo.contains(getTranslation("RANDOM"))) {
+                        observableArrayListTwo.remove(getTranslation("RANDOM"));
+                        two.setDisable(true);
+                    }
+                });
+            }
 
             one.valueProperty().bindBidirectional(character.getFeatOne(i));
             two.valueProperty().bindBidirectional(character.getFeatTwo(i));
@@ -276,10 +313,6 @@ public class ClassPane extends GridPane {
     // Helper method to get translations
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
-    }
-
-    private String[] getTranslations(String key) {
-        return TranslationManager.getInstance().getTranslations(key);
     }
 
     private String[] getGroup(String[] key) {

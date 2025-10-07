@@ -6,9 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.dnd.ui.tooltip.TooltipComboBox;
  
+import javafx.scene.control.ComboBox;
 import javafx.collections.ObservableList;
 
 public class ComboBoxUtils {
@@ -30,8 +29,8 @@ public class ComboBoxUtils {
      * @param repeatables    Values allowed to repeat across ComboBoxes (e.g., "RANDOM").
      */
     public static void updateItems(
-            TooltipComboBox<String> comboBox,
-            List<TooltipComboBox<String>> comboBoxes,
+            ComboBox<String> comboBox,
+            List<ComboBox<String>> comboBoxes,
             ObservableList<String> baseValues,
             String[] startingValues,
             String[] repeatables
@@ -40,7 +39,7 @@ public class ComboBoxUtils {
         final Set<String> repeatableSet = new LinkedHashSet<>(Arrays.asList(repeatables));
         final Set<String> selectedElsewhere = comboBoxes.stream()
                 .filter(cb -> cb != comboBox)
-                .map(TooltipComboBox::getValue)
+                .map(ComboBox::getValue)
                 .filter(v -> v != null && !repeatableSet.contains(v))
                 .collect(Collectors.toSet());
 
@@ -62,7 +61,7 @@ public class ComboBoxUtils {
             comboBox.getSelectionModel().clearSelection();
         }
 
-        // Atomically replace contents of the EXISTING list (no clear()+addAll()).
+        // Automatically replace contents of the EXISTING list (no clear()+addAll()).
         baseValues.setAll(newItems);
 
         // Restore selection if possible; otherwise pick first repeatable (if present) or clear.

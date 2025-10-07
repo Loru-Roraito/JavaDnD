@@ -15,15 +15,15 @@ import javafx.scene.layout.GridPane;
 
 public class EquipmentPane extends GridPane {
     private final String[] sets;
-    private final List<TooltipComboBox<String>> backgroundComboBoxes = new ArrayList<>();
-    private final List<TooltipComboBox<String>> classComboBoxes = new ArrayList<>();
+    private final List<TooltipComboBox> backgroundComboBoxes = new ArrayList<>();
+    private final List<TooltipComboBox> classComboBoxes = new ArrayList<>();
     public EquipmentPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
         sets = getGroup(new String[] {"sets"});
 
         ObservableList<String> backgroundEquipments = FXCollections.observableArrayList();
         backgroundEquipments.add(getTranslation("RANDOM"));
-        TooltipComboBox<String> backgroundEquipment = new TooltipComboBox<>(backgroundEquipments, mainTabPane);
+        TooltipComboBox backgroundEquipment = new TooltipComboBox(backgroundEquipments, mainTabPane);
         character.getBackground().addListener((_, _, newVal) -> {
             if (newVal.equals(getTranslation("RANDOM"))) {
                 if(getChildren().contains(backgroundEquipment)) {
@@ -57,7 +57,7 @@ public class EquipmentPane extends GridPane {
         
         backgroundEquipment.valueProperty().addListener((_, _, newVal) -> {
             for (int index = 0; index < backgroundComboBoxes.size(); index++) {
-                TooltipComboBox<String> comboBox = backgroundComboBoxes.get(index);
+                TooltipComboBox comboBox = backgroundComboBoxes.get(index);
                 comboBox.setValue(getTranslation("RANDOM"));
                 comboBox.valueProperty().unbindBidirectional(character.getBackgroundEquipment().get(index));
                 getChildren().remove(comboBox);
@@ -78,7 +78,7 @@ public class EquipmentPane extends GridPane {
                         String[] set = getGroupTranslations(new String[] {"sets", equip});
                         ObservableList<String> items = FXCollections.observableArrayList(set);
                         items.add(0, getTranslation("RANDOM"));
-                        TooltipComboBox<String> comboBox = new TooltipComboBox<>(items, mainTabPane);
+                        TooltipComboBox comboBox = new TooltipComboBox(items, mainTabPane);
                         comboBox.setPromptText(getTranslation("RANDOM"));
                         backgroundComboBoxes.add(comboBox);
                         int index = backgroundComboBoxes.size();
@@ -92,7 +92,7 @@ public class EquipmentPane extends GridPane {
 
         ObservableList<String> classEquipments = FXCollections.observableArrayList();
         classEquipments.add(getTranslation("RANDOM"));
-        TooltipComboBox<String> classEquipment = new TooltipComboBox<>(classEquipments, mainTabPane);
+        TooltipComboBox classEquipment = new TooltipComboBox(classEquipments, mainTabPane);
         character.getClasse().addListener((_, _, newVal) -> {
             if (newVal.equals(getTranslation("RANDOM")) || newVal.equals(getTranslation("NONE_F"))) {
                 if(getChildren().contains(classEquipment)) {
@@ -126,7 +126,7 @@ public class EquipmentPane extends GridPane {
 
         classEquipment.valueProperty().addListener((_, _, newVal) -> {
             for (int index = 0; index < classComboBoxes.size(); index++) {
-                TooltipComboBox<String> comboBox = classComboBoxes.get(index);
+                TooltipComboBox comboBox = classComboBoxes.get(index);
                 comboBox.setValue(getTranslation("RANDOM"));
                 comboBox.valueProperty().unbindBidirectional(character.getClassEquipment().get(index));
                 getChildren().remove(comboBox);
@@ -146,7 +146,7 @@ public class EquipmentPane extends GridPane {
                     String[] set = getGroupTranslations(new String[] {"sets", equip});
                     ObservableList<String> items = FXCollections.observableArrayList(set);
                     items.add(0, getTranslation("RANDOM"));
-                    TooltipComboBox<String> comboBox = new TooltipComboBox<>(items, mainTabPane);
+                    TooltipComboBox comboBox = new TooltipComboBox(items, mainTabPane);
                     comboBox.setPromptText(getTranslation("RANDOM"));
                     classComboBoxes.add(comboBox);
                     int index = classComboBoxes.size();

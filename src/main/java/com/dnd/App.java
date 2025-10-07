@@ -209,3 +209,5 @@ public class App extends Application {
 // peso aumenta sotto pietrificazione (in generale rivedere vari effetti di stato, come resistenza di pietrificazione)
 // custom skill/ability check (es: storia con forza)
 // consenti solo certe caratteristiche per ogni talento
+// ComboBox dropdown non dovrebbe resettarsi in alto, dovrebbe partire dall'elemento scelto
+// codice duplcato per font (in App e TooltipComboBox)

@@ -319,8 +319,8 @@
     border-color: #cccccc; /* Standard CSS border color */
     -fx-border-color: #cccccc; /* JavaFX-specific border color */
 
-    color: #666666; /* Standard CSS text color */
-    -fx-text-fill: #666666; /* JavaFX-specific text color */
+    color: #000000; /* Standard CSS text color */
+    -fx-text-fill: #000000; /* JavaFX-specific text color */
 
     border-radius: 5px; /* Standard CSS border radius */
     -fx-border-radius: 5px; /* JavaFX-specific border radius */
@@ -328,6 +328,11 @@
     /* Ensure the background respects the rounded corners */
     -fx-background-radius: 5px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
+}
+
+.combo-box:disabled, .combo-box:disabled > * {
+    opacity: 1;
+    -fx-opacity: 1;
 }
 
 /* Styling the CheckBox box */

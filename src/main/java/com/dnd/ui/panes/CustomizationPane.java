@@ -24,7 +24,7 @@ public class CustomizationPane extends GridPane {
             generations.add(getTranslation(generationKey));
         }
 
-        TooltipComboBox<String> generationComboBox = new TooltipComboBox<>(generations, mainTabPane);
+        TooltipComboBox generationComboBox = new TooltipComboBox(generations, mainTabPane);
         generationComboBox.setPromptText(getTranslation("STANDARD_ARRAY"));
         add(generationComboBox, 0, 1); // Add the ComboBox to the GridPane (Column 0, Row 1)
 
@@ -45,7 +45,7 @@ public class CustomizationPane extends GridPane {
             healths.add(getTranslation(healthKey));
         }
 
-        TooltipComboBox<String> healthComboBox = new TooltipComboBox<>(healths, mainTabPane);
+        TooltipComboBox healthComboBox = new TooltipComboBox(healths, mainTabPane);
         healthComboBox.setPromptText(getTranslation("MEDIUM_HP"));
         add(healthComboBox, 0, 3); // Add the ComboBox to the GridPane
 
@@ -64,7 +64,7 @@ public class CustomizationPane extends GridPane {
         ObservableList<String> advantages = FXCollections.observableArrayList(); 
         advantages.addAll(getTranslation("DISABLED_M"), getTranslation("NONE_M"), getTranslation("ADVANTAGE"), getTranslation("DISADVANTAGE"));
 
-        TooltipComboBox<String> advantageComboBox = new TooltipComboBox<>(advantages, mainTabPane);
+        TooltipComboBox advantageComboBox = new TooltipComboBox(advantages, mainTabPane);
         add(advantageComboBox, 0, 5); // Add the ComboBox to the GridPane
         advantageComboBox.setPromptText(getTranslation("DISABLED_M"));
 

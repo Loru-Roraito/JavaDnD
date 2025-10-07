@@ -45,6 +45,7 @@ public class ViewModel {
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
     private final StringProperty[] abilityBasesShown;
+    private final StringProperty[][] featAbilities;
 
     private final int maxFeats;
 
@@ -262,95 +263,95 @@ public class ViewModel {
             bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
         }
 
-        String[] skillNames = backend.getSkillNames();
-        String[] abilityNames = backend.getAbilityNames();
+        int skillCount = backend.getSkillNames().length;
+        int abilityCount = backend.getAbilityNames().length;
 
-        this.abilityBasesShown = new StringProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilityBasesShown = new StringProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilityBasesShown[i] = new SimpleStringProperty(getTranslation(backend.getAbilityBasesShown(i).get()));
             bindObservableString(abilityBasesShown[i], backend.getAbilityBasesShown(i));
         }
 
-        this.abilities = new IntegerProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilities = new IntegerProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilities[i] = new SimpleIntegerProperty(backend.getAbility(i).get());
             bindObservableInteger(abilities[i], backend.getAbility(i));
         }
 
-        this.abilityModifiers = new IntegerProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilityModifiers = new IntegerProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilityModifiers[i] = new SimpleIntegerProperty(backend.getAbilityModifier(i).get());
             bindObservableInteger(abilityModifiers[i], backend.getAbilityModifier(i));
         }
 
-        this.savingThrowModifiers = new IntegerProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.savingThrowModifiers = new IntegerProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.savingThrowModifiers[i] = new SimpleIntegerProperty(backend.getSavingThrowModifier(i).get());
             bindObservableInteger(savingThrowModifiers[i], backend.getSavingThrowModifier(i));
         }
 
-        this.skillModifiers = new IntegerProperty[skillNames.length];
-        for (int i = 0; i < skillNames.length; i++) {
+        this.skillModifiers = new IntegerProperty[skillCount];
+        for (int i = 0; i < skillCount; i++) {
             this.skillModifiers[i] = new SimpleIntegerProperty(backend.getSkillModifier(i).get());
             bindObservableInteger(skillModifiers[i], backend.getSkillModifier(i));
         }
 
-        this.abilityBases = new IntegerProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilityBases = new IntegerProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilityBases[i] = new SimpleIntegerProperty(backend.getAbilityBase(i).get());
             bindObservableInteger(abilityBases[i], backend.getAbilityBase(i));
         }
         
-        this.availablePlusOnes = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.availablePlusOnes = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.availablePlusOnes[i] = new SimpleBooleanProperty(backend.getAvailablePlusOne(i).get());
             bindObservableBoolean(availablePlusOnes[i], backend.getAvailablePlusOne(i));
         }
 
-        this.availablePlusTwos = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.availablePlusTwos = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.availablePlusTwos[i] = new SimpleBooleanProperty(backend.getAvailablePlusTwo(i).get());
             bindObservableBoolean(availablePlusTwos[i], backend.getAvailablePlusTwo(i));
         }
 
-        this.availablePluses = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.availablePluses = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.availablePluses[i] = new SimpleBooleanProperty(backend.getAvailablePlus(i).get());
             bindObservableBoolean(availablePluses[i], backend.getAvailablePlus(i));
         }
 
-        this.availableMinuses = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.availableMinuses = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.availableMinuses[i] = new SimpleBooleanProperty(backend.getAvailableMinus(i).get());
             bindObservableBoolean(availableMinuses[i], backend.getAvailableMinus(i));
         }
 
-        this.availableSkills = new BooleanProperty[skillNames.length];
-        for (int i = 0; i < skillNames.length; i++) {
+        this.availableSkills = new BooleanProperty[skillCount];
+        for (int i = 0; i < skillCount; i++) {
             this.availableSkills[i] = new SimpleBooleanProperty(backend.getAvailableSkill(i).get());
             bindObservableBoolean(availableSkills[i], backend.getAvailableSkill(i));
         }
 
-        this.abilityPlusOnes = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilityPlusOnes = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilityPlusOnes[i] = new SimpleBooleanProperty(backend.getAbilityPlusOne(i).get());
             bindObservableBoolean(abilityPlusOnes[i], backend.getAbilityPlusOne(i));
         }
 
-        this.abilityPlusTwos = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.abilityPlusTwos = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.abilityPlusTwos[i] = new SimpleBooleanProperty(backend.getAbilityPlusTwo(i).get());
             bindObservableBoolean(abilityPlusTwos[i], backend.getAbilityPlusTwo(i));
         }
 
-        this.savingThrowProficiencies = new BooleanProperty[abilityNames.length];
-        for (int i = 0; i < abilityNames.length; i++) {
+        this.savingThrowProficiencies = new BooleanProperty[abilityCount];
+        for (int i = 0; i < abilityCount; i++) {
             this.savingThrowProficiencies[i] = new SimpleBooleanProperty(backend.getSavingThrowProficiency(i).get());
             bindObservableBoolean(savingThrowProficiencies[i], backend.getSavingThrowProficiency(i));
         }
 
-        this.skillProficiencies = new BooleanProperty[skillNames.length];
-        for (int i = 0; i < skillNames.length; i++) {
+        this.skillProficiencies = new BooleanProperty[skillCount];
+        for (int i = 0; i < skillCount; i++) {
             this.skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
@@ -389,6 +390,14 @@ public class ViewModel {
         for (int i = 0; i < maxFeats; i++) {
             this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
             bindObservableString(feats[i], backend.getFeat(i));
+        }
+
+        this.featAbilities = new StringProperty[maxFeats][abilityCount];
+        for (int i = 0; i < maxFeats; i++) {
+            for (int j = 0; j < abilityCount; j++) {
+                this.featAbilities[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j).get()));
+                bindObservableString(featAbilities[i][j], backend.getFeatAbility(i, j));
+            }
         }
 
         this.featOnes = new StringProperty[maxFeats];
@@ -572,6 +581,10 @@ public class ViewModel {
 
     public StringProperty getFeatTwo(int index) {
         return featTwos[index];
+    }
+
+    public StringProperty[] getFeatAbilities(int index) {
+        return featAbilities[index];
     }
 
     public StringProperty[] getAvailableSizes() {

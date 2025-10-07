@@ -40,6 +40,7 @@ public class GameCharacter {
     private final ObservableString[] availableSubclasses;
     private final ObservableString[] availableLineages;
     private final ObservableString[] abilityBasesShown;
+    private final ObservableString[][] featsAbilities;
 
     private final CustomObservableList<ObservableString> actives = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> passives = new CustomObservableList<>();
@@ -178,11 +179,17 @@ public class GameCharacter {
         feats = new ObservableString[maxFeats];
         featOnes = new ObservableString[maxFeats];
         featTwos = new ObservableString[maxFeats];
+        featsAbilities = new ObservableString[maxFeats][abilityCount];
         for (int i = 0; i < feats.length; i++) {
             feats[i] = new ObservableString("RANDOM");
             featOnes[i] = new ObservableString("NONE_M");
             featTwos[i] = new ObservableString("NONE_M");
+            for (int j = 0; j < abilityCount; j++) {
+                featsAbilities[i][j] = new ObservableString("");
+            }
         }
+
+        bindFeatsAbilities();
 
         for (int i = 0; i < abilityBases.length; i++) {
             bindFinalAbility(i);
@@ -373,6 +380,10 @@ public class GameCharacter {
 
     public ObservableString getFeatTwo(int index) {
         return featTwos[index];
+    }
+
+    public ObservableString getFeatAbility(int featIndex, int abilityIndex) {
+        return featsAbilities[featIndex][abilityIndex];
     }
 
     public int getMaxLineages() {
@@ -687,15 +698,20 @@ public class GameCharacter {
             int index = i;
             feats[index].addListener(
                 (newVal) -> {
+                    String[] abilitiesPossible = getGroup(new String[] {"feats", newVal, "abilities"});
+                    String randomValue = "RANDOM";
+                    if (abilitiesPossible.length == 1) {
+                        randomValue = abilitiesPossible[0];
+                    }
                     int n = getInt(new String[] {"feats", newVal, "max"});
                     switch (n) {
                         case 2 -> {
-                            featTwos[index].set("RANDOM");
-                            featOnes[index].set("RANDOM");
+                            featTwos[index].set(randomValue);
+                            featOnes[index].set(randomValue);
                         }
                         case 1 -> {
                             featTwos[index].set("NONE_M");
-                            featOnes[index].set("RANDOM");
+                            featOnes[index].set(randomValue);
                         }
                         default -> {
                             featTwos[index].set("NONE_M");
@@ -922,13 +938,13 @@ public class GameCharacter {
             int featTwo = 0;
 
             for (ObservableString featsOne : featOnes) {
-                if (featsOne.get().equals(abilityNames[index])) {
+                if (featsOne.get() != null && featsOne.get().equals(abilityNames[index])) {
                     featOne ++;
                 }
             }
 
             for (ObservableString featsTwo : featTwos) {
-                if (featsTwo.get().equals(abilityNames[index])) {
+                if (featsTwo.get() != null && featsTwo.get().equals(abilityNames[index])) {
                     featTwo ++;
                 }
             }
@@ -1280,6 +1296,24 @@ public class GameCharacter {
             feat.addListener(_ -> updateActives.run());
         }
         updateActives.run();
+    }
+
+    private void bindFeatsAbilities() {
+        for (int i = 0; i < feats.length; i++) {
+            int index = i;
+            Runnable updateFeatAbilities = () -> {
+                String[] featAbilities = getGroup(new String[] {"feats", feats[index].get(), "abilities"});
+                for (int j = 0; j < featsAbilities[index].length; j++) {
+                    if (j < featAbilities.length) {
+                        featsAbilities[index][j].set(featAbilities[j]);
+                    } else {
+                        featsAbilities[index][j].set("");
+                    }
+                }
+            };
+            feats[i].addListener(_ -> updateFeatAbilities.run());
+            updateFeatAbilities.run();
+        }
     }
 
     private void bindPassives() {
