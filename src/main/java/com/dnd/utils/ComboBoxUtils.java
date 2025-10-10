@@ -6,13 +6,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
- 
-import javafx.scene.control.ComboBox;
+
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 
 public class ComboBoxUtils {
     // This class is a mess, it took me hours to get it to work properly. Mainly because of a bug that wouldn't display correctly the
-    // updated items (I should have fixed that with the last line of code). Because I had to try many different approaches
+    // updated items. Because I had to try many different approaches
     // (coming from my own ideas, stack overflow, and AI), there may be some bad language/logic. Everything should still work fine, but be advised
 
     /**

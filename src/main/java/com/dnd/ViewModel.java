@@ -38,6 +38,7 @@ public class ViewModel {
     private final StringProperty background;
     private final StringProperty size;
     private final StringProperty originFeat;
+    private final StringProperty[] moneysShown;
     private final StringProperty[] feats;
     private final StringProperty[] featOnes;
     private final StringProperty[] featTwos;
@@ -241,6 +242,12 @@ public class ViewModel {
 
         this.unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
         bindObservableBoolean(unconscious, backend.getUnconscious());
+
+        this.moneysShown = new SimpleStringProperty[5];
+        for (int i = 0; i < 5; i++) {
+            this.moneysShown[i] = new SimpleStringProperty(getTranslation(backend.getMoneyShown(i).get()));
+            bindObservableString(moneysShown[i], backend.getMoneyShown(i));
+        }
 
         this.availableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
@@ -651,6 +658,10 @@ public class ViewModel {
 
     public IntegerProperty getHitDie() {
         return hitDie;
+    }
+
+    public StringProperty getMoneyShown(int index) {
+        return moneysShown[index];
     }
 
     public IntegerProperty getAbilityBase(int index) {

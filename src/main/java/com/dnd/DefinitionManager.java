@@ -62,7 +62,15 @@ public class DefinitionManager {
                         definition = "";
                         String newText = subToken;
 
-                        if (j + 4 < subTokens.length) {
+                        if (j + 6 < subTokens.length) {
+                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]), "");
+                            if (definition != null && !definition.isEmpty()) {
+                                newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]);
+                                wordText.setText(newText.replace("_", " "));
+                                j+=6;
+                            }
+                        }
+                        if (definition == null || definition.isEmpty() && j + 4 < subTokens.length) {
                             definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]), "");
                             if (definition != null && !definition.isEmpty()) {
                                 newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
@@ -93,7 +101,7 @@ public class DefinitionManager {
                             final String clickableText = newText;
 
                             // Underline the word and make it clickable
-                            wordText.setStyle("-fx-underline: true; -fx-fill: blue; -fx-cursor: hand;");
+                            wordText.setStyle("-fx-fill: #0095ff; -fx-cursor: hand;");
                             wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
                         }
                     }
@@ -107,13 +115,12 @@ public class DefinitionManager {
 
     // Open a new tab with the definition of the word
     public void openDefinitionTab(String text, TabPane mainTabPane) {
-        String definition = definitions.getProperty(text, "");
+        String definition = definitions.getProperty(text.replace(" ", "_"), "");
         String newDefinition = definitions.getProperty(definition, "");
         if (newDefinition != null && !newDefinition.isEmpty()) {
             text = definition;
             definition =  newDefinition; // Update the definition if a new one is found
         }
-
 
         // Check if a tab with the same title already exists
         for (Tab tab : mainTabPane.getTabs()) {

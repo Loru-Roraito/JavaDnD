@@ -11,6 +11,7 @@ import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.utils.ComboBoxUtils;
 
+import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -226,6 +227,7 @@ public class ClassPane extends GridPane {
                     }
                 };
                 comboBox.valueProperty().addListener(featListener);
+                
                 featListeners.put(comboBox, featListener);
             }
             
@@ -239,7 +241,9 @@ public class ClassPane extends GridPane {
         };
 
         character.getSelectableFeats().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
-            updateFeats.run();
+            Platform.runLater(() -> {
+                updateFeats.run();
+            });
         });
 
         updateFeats.run();

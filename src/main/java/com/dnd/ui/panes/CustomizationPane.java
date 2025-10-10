@@ -15,6 +15,7 @@ public class CustomizationPane extends GridPane {
     private String advantage = getTranslation("DISABLED_M");
     private final ViewModel character;
     public CustomizationPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, ViewModel character) {
+        getStyleClass().add("grid-pane");
         this.character = character;
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
         add(generationLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)

@@ -42,4 +42,11 @@ public class TooltipManager {
             Tooltip.install(node, tooltip);
         }
     }
+
+    public void forceTooltip(javafx.scene.Node node, String tooltipText) {
+        if (!tooltipText.isEmpty()) {
+            Tooltip tooltip = new Tooltip(tooltipText);
+            Tooltip.install(node, tooltip);
+        }
+    }
 }

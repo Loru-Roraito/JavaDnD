@@ -7,11 +7,14 @@ import java.util.List;
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
+import com.dnd.ui.tooltip.TooltipLabel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+
 
 public class EquipmentPane extends GridPane {
     private final String[] sets;
@@ -19,6 +22,74 @@ public class EquipmentPane extends GridPane {
     private final List<TooltipComboBox> classComboBoxes = new ArrayList<>();
     public EquipmentPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
+
+        GridPane moneyPane = new GridPane();
+        moneyPane.getStyleClass().add("grid-pane");
+
+        int width = 50;
+
+        TooltipLabel copperLabel = new TooltipLabel(getTranslation("COPPER"), mainTabPane);
+        TextField copperField = new TextField();
+        copperField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                copperField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+        copperField.textProperty().bindBidirectional(character.getMoneyShown(0));
+        copperField.setPrefWidth(width);
+        moneyPane.add(copperLabel, 0, 0);
+        moneyPane.add(copperField, 1, 0);
+
+        TooltipLabel silverLabel = new TooltipLabel(getTranslation("SILVER"), mainTabPane);
+        TextField silverField = new TextField();
+        silverField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                silverField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+        silverField.textProperty().bindBidirectional(character.getMoneyShown(1));
+        silverField.setPrefWidth(width);
+        moneyPane.add(silverLabel, 2, 0);
+        moneyPane.add(silverField, 3, 0);
+
+        TooltipLabel electrumLabel = new TooltipLabel(getTranslation("ELECTRUM"), mainTabPane);
+        TextField electrumField = new TextField();
+        electrumField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                electrumField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+        electrumField.textProperty().bindBidirectional(character.getMoneyShown(2));
+        electrumField.setPrefWidth(width);
+        moneyPane.add(electrumLabel, 4, 0);
+        moneyPane.add(electrumField, 5, 0);
+
+        TooltipLabel goldLabel = new TooltipLabel(getTranslation("GOLD"), mainTabPane);
+        TextField goldField = new TextField();
+        goldField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                goldField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+        goldField.textProperty().bindBidirectional(character.getMoneyShown(3));
+        goldField.setPrefWidth(width);
+        moneyPane.add(goldLabel, 6, 0);
+        moneyPane.add(goldField, 7, 0);
+
+        TooltipLabel platinumLabel = new TooltipLabel(getTranslation("PLATINUM"), mainTabPane);
+        TextField platinumField = new TextField();
+        platinumField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                platinumField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+        platinumField.textProperty().bindBidirectional(character.getMoneyShown(4));
+        platinumField.setPrefWidth(width);
+        moneyPane.add(platinumLabel, 8, 0);
+        moneyPane.add(platinumField, 9, 0);
+
+        add(moneyPane, 0, 0);
+
         sets = getGroup(new String[] {"sets"});
 
         ObservableList<String> backgroundEquipments = FXCollections.observableArrayList();
@@ -82,7 +153,7 @@ public class EquipmentPane extends GridPane {
                         comboBox.setPromptText(getTranslation("RANDOM"));
                         backgroundComboBoxes.add(comboBox);
                         int index = backgroundComboBoxes.size();
-                        add(comboBox, index, 0);
+                        add(comboBox, index, 1);
 
                         comboBox.valueProperty().bindBidirectional(character.getBackgroundEquipment().get(index));
                     }

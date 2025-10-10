@@ -49,11 +49,6 @@ public class TooltipComboBox extends ComboBox<String> {
         // Apply ComboBox popup CSS classes
         listView.getStyleClass().add("list-view");
         
-        // Listen for changes in items to update size
-        getItems().addListener((javafx.collections.ListChangeListener<String>) _ -> {
-            updateListViewSize();
-        });
-        
         // Create custom cells with tooltips
         listView.setCellFactory(_ -> new ListCell<String>() {
             private final Tooltip tooltip = new Tooltip();
@@ -109,19 +104,28 @@ public class TooltipComboBox extends ComboBox<String> {
         };
     }
 
+    private double calculateCellHeight() {
+        // Use system default font size or a reasonable default
+        double fontSize = javafx.scene.text.Font.getDefault().getSize();
+        return fontSize * 1.5 + 13; // 1.5x font size + 13px padding TODO: these values are empyric, need to check
+    }
+
     private void updateListViewSize() {
         Platform.runLater(() -> {
             try {
-                int itemCount = Math.max(0, getItems().size());
-                int maxRows = itemCount == 0 ? 1 : Math.min(itemCount, 10);
+                int itemCount = getItems().size();
+                int maxRows = Math.min(itemCount, 10);
 
-                double cellHeight = 20;
+                double cellHeight = calculateCellHeight();
                 double padding = 2;
                 double totalHeight = (maxRows * cellHeight) + padding;
                 
                 listView.setPrefHeight(totalHeight);
                 listView.setMinHeight(totalHeight);
                 listView.setMaxHeight(totalHeight);
+                listView.setPrefWidth(this.getWidth());
+                listView.setMinWidth(this.getWidth());
+                listView.setMaxWidth(this.getWidth());
                 listView.refresh(); // Force refresh after size change
             } catch (Exception e) {
                 System.err.println("Error updating ListView size: " + e.getMessage());
@@ -131,6 +135,7 @@ public class TooltipComboBox extends ComboBox<String> {
 
     @Override
     public void show() {
+        updateListViewSize(); // Ensure size is updated before showing
         if (!popup.isShowing()) {
             Platform.runLater(() -> {
                 if (!popup.isShowing()) { // Double-check in the runLater

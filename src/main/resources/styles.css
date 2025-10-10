@@ -99,8 +99,8 @@
 
 /* Custom style for the title area of the TitledPane */
 .titled-pane > .title {
-    background-color: #ffffff; /* Light gray background for the title */
-    -fx-background-color: #ffffff; /* Light gray background for the title */
+    background-color: #ffffff; /* Background for the title */
+    -fx-background-color: #ffffff; /* Background for the title */
 
     -fx-text-fill: black; /* Black text color */
     

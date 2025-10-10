@@ -115,6 +115,34 @@ public class TranslationManager {
         }
     }
 
+    public Boolean[] getBooleans(String[] group) {
+        JsonNode node = rootNode;
+        for (String subGroup : group) {
+            if (node == null) { // Check if node is null before accessing
+                return new Boolean[0];
+            }
+            node = node.get(subGroup);
+            if (subGroup.equals("RANDOM")) {
+                return new Boolean[0];
+            }
+        }
+        List<Boolean> keys = new ArrayList<>();
+        if (node == null) { // Also check after the loop
+            return new Boolean[0];
+        }
+        if (node.isObject()) {
+            node.fieldNames().forEachRemaining(fieldName -> {
+                keys.add(Boolean.valueOf(fieldName));
+            }); // Add all field names (parsed as booleans) to the list
+        }
+        else {
+            for (JsonNode element : node) {
+                keys.add(element.asBoolean());
+            }
+        }
+        return keys.toArray(Boolean[]::new); // Convert List<Boolean> to Boolean[]
+    }
+
     public int getInt(String[] group) {
         JsonNode node = rootNode;
         for (String subGroup : group) {
@@ -186,19 +214,18 @@ public class TranslationManager {
         return translations;
     }
 
+    public String[] getMagicClasses() {
+        return getGroup(new String[] {"magic_classes"});
+    }
+
     public String[] getSelectableFeats() {
         String[] allFeats = getGroup(new String[] {"feats"});
         return Arrays.stream(allFeats)
                 .filter(feat -> {
                     String type = getString(new String[] {"feats", feat, "type"});
-                    return type.equals("ORIGIN") || type.equals("GENERAL");
+                    return type.equals("ORIGIN") || type.equals("GENERAL") || type.equals("EPIC_BOON");
                 })
                 .toArray(String[]::new);
-    }
-
-    public String[] getMagicClasses() {
-        // TODO
-        return getGroup(new String[] {"magic_classes"});
     }
 
     public String[] getRepeatableFeats() {

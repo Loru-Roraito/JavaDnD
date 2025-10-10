@@ -27,8 +27,19 @@ public class TooltipLabel extends Label {
         setupKeyListener(tooltipKey);
     }
 
+    public TooltipLabel(String text, TabPane mainTabPane, String tooltip) {
+        super(text); // Set the label's text
+        this.mainTabPane = mainTabPane;
+        forceTooltip(tooltip);
+        setupKeyListener(text);
+    }
+
     private void assignTooltip(String tooltipKey) {
         TooltipManager.getInstance().assignTooltip(this, tooltipKey);
+    }
+
+    private void forceTooltip(String tooltip) {
+        TooltipManager.getInstance().forceTooltip(this, tooltip);
     }
 
     // Set up a key listener for the "T" key
