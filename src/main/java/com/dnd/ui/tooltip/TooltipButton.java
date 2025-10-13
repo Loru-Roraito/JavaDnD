@@ -5,7 +5,6 @@ import com.dnd.TooltipManager;
 import javafx.scene.control.Button;
 
 public class TooltipButton extends Button {
-
     public TooltipButton(String text) {
         super(text);
         assignTooltip(text);

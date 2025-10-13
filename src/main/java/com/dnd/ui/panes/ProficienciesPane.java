@@ -22,6 +22,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.collections.ListChangeListener;
 
 public class ProficienciesPane extends GridPane {
     private final TabPane mainTabPane;
@@ -103,13 +104,13 @@ public class ProficienciesPane extends GridPane {
             }
         };
 
-        character.getWeaponProficiencies().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getWeaponProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
             updateProficiencies.run();
         });
-        character.getArmorProficiencies().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getArmorProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
             updateProficiencies.run();
         });
-        character.getToolProficiencies().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getToolProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
             updateProficiencies.run();
         });
         updateProficiencies.run();
@@ -128,7 +129,7 @@ public class ProficienciesPane extends GridPane {
         // Initial population
         updateBox(activesFlow, character.getActives());
 
-        character.getActives().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getActives().addListener((ListChangeListener<StringProperty>) _ -> {
             updateBox(activesFlow, character.getActives());
         });
 
@@ -142,7 +143,7 @@ public class ProficienciesPane extends GridPane {
         // Initial population
         updateBox(passivesFlow, character.getPassives());
 
-        character.getPassives().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getPassives().addListener((ListChangeListener<StringProperty>) _ -> {
             updateBox(passivesFlow, character.getPassives());
         });
 

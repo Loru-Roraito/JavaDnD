@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
+import javafx.collections.ListChangeListener;
 
 public class ClassPane extends GridPane {
     private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
@@ -240,7 +241,7 @@ public class ClassPane extends GridPane {
             }
         };
 
-        character.getSelectableFeats().addListener((javafx.collections.ListChangeListener<StringProperty>) _ -> {
+        character.getSelectableFeats().addListener((ListChangeListener<StringProperty>) _ -> {
             Platform.runLater(() -> {
                 updateFeats.run();
             });

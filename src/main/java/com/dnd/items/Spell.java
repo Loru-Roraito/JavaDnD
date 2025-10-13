@@ -10,7 +10,7 @@ public class Spell {
     private final String change; // When you can change the spell
     private final String prepare; // When you can prepare the spell
     private final String[] focus; // types of focus that can be used
-    private final String[] materials;
+    private final String[] materials; // TODO (probably a specific properties file)
 
     private final int level;
     private final int ability;
@@ -34,10 +34,11 @@ public class Spell {
         this.limited = limited;
         
         this.school = getString(new String[]{"spells", name, "school"});
+        this.time = getInt(new String[]{"spells", name, "time"});
         this.timeSpan = getString(new String[]{"spells", name, "time_span"});
+        this.duration = getInt(new String[]{"spells", name, "duration"});
         this.durationSpan = getString(new String[]{"spells", name, "duration_span"});
         this.materials = getGroup(new String[]{"spells", name, "materials"});
-        this.time = getInt(new String[]{"spells", name, "time"});
         this.level = getInt(new String[]{"spells", name, "level"});
         this.range = getInt(new String[]{"spells", name, "range"});
         this.concentration = getBoolean(new String[]{"spells", name, "concentration"});

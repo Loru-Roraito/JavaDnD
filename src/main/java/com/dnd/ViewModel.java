@@ -60,11 +60,14 @@ public class ViewModel {
     private final IntegerProperty availableFeats;
     private final IntegerProperty level;
     private final IntegerProperty exhaustion;
+    private final IntegerProperty maxCantrips;
+    private final IntegerProperty maxSpells;
     private final IntegerProperty[] abilities;
     private final IntegerProperty[] abilityModifiers;
     private final IntegerProperty[] savingThrowModifiers;
     private final IntegerProperty[] skillModifiers;
     private final IntegerProperty[] abilityBases;
+    private final IntegerProperty[] spellSlots;
     
     // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
     private final DoubleProperty speed;
@@ -106,6 +109,10 @@ public class ViewModel {
     private final ObservableList<StringProperty> backgroundEquipment;
     private final ObservableList<StringProperty> choiceProficiencies;
     private final ObservableList<StringProperty> selectableFeats;
+    private final ObservableList<StringProperty> availableCantrips;
+    private final ObservableList<StringProperty> availableSpells;
+    private final ObservableList<StringProperty> spells;
+    private final ObservableList<StringProperty> cantrips;
 
     public ViewModel(GameCharacter backend) {
         this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
@@ -189,6 +196,12 @@ public class ViewModel {
         this.exhaustion = new SimpleIntegerProperty(backend.getExhaustion().get());
         bindObservableInteger(exhaustion, backend.getExhaustion());
 
+        this.maxCantrips = new SimpleIntegerProperty(backend.getMaxCantrips().get());
+        bindObservableInteger(maxCantrips, backend.getMaxCantrips());
+
+        this.maxSpells = new SimpleIntegerProperty(backend.getMaxSpells().get());
+        bindObservableInteger(maxSpells, backend.getMaxSpells());
+
         this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
 
@@ -268,6 +281,12 @@ public class ViewModel {
         for (int i = 0; i < maxLineages; i++) {
             this.availableLineages[i] = new SimpleStringProperty(getTranslation(backend.getAvailableLineage(i).get()));
             bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
+        }
+
+        this.spellSlots = new IntegerProperty[9];
+        for (int i = 0; i < 9; i ++) {
+            this.spellSlots[i] = new SimpleIntegerProperty(backend.getSpellSlot(i).get());
+            bindObservableInteger(spellSlots[i], backend.getSpellSlot(i));
         }
 
         int skillCount = backend.getSkillNames().length;
@@ -390,6 +409,18 @@ public class ViewModel {
         this.selectableFeats = FXCollections.observableArrayList();
         updateList(selectableFeats, backend.getNewSelectableFeats());
 
+        this.availableCantrips = FXCollections.observableArrayList();
+        updateList(availableCantrips, backend.getAvailableCantrips());
+
+        this.availableSpells = FXCollections.observableArrayList();
+        updateList(availableSpells, backend.getAvailableSpells());
+
+        this.cantrips = FXCollections.observableArrayList();
+        updateList(cantrips, backend.getCantrips());
+
+        this.spells = FXCollections.observableArrayList();
+        updateList(spells, backend.getSpells());
+
         maxFeats = backend.getMaxFeats();
         this.availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
         bindObservableInteger(availableFeats, backend.getAvailableFeats());
@@ -466,6 +497,14 @@ public class ViewModel {
 
     // Getters for all properties
 
+    public ObservableList<StringProperty> getCantrips() {
+        return cantrips;
+    }
+
+    public ObservableList<StringProperty> getSpells() {
+        return spells;
+    }
+
     public ObservableList<StringProperty> getActives() {
         return actives;
     }
@@ -500,6 +539,14 @@ public class ViewModel {
 
     public ObservableList<StringProperty> getChoiceProficiencies() {
         return choiceProficiencies;
+    }
+
+    public ObservableList<StringProperty> getAvailableCantrips() {
+        return availableCantrips;
+    }
+
+    public ObservableList<StringProperty> getAvailableSpells() {
+        return availableSpells;
     }
 
     public StringProperty getCreatureType() {
@@ -610,6 +657,14 @@ public class ViewModel {
 
     public int getMaxFeats() {
         return maxFeats;
+    }
+
+    public IntegerProperty getMaxCantrips() {
+        return maxCantrips;
+    }
+
+    public IntegerProperty getMaxSpells() {
+        return maxSpells;
     }
 
     public IntegerProperty getExhaustion() {

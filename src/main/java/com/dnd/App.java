@@ -214,3 +214,4 @@ public class App extends Application {
 // epic boons and fighting styles
 // potentially change scrollbar background when disabled
 // change denaro posizione
+// descriptions for epic boons, class abilities, spells

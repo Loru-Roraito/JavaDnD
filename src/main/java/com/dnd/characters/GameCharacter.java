@@ -52,9 +52,10 @@ public class GameCharacter {
     private final CustomObservableList<ObservableString> backgroundEquipment = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> choiceProficiencies = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> selectableFeats = new CustomObservableList<>();
-    private final CustomObservableList<ObservableString> readySpells = new CustomObservableList<>();
+    private final CustomObservableList<ObservableString> availableCantrips = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> availableSpells = new CustomObservableList<>();
-    private final CustomObservableList<ObservableString> possibleSpells = new CustomObservableList<>(); // Used for Wizard, its spellbook
+    private final CustomObservableList<ObservableString> spells = new CustomObservableList<>();
+    private final CustomObservableList<ObservableString> cantrips = new CustomObservableList<>();
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses;
@@ -76,6 +77,8 @@ public class GameCharacter {
     private final ObservableInteger generationPoints = new ObservableInteger(0);
     private final ObservableInteger availableFeats = new ObservableInteger(0);
     private final ObservableInteger exhaustion = new ObservableInteger(0);
+    private final ObservableInteger maxCantrips = new ObservableInteger(0);
+    private final ObservableInteger maxSpells = new ObservableInteger(0);
     private final ObservableInteger[] abilityBases;
     private final ObservableInteger[] abilities;
     private final ObservableInteger[] abilityModifiers;
@@ -178,7 +181,6 @@ public class GameCharacter {
 
             bindAvailablePluses(i);
             bindAvailableMinuses(i);
-
         }
 
         maxFeats = getInt(new String[] {"max_feats"});
@@ -285,6 +287,8 @@ public class GameCharacter {
         }
 
         bindSpells();
+
+        bindMaxSpells();
     }
 
     // Getters
@@ -489,6 +493,18 @@ public class GameCharacter {
         return skillModifiers[index];
     }
 
+    public ObservableInteger getSpellSlot(int index) {
+        return spellSlots[index];
+    }
+
+    public ObservableInteger getMaxCantrips() {
+        return maxCantrips;
+    }
+
+    public ObservableInteger getMaxSpells() {
+        return maxSpells;
+    }
+
     public ObservableBoolean getBlinded() {
         return blinded;
     }
@@ -625,12 +641,20 @@ public class GameCharacter {
         return selectableFeats;
     }
 
+    public CustomObservableList<ObservableString> getAvailableCantrips() {
+        return availableCantrips;
+    }
+
     public CustomObservableList<ObservableString> getAvailableSpells() {
         return availableSpells;
     }
 
-    public CustomObservableList<ObservableString> getPossibleSpells() {
-        return possibleSpells;
+    public CustomObservableList<ObservableString> getSpells() {
+        return spells;
+    }
+
+    public CustomObservableList<ObservableString> getCantrips() {
+        return cantrips;
     }
 
     // Binders
@@ -1690,29 +1714,28 @@ public class GameCharacter {
     private void bindSpells() {
         Runnable updateSpells = () -> {
             availableSpells.clear();
+            availableCantrips.clear();
             if (Arrays.asList(getMagicClasses()).contains(classe.get()) && level.get() > 0) {
                 int[] slots = getInts(new String[] {"spell_slots", String.valueOf(level.get())});
-                int spellLevel = 0;
+                int maximumLevel = 0;
                 for (int i = 0; i < spellSlots.length; i++) {
                     spellSlots[i].set(slots[i]);
                     if (slots[i] > 0) {
-                        spellLevel ++;
+                        maximumLevel ++;
                     }
                 }
 
-                String[] spells = getGroup(new String[] {"spells"});
-                for (String spell : spells) {
-                    int requiredLevel = getInt(new String[] {"spells", spell, "level"});
-                    String[] acceptedClasses = getGroup(new String[] {"spells", spell, "classes"});
-                    boolean spellAlreadyReady = false;
-                    for (ObservableString readySpell : readySpells.getList()) {
-                        if (readySpell != null && spell.equals(readySpell.get())) {
-                            spellAlreadyReady = true;
-                            break;
+                String[] spellsList = getGroup(new String[] {"spells"});
+                for (String spell : spellsList) {
+                    int spellLevel = getInt(new String[] {"spells", spell, "level"});
+                    String[] acceptedClasses = getGroup(new String[] {"spells", spell, "lists"});
+                    
+                    if (spellLevel <= maximumLevel && Arrays.asList(acceptedClasses).contains(classe.get())) {
+                        if (spellLevel > 0) {
+                            availableSpells.add(new ObservableString(spell));
+                        } else if (level.get() >= 1) {
+                            availableCantrips.add(new ObservableString(spell));
                         }
-                    }
-                    if (requiredLevel <= spellLevel && Arrays.asList(acceptedClasses).contains(classe.get()) && !spellAlreadyReady) {
-                        availableSpells.add(new ObservableString(spell));
                     }
                 }
             } else {
@@ -1723,6 +1746,22 @@ public class GameCharacter {
         };
         classe.addListener(_ -> updateSpells.run());
         level.addListener(_ -> updateSpells.run());
+    }
+
+    private void bindMaxSpells() {
+        Runnable updateMaxSpells = () -> {
+            int[] spellsPerLevel = (getInts(new String[] {"classes", classe.get(), "prepared"}));
+            int[] cantripsPerLevel = (getInts(new String[] {"classes", classe.get(), "cantrips"}));
+            if (level.get() > 0){
+                maxSpells.set(spellsPerLevel[level.get() - 1]);
+                maxCantrips.set(cantripsPerLevel[level.get() - 1]);
+            } else {
+                maxSpells.set(0);
+                maxCantrips.set(0);
+            }
+        };
+        classe.addListener(_ -> updateMaxSpells.run());
+        level.addListener(_ -> updateMaxSpells.run());
     }
 
     // Helpers

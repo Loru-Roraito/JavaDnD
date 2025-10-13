@@ -31,7 +31,7 @@ public class CharacterTab extends Tab{
         subTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); // Prevent closing sub-tabs
 
         InfoTab infoTab = new InfoTab(character, mainTabPane);
-        MagicTab magicTab = new MagicTab();
+        MagicTab magicTab = new MagicTab(character, mainTabPane);
         StatusTab statusTab = new StatusTab(character, mainTabPane);
         ExtraTab extraTab = new ExtraTab(character, mainTabPane);
 
