@@ -68,6 +68,7 @@ public class ViewModel {
     private final IntegerProperty[] skillModifiers;
     private final IntegerProperty[] abilityBases;
     private final IntegerProperty[] spellSlots;
+    private final IntegerProperty[] availableSpellSlots;
     
     // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
     private final DoubleProperty speed;
@@ -287,6 +288,12 @@ public class ViewModel {
         for (int i = 0; i < 9; i ++) {
             this.spellSlots[i] = new SimpleIntegerProperty(backend.getSpellSlot(i).get());
             bindObservableInteger(spellSlots[i], backend.getSpellSlot(i));
+        }
+
+        this.availableSpellSlots = new IntegerProperty[9];
+        for (int i = 0; i < 9; i ++) {
+            this.availableSpellSlots[i] = new SimpleIntegerProperty(backend.getAvailableSpellSlot(i).get());
+            bindObservableInteger(availableSpellSlots[i], backend.getAvailableSpellSlot(i));
         }
 
         int skillCount = backend.getSkillNames().length;
@@ -657,6 +664,14 @@ public class ViewModel {
 
     public int getMaxFeats() {
         return maxFeats;
+    }
+
+    public IntegerProperty getSpellSlot(int index) {
+        return spellSlots[index];
+    }
+
+    public IntegerProperty getAvailableSpellSlot(int index) {
+        return availableSpellSlots[index];
     }
 
     public IntegerProperty getMaxCantrips() {

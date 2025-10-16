@@ -408,7 +408,13 @@
 }
 
 .tooltip {
-    -fx-show-delay: 100ms; /* Delay before showing the tooltip */
+    -fx-show-delay: 10ms; /* Delay before showing the tooltip */
+
+    border-radius: 5px; /* Standard CSS */
+    -fx-border-radius: 5px; /* JavaFX-specific */
+
+    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-insets: 0; /* Prevent background from overflowing */
 }
 
 /* Default TextField styling */

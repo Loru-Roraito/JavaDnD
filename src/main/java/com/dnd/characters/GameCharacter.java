@@ -88,6 +88,7 @@ public class GameCharacter {
     private final ObservableInteger[] skillModifiers;
     private final ObservableInteger[] moneys = new ObservableInteger[5];
     private final ObservableInteger[] spellSlots = new ObservableInteger[9];
+    private final ObservableInteger[] availableSpellSlots = new ObservableInteger[9];
 
     private final ObservableBoolean blinded = new ObservableBoolean(false);
     private final ObservableBoolean charmed = new ObservableBoolean(false);
@@ -284,6 +285,7 @@ public class GameCharacter {
 
         for (int i = 0; i < 9; i++) {
             spellSlots[i] = new ObservableInteger(0);
+            availableSpellSlots[i] = new ObservableInteger(0);
         }
 
         bindSpells();
@@ -495,6 +497,10 @@ public class GameCharacter {
 
     public ObservableInteger getSpellSlot(int index) {
         return spellSlots[index];
+    }
+
+    public ObservableInteger getAvailableSpellSlot(int index) {
+        return availableSpellSlots[index];
     }
 
     public ObservableInteger getMaxCantrips() {
@@ -1719,6 +1725,10 @@ public class GameCharacter {
                 int[] slots = getInts(new String[] {"spell_slots", String.valueOf(level.get())});
                 int maximumLevel = 0;
                 for (int i = 0; i < spellSlots.length; i++) {
+                    int oldSlots = spellSlots[i].get();
+                    if (slots[i] > oldSlots && availableSpellSlots[i].get() < slots[i]) {
+                        availableSpellSlots[i].set(availableSpellSlots[i].get() + slots[i] - oldSlots);
+                    }
                     spellSlots[i].set(slots[i]);
                     if (slots[i] > 0) {
                         maximumLevel ++;
@@ -1752,7 +1762,7 @@ public class GameCharacter {
         Runnable updateMaxSpells = () -> {
             int[] spellsPerLevel = (getInts(new String[] {"classes", classe.get(), "prepared"}));
             int[] cantripsPerLevel = (getInts(new String[] {"classes", classe.get(), "cantrips"}));
-            if (level.get() > 0){
+            if (level.get() > 0 && spellsPerLevel.length > 0 && cantripsPerLevel.length > 0) {
                 maxSpells.set(spellsPerLevel[level.get() - 1]);
                 maxCantrips.set(cantripsPerLevel[level.get() - 1]);
             } else {

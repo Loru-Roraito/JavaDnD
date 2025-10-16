@@ -1,7 +1,7 @@
 package com.dnd.ui.tooltip;
 
 import com.dnd.DefinitionManager;
-import com.dnd.TooltipManager;
+import com.dnd.DefinitionManager;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -35,11 +35,11 @@ public class TooltipLabel extends Label {
     }
 
     private void assignTooltip(String tooltipKey) {
-        TooltipManager.getInstance().assignTooltip(this, tooltipKey);
+        DefinitionManager.getInstance().assignTooltip(this, tooltipKey);
     }
 
     private void forceTooltip(String tooltip) {
-        TooltipManager.getInstance().forceTooltip(this, tooltip);
+        DefinitionManager.getInstance().forceTooltip(this, tooltip);
     }
 
     // Set up a key listener for the "T" key

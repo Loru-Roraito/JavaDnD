@@ -2383,7 +2383,7 @@
     },
     "ARCANE_LOCK": {
       "level": 2,
-      "range": -1,
+      "range": 0,
       "time": 0,
       "timeSpan": "DISPELLED",
       "duration": 60,

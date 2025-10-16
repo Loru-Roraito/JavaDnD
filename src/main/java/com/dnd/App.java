@@ -61,7 +61,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        double fontSize = scene.widthProperty().doubleValue() / 160; // Adjust divisor for scaling
+        double fontSize = scene.widthProperty().doubleValue() / 100; // Adjust divisor for scaling
         root.setStyle("-fx-font-size: " + fontSize + "px;");
     }
 
@@ -215,3 +215,4 @@ public class App extends Application {
 // potentially change scrollbar background when disabled
 // change denaro posizione
 // descriptions for epic boons, class abilities, spells
+// possibilità di cliccare T su tooltip come in BG3

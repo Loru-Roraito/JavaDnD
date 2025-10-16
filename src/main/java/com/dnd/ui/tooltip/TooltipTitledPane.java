@@ -1,6 +1,6 @@
 package com.dnd.ui.tooltip;
 
-import com.dnd.TooltipManager;
+import com.dnd.DefinitionManager;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -20,6 +20,6 @@ public class TooltipTitledPane extends TitledPane {
 
     // Assign a tooltip to the title label
     private void assignTooltip(String tooltipKey) {
-        TooltipManager.getInstance().assignTooltip(titleLabel, tooltipKey);
+        DefinitionManager.getInstance().assignTooltip(titleLabel, tooltipKey);
     }
 }

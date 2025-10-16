@@ -31,12 +31,13 @@ public class CharacterTab extends Tab{
         subTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); // Prevent closing sub-tabs
 
         InfoTab infoTab = new InfoTab(character, mainTabPane);
+        ProficienciesTab proficienciesTab = new ProficienciesTab(character, mainTabPane);
         MagicTab magicTab = new MagicTab(character, mainTabPane);
         StatusTab statusTab = new StatusTab(character, mainTabPane);
         ExtraTab extraTab = new ExtraTab(character, mainTabPane);
 
         // Add sub-tabs
-        subTabPane.getTabs().addAll(infoTab, magicTab, statusTab, extraTab);
+        subTabPane.getTabs().addAll(infoTab, proficienciesTab, magicTab, statusTab, extraTab);
 
         return subTabPane;
     }

@@ -16,9 +16,11 @@ old/
 # copyrighted files
 actives.json
 passives.json
+spells.json
 definitions_it.properties
 tooltips_it.properties
 miscs_it.properties
+spellDescriptions_it.json
 
 # Package Files #
 *.jar

@@ -1,4 +1,4 @@
-package com.dnd.ui.panes;
+package com.dnd.ui.tabs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,61 +18,72 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.collections.ListChangeListener;
 
-public class ProficienciesPane extends GridPane {
+public class ProficienciesTab extends Tab{
     private final TabPane mainTabPane;
     private final String[] choiceArrays;
     private final List<ComboBox<String>> choiceComboBoxes;
     private final List<String[]> startingValues;
     private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
-    public ProficienciesPane(ViewModel character, GridPane gridPane, TabPane mainTabPane) {
+    private final GridPane gridPane = new GridPane();
+    public ProficienciesTab(ViewModel character, TabPane mainTabPane) {
+        setText(getTranslation("PROFICIENCIES"));
+        gridPane.getStyleClass().add("grid-pane");
+
         this.character = character;
         this.choiceComboBoxes = new java.util.ArrayList<>();
         this.startingValues = new ArrayList<>();
         this.groupItemsList = new ArrayList<>();
         this.mainTabPane = mainTabPane;
-        getStyleClass().add("grid-pane");
 
         choiceArrays = getGroup(new String[] {"sets"});
 
         TooltipLabel languages = new TooltipLabel(getTranslation("LANGUAGES") + ":", getTranslation("LANGUAGES"), mainTabPane);
-        add(languages, 0, 0);
+        gridPane.add(languages, 0, 0);
 
         TooltipLabel common = new TooltipLabel(getTranslation("COMMON_LANGUAGE"), mainTabPane);
-        add(common, 0, 1);
+        gridPane.add(common, 0, 1);
         
+        List<ObservableList<String>> languageValuesList = new ArrayList<>(2);
+        List<ComboBox<String>> languageComboBoxes = new ArrayList<>(2);
+
         // In the future more languages should be available. Take the abilities ComboBoxes as an example for the available values update
         // Populate the class list and translation map
         ObservableList<String> commonLanguages = FXCollections.observableArrayList();
-        for (String languageKey : getGroup(new String[] {"common_languages"})) {
-            commonLanguages.add(getTranslation(languageKey));
-        }
+        String[] languageKeys = getGroupTranslations(new String[] {"common_languages"});
+        commonLanguages.addAll(Arrays.asList(languageKeys));
         commonLanguages.add(0, getTranslation("RANDOM"));
+        languageValuesList.add(commonLanguages);
+        languageValuesList.add(FXCollections.observableArrayList(commonLanguages));
 
-        TooltipComboBox languageOne = new TooltipComboBox(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        TooltipComboBox languageOne = new TooltipComboBox(languageValuesList.get(0), mainTabPane);
         languageOne.setPromptText(getTranslation("RANDOM"));
-        add(languageOne, 0, 2);
+        gridPane.add(languageOne, 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
 
-        TooltipComboBox languageTwo = new TooltipComboBox(FXCollections.observableArrayList(commonLanguages), mainTabPane);
+        TooltipComboBox languageTwo = new TooltipComboBox(languageValuesList.get(1), mainTabPane);
         languageTwo.setPromptText(getTranslation("RANDOM"));
-        add(languageTwo, 0, 3);
+        gridPane.add(languageTwo, 0, 3);
+        
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
 
-        languageOne.valueProperty().addListener((_, _, newVal) -> {
-            updateComboBox(languageTwo, commonLanguages, newVal);
-        });
-
-        languageTwo.valueProperty().addListener((_, _, newVal) -> {
-            updateComboBox(languageOne, commonLanguages, newVal);
-        });
-
+        languageComboBoxes.add(languageOne);
+        languageComboBoxes.add(languageTwo);
+        
+        for (ComboBox<String> comboBox : languageComboBoxes) {
+            comboBox.valueProperty().addListener((_, _, _) -> {
+                for (int j = 0; j < languageComboBoxes.size(); j++) {
+                    ComboBoxUtils.updateItems(languageComboBoxes.get(j), languageComboBoxes, languageValuesList.get(j), languageKeys, new String[] {getTranslation("RANDOM")});
+                }
+            });
+        }
 
         TextFlow proficienciesFlow = new TextFlow();
         proficienciesFlow.maxWidthProperty().bind(gridPane.widthProperty().multiply(0.2));
@@ -120,7 +131,7 @@ public class ProficienciesPane extends GridPane {
         proficienciesGridPane.setPadding(new Insets(0));
 
         TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesGridPane);
-        add(proficienciesPane, 0, 4);
+        gridPane.add(proficienciesPane, 0, 4);
 
 
         TextFlow activesFlow = new TextFlow();
@@ -134,7 +145,7 @@ public class ProficienciesPane extends GridPane {
         });
 
         TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
-        add(activesPane, 0, 5);
+        gridPane.add(activesPane, 0, 5);
 
 
         TextFlow passivesFlow = new TextFlow();
@@ -149,12 +160,13 @@ public class ProficienciesPane extends GridPane {
 
         TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesFlow);
 
-        add(passivesPane, 0, 6);
+        gridPane.add(passivesPane, 0, 6);
+        setContent(gridPane);
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
         for (ComboBox<String> comboBox : choiceComboBoxes) {
-            getChildren().remove(comboBox);
+            gridPane.getChildren().remove(comboBox);
         }
         choiceComboBoxes.clear();
         startingValues.clear();
@@ -174,7 +186,7 @@ public class ProficienciesPane extends GridPane {
                 groupItemsList.add(groupItems);
 
                 int index = choiceComboBoxes.size();
-                add(comboBox, 0, 6 + index);
+                gridPane.add(comboBox, 0, 6 + index);
 
                 comboBox.valueProperty().addListener((_, _, _) -> {
                     for (int j = 0; j < choiceComboBoxes.size(); j++) {
@@ -193,24 +205,6 @@ public class ProficienciesPane extends GridPane {
                 Text wordText = new Text(name);
                 textFlow.getChildren().add(wordText);
             }
-        }
-    }
-
-    private void updateComboBox(ComboBox<String> comboBox, ObservableList<String> baseList, String excludedValue) {
-        String currentValue = comboBox.getValue();
-        ObservableList<String> newItems = FXCollections.observableArrayList(
-            baseList.stream()
-                .filter(s -> s.equals(getTranslation("RANDOM")) || !s.equals(excludedValue))
-                .toList()
-        );
-
-        comboBox.setItems(newItems);
-
-        // Preserve the selection if still valid
-        if (currentValue != null && newItems.contains(currentValue)) {
-            comboBox.setValue(currentValue);
-        } else {
-            comboBox.setValue(getTranslation("RANDOM"));
         }
     }
 

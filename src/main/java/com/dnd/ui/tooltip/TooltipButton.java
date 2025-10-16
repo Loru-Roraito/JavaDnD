@@ -1,6 +1,6 @@
 package com.dnd.ui.tooltip;
 
-import com.dnd.TooltipManager;
+import com.dnd.DefinitionManager;
 
 import javafx.scene.control.Button;
 
@@ -16,6 +16,6 @@ public class TooltipButton extends Button {
     }
 
     private void assignTooltip(String tooltipKey) {
-        TooltipManager.getInstance().assignTooltip(this, tooltipKey);
+        DefinitionManager.getInstance().assignTooltip(this, tooltipKey);
     }
 }

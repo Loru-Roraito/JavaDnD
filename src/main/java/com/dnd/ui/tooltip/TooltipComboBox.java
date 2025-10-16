@@ -1,7 +1,7 @@
 package com.dnd.ui.tooltip;
 
 import com.dnd.DefinitionManager;
-import com.dnd.TooltipManager;
+import com.dnd.DefinitionManager;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -142,7 +142,7 @@ public class TooltipComboBox extends ComboBox<String> {
                     // Apply font scaling when showing
                     Scene scene = this.getScene();
                     if (scene != null) {
-                        double fontSize = scene.getWidth() / 160;
+                        double fontSize = scene.getWidth() / 100;
                         popup.getScene().getRoot().setStyle("-fx-font-size: " + fontSize + "px;");
                     }
                     
@@ -238,6 +238,6 @@ public class TooltipComboBox extends ComboBox<String> {
     }
 
     private String fetchTooltip(String key) {
-        return TooltipManager.getInstance().fetchTooltip(key);
+        return DefinitionManager.getInstance().fetchTooltip(key);
     }
 }

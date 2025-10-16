@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,6 +21,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TabPane;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
+import javafx.scene.layout.Region;
 
 public class MagicTab extends Tab{
     private final ViewModel character;
@@ -42,10 +45,55 @@ public class MagicTab extends Tab{
 
         VBox[] levelBoxes = new VBox[9];
         for (int i = 0; i < 9; i++) {
+            int index = i;
+            TooltipLabel titleLabel = new TooltipLabel(getTranslation("LEVEL") + " " + (index + 1), mainTabPane);
+            HBox customHeader = new HBox(10);
+            customHeader.getChildren().add(titleLabel);
+            // Spacer to push checkboxes to the right
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            customHeader.getChildren().add(spacer);
+            HBox checkBoxes = new HBox();
+            customHeader.getChildren().add(checkBoxes);
+
+            Runnable updateSpellSlots = () -> {
+                checkBoxes.getChildren().clear();
+                for (int j = 0; j < character.getSpellSlot(index).get(); j++) {
+                    CheckBox spellLevel = new CheckBox();
+                    checkBoxes.getChildren().add(spellLevel);
+
+                    int newIndex = j;
+                    Runnable updateAvailableSlots = () -> {
+                        if (character.getAvailableSpellSlot(index).get() > newIndex) {
+                            spellLevel.setSelected(true);
+                        } else {
+                            spellLevel.setSelected(false);
+                        }
+                    };
+                    character.getAvailableSpellSlot(index).addListener((_, _, _) -> {
+                        updateAvailableSlots.run();
+                    });
+                    updateAvailableSlots.run();
+
+                    spellLevel.setOnAction(_ -> {
+                        if (spellLevel.isSelected()) {
+                            character.getAvailableSpellSlot(index).set(character.getAvailableSpellSlot(index).get() + 1);
+                        } else {
+                            character.getAvailableSpellSlot(index).set(character.getAvailableSpellSlot(index).get() - 1);
+                        }
+                    });
+                }
+            };
+            character.getSpellSlot(index).addListener((_, _, _) -> {
+                updateSpellSlots.run();
+            });
+            updateSpellSlots.run();
+
             VBox levelBox = new VBox(5);
-            levelBoxes[i] = levelBox;
-            TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelBox);
-            gridPane.add(levelPane, 1 + i / 3, 1 + i % 3);
+            levelBoxes[index] = levelBox;
+            TooltipTitledPane levelPane = new TooltipTitledPane("", levelBox);
+            levelPane.setGraphic(customHeader);
+            gridPane.add(levelPane, 1 + index / 3, 1 + index % 3);
         }
 
         Runnable updateCantrips = () -> {
@@ -68,6 +116,7 @@ public class MagicTab extends Tab{
             for (StringProperty spell : spells) {
                 int spellLevel = getInt(new String[] {"spells", spell.get(), "level"});
                 VBox levelBox = levelBoxes[spellLevel - 1];
+
                 TooltipLabel spellLabel = new TooltipLabel(getTranslation(spell.get()), mainTabPane);
                 levelBox.getChildren().add(spellLabel);
             }
@@ -161,10 +210,6 @@ public class MagicTab extends Tab{
             levelGrid.add(spellCheckBox, 0, i);
             levelGrid.add(spellLabel, 1, i);
         }
-
-        Button saveButton = new Button(getTranslation("SAVE"));
-        saveButton.setOnAction(_ -> spellStage.close());
-        spellLayout.getChildren().add(saveButton);
 
         // Show and wait - this makes it modal
         spellStage.showAndWait();
