@@ -30,13 +30,13 @@ public class MiscsManager {
             System.err.println("Error: Failed to load spells file: spellDescriptions_" + language + ".properties");
         }
 
-        try (var inputStream = getClass().getClassLoader().getResourceAsStream("spellIngredients_" + language + ".properties")) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream("spellMaterials_" + language + ".properties")) {
             if (inputStream == null) {
-                throw new IOException("Resource not found: spellIngredients_" + language + ".properties");
+                throw new IOException("Resource not found: spellMaterials_" + language + ".properties");
             }
             ingredients.load(new java.io.InputStreamReader(inputStream, StandardCharsets.UTF_8));
         } catch (IOException e) {
-            System.err.println("Error: Failed to load spells file: spellIngredients_" + language + ".properties");
+            System.err.println("Error: Failed to load spells file: spellMaterials_" + language + ".properties");
         }
     }
 

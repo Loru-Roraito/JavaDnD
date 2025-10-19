@@ -2,17 +2,17 @@ package com.dnd;
 
 import java.util.Random;
 
-import com.dnd.ui.panes.CustomizationPane;
+import com.dnd.ui.panes.SystemPane;
 
 public class ThrowManager {
     private static ThrowManager instance;
     private final Random random = new Random(); // Reusable Random instance
 
-    public int ThrowDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage, CustomizationPane customizationPane) {
+    public int ThrowDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage, SystemPane systemPane) {
         Boolean adv;
         Boolean disadv;
         
-        switch (customizationPane.getAdvantage()) {
+        switch (systemPane.getAdvantage()) {
             case "NONE_M" -> {
                 adv = false;
                 disadv = false;
@@ -32,7 +32,7 @@ public class ThrowManager {
         }
 
         if (size == 20 && times == 1) { // Exhaustion affects D20 tests
-            int exhaustion = customizationPane.getCharacter().getExhaustion().get();
+            int exhaustion = systemPane.getCharacter().getExhaustion().get();
             bonus -= exhaustion * 2;
         }
 

@@ -1,5 +1,6 @@
 package com.dnd.ui.tabs;
 
+import com.dnd.SpellManager;
 import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.ViewModel;
@@ -23,9 +24,11 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Region;
 
-public class MagicTab extends Tab{
+public class MagicTab extends Tab {
+
     private final ViewModel character;
     private final TabPane mainTabPane; // Reference to the main TabPane
+
     public MagicTab(ViewModel character, TabPane mainTabPane) {
         this.character = character;
         this.mainTabPane = mainTabPane;
@@ -39,9 +42,21 @@ public class MagicTab extends Tab{
         prepareSpellsButton.setOnAction(_ -> openSpellSelectionWindow());
         gridPane.add(prepareSpellsButton, 0, 0);
 
+        TooltipLabel abilityLabel = new TooltipLabel(getTranslation("SPELLCASTING_ABILITY"), mainTabPane);
+        abilityLabel.textProperty().bind(Bindings.concat(getTranslation("SPELLCASTING_ABILITY"), ": ", character.getSpellcastingAbility(), " (", character.getSpellcastingAbilityModifier(), ")"));
+        gridPane.add(abilityLabel, 1, 0, 2, 1);
+
+        TooltipLabel attackLabel = new TooltipLabel(getTranslation("ATTACK_MODIFIER"), mainTabPane);
+        attackLabel.textProperty().bind(Bindings.concat(getTranslation("ATTACK_MODIFIER"), ": ", character.getSpellcastingAttackModifier()));
+        gridPane.add(attackLabel, 1, 1, 2, 1);
+
+        TooltipLabel saveDCLabel = new TooltipLabel(getTranslation("DC"), mainTabPane);
+        saveDCLabel.textProperty().bind(Bindings.concat(getTranslation("DC"), ": ", character.getSpellcastingSaveDC()));
+        gridPane.add(saveDCLabel, 0, 1);
+
         VBox cantripsBox = new VBox(5);
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsBox);
-        gridPane.add(cantripsPane, 0, 1);
+        gridPane.add(cantripsPane, 0, 2);
 
         VBox[] levelBoxes = new VBox[9];
         for (int i = 0; i < 9; i++) {
@@ -93,14 +108,14 @@ public class MagicTab extends Tab{
             levelBoxes[index] = levelBox;
             TooltipTitledPane levelPane = new TooltipTitledPane("", levelBox);
             levelPane.setGraphic(customHeader);
-            gridPane.add(levelPane, 1 + index / 3, 1 + index % 3);
+            gridPane.add(levelPane, 1 + index / 3, 2 + index % 3);
         }
 
         Runnable updateCantrips = () -> {
             cantripsBox.getChildren().clear();
             ObservableList<StringProperty> cantrips = character.getCantrips();
             for (StringProperty cantrip : cantrips) {
-                TooltipLabel cantripLabel = new TooltipLabel(getTranslation(cantrip.get()), mainTabPane);
+                TooltipLabel cantripLabel = new TooltipLabel(cantrip.get(), mainTabPane);
                 cantripsBox.getChildren().add(cantripLabel);
             }
         };
@@ -114,10 +129,10 @@ public class MagicTab extends Tab{
                 levelBoxes[i].getChildren().clear();
             }
             for (StringProperty spell : spells) {
-                int spellLevel = getInt(new String[] {"spells", spell.get(), "level"});
+                int spellLevel = getSpellInt(new String[]{getOriginal(spell.get()), "level"});
                 VBox levelBox = levelBoxes[spellLevel - 1];
 
-                TooltipLabel spellLabel = new TooltipLabel(getTranslation(spell.get()), mainTabPane);
+                TooltipLabel spellLabel = new TooltipLabel(spell.get(), mainTabPane);
                 levelBox.getChildren().add(spellLabel);
             }
         };
@@ -132,7 +147,7 @@ public class MagicTab extends Tab{
 
         // Make it modal - blocks interaction with parent window
         spellStage.initModality(Modality.APPLICATION_MODAL);
-        
+
         // Get the parent window to set as owner
         Stage parentStage = (Stage) getTabPane().getScene().getWindow();
         spellStage.initOwner(parentStage);
@@ -165,9 +180,9 @@ public class MagicTab extends Tab{
                 }
             });
             cantripCheckBox.disableProperty().bind(
-                character.getMaxCantrips().lessThanOrEqualTo(
-                    Bindings.size(cantrips)
-                ).and(cantripCheckBox.selectedProperty().not())
+                    character.getMaxCantrips().lessThanOrEqualTo(
+                            Bindings.size(cantrips)
+                    ).and(cantripCheckBox.selectedProperty().not())
             );
 
             cantripsGrid.add(cantripCheckBox, 0, i);
@@ -186,7 +201,7 @@ public class MagicTab extends Tab{
         ObservableList<StringProperty> spells = character.getSpells();
         for (int i = 0; i < availableSpells.size(); i++) {
             StringProperty spell = availableSpells.get(i);
-            int spellLevel = getInt(new String[] {"spells", spell.get(), "level"});
+            int spellLevel = getSpellInt(new String[]{getOriginal(spell.get()), "level"});
             GridPane levelGrid = levelGrids[spellLevel - 1];
 
             CheckBox spellCheckBox = new CheckBox();
@@ -202,9 +217,9 @@ public class MagicTab extends Tab{
                 }
             });
             spellCheckBox.disableProperty().bind(
-                character.getMaxSpells().lessThanOrEqualTo(
-                    Bindings.size(spells)
-                ).and(spellCheckBox.selectedProperty().not())
+                    character.getMaxSpells().lessThanOrEqualTo(
+                            Bindings.size(spells)
+                    ).and(spellCheckBox.selectedProperty().not())
             );
 
             levelGrid.add(spellCheckBox, 0, i);
@@ -220,7 +235,11 @@ public class MagicTab extends Tab{
         return TranslationManager.getInstance().getTranslation(key);
     }
 
-    private int getInt(String[] key) {
-        return TranslationManager.getInstance().getInt(key);
+    private String getOriginal(String spellName) {
+        return TranslationManager.getInstance().getOriginal(spellName);
+    }
+
+    private int getSpellInt(String[] key) {
+        return SpellManager.getInstance().getSpellInt(key);
     }
 }

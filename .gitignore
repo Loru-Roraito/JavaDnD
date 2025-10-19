@@ -12,6 +12,7 @@
 
 # reference files
 old/
+utilities/
 
 # copyrighted files
 actives.json
@@ -20,7 +21,6 @@ spells.json
 definitions_it.properties
 tooltips_it.properties
 miscs_it.properties
-spellDescriptions_it.json
 
 # Package Files #
 *.jar

@@ -1,6 +1,6 @@
 package com.dnd.items;
 
-import com.dnd.TranslationManager;
+import com.dnd.SpellManager;
 
 public class Spell {
     private final String name;
@@ -33,36 +33,36 @@ public class Spell {
         this.overriding = overriding;
         this.limited = limited;
         
-        this.school = getString(new String[]{"spells", name, "school"});
-        this.time = getInt(new String[]{"spells", name, "time"});
-        this.timeSpan = getString(new String[]{"spells", name, "time_span"});
-        this.duration = getInt(new String[]{"spells", name, "duration"});
-        this.durationSpan = getString(new String[]{"spells", name, "duration_span"});
-        this.materials = getGroup(new String[]{"spells", name, "materials"});
-        this.level = getInt(new String[]{"spells", name, "level"});
-        this.range = getInt(new String[]{"spells", name, "range"});
-        this.concentration = getBoolean(new String[]{"spells", name, "concentration"});
-        this.ritual = getBoolean(new String[]{"spells", name, "ritual"});
-        this.components = getBooleans(new String[]{"spells", name, "components"});
+        this.school = getSpellString(new String[]{name, "school"});
+        this.time = getSpellInt(new String[]{name, "time"});
+        this.timeSpan = getSpellString(new String[]{name, "time_span"});
+        this.duration = getSpellInt(new String[]{name, "duration"});
+        this.durationSpan = getSpellString(new String[]{name, "duration_span"});
+        this.materials = getSpellGroup(new String[]{name, "materials"});
+        this.level = getSpellInt(new String[]{name, "level"});
+        this.range = getSpellInt(new String[]{name, "range"});
+        this.concentration = getSpellBoolean(new String[]{name, "concentration"});
+        this.ritual = getSpellBoolean(new String[]{name, "ritual"});
+        this.components = getSpellBooleans(new String[]{name, "components"});
     }
 
-    private Boolean getBoolean(String[] group) {
-        return TranslationManager.getInstance().getBoolean(group);
+    private Boolean getSpellBoolean(String[] group) {
+        return SpellManager.getInstance().getSpellBoolean(group);
     }
 
-    private Boolean[] getBooleans(String[] group) {
-        return TranslationManager.getInstance().getBooleans(group);
+    private Boolean[] getSpellBooleans(String[] group) {
+        return SpellManager.getInstance().getSpellBooleans(group);
     }
 
-    private int getInt(String[] group) {
-        return TranslationManager.getInstance().getInt(group);
+    private int getSpellInt(String[] group) {
+        return SpellManager.getInstance().getSpellInt(group);
     }
 
-    private String getString(String[] group) {
-        return TranslationManager.getInstance().getString(group);
+    private String getSpellString(String[] group) {
+        return SpellManager.getInstance().getSpellString(group);
     }
 
-    private String[] getGroup(String[] group) {
-        return TranslationManager.getInstance().getGroup(group);
+    private String[] getSpellGroup(String[] group) {
+        return SpellManager.getInstance().getSpellGroup(group);
     }
 }

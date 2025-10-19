@@ -1,7 +1,6 @@
 package com.dnd.ui.tooltip;
 
 import com.dnd.DefinitionManager;
-import com.dnd.DefinitionManager;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;

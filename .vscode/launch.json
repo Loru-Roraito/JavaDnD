@@ -10,13 +10,6 @@
             "request": "launch",
             "mainClass": "com.dnd/com.dnd.App",
             "projectName": "demo"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "com.dnd/com.dnd.App",
-            "projectName": "DnD"
         }
     ]
 }

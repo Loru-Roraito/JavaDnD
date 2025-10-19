@@ -9,13 +9,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
+
     private static TabPane mainTabPane;
     ViewModel character = new ViewModel(new GameCharacter());
 
@@ -47,22 +47,17 @@ public class App extends Application {
     private void initializeScene(Stage stage, BorderPane root) {
         Scene scene = new Scene(root);
 
-        // Get the screen dimensions
-        double screenWidth = Screen.getPrimary().getBounds().getWidth();
-        double screenHeight = Screen.getPrimary().getBounds().getHeight();
-
-        // Scale the TabPane based on screen size
-        mainTabPane.setPrefWidth(screenWidth * 0.95);
-        mainTabPane.setPrefHeight(screenHeight * 0.9);
-
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         stage.setTitle(TranslationManager.getInstance().getTranslation("MAIN_TITLE"));
         stage.setScene(scene);
-        stage.show();
 
-        double fontSize = scene.widthProperty().doubleValue() / 100; // Adjust divisor for scaling
-        root.setStyle("-fx-font-size: " + fontSize + "px;");
+        // Set maximum size to screen dimensions
+        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+        stage.setMaxWidth(screenBounds.getWidth());
+        stage.setMaxHeight(screenBounds.getHeight());
+
+        stage.show();
     }
 
     public static void main(String[] args) {
@@ -209,10 +204,14 @@ public class App extends Application {
 // peso aumenta sotto pietrificazione (in generale rivedere vari effetti di stato, come resistenza di pietrificazione)
 // custom skill/ability check (es: storia con forza)
 // consenti solo certe caratteristiche per ogni talento
-// codice duplcato per font (in App e TooltipComboBox)
 // sistemare numero di pixel in popup combobox (deve essere dinamico)
 // epic boons and fighting styles
 // potentially change scrollbar background when disabled
 // change denaro posizione
 // descriptions for epic boons, class abilities, spells
 // possibilità di cliccare T su tooltip come in BG3
+// make spell names in prepared selection clickable
+// nascondere magie se non utilizzate
+// magia Warlock (al momento non è nemmeno in classi magiche)
+// rendere spell levels scrollable
+// tradurre materiali e descrizioni incantesimi

@@ -1,12 +1,10 @@
 package com.dnd.ui.tooltip;
 
 import com.dnd.DefinitionManager;
-import com.dnd.DefinitionManager;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -107,7 +105,7 @@ public class TooltipComboBox extends ComboBox<String> {
     private double calculateCellHeight() {
         // Use system default font size or a reasonable default
         double fontSize = javafx.scene.text.Font.getDefault().getSize();
-        return fontSize * 1.5 + 13; // 1.5x font size + 13px padding TODO: these values are empyric, need to check
+        return fontSize * 1.5 + 13; // 1.5x font size + 13px padding TODO: need to remove this part somehow
     }
 
     private void updateListViewSize() {
@@ -138,14 +136,7 @@ public class TooltipComboBox extends ComboBox<String> {
         updateListViewSize(); // Ensure size is updated before showing
         if (!popup.isShowing()) {
             Platform.runLater(() -> {
-                if (!popup.isShowing()) { // Double-check in the runLater
-                    // Apply font scaling when showing
-                    Scene scene = this.getScene();
-                    if (scene != null) {
-                        double fontSize = scene.getWidth() / 100;
-                        popup.getScene().getRoot().setStyle("-fx-font-size: " + fontSize + "px;");
-                    }
-                    
+                if (!popup.isShowing()) { // Double-check in the runLater                    
                     // Get the bounds of this ComboBox
                     Bounds bounds = this.localToScreen(this.getBoundsInLocal());
                     popup.show(this, bounds.getMinX(), bounds.getMaxY());

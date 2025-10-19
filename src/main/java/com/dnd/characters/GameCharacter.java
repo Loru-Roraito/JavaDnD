@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.dnd.SpellManager;
 import com.dnd.TranslationManager;
 import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
@@ -11,6 +12,7 @@ import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
 
 public class GameCharacter {
+
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames;
     private final String[] sets;
@@ -33,6 +35,7 @@ public class GameCharacter {
     private final ObservableString background = new ObservableString("RANDOM");
     private final ObservableString size = new ObservableString("");
     private final ObservableString originFeat = new ObservableString("");
+    private final ObservableString spellcastingAbility = new ObservableString("");
     private final ObservableString[] moneysShown = new ObservableString[5];
     private final ObservableString[] featOnes;
     private final ObservableString[] featTwos;
@@ -79,6 +82,9 @@ public class GameCharacter {
     private final ObservableInteger exhaustion = new ObservableInteger(0);
     private final ObservableInteger maxCantrips = new ObservableInteger(0);
     private final ObservableInteger maxSpells = new ObservableInteger(0);
+    private final ObservableInteger spellcastingAbilityModifier = new ObservableInteger(0);
+    private final ObservableInteger spellcastingAttackModifier = new ObservableInteger(0);
+    private final ObservableInteger spellcastingSaveDC = new ObservableInteger(8);
     private final ObservableInteger[] abilityBases;
     private final ObservableInteger[] abilities;
     private final ObservableInteger[] abilityModifiers;
@@ -119,9 +125,9 @@ public class GameCharacter {
     private final ObservableBoolean[] skillProficiencies;
 
     public GameCharacter() {
-        skillNames = getGroup(new String[] {"skills"});
-        abilityNames = getGroup(new String[] {"abilities"});
-        sets = getGroup(new String[] {"sets"});
+        skillNames = getGroup(new String[]{"skills"});
+        abilityNames = getGroup(new String[]{"abilities"});
+        sets = getGroup(new String[]{"sets"});
         int skillCount = skillNames.length;
         int abilityCount = abilityNames.length;
 
@@ -176,7 +182,7 @@ public class GameCharacter {
             savingThrowProficiencies[i] = new ObservableBoolean(false);
 
             bindAbilityBase(i);
-        
+
             bindAvailablePlusOne(i);
             bindAvailablePlusTwo(i);
 
@@ -184,7 +190,7 @@ public class GameCharacter {
             bindAvailableMinuses(i);
         }
 
-        maxFeats = getInt(new String[] {"max_feats"});
+        maxFeats = getInt(new String[]{"max_feats"});
         feats = new ObservableString[maxFeats];
         featOnes = new ObservableString[maxFeats];
         featTwos = new ObservableString[maxFeats];
@@ -209,7 +215,7 @@ public class GameCharacter {
 
         bindFixedSkills();
 
-        maxSubclasses = getInt(new String[] {"max_subclasses"});
+        maxSubclasses = getInt(new String[]{"max_subclasses"});
         availableSubclasses = new ObservableString[maxSubclasses];
         bindAvailableSubclasses();
 
@@ -221,7 +227,7 @@ public class GameCharacter {
         }
 
         for (int i = 0; i < skillBonuses.length; i++) {
-            skillAbilities[i] = getInt(new String[] {"skills", skillNames[i], "ability"});
+            skillAbilities[i] = getInt(new String[]{"skills", skillNames[i], "ability"});
             skillBonuses[i] = new ObservableInteger(0);
             skillModifiers[i] = new ObservableInteger(0);
             skillProficiencies[i] = new ObservableBoolean(false);
@@ -235,7 +241,7 @@ public class GameCharacter {
 
         bindGivenSkills();
 
-        maxLineages = getInt(new String[] {"max_lineages"});
+        maxLineages = getInt(new String[]{"max_lineages"});
         availableLineages = new ObservableString[maxLineages];
         bindAvailableLineages();
 
@@ -262,7 +268,7 @@ public class GameCharacter {
         bindActives();
 
         bindPassives();
-        
+
         bindChoiceProficiencies();
 
         bindWeaponProficiencies();
@@ -289,12 +295,11 @@ public class GameCharacter {
         }
 
         bindSpells();
-
         bindMaxSpells();
+        bindSpellcastingAbility();
     }
 
     // Getters
-
     public String[] getSkillNames() {
         return skillNames;
     }
@@ -357,6 +362,22 @@ public class GameCharacter {
 
     public ObservableString getHealthMethod() {
         return healthMethod;
+    }
+
+    public ObservableString getSpellcastingAbility() {
+        return spellcastingAbility;
+    }
+
+    public ObservableInteger getSpellcastingAbilityModifier() {
+        return spellcastingAbilityModifier;
+    }
+
+    public ObservableInteger getSpellcastingAttackModifier() {
+        return spellcastingAttackModifier;
+    }
+
+    public ObservableInteger getSpellcastingSaveDC() {
+        return spellcastingSaveDC;
     }
 
     public ObservableString getOriginFeat() {
@@ -446,7 +467,7 @@ public class GameCharacter {
     public ObservableInteger getGenerationPoints() {
         return generationPoints;
     }
-    
+
     public ObservableInteger getInitiativeBonus() {
         return initiativeBonus;
     }
@@ -664,12 +685,11 @@ public class GameCharacter {
     }
 
     // Binders
-
     private void bindAvailableSubclasses() {
-    // Listen for changes to the 'classe' property and update availableSubclasses accordingly
+        // Listen for changes to the 'classe' property and update availableSubclasses accordingly
         Runnable updateSubclasses = () -> {
             if (level.get() >= 3) {
-                String[] subclasses = getGroup(new String[] {"classes", classe.get(), "subclasses"});
+                String[] subclasses = getGroup(new String[]{"classes", classe.get(), "subclasses"});
                 for (int i = 0; i < availableSubclasses.length; i++) {
                     if (subclasses != null && i < subclasses.length) {
                         availableSubclasses[i].set(subclasses[i]);
@@ -698,29 +718,29 @@ public class GameCharacter {
 
     private void bindOriginFeat() {
         background.addListener(
-            (newVal) -> {
-                originFeat.set(getString(new String[] {"backgrounds", newVal, "feat"}));
-            }
+                (newVal) -> {
+                    originFeat.set(getString(new String[]{"backgrounds", newVal, "feat"}));
+                }
         );
     }
 
     private void bindAvailableSizes() {
         species.addListener(
-            (newVal) -> {
-                String[] sizes = getGroup(new String[] {"species", newVal, "size"});
-                for (int i = 0; i < availableSizes.length; i++) {
-                    if (sizes != null && i < sizes.length) {
-                        availableSizes[i].set(sizes[i]);
-                    } else {
-                        availableSizes[i].set("");
+                (newVal) -> {
+                    String[] sizes = getGroup(new String[]{"species", newVal, "size"});
+                    for (int i = 0; i < availableSizes.length; i++) {
+                        if (sizes != null && i < sizes.length) {
+                            availableSizes[i].set(sizes[i]);
+                        } else {
+                            availableSizes[i].set("");
+                        }
+                    }
+                    if (availableSizes[1].get().equals("")) {
+                        size.set(sizes != null && sizes.length > 0 ? sizes[0] : "");
+                    } else if (sizes != null && !Arrays.asList(sizes).contains(size.get())) {
+                        size.set("RANDOM");
                     }
                 }
-                if (availableSizes[1].get().equals("")) {
-                    size.set(sizes != null && sizes.length > 0 ? sizes[0] : "");
-                } else if (sizes != null && !Arrays.asList(sizes).contains(size.get())) {
-                    size.set("RANDOM");
-                }
-            }
         );
 
         // Initialize availableSizes with empty strings
@@ -731,7 +751,7 @@ public class GameCharacter {
 
     private void bindAvailableFeats() {
         Runnable updateAvailableFeats = () -> {
-            int[] possibleFeats = getInts(new String[] {"classes", classe.get(), "feats"});
+            int[] possibleFeats = getInts(new String[]{"classes", classe.get(), "feats"});
             int i = 0;
             if (possibleFeats != null) {
                 for (int possibleFeat : possibleFeats) {
@@ -750,11 +770,11 @@ public class GameCharacter {
         level.addListener(_ -> updateAvailableFeats.run());
 
         availableFeats.addListener(
-            (newVal) -> {
-                for (int i = newVal; i < feats.length; i++) {
-                    feats[i].set("RANDOM");
+                (newVal) -> {
+                    for (int i = newVal; i < feats.length; i++) {
+                        feats[i].set("RANDOM");
+                    }
                 }
-            }
         );
     }
 
@@ -762,45 +782,45 @@ public class GameCharacter {
         for (int i = 0; i < feats.length; i++) {
             int index = i;
             feats[index].addListener(
-                (newVal) -> {
-                    String[] abilitiesPossible = getGroup(new String[] {"feats", newVal, "abilities"});
-                    String randomValue = "RANDOM";
-                    if (abilitiesPossible.length == 1) {
-                        randomValue = abilitiesPossible[0];
-                    } else if (abilitiesPossible.length == 0) {
-                        randomValue = "NONE_M";
-                    }
-                    int n = getInt(new String[] {"feats", newVal, "max"});
-                    switch (n) {
-                        case 2 -> {
-                            featTwos[index].set(randomValue);
-                            featOnes[index].set(randomValue);
+                    (newVal) -> {
+                        String[] abilitiesPossible = getGroup(new String[]{"feats", newVal, "abilities"});
+                        String randomValue = "RANDOM";
+                        if (abilitiesPossible.length == 1) {
+                            randomValue = abilitiesPossible[0];
+                        } else if (abilitiesPossible.length == 0) {
+                            randomValue = "NONE_M";
                         }
-                        case 1 -> {
-                            featTwos[index].set("NONE_M");
-                            featOnes[index].set(randomValue);
+                        int n = getInt(new String[]{"feats", newVal, "max"});
+                        switch (n) {
+                            case 2 -> {
+                                featTwos[index].set(randomValue);
+                                featOnes[index].set(randomValue);
+                            }
+                            case 1 -> {
+                                featTwos[index].set("NONE_M");
+                                featOnes[index].set(randomValue);
+                            }
+                            default -> {
+                                featTwos[index].set("NONE_M");
+                                featOnes[index].set("NONE_M");
+                            }
                         }
-                        default -> {
-                            featTwos[index].set("NONE_M");
-                            featOnes[index].set("NONE_M");
-                        }
-                    }
-            });
+                    });
         }
     }
 
     private void bindAvailableLineages() {
         species.addListener(
-            (newVal) -> {
-                String[] lineages = getGroup(new String[] {"species", newVal, "lineages"});
-                for (int i = 0; i < availableLineages.length; i++) {
-                    if (lineages != null && i < lineages.length) {
-                        availableLineages[i].set(lineages[i]);
-                    } else {
-                        availableLineages[i].set("");
+                (newVal) -> {
+                    String[] lineages = getGroup(new String[]{"species", newVal, "lineages"});
+                    for (int i = 0; i < availableLineages.length; i++) {
+                        if (lineages != null && i < lineages.length) {
+                            availableLineages[i].set(lineages[i]);
+                        } else {
+                            availableLineages[i].set("");
+                        }
                     }
                 }
-            }
         );
 
         for (int i = 0; i < availableLineages.length; i++) {
@@ -859,19 +879,19 @@ public class GameCharacter {
 
     private void bindCreatureType() {
         species.addListener(
-            (newVal) -> {
-                creatureType.set(getString(new String[] {"species", newVal, "type"}));
-            }
+                (newVal) -> {
+                    creatureType.set(getString(new String[]{"species", newVal, "type"}));
+                }
         );
     }
 
     private void bindAvailablePlusOne(int index) {
         Runnable updateAvailablePlusOne = () -> {
             Boolean bool = false;
-            String[] possibleAbilities = getGroup(new String[] {"backgrounds", background.get(), "abilities"});
+            String[] possibleAbilities = getGroup(new String[]{"backgrounds", background.get(), "abilities"});
             if (Arrays.asList(possibleAbilities).contains(abilityNames[index])
-                && !abilityPlusTwos[index].get()
-                && (givenBonuses.get() < 3 || abilityPlusOnes[index].get())) {
+                    && !abilityPlusTwos[index].get()
+                    && (givenBonuses.get() < 3 || abilityPlusOnes[index].get())) {
                 bool = true;
             }
             if (!availablePlusOnes[index].get().equals(bool)) {
@@ -883,23 +903,23 @@ public class GameCharacter {
         abilityPlusOnes[index].addListener(_ -> updateAvailablePlusOne.run());
         abilityPlusTwos[index].addListener(_ -> updateAvailablePlusOne.run());
         givenBonuses.addListener(_ -> updateAvailablePlusOne.run());
-        
+
         availablePlusOnes[index].addListener(
-            (newVal) -> {
-                if (!newVal && abilityPlusOnes[index].get()) {
-                    abilityPlusOnes[index].set(false);
+                (newVal) -> {
+                    if (!newVal && abilityPlusOnes[index].get()) {
+                        abilityPlusOnes[index].set(false);
+                    }
                 }
-            }
         );
     }
 
     private void bindAvailablePlusTwo(int index) {
         Runnable updateAvailablePlusTwo = () -> {
             Boolean bool = false;
-            String[] possibleAbilities = getGroup(new String[] {"backgrounds", background.get(), "abilities"});
+            String[] possibleAbilities = getGroup(new String[]{"backgrounds", background.get(), "abilities"});
             if (Arrays.asList(possibleAbilities).contains(abilityNames[index])
-                && !abilityPlusOnes[index].get()
-                && (givenBonuses.get() < 2 || abilityPlusTwos[index].get())) {
+                    && !abilityPlusOnes[index].get()
+                    && (givenBonuses.get() < 2 || abilityPlusTwos[index].get())) {
                 bool = true;
             }
             if (!availablePlusTwos[index].get().equals(bool)) {
@@ -913,11 +933,11 @@ public class GameCharacter {
         givenBonuses.addListener(_ -> updateAvailablePlusTwo.run());
 
         availablePlusTwos[index].addListener(
-            (newVal) -> {
-                if (!newVal && abilityPlusTwos[index].get()) {
-                    abilityPlusTwos[index].set(false);
+                (newVal) -> {
+                    if (!newVal && abilityPlusTwos[index].get()) {
+                        abilityPlusTwos[index].set(false);
+                    }
                 }
-            }
         );
     }
 
@@ -926,14 +946,14 @@ public class GameCharacter {
             int value = abilityBases[index].get();
             int threshold = 1;
             if (value >= 13) {
-                    threshold = 2;
-                }
-                if (generationPoints.get() >= threshold && value < 15) {
-                    availablePluses[index].set(true);
-                } else {
-                    availablePluses[index].set(false);
-                }
-            };
+                threshold = 2;
+            }
+            if (generationPoints.get() >= threshold && value < 15) {
+                availablePluses[index].set(true);
+            } else {
+                availablePluses[index].set(false);
+            }
+        };
         generationPoints.addListener(_ -> updateAvailablePluses.run());
         abilityBases[index].addListener(_ -> updateAvailablePluses.run());
     }
@@ -957,11 +977,11 @@ public class GameCharacter {
 
     private void bindAvailableSkills(int index) {
         Runnable updateAvailableSkills = () -> {
-            String[] possibleSkills = getGroup(new String[] {"classes", classe.get(), "skills"});
-            int maxSkills = getInt(new String[] {"classes", classe.get(), "skills_number"});
+            String[] possibleSkills = getGroup(new String[]{"classes", classe.get(), "skills"});
+            int maxSkills = getInt(new String[]{"classes", classe.get(), "skills_number"});
             if (Arrays.asList(possibleSkills).contains(skillNames[index])
-                && !fixedSkills[index].get()
-                && (givenSkills.get() < maxSkills || skillProficiencies[index].get())) {
+                    && !fixedSkills[index].get()
+                    && (givenSkills.get() < maxSkills || skillProficiencies[index].get())) {
                 availableSkills[index].set(true);
             } else {
                 availableSkills[index].set(false);
@@ -972,22 +992,22 @@ public class GameCharacter {
         fixedSkills[index].addListener(_ -> updateAvailableSkills.run());
 
         availableSkills[index].addListener(
-            (newVal) -> {
-                if (!newVal && skillProficiencies[index].get() && !fixedSkills[index].get()) {
-                    skillProficiencies[index].set(false);
+                (newVal) -> {
+                    if (!newVal && skillProficiencies[index].get() && !fixedSkills[index].get()) {
+                        skillProficiencies[index].set(false);
+                    }
                 }
-            }
         );
     }
 
     private void bindFixedSkills() {
         background.addListener(
-            (newVal) -> {
-                String[] possibleSkills = getGroup(new String[] {"backgrounds", newVal, "skills"});
-                for (int i = 0; i < fixedSkills.length; i++) {
-                    fixedSkills[i].set(java.util.Arrays.asList(possibleSkills).contains(skillNames[i]));
+                (newVal) -> {
+                    String[] possibleSkills = getGroup(new String[]{"backgrounds", newVal, "skills"});
+                    for (int i = 0; i < fixedSkills.length; i++) {
+                        fixedSkills[i].set(java.util.Arrays.asList(possibleSkills).contains(skillNames[i]));
+                    }
                 }
-            }
         );
 
         for (int i = 0; i < fixedSkills.length; i++) {
@@ -1009,10 +1029,10 @@ public class GameCharacter {
             for (int i = 0; i < feats.length; i++) {
                 String featName = featOnes[i].get();
                 if (featName != null && featName.equals(abilityNames[index])) {
-                    if (getString(new String[] {"feats", feats[i].get(), "type"}).equals("EPIC_BOON")) {
-                        boonOne ++;
+                    if (getString(new String[]{"feats", feats[i].get(), "type"}).equals("EPIC_BOON")) {
+                        boonOne++;
                     } else {
-                        featOne ++;
+                        featOne++;
                     }
                 }
             }
@@ -1020,10 +1040,10 @@ public class GameCharacter {
             for (int i = 0; i < feats.length; i++) {
                 String featName = featTwos[i].get();
                 if (featName != null && featName.equals(abilityNames[index])) {
-                    if (getString(new String[] {"feats", feats[i].get(), "type"}).equals("EPIC_BOON")) {
-                        boonTwo ++;
+                    if (getString(new String[]{"feats", feats[i].get(), "type"}).equals("EPIC_BOON")) {
+                        boonTwo++;
                     } else {
-                        featTwo ++;
+                        featTwo++;
                     }
                 }
             }
@@ -1053,7 +1073,7 @@ public class GameCharacter {
     private void bindSavingThrowProficiencies(int index) {
         // Bind the savingThrowProficiencies to the corresponding ability
         Runnable updateSavingThrowProficiencies = () -> {
-            String[] possibleSaves = getGroup(new String[] {"classes", classe.get(), "abilities"});
+            String[] possibleSaves = getGroup(new String[]{"classes", classe.get(), "abilities"});
             savingThrowProficiencies[index].set(Arrays.asList(possibleSaves).contains(abilityNames[index]));
         };
         classe.addListener(_ -> updateSavingThrowProficiencies.run());
@@ -1095,35 +1115,35 @@ public class GameCharacter {
 
     private void bindGenerationMethod() {
         generationMethod.addListener(
-            (newVal) -> {
-                if (newVal.equals("STANDARD_ARRAY")) {
-                    for (ObservableString abilityBaseShown : abilityBasesShown) {
-                        abilityBaseShown.set("RANDOM");
+                (newVal) -> {
+                    if (newVal.equals("STANDARD_ARRAY")) {
+                        for (ObservableString abilityBaseShown : abilityBasesShown) {
+                            abilityBaseShown.set("RANDOM");
+                        }
+                    } else {
+
                     }
-                } else {
+                    if (newVal.equals("POINT_BUY")) {
+                        //reset all abilities to 8
+                        for (ObservableInteger abilityBase : abilityBases) {
+                            abilityBase.set(8);
+                        }
+                    } else {
 
-                }
-                if (newVal.equals("POINT_BUY")) {
-                    //reset all abilities to 8
-                    for (ObservableInteger abilityBase : abilityBases) {
-                        abilityBase.set(8);
                     }
-                } else {
+                    if (newVal.equals("CUSTOM_M")) {
 
-                }
-                if (newVal.equals("CUSTOM_M")) {
+                    } else {
 
-                } else {
-
-                }
-                if (newVal.equals("RANDOM")) {
-                    for (ObservableString abilityBaseShown : abilityBasesShown) {
-                        abilityBaseShown.set("RANDOM");
                     }
-                } else {
+                    if (newVal.equals("RANDOM")) {
+                        for (ObservableString abilityBaseShown : abilityBasesShown) {
+                            abilityBaseShown.set("RANDOM");
+                        }
+                    } else {
 
+                    }
                 }
-            }
         );
     }
 
@@ -1131,7 +1151,7 @@ public class GameCharacter {
         // Bind the abilityModifier to the corresponding ability
         Runnable updateSavingThrowModifier = () -> {
             savingThrowModifiers[index].set(
-                abilityModifiers[index].get() + savingThrowBonuses[index].get()
+                    abilityModifiers[index].get() + savingThrowBonuses[index].get()
             );
         };
         abilityModifiers[index].addListener(_ -> updateSavingThrowModifier.run());
@@ -1142,7 +1162,7 @@ public class GameCharacter {
         // Bind the skillModifier to the corresponding ability
         Runnable updateSkillModifier = () -> {
             skillModifiers[index].set(
-                abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get()
+                    abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get()
             );
         };
         abilityModifiers[skillAbilities[index]].addListener(_ -> updateSkillModifier.run());
@@ -1154,7 +1174,7 @@ public class GameCharacter {
             Boolean isProficient = skillProficiencies[index].get();
             Integer profBonus = proficiencyBonus.get();
             skillBonuses[index].set(
-                (isProficient != null && isProficient && profBonus != null) ? profBonus : 0
+                    (isProficient != null && isProficient && profBonus != null) ? profBonus : 0
             );
         };
         skillProficiencies[index].addListener(_ -> updateSkillBonus.run());
@@ -1166,21 +1186,20 @@ public class GameCharacter {
         skillProficiencies[index] = new ObservableBoolean(false);
 
         fixedSkills[index].addListener(
-            (newVal) -> {
-                if (newVal) {
-                    skillProficiencies[index].set(newVal);
+                (newVal) -> {
+                    if (newVal) {
+                        skillProficiencies[index].set(newVal);
+                    }
                 }
-            }
         );
     }
 
     private void bindSpeed() {
         Runnable updateSpeed = () -> {
-            int baseSpeed  = getInt(new String[] {"species", species.get(), "speed"});
+            int baseSpeed = getInt(new String[]{"species", species.get(), "speed"});
             if (baseSpeed > 0) {
                 speed.set(baseSpeed);
-            }
-            else {
+            } else {
                 speed.set(30);
             }
             if (grappled.get() || paralyzed.get() || petrified.get() || restrained.get() || unconscious.get()) {
@@ -1201,7 +1220,7 @@ public class GameCharacter {
 
     private void bindDarkvision() {
         Runnable updateDarkvision = () -> {
-            int baseDarkvision = getInt(new String[] {"species", species.get(), "darkvision"});
+            int baseDarkvision = getInt(new String[]{"species", species.get(), "darkvision"});
             darkvision.set(baseDarkvision);
         };
         species.addListener(_ -> updateDarkvision.run());
@@ -1211,7 +1230,7 @@ public class GameCharacter {
     private void bindArmorClass() {
         Runnable updateArmorClass = () -> {
             armorClass.set(
-                abilityModifiers[1].get() + 10
+                    abilityModifiers[1].get() + 10
             );
         };
         abilityModifiers[1].addListener(_ -> updateArmorClass.run());
@@ -1220,7 +1239,7 @@ public class GameCharacter {
     private void bindProficiencyBonus() {
         Runnable updateProficiencyBonus = () -> {
             proficiencyBonus.set(
-                (level.get() + 7) / 4
+                    (level.get() + 7) / 4
             );
         };
         level.addListener(_ -> updateProficiencyBonus.run());
@@ -1229,13 +1248,13 @@ public class GameCharacter {
     private void bindInitiativeBonus() {
         Runnable updateInitiativeBonus = () -> {
             initiativeBonus.set(
-                abilityModifiers[1].get()
+                    abilityModifiers[1].get()
             );
         };
         abilityModifiers[1].addListener(_ -> updateInitiativeBonus.run());
     }
-    
-    private void bindHealth(){
+
+    private void bindHealth() {
         Runnable updateHealth = () -> {
             fixedHealth.set(Math.max(hitDie.get() + abilityModifiers[2].get() + (level.get() - 1) * abilityModifiers[2].get(), 1));
             if (healthMethod.get().equals("MEDIUM_HP")) {
@@ -1250,9 +1269,9 @@ public class GameCharacter {
         abilityModifiers[2].addListener(_ -> updateHealth.run());
     }
 
-    private void bindHitDie(){
+    private void bindHitDie() {
         Runnable updateHitDie = () -> {
-            int baseHitDie = getInt(new String[] {"classes", classe.get(), "hit_die"});
+            int baseHitDie = getInt(new String[]{"classes", classe.get(), "hit_die"});
             hitDie.set(baseHitDie > 0 ? baseHitDie : 4);
         };
         classe.addListener(_ -> updateHitDie.run());
@@ -1301,7 +1320,7 @@ public class GameCharacter {
                         System.err.println("Warning: Invalid level value: " + newValue);
                         level.set(0); // Set a default value (e.g., 0)
                     }
-                } 
+                }
             } else {
                 level.set(0); // Set a default value
             }
@@ -1357,43 +1376,43 @@ public class GameCharacter {
     private void bindActives() {
         Runnable updateActives = () -> {
             actives.clear(); // Keep the list in sync
-            String[] activeNames = getGroup(new String[] {"species", species.get(), "actives"});
+            String[] activeNames = getGroup(new String[]{"species", species.get(), "actives"});
             if (activeNames != null) {
                 for (String active : activeNames) {
-                    if (level.get() >= getInt(new String[] {"species", species.get(), "actives", active})) {
+                    if (level.get() >= getInt(new String[]{"species", species.get(), "actives", active})) {
                         actives.add(new ObservableString(active));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "actives"});
+            activeNames = getGroup(new String[]{"species", species.get(), "lineages", lineage.get(), "actives"});
             if (activeNames != null) {
                 for (String active : activeNames) {
-                    if (level.get() >= getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "actives", active})) {
+                    if (level.get() >= getInt(new String[]{"species", species.get(), "lineages", lineage.get(), "actives", active})) {
                         actives.add(new ObservableString(active));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[] {"classes", classe.get(), "actives"});
+            activeNames = getGroup(new String[]{"classes", classe.get(), "actives"});
             if (activeNames != null) {
                 for (String active : activeNames) {
-                    if (level.get() >= getInt(new String[] {"classes", classe.get(), "actives", active})) {
+                    if (level.get() >= getInt(new String[]{"classes", classe.get(), "actives", active})) {
                         actives.add(new ObservableString(active));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[] {"classes", classe.get(), "subclasses", subclass.get(), "actives"});
+            activeNames = getGroup(new String[]{"classes", classe.get(), "subclasses", subclass.get(), "actives"});
             if (activeNames != null) {
                 for (String active : activeNames) {
-                    if (level.get() >= getInt(new String[] {"classes", classe.get(), "subclasses", subclass.get(), "actives", active})) {
+                    if (level.get() >= getInt(new String[]{"classes", classe.get(), "subclasses", subclass.get(), "actives", active})) {
                         actives.add(new ObservableString(active));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[] {"feats", originFeat.get(), "actives"});
+            activeNames = getGroup(new String[]{"feats", originFeat.get(), "actives"});
             if (activeNames != null) {
                 for (String active : activeNames) {
                     actives.add(new ObservableString(active));
@@ -1401,17 +1420,17 @@ public class GameCharacter {
             }
 
             for (ObservableString feat : feats) {
-                activeNames = getGroup(new String[] {"feats", feat.get(), "actives"});
+                activeNames = getGroup(new String[]{"feats", feat.get(), "actives"});
                 if (activeNames != null) {
                     for (String active : activeNames) {
-                        if (level.get() >= getInt(new String[] {"feats", feat.get(), "actives", active})) {
+                        if (level.get() >= getInt(new String[]{"feats", feat.get(), "actives", active})) {
                             actives.add(new ObservableString(active));
                         }
                     }
                 }
             }
         };
-        
+
         species.addListener(_ -> updateActives.run());
         lineage.addListener(_ -> updateActives.run());
         level.addListener(_ -> updateActives.run());
@@ -1428,7 +1447,7 @@ public class GameCharacter {
         for (int i = 0; i < feats.length; i++) {
             int index = i;
             Runnable updateFeatAbilities = () -> {
-                String[] featAbilities = getGroup(new String[] {"feats", feats[index].get(), "abilities"});
+                String[] featAbilities = getGroup(new String[]{"feats", feats[index].get(), "abilities"});
                 for (int j = 0; j < featsAbilities[index].length; j++) {
                     if (j < featAbilities.length) {
                         featsAbilities[index][j].set(featAbilities[j]);
@@ -1445,56 +1464,56 @@ public class GameCharacter {
     private void bindPassives() {
         Runnable updatePassives = () -> {
             passives.clear(); // Keep the list in sync
-            String[] passiveNames = getGroup(new String[] {"species", species.get(), "passives"});
+            String[] passiveNames = getGroup(new String[]{"species", species.get(), "passives"});
             if (passiveNames != null) {
                 for (String passive : passiveNames) {
-                    if (level.get() >= getInt(new String[] {"species", species.get(), "passives", passive})) {
+                    if (level.get() >= getInt(new String[]{"species", species.get(), "passives", passive})) {
                         passives.add(new ObservableString(passive));
                     }
                 }
             }
 
-            passiveNames = getGroup(new String[] {"species", species.get(), "lineages", lineage.get(), "passives"});
+            passiveNames = getGroup(new String[]{"species", species.get(), "lineages", lineage.get(), "passives"});
             if (passiveNames != null) {
                 for (String passive : passiveNames) {
-                    if (level.get() >= getInt(new String[] {"species", species.get(), "lineages", lineage.get(), "passives", passive})) {
+                    if (level.get() >= getInt(new String[]{"species", species.get(), "lineages", lineage.get(), "passives", passive})) {
                         passives.add(new ObservableString(passive));
                     }
                 }
             }
 
-            passiveNames = getGroup(new String[] {"classes", classe.get(), "passives"});
+            passiveNames = getGroup(new String[]{"classes", classe.get(), "passives"});
             if (passiveNames != null) {
                 for (String passive : passiveNames) {
-                    if (level.get() >= getInt(new String[] {"classes", classe.get(), "passives", passive})) {
+                    if (level.get() >= getInt(new String[]{"classes", classe.get(), "passives", passive})) {
                         passives.add(new ObservableString(passive));
                     }
                 }
             }
 
-            passiveNames = getGroup(new String[] {"classes", classe.get(), "subclasses", subclass.get(), "passives"});
+            passiveNames = getGroup(new String[]{"classes", classe.get(), "subclasses", subclass.get(), "passives"});
             if (passiveNames != null) {
                 for (String passive : passiveNames) {
-                    if (level.get() >= getInt(new String[] {"classes", classe.get(), "subclasses", subclass.get(), "passives", passive})) {
+                    if (level.get() >= getInt(new String[]{"classes", classe.get(), "subclasses", subclass.get(), "passives", passive})) {
                         passives.add(new ObservableString(passive));
                     }
                 }
             }
 
-            passiveNames = getGroup(new String[] {"feats", originFeat.get(), "passives"});
+            passiveNames = getGroup(new String[]{"feats", originFeat.get(), "passives"});
             if (passiveNames != null) {
                 for (String passive : passiveNames) {
-                    if (level.get() >= getInt(new String[] {"feats", originFeat.get(), "passives", passive})) {
+                    if (level.get() >= getInt(new String[]{"feats", originFeat.get(), "passives", passive})) {
                         passives.add(new ObservableString(passive));
                     }
                 }
             }
 
             for (ObservableString feat : feats) {
-                passiveNames = getGroup(new String[] {"feats", feat.get(), "passives"});
+                passiveNames = getGroup(new String[]{"feats", feat.get(), "passives"});
                 if (passiveNames != null) {
                     for (String passive : passiveNames) {
-                        if (level.get() >= getInt(new String[] {"feats", feat.get(), "passives", passive})) {
+                        if (level.get() >= getInt(new String[]{"feats", feat.get(), "passives", passive})) {
                             passives.add(new ObservableString(passive));
                         }
                     }
@@ -1518,7 +1537,7 @@ public class GameCharacter {
         Runnable updateWeaponProficiencies = () -> {
             weaponProficiencies.clear();
 
-            String[] weapons = getGroup(new String[] {"classes", classe.get(), "weapons"});
+            String[] weapons = getGroup(new String[]{"classes", classe.get(), "weapons"});
             if (weapons != null) {
                 for (String weapon : weapons) {
                     if (weapon != null) {
@@ -1536,7 +1555,7 @@ public class GameCharacter {
         Runnable updateArmorProficiencies = () -> {
             armorProficiencies.clear();
 
-            String[] armors = getGroup(new String[] {"classes", classe.get(), "armors"});
+            String[] armors = getGroup(new String[]{"classes", classe.get(), "armors"});
             if (armors != null) {
                 for (String armor : armors) {
                     if (armor != null) {
@@ -1554,7 +1573,7 @@ public class GameCharacter {
         Runnable updateToolProficiencies = () -> {
             toolProficiencies.clear();
             // in the 2024 rules only one tool proficiency is given for each background. Done like this for future compatibility
-            String[] tools = getGroup(new String[] {"backgrounds", background.get(), "tools"});
+            String[] tools = getGroup(new String[]{"backgrounds", background.get(), "tools"});
             if (tools != null) {
                 for (String tool : tools) {
                     if (tool != null) {
@@ -1563,7 +1582,7 @@ public class GameCharacter {
                 }
             }
 
-            tools = getGroup(new String[] {"classes", classe.get(), "tools"});
+            tools = getGroup(new String[]{"classes", classe.get(), "tools"});
             if (tools != null) {
                 for (String tool : tools) {
                     if (tool != null) {
@@ -1609,10 +1628,10 @@ public class GameCharacter {
             List<ObservableString> newFeats = new ArrayList<>();
             String[] selectableFeatsTotal = getSelectableFeats();
             for (String feat : selectableFeatsTotal) {
-                int[] stats = getInts(new String[] {"feats", feat, "stats"});
-                Boolean magic = getBoolean(new String[] {"feats", feat, "magic"});
-                String[] proficienciesArmor = getGroup(new String[] {"feats", feat, "armorProficiencies"});
-                String type = getString(new String[] {"feats", feat, "type"});
+                int[] stats = getInts(new String[]{"feats", feat, "stats"});
+                Boolean magic = getBoolean(new String[]{"feats", feat, "magic"});
+                String[] proficienciesArmor = getGroup(new String[]{"feats", feat, "armorProficiencies"});
+                String type = getString(new String[]{"feats", feat, "type"});
                 Boolean valid = true;
 
                 boolean found;
@@ -1632,10 +1651,10 @@ public class GameCharacter {
                 found = true;
 
                 for (int i = 0; i < stats.length && valid; i++) {
-                    if(stats[i] > 0) {
+                    if (stats[i] > 0) {
                         found = false;
                         if (abilities[i].get() >= stats[i]) {
-                            found = true; 
+                            found = true;
                             break;
                         }
                     }
@@ -1651,15 +1670,15 @@ public class GameCharacter {
 
                 Boolean epicBoon = false;
                 for (ObservableString actualFeat : feats) {
-                    if (getString(new String[] {"feats", actualFeat.get(), "type"}).equals("EPIC_BOON") && !actualFeat.get().equals(feat)) {
+                    if (getString(new String[]{"feats", actualFeat.get(), "type"}).equals("EPIC_BOON") && !actualFeat.get().equals(feat)) {
                         epicBoon = true;
                         break;
                     }
                 }
 
-                if(!feat.equals(originFeat.get())
+                if (!feat.equals(originFeat.get())
                         && (valid || type.equals("ORIGIN"))
-                        && level.get() >= getInt(new String[] {"feats", feat, "level"})
+                        && level.get() >= getInt(new String[]{"feats", feat, "level"})
                         && (!type.equals("EPIC_BOON") || !epicBoon)) {
                     newFeats.add(new ObservableString(feat));
                 }
@@ -1680,8 +1699,8 @@ public class GameCharacter {
             classEquipment.clear();
 
             classEquipment.add(new ObservableString(newVal));
-            
-            String[] equipments = getGroup(new String[] {"classes", newVal, "equipment"});
+
+            String[] equipments = getGroup(new String[]{"classes", newVal, "equipment"});
             for (String equipment : equipments) {
                 if (Arrays.asList(sets).contains(equipment)) {
                     classEquipment.add(new ObservableString("RANDOM"));
@@ -1695,8 +1714,8 @@ public class GameCharacter {
             backgroundEquipment.clear();
 
             backgroundEquipment.add(new ObservableString(newVal));
-            
-            String[] equipments = getGroup(new String[] {"backgrounds", newVal, "equipment"});
+
+            String[] equipments = getGroup(new String[]{"backgrounds", newVal, "equipment"});
             for (String equipment : equipments) {
                 if (Arrays.asList(sets).contains(equipment)) {
                     backgroundEquipment.add(new ObservableString("RANDOM"));
@@ -1708,7 +1727,7 @@ public class GameCharacter {
     private void bindChoiceProficiencies() {
         toolProficiencies.addListener((newVal) -> {
             choiceProficiencies.clear();
-            
+
             for (ObservableString equipment : newVal.getList()) {
                 if (Arrays.asList(sets).contains(equipment.get())) {
                     choiceProficiencies.add(new ObservableString("RANDOM"));
@@ -1722,7 +1741,7 @@ public class GameCharacter {
             availableSpells.clear();
             availableCantrips.clear();
             if (Arrays.asList(getMagicClasses()).contains(classe.get()) && level.get() > 0) {
-                int[] slots = getInts(new String[] {"spell_slots", String.valueOf(level.get())});
+                int[] slots = getInts(new String[]{"spell_slots", String.valueOf(level.get())});
                 int maximumLevel = 0;
                 for (int i = 0; i < spellSlots.length; i++) {
                     int oldSlots = spellSlots[i].get();
@@ -1731,15 +1750,15 @@ public class GameCharacter {
                     }
                     spellSlots[i].set(slots[i]);
                     if (slots[i] > 0) {
-                        maximumLevel ++;
+                        maximumLevel++;
                     }
                 }
 
-                String[] spellsList = getGroup(new String[] {"spells"});
+                String[] spellsList = getTotalSpells();
                 for (String spell : spellsList) {
-                    int spellLevel = getInt(new String[] {"spells", spell, "level"});
-                    String[] acceptedClasses = getGroup(new String[] {"spells", spell, "lists"});
-                    
+                    int spellLevel = getSpellInt(new String[]{spell, "level"});
+                    String[] acceptedClasses = getSpellGroup(new String[]{spell, "lists"});
+
                     if (spellLevel <= maximumLevel && Arrays.asList(acceptedClasses).contains(classe.get())) {
                         if (spellLevel > 0) {
                             availableSpells.add(new ObservableString(spell));
@@ -1760,11 +1779,19 @@ public class GameCharacter {
 
     private void bindMaxSpells() {
         Runnable updateMaxSpells = () -> {
-            int[] spellsPerLevel = (getInts(new String[] {"classes", classe.get(), "prepared"}));
-            int[] cantripsPerLevel = (getInts(new String[] {"classes", classe.get(), "cantrips"}));
-            if (level.get() > 0 && spellsPerLevel.length > 0 && cantripsPerLevel.length > 0) {
-                maxSpells.set(spellsPerLevel[level.get() - 1]);
-                maxCantrips.set(cantripsPerLevel[level.get() - 1]);
+            int[] spellsPerLevel = (getInts(new String[]{"classes", classe.get(), "prepared"}));
+            int[] cantripsPerLevel = (getInts(new String[]{"classes", classe.get(), "cantrips"}));
+            if (level.get() > 0) {
+                if (spellsPerLevel.length > 0) {
+                    maxSpells.set(spellsPerLevel[level.get() - 1]);
+                } else {
+                    maxSpells.set(0);
+                }
+                if (cantripsPerLevel.length > 0) {
+                    maxCantrips.set(cantripsPerLevel[level.get() - 1]);
+                } else {
+                    maxCantrips.set(0);
+                }
             } else {
                 maxSpells.set(0);
                 maxCantrips.set(0);
@@ -1774,8 +1801,29 @@ public class GameCharacter {
         level.addListener(_ -> updateMaxSpells.run());
     }
 
-    // Helpers
+    private void bindSpellcastingAbility() {
+        classe.addListener((newVal) -> {
+            spellcastingAbility.set(getString(new String[]{"classes", newVal, "spellcasting"}));
+        });
 
+        Runnable updateSpellcastingAbility = () -> {
+            for (int i = 0; i < abilityNames.length; i++) {
+                if (abilityNames[i].equals(spellcastingAbility.get())) {
+                    spellcastingAbilityModifier.set(abilityModifiers[i].get());
+                    spellcastingAttackModifier.set(abilityModifiers[i].get() + proficiencyBonus.get());
+                    spellcastingSaveDC.set(8 + spellcastingAttackModifier.get());
+                    break;
+                }
+            }
+        };
+        spellcastingAbility.addListener(_ -> updateSpellcastingAbility.run());
+        proficiencyBonus.addListener(_ -> updateSpellcastingAbility.run());
+        for (int i = 0; i < abilityNames.length; i++) {
+            abilityModifiers[i].addListener(_ -> updateSpellcastingAbility.run());
+        }
+    }
+
+    // Helpers
     private String[] getGroup(String[] group) {
         return TranslationManager.getInstance().getGroup(group);
     }
@@ -1802,5 +1850,17 @@ public class GameCharacter {
 
     private String[] getMagicClasses() {
         return TranslationManager.getInstance().getMagicClasses();
+    }
+
+    private String[] getTotalSpells() {
+        return SpellManager.getInstance().getTotalSpells();
+    }
+
+    private int getSpellInt(String[] group) {
+        return SpellManager.getInstance().getSpellInt(group);
+    }
+
+    private String[] getSpellGroup(String[] group) {
+        return SpellManager.getInstance().getSpellGroup(group);
     }
 }

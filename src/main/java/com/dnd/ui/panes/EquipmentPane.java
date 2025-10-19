@@ -104,7 +104,7 @@ public class EquipmentPane extends GridPane {
                 }
             } else {
                 if (!getChildren().contains(backgroundEquipment)) {
-                    add(backgroundEquipment, 0, 0);
+                    add(backgroundEquipment, 0, 1);
                 } else {
                     backgroundEquipments.remove(2);
                     backgroundEquipments.remove(1);
@@ -173,7 +173,7 @@ public class EquipmentPane extends GridPane {
                 }
             } else {
                 if (!getChildren().contains(classEquipment)) {
-                    add(classEquipment, 0, 1);
+                    add(classEquipment, 0, 2);
                 } else {
                     classEquipments.remove(2);
                     classEquipments.remove(1);
@@ -221,7 +221,7 @@ public class EquipmentPane extends GridPane {
                     comboBox.setPromptText(getTranslation("RANDOM"));
                     classComboBoxes.add(comboBox);
                     int index = classComboBoxes.size();
-                    add(comboBox, index, 1);
+                    add(comboBox, index, 2);
 
                     comboBox.valueProperty().bindBidirectional(character.getClassEquipment().get(index));
                 }

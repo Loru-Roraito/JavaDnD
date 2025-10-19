@@ -60,13 +60,13 @@ public class DefinitionManager {
                 isFirstLine = false; // Set the flag to false after the first line
             } else {
                 // Add a newline before each subsequent line
-                textFlow.getChildren().add(new Text("\n"));
+                textFlow.getChildren().add(new Text("\n "));
             }
 
             // Split each line into words and process each word
-            String[] tokens = line.split("(?=[.,;!?])|(?<=[.,;!?])");
+            String[] tokens = line.split("(?=[.,:;!?])|(?<=[.,:;!?])");
             for (String token : tokens) {
-                String[] subTokens = token.split("(?=[\\s+])|(?<=[\\s+])");
+                String[] subTokens = token.split("(?=\\s)|(?<=\\s)");
 
                 for (int j = 0; j < subTokens.length; j++) {
                     String subToken = subTokens[j]; // Trim whitespace from the token
@@ -115,8 +115,11 @@ public class DefinitionManager {
                             final String clickableText = newText;
 
                             // Underline the word and make it clickable
+                            wordText.getStyleClass().clear();
                             wordText.setStyle("-fx-fill: #0095ff; -fx-cursor: hand;");
                             wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
+
+                            assignTooltip(wordText, newText);
                         }
                     }
 
@@ -130,12 +133,12 @@ public class DefinitionManager {
     // Open a new tab with the definition of the word
     public void openDefinitionTab(String text, TabPane mainTabPane) {
         String realText = text.replace(" ", "_");
-        String[] spells = getGroup(new String[] {"spells"});
-        String[] cantrips = getGroup(new String[] {"cantrips"});
+        String[] spells = getSpells();
+        String[] cantrips = getCantrips();
         String definition;
         String newDefinition;
-        if (java.util.Arrays.asList(spells).contains(realText) || java.util.Arrays.asList(cantrips).contains(realText)) {
-            definition = createSpellDefinition(realText);
+        if (java.util.Arrays.asList(spells).contains(getOriginal(text)) || java.util.Arrays.asList(cantrips).contains(getOriginal(text))) {
+            definition = createSpellDefinition(text);
         } else {
             definition = definitions.getProperty(realText, "");
             newDefinition = definitions.getProperty(definition, "");
@@ -192,13 +195,12 @@ public class DefinitionManager {
     // Assign a tooltip to a UI element
     public void assignTooltip(javafx.scene.Node node, String key) {
         String tooltipText = fetchTooltip(key);
-        String[] spells = getGroup(new String[] {"spells"});
-        String[] cantrips = getGroup(new String[] {"cantrips"});
-        if (java.util.Arrays.asList(spells).contains(key) || java.util.Arrays.asList(cantrips).contains(key)) {
+        String[] spells = getSpells();
+        String[] cantrips = getCantrips();
+        if (java.util.Arrays.asList(spells).contains(getOriginal(key)) || java.util.Arrays.asList(cantrips).contains(getOriginal(key))) {
             tooltipText = createSpellTooltip(key);
         }
         if (!tooltipText.isEmpty()) {
-
             Tooltip tooltip = new Tooltip(tooltipText);
             tooltip.setWrapText(true);
             tooltip.setMaxWidth(300);
@@ -220,9 +222,9 @@ public class DefinitionManager {
     private String createSpellDefinition(String key) {
         StringBuilder definition = new StringBuilder();
         String spell = getOriginal(key);
-        int level = getInt(new String[] {"spells", spell, "level"});
+        int level = getSpellInt(new String[] {spell, "level"});
         if (level > 0) {
-            definition.append(spell)
+            definition.append(key)
                 .append(" (")
                 .append(getTranslation("LEVEL"))
                 .append(" ")
@@ -231,7 +233,7 @@ public class DefinitionManager {
                 .append("\n\n");
             definition.append(createSpellTooltip(key));
         } else {
-            definition.append(spell)
+            definition.append(key)
                 .append(" (")
                 .append(getTranslation("CANTRIP"))
                 .append(")")
@@ -244,25 +246,25 @@ public class DefinitionManager {
 
     private String createSpellTooltip(String key) {
         String spell = getOriginal(key);
-        String tooltip = getTranslation(getString(new String[] {"spells", spell, "school"}));
+        String tooltip = getTranslation(getSpellString(new String[] {spell, "school"}));
 
-        if (getBoolean(new String[] {"spells", spell, "ritual"})) {
+        if (getSpellBoolean(new String[] {spell, "ritual"})) {
             tooltip += ", " + getTranslation("RITUAL");
         }
 
-        if (getBoolean(new String[] {"spells", spell, "concentration"})) {
+        if (getSpellBoolean(new String[] {spell, "concentration"})) {
             tooltip += ", " + getTranslation("CONCENTRAZIONE");
         }
-        
-        int time = getInt(new String[] {"spells", spell, "time"});                
-        String timeSpan = getString(new String[] {"spells", spell, "timeSpan"});
+
+        int time = getSpellInt(new String[] {spell, "time"});
+        String timeSpan = getSpellString(new String[] {spell, "timeSpan"});
         if (timeSpan.equals("DISPELLED")) {
             tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + getTranslation(timeSpan);
         } else {
             tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + time + " " + getTranslation(timeSpan);
         }
 
-        int range = getInt(new String[] {"spells", spell, "range"});
+        int range = getSpellInt(new String[] {spell, "range"});
         if (range > 0) {
             tooltip += "\n" + getTranslation("RANGE") + ": " + range * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
         } else if (range == 0) {
@@ -272,7 +274,7 @@ public class DefinitionManager {
         }
 
         tooltip += "\n" + getTranslation("COMPONENTS") + ": ";
-        Boolean[] components = getBooleans(new String[] {"spells", spell, "components"});
+        Boolean[] components = getSpellBooleans(new String[] {spell, "components"});
         String[] componentNames = {"V", "S", "M"};
         for (int i = 0; i < components.length; i++) {
             if (components[i]) {
@@ -286,8 +288,8 @@ public class DefinitionManager {
         }
         tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
 
-        int duration = getInt(new String[] {"spells", spell, "duration"});
-        String durationSpan = getString(new String[] {"spells", spell, "durationSpan"});
+        int duration = getSpellInt(new String[] {spell, "duration"});
+        String durationSpan = getSpellString(new String[] {spell, "durationSpan"});
         if (durationSpan.equals("INSTANTANEOUS")) {
             tooltip += "\n" + getTranslation("DURATION") + ": " + getTranslation(durationSpan);
         } else {
@@ -299,28 +301,12 @@ public class DefinitionManager {
         return tooltip;
     }
 
-    private int getInt(String[] key) {
-        return TranslationManager.getInstance().getInt(key);
-    }
-
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
     public String[] getGroup(String[] key) {
         return TranslationManager.getInstance().getGroup(key);
-    }
-
-    private String getString(String[] key) {
-        return TranslationManager.getInstance().getString(key);
-    }
-
-    private boolean getBoolean(String[] key) {
-        return TranslationManager.getInstance().getBoolean(key);
-    }
-
-    private Boolean[] getBooleans(String[] key) {
-        return TranslationManager.getInstance().getBooleans(key);
     }
 
     private String getOriginal(String key) {
@@ -333,5 +319,29 @@ public class DefinitionManager {
 
     private String fetchIngredient(String key) {
         return MiscsManager.getInstance().fetchIngredient(key);
+    }
+
+    private int getSpellInt(String[] key) {
+        return SpellManager.getInstance().getSpellInt(key);
+    }
+
+    private String getSpellString(String[] key) {
+        return SpellManager.getInstance().getSpellString(key);
+    }
+
+    private Boolean getSpellBoolean(String[] key) {
+        return SpellManager.getInstance().getSpellBoolean(key);
+    }
+
+    private Boolean[] getSpellBooleans(String[] key) {
+        return SpellManager.getInstance().getSpellBooleans(key);
+    }
+
+    private String[] getSpells() {
+        return SpellManager.getInstance().getSpells();
+    }
+
+    private String[] getCantrips() {
+        return SpellManager.getInstance().getCantrips();
     }
 }

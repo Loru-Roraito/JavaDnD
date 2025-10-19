@@ -38,6 +38,7 @@ public class ViewModel {
     private final StringProperty background;
     private final StringProperty size;
     private final StringProperty originFeat;
+    private final StringProperty spellcastingAbility;
     private final StringProperty[] moneysShown;
     private final StringProperty[] feats;
     private final StringProperty[] featOnes;
@@ -62,6 +63,9 @@ public class ViewModel {
     private final IntegerProperty exhaustion;
     private final IntegerProperty maxCantrips;
     private final IntegerProperty maxSpells;
+    private final IntegerProperty spellcastingAbilityModifier;
+    private final IntegerProperty spellcastingAttackModifier;
+    private final IntegerProperty spellcastingSaveDC;
     private final IntegerProperty[] abilities;
     private final IntegerProperty[] abilityModifiers;
     private final IntegerProperty[] savingThrowModifiers;
@@ -203,11 +207,23 @@ public class ViewModel {
         this.maxSpells = new SimpleIntegerProperty(backend.getMaxSpells().get());
         bindObservableInteger(maxSpells, backend.getMaxSpells());
 
+        this.spellcastingAbilityModifier = new SimpleIntegerProperty(backend.getSpellcastingAbilityModifier().get());
+        bindObservableInteger(spellcastingAbilityModifier, backend.getSpellcastingAbilityModifier());
+
+        this.spellcastingAttackModifier = new SimpleIntegerProperty(backend.getSpellcastingAttackModifier().get());
+        bindObservableInteger(spellcastingAttackModifier, backend.getSpellcastingAttackModifier());
+
+        this.spellcastingSaveDC = new SimpleIntegerProperty(backend.getSpellcastingSaveDC().get());
+        bindObservableInteger(spellcastingSaveDC, backend.getSpellcastingSaveDC());
+
         this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
 
         this.originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
         bindObservableString(originFeat, backend.getOriginFeat());
+
+        this.spellcastingAbility = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility().get()));
+        bindObservableString(spellcastingAbility, backend.getSpellcastingAbility());
 
         this.blinded = new SimpleBooleanProperty(backend.getBlinded().get());
         bindObservableBoolean(blinded, backend.getBlinded());
@@ -632,6 +648,10 @@ public class ViewModel {
         return originFeat;
     }
 
+    public StringProperty getSpellcastingAbility() {
+        return spellcastingAbility;
+    }
+
     public StringProperty getFeat(int index) {
         return feats[index];
     }
@@ -664,6 +684,18 @@ public class ViewModel {
 
     public int getMaxFeats() {
         return maxFeats;
+    }
+
+    public IntegerProperty getSpellcastingAbilityModifier() {
+        return spellcastingAbilityModifier;
+    }
+
+    public IntegerProperty getSpellcastingAttackModifier() {
+        return spellcastingAttackModifier;
+    }
+
+    public IntegerProperty getSpellcastingSaveDC() {
+        return spellcastingSaveDC;
     }
 
     public IntegerProperty getSpellSlot(int index) {

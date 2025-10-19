@@ -74,6 +74,8 @@
     /* Remove focus highlighting */
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+    
+    -fx-animated: false;
 }
 
 /* Custom style for the content area of the TitledPane */
