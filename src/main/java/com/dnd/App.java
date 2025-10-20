@@ -215,3 +215,6 @@ public class App extends Application {
 // magia Warlock (al momento non è nemmeno in classi magiche)
 // rendere spell levels scrollable
 // tradurre materiali e descrizioni incantesimi
+// ExtraTab
+// pesi a random
+// remove RunLater from GameCharacter

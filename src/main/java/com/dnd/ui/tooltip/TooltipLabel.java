@@ -56,5 +56,4 @@ public class TooltipLabel extends Label {
         // Ensure the label is focusable to capture key events
         this.setFocusTraversable(true);
     }
-
 }

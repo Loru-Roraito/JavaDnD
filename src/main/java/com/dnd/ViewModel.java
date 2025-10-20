@@ -119,7 +119,10 @@ public class ViewModel {
     private final ObservableList<StringProperty> spells;
     private final ObservableList<StringProperty> cantrips;
 
+    private final GameCharacter backend;
+
     public ViewModel(GameCharacter backend) {
+        this.backend = backend;
         this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
         bindObservableString(creatureType, backend.getCreatureType());
 
@@ -894,5 +897,10 @@ public class ViewModel {
 
     private String getOriginal(String key) {
         return TranslationManager.getInstance().getOriginal(key);
+    }
+
+
+    public void fill() {
+        backend.fill();
     }
 }

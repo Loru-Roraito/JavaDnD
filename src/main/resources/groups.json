@@ -172,14 +172,50 @@
       "damage": [6, 6, 6, 6, 8, 8, 8, 8, 8, 10, 10, 10 ,10, 10, 12, 12, 12, 12, 12, 12],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+      "actives": {
+        "BARDIC_INSPIRATION": 1,
+        "COUNTERCHARM": 7
+      },
+      "passives": {
+        "EXPERTISE_FREE": 2,
+        "JACK_OF_ALL_TRADES": 2,
+        "FRONT_OF_INSPIRATION": 5,
+        "MAGICAL_SECRETS": 10,
+        "SUPERIOR_INSPIRATION": 18,
+        "WORDS_OF_CREATION": 20
+      },
       "subclasses": {
         "COLLEGE_OF_DANCE": {
+          "actives": {
+            
+          },
+          "passives": {
+            
+          }
         },
         "COLLEGE_OF_GLAMOUR": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "COLLEGE_OF_LORE": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "COLLEGE_OF_VALOR": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -199,14 +235,44 @@
       "charges": [0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "LIFE_DOMAIN": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "LIGHT_DOMAIN": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "TRICKERY_DOMAIN": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "WAR_DOMAIN": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -227,14 +293,44 @@
       "charges": [0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4],
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "CIRCLE_OF_THE_LAND": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CIRCLE_OF_THE_MOON": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CIRCLE_OF_THE_SEA": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CIRCLE_OF_THE_STARS": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -250,14 +346,44 @@
       "gold": 155,
       "charges": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "masteries": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "BATTLE_MASTER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CHAMPION": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "ELDRITCH_KNIGHT": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "PSI_WARRIOR": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -275,14 +401,44 @@
       "charges": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       "damage": [6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 12, 12, 12, 12],
       "passive": [0, 10, 10, 10, 10, 15, 15, 15, 15, 20, 20, 20, 20, 25, 25, 25, 25, 30, 30, 30],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "WARRIOR_OF_MERCY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "WARRIOR_OF_SHADOW": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "WARRIOR_OF_THE_ELEMENTS": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "WARRIOR_OF_THE_OPEN_HAND": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -301,14 +457,44 @@
       "limited": true,
       "charges": [0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "OATH_OF_DEVOTION": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "OATH_OF_GLORY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "OATH_OF_THE_ANCIENTS": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "OATH_OF_VENGEANCE": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -327,14 +513,44 @@
       "limited": true,
       "charges": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "BEAST_MASTER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "FEY_WANDERER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "GLOOM_STALKER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "HUNTER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -350,14 +566,44 @@
       "armors": ["LIGHT_ARMORS"],
       "tools": ["THIEVES_TOOLS"],
       "damage": [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "ARCANE_TRICKSTER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "ASSASSIN": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "SOULKNIFE": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "THIEF": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -376,14 +622,44 @@
       "charges": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       "cantrips": [4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
       "prepared": [2, 4, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "ABERRANT_SORCERY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CLOCKWORK_SORCERY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "DRACONIC_SORCERY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "WILD_MAGIC_SORCERY": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -404,14 +680,44 @@
       "prepared": [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15],
       "damage": [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "passive": [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "ARCHFEY_PATRON": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "CELESTIAL_PATRON": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "FIEND_PATRON": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "GREAT_OLD_ONE_PATRON": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     },
@@ -429,14 +735,44 @@
       "limited": false,
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 18, 19, 21, 22, 23, 24, 25],
+      "actives": {
+
+      },
+      "passives": {
+
+      },
       "subclasses": {
         "ABJURER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "DIVINER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "EVOKER": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         },
         "ILLUSIONIST": {
+          "actives": {
+
+          },
+          "passives": {
+
+          }
         }
       }
     }
@@ -2137,7 +2473,14 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_ENERGY_RESISTANCE": {
-      
+      "actives": ["ENERGY_REDIRECTION"],
+      "passives": ["ENERGY_RESISTANCES"],
+      "type": "EPIC_BOON",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 19,
+      "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_FATE": {
       "actives": ["IMPROVE_FATE"],
@@ -2151,7 +2494,14 @@
     },
 
     "BOON_OF_FORTITUDE": {
-
+      "actives": [],
+      "passives": ["FORTIFIED_HEALTH"],
+      "type": "EPIC_BOON",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 19,
+      "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_IRRESISTIBLE_OFFENSE": {
       "actives": ["OVERWHELMING_STRIKE"],
@@ -2164,13 +2514,34 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_RECOVERY": {
+      "actives": ["LAST_STAND", "RECOVER_VITALITY"],
+      "passives": [],
+      "type": "EPIC_BOON",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 19,
+      "stats": [0, 0, 0, 0, 0, 0]
 
     },
     "BOON_OF_SKILL": {
-
+      "actives": [],
+      "passives": ["ALL_AROUND_ADEPT", "EXPERTISE"],
+      "type": "EPIC_BOON",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 19,
+      "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_SPEED": {
-
+      "actives": ["ESCAPE_ARTIST", "QUICKNESS"],
+      "type": "EPIC_BOON",
+      "repeatable": false,
+      "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
+      "max": 1,
+      "level": 19,
+      "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_SPELL_RECALL": {
       "actives": [],
@@ -2219,7 +2590,6 @@
   },
 
   "genders": [
-    "NONE_M",
     "MALE",
     "FEMALE"
   ],

@@ -4,6 +4,7 @@ import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
+import com.dnd.ui.tooltip.TooltipButton;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,6 +74,12 @@ public class SystemPane extends GridPane {
             if (oldVal == null || !oldVal.equals(newVal)) {
                 advantage = newVal;
             }
+        });
+
+        TooltipButton confirm = new TooltipButton(getTranslation("CONFIRM"), mainTabPane);
+        add(confirm, 3, 1);
+        confirm.setOnAction(_ -> {
+            character.fill();
         });
     }
 

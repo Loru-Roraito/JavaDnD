@@ -11,8 +11,9 @@ import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
 
-public class GameCharacter {
+import javafx.application.Platform;
 
+public class GameCharacter {
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames;
     private final String[] sets;
@@ -297,6 +298,8 @@ public class GameCharacter {
         bindSpells();
         bindMaxSpells();
         bindSpellcastingAbility();
+
+        bindSubclass();
     }
 
     // Getters
@@ -1740,7 +1743,7 @@ public class GameCharacter {
         Runnable updateSpells = () -> {
             availableSpells.clear();
             availableCantrips.clear();
-            if (Arrays.asList(getMagicClasses()).contains(classe.get()) && level.get() > 0) {
+            if ((Arrays.asList(getMagicClasses()).contains(classe.get())) && level.get() > 0) {
                 int[] slots = getInts(new String[]{"spell_slots", String.valueOf(level.get())});
                 int maximumLevel = 0;
                 for (int i = 0; i < spellSlots.length; i++) {
@@ -1823,6 +1826,12 @@ public class GameCharacter {
         }
     }
 
+    private void bindSubclass() {
+        classe.addListener(_ -> {
+            subclass.set("RANDOM");
+        });
+    }
+
     // Helpers
     private String[] getGroup(String[] group) {
         return TranslationManager.getInstance().getGroup(group);
@@ -1862,5 +1871,126 @@ public class GameCharacter {
 
     private String[] getSpellGroup(String[] group) {
         return SpellManager.getInstance().getSpellGroup(group);
+    }
+
+    public void fill() {
+        if (gender.get().equals("RANDOM")) {
+            String[] availableGenders = getGroup(new String[]{"genders"});
+            gender.set(availableGenders[(int) (Math.random() * availableGenders.length)]);
+        }
+
+        if (languageOne.get().equals("RANDOM")) {
+            String[] availableLanguages = getGroup(new String[]{"common_languages"});
+            languageOne.set(availableLanguages[(int) (Math.random() * availableLanguages.length)]);
+        }
+
+        if (languageTwo.get().equals("RANDOM")) {
+            String[] availableLanguages = getGroup(new String[]{"common_languages"});
+            languageTwo.set(availableLanguages[(int) (Math.random() * availableLanguages.length)]);
+        }
+
+        if (classe.get().equals("RANDOM")) {
+            String[] availableClasses = getGroup(new String[]{"classes"});
+            classe.set(availableClasses[(int) (Math.random() * availableClasses.length)]);
+        }
+
+        if (species.get().equals("RANDOM")) {
+            String[] availableSpecies = getGroup(new String[]{"species"});
+            species.set(availableSpecies[(int) (Math.random() * availableSpecies.length)]);
+        }
+
+        if (background.get().equals("RANDOM")) {
+            String[] availableBackgrounds = getGroup(new String[]{"backgrounds"});
+            background.set(availableBackgrounds[(int) (Math.random() * availableBackgrounds.length)]);
+        }
+
+        if (levelShown.get().equals("RANDOM")) {
+            int randomLevel = (int) (Math.random() * 20) + 1;
+            levelShown.set(String.valueOf(randomLevel));
+        }
+
+        if (alignment.get().equals("RANDOM")) {
+            String[] availableAlignments = getGroup(new String[]{"alignments"});
+            alignment.set(availableAlignments[(int) (Math.random() * availableAlignments.length)]);
+        }
+
+        Platform.runLater(() -> {
+            if (subclass.get().equals("RANDOM")) {
+                if (availableSubclasses.length > 0) {
+                    subclass.set(availableSubclasses[(int) (Math.random() * availableSubclasses.length)].get());
+                }
+            }
+            
+            if (lineage.get().equals("RANDOM")) {
+                if (availableLineages.length > 0) {
+                    lineage.set(availableLineages[(int) (Math.random() * availableLineages.length)].get());
+                }
+            }
+            
+            if (size.get().equals("RANDOM")) {
+                if(availableSizes.length > 0) {
+                    size.set(availableSizes[(int) (Math.random() * availableSizes.length)].get());
+                }
+            }
+            
+            for (int i = 0; i < feats.length; i++) {
+                if (feats[i].get().equals("RANDOM") && availableFeats.get() > i) {
+                    if (!selectableFeats.getList().isEmpty()) {
+                        feats[i].set(selectableFeats.getList().get((int) (Math.random() * selectableFeats.getList().size())).get());
+                    }
+                } else if (availableFeats.get() <= i) {
+                    break;
+                }
+            }
+
+            for (int i = 0; i < feats.length; i++) {
+                if (featOnes[i].get().equals("RANDOM") && availableFeats.get() > i) {
+                    ObservableString[] featAbilities = featsAbilities[i];
+                    // Filter out empty strings
+                    List<String> validAbilities = new ArrayList<>();
+                    for (ObservableString ability : featAbilities) {
+                        if (!ability.get().isEmpty()) {
+                            validAbilities.add(ability.get());
+                        }
+                    }
+                    if (!validAbilities.isEmpty()) {
+                        featOnes[i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
+                    }
+                }
+
+                if (featTwos[i].get().equals("RANDOM") && availableFeats.get() > i) {
+                    ObservableString[] featAbilities = featsAbilities[i];
+                    // Filter out empty strings
+                    List<String> validAbilities = new ArrayList<>();
+                    for (ObservableString ability : featAbilities) {
+                        if (!ability.get().isEmpty()) {
+                            validAbilities.add(ability.get());
+                        }
+                    }
+                    if (!validAbilities.isEmpty()) {
+                        featTwos[i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
+                    }
+                }
+            }
+        });
+    /*
+        classEquipment = new CustomObservableList<>();
+        backgroundEquipment = new CustomObservableList<>();
+        choiceProficiencies = new CustomObservableList<>();
+        availableCantrips = new CustomObservableList<>();
+        availableSpells = new CustomObservableList<>();
+        spells = new CustomObservableList<>();
+        cantrips = new CustomObservableList<>();
+
+        health = new ObservableInteger(1);
+        givenBonuses = new ObservableInteger(0);
+        givenSkills = new ObservableInteger(0);
+        generationPoints = new ObservableInteger(0);
+        spellSlots = new ObservableInteger[9];
+
+        availableSkills;
+        abilityPlusOnes;
+        abilityPlusTwos;
+     */
     }
 }
