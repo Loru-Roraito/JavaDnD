@@ -8,7 +8,7 @@ public class ThrowManager {
     private static ThrowManager instance;
     private final Random random = new Random(); // Reusable Random instance
 
-    public int ThrowDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage, SystemPane systemPane) {
+    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, SystemPane systemPane) {
         Boolean adv;
         Boolean disadv;
         
@@ -36,10 +36,10 @@ public class ThrowManager {
             bonus -= exhaustion * 2;
         }
 
-        return ThrowDice(times, size, base, bonus, adv, disadv);
+        return throwDice(times, size, base, bonus, adv, disadv);
     }
 
-    public int ThrowDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
+    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
         if (size <= 0) {
             throw new IllegalArgumentException("Die size must be greater than 0");
         }
@@ -62,6 +62,31 @@ public class ThrowManager {
         }
 
         return total + bonus;
+    }
+    
+    public int rollFourDropLowest() {
+        // Roll 4 dice
+        int[] rolls = new int[4];
+        for (int i = 0; i < 4; i++) {
+            rolls[i] = throwDice(1, 6, 0, 0, false, false); // Roll a d6
+        }
+        
+        // Find the lowest value
+        int lowest = 6;
+        for (int roll : rolls) {
+            if (roll < lowest) {
+                lowest = roll;
+            }
+        }
+    
+        // Calculate the sum of the remaining three rolls
+        int sum = 0;
+        for (int roll : rolls) {
+            sum += roll;
+        }
+        sum -= lowest; // Subtract the lowest roll
+    
+        return sum;
     }
 
     public static ThrowManager getInstance() {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class CustomObservableList<T extends Observable<?>> {
+public class CustomObservableList<T> {
     private final List<T> items = new ArrayList<>();
     private final List<Consumer<CustomObservableList<T>>> listeners = new ArrayList<>();
 
@@ -15,11 +15,6 @@ public class CustomObservableList<T extends Observable<?>> {
 
     public void remove(T item) {
         items.remove(item);
-        notifyListeners();
-    }
-
-    public void set(int index, T item) {
-        items.set(index, item);
         notifyListeners();
     }
 
@@ -35,11 +30,7 @@ public class CustomObservableList<T extends Observable<?>> {
     }
 
     public List<T> getList() {
-        return new ArrayList<>(items);
-    }
-
-    public T get(int index) {
-        return items.get(index);
+        return items;
     }
 
     public int size() {
@@ -52,6 +43,10 @@ public class CustomObservableList<T extends Observable<?>> {
 
     public void addListener(Consumer<CustomObservableList<T>> listener) {
         listeners.add(listener);
+    }
+
+    public Boolean isEmpty() {
+        return items.isEmpty();
     }
 
     private void notifyListeners() {

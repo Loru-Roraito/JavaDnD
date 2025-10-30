@@ -5,6 +5,7 @@ import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipLabel;
+import com.dnd.items.Spell;
 
 import javafx.scene.control.Tab;
 import javafx.scene.Scene;
@@ -16,7 +17,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TabPane;
@@ -113,32 +113,35 @@ public class MagicTab extends Tab {
 
         Runnable updateCantrips = () -> {
             cantripsBox.getChildren().clear();
-            ObservableList<StringProperty> cantrips = character.getCantrips();
-            for (StringProperty cantrip : cantrips) {
-                TooltipLabel cantripLabel = new TooltipLabel(cantrip.get(), mainTabPane);
+            ObservableList<Spell> cantrips = character.getCantrips();
+            for (Spell cantrip : cantrips) {
+                TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
                 cantripsBox.getChildren().add(cantripLabel);
             }
         };
-        character.getCantrips().addListener((ListChangeListener<StringProperty>) _ -> {
+        character.getCantrips().addListener((ListChangeListener<Spell>) _ -> {
             updateCantrips.run();
         });
 
         Runnable updateSpells = () -> {
-            ObservableList<StringProperty> spells = character.getSpells();
+            ObservableList<Spell> spells = character.getSpells();
             for (int i = 0; i < 9; i++) {
                 levelBoxes[i].getChildren().clear();
             }
-            for (StringProperty spell : spells) {
-                int spellLevel = getSpellInt(new String[]{getOriginal(spell.get()), "level"});
+            for (Spell spell : spells) {
+                int spellLevel = getSpellInt(new String[]{getOriginal(spell.getName()), "level"});
                 VBox levelBox = levelBoxes[spellLevel - 1];
 
-                TooltipLabel spellLabel = new TooltipLabel(spell.get(), mainTabPane);
+                TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
                 levelBox.getChildren().add(spellLabel);
             }
         };
-        character.getSpells().addListener((ListChangeListener<StringProperty>) _ -> {
+        character.getSpells().addListener((ListChangeListener<Spell>) _ -> {
             updateSpells.run();
         });
+
+        updateCantrips.run();
+        updateSpells.run();
     }
 
     private void openSpellSelectionWindow() {
@@ -163,14 +166,17 @@ public class MagicTab extends Tab {
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsGrid);
         spellLayout.getChildren().add(cantripsPane);
 
-        ObservableList<StringProperty> availableCantrips = character.getAvailableCantrips();
-        ObservableList<StringProperty> cantrips = character.getCantrips();
+        ObservableList<Spell> availableCantrips = character.getAvailableCantrips();
+        ObservableList<Spell> cantrips = character.getCantrips();
         for (int i = 0; i < availableCantrips.size(); i++) {
-            StringProperty cantrip = availableCantrips.get(i);
+            Spell cantrip = availableCantrips.get(i);
             CheckBox cantripCheckBox = new CheckBox();
-            TooltipLabel cantripLabel = new TooltipLabel(getTranslation(cantrip.get()), mainTabPane);
-            if (cantrips.contains(cantrip)) {
-                cantripCheckBox.setSelected(true);
+            TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
+            for (Spell myCantrip : cantrips) {
+                if (myCantrip.equals(cantrip)) {
+                    cantripCheckBox.setSelected(true);
+                    break;
+                }
             }
             cantripCheckBox.setOnAction(_ -> {
                 if (cantripCheckBox.isSelected()) {
@@ -197,17 +203,20 @@ public class MagicTab extends Tab {
             spellLayout.getChildren().add(levelPane);
         }
 
-        ObservableList<StringProperty> availableSpells = character.getAvailableSpells();
-        ObservableList<StringProperty> spells = character.getSpells();
+        ObservableList<Spell> availableSpells = character.getAvailableSpells();
+        ObservableList<Spell> spells = character.getSpells();
         for (int i = 0; i < availableSpells.size(); i++) {
-            StringProperty spell = availableSpells.get(i);
-            int spellLevel = getSpellInt(new String[]{getOriginal(spell.get()), "level"});
+            Spell spell = availableSpells.get(i);
+            int spellLevel = spell.getLevel();
             GridPane levelGrid = levelGrids[spellLevel - 1];
 
             CheckBox spellCheckBox = new CheckBox();
-            TooltipLabel spellLabel = new TooltipLabel(getTranslation(spell.get()), mainTabPane);
-            if (spells.contains(spell)) {
-                spellCheckBox.setSelected(true);
+            TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
+            for (Spell mySpell : spells) {
+                if (mySpell.equals(spell)) {
+                    spellCheckBox.setSelected(true);
+                    break;
+                }
             }
             spellCheckBox.setOnAction(_ -> {
                 if (spellCheckBox.isSelected()) {

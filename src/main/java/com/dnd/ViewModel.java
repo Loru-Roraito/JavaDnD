@@ -1,13 +1,17 @@
 package com.dnd;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dnd.characters.GameCharacter;
+import com.dnd.items.MyItems;
 import com.dnd.utils.Constants;
 import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
+import com.dnd.items.Proficiency;
+import com.dnd.items.Spell;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -18,7 +22,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+
 public class ViewModel {
     private final StringProperty creatureType;
     private final StringProperty languageOne;
@@ -47,6 +53,8 @@ public class ViewModel {
     private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
     private final StringProperty[] abilityBasesShown;
+    private final StringProperty[] classEquipment;
+    private final StringProperty[] backgroundEquipment;
     private final StringProperty[][] featAbilities;
 
     private final int maxFeats;
@@ -110,390 +118,476 @@ public class ViewModel {
     private final ObservableList<StringProperty> weaponProficiencies;
     private final ObservableList<StringProperty> armorProficiencies;
     private final ObservableList<StringProperty> toolProficiencies;
-    private final ObservableList<StringProperty> classEquipment;
-    private final ObservableList<StringProperty> backgroundEquipment;
-    private final ObservableList<StringProperty> choiceProficiencies;
     private final ObservableList<StringProperty> selectableFeats;
-    private final ObservableList<StringProperty> availableCantrips;
-    private final ObservableList<StringProperty> availableSpells;
-    private final ObservableList<StringProperty> spells;
-    private final ObservableList<StringProperty> cantrips;
+    private final ObservableList<Proficiency> choiceProficiencies;
+    private final ObservableList<Spell> availableCantrips;
+    private final ObservableList<Spell> availableSpells;
+    private final ObservableList<Spell> spells;
+    private final ObservableList<Spell> cantrips;
 
     private final GameCharacter backend;
 
     public ViewModel(GameCharacter backend) {
         this.backend = backend;
-        this.creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
+        creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
         bindObservableString(creatureType, backend.getCreatureType());
 
-        this.languageOne = new SimpleStringProperty(getTranslation(backend.getLanguageOne().get()));
+        languageOne = new SimpleStringProperty(getTranslation(backend.getLanguageOne().get()));
         bindObservableString(languageOne, backend.getLanguageOne());
 
-        this.languageTwo = new SimpleStringProperty(getTranslation(backend.getLanguageTwo().get()));
+        languageTwo = new SimpleStringProperty(getTranslation(backend.getLanguageTwo().get()));
         bindObservableString(languageTwo, backend.getLanguageTwo());
 
-        this.height = new SimpleStringProperty(getTranslation(backend.getHeight().get()));
+        height = new SimpleStringProperty(getTranslation(backend.getHeight().get()));
         bindObservableString(height, backend.getHeight());
 
-        this.weight = new SimpleStringProperty(getTranslation(backend.getWeight().get()));
+        weight = new SimpleStringProperty(getTranslation(backend.getWeight().get()));
         bindObservableString(weight, backend.getWeight());
 
-        this.name = new SimpleStringProperty(getTranslation(backend.getName().get()));
+        name = new SimpleStringProperty(getTranslation(backend.getName().get()));
         bindObservableString(name, backend.getName());
 
-        this.gender = new SimpleStringProperty(getTranslation(backend.getGender().get()));
+        gender = new SimpleStringProperty(getTranslation(backend.getGender().get()));
         bindObservableString(gender, backend.getGender());
 
-        this.subclass = new SimpleStringProperty(getTranslation(backend.getSubclass().get()));
+        subclass = new SimpleStringProperty(getTranslation(backend.getSubclass().get()));
         bindObservableString(subclass, backend.getSubclass());
 
-        this.lineage = new SimpleStringProperty(getTranslation(backend.getLineage().get()));
+        lineage = new SimpleStringProperty(getTranslation(backend.getLineage().get()));
         bindObservableString(lineage, backend.getLineage());
 
-        this.alignment = new SimpleStringProperty(getTranslation(backend.getAlignment().get()));
+        alignment = new SimpleStringProperty(getTranslation(backend.getAlignment().get()));
         bindObservableString(alignment, backend.getAlignment());
 
-        this.generationMethod = new SimpleStringProperty(getTranslation(backend.getGenerationMethod().get()));
+        generationMethod = new SimpleStringProperty(getTranslation(backend.getGenerationMethod().get()));
         bindObservableString(generationMethod, backend.getGenerationMethod());
 
-        this.healthMethod = new SimpleStringProperty(getTranslation(backend.getHealthMethod().get()));
+        healthMethod = new SimpleStringProperty(getTranslation(backend.getHealthMethod().get()));
         bindObservableString(healthMethod, backend.getHealthMethod());
 
-        this.levelShown = new SimpleStringProperty(getTranslation(backend.getLevelShown().get()));
+        levelShown = new SimpleStringProperty(getTranslation(backend.getLevelShown().get()));
         bindObservableString(levelShown, backend.getLevelShown());
 
-        this.classe = new SimpleStringProperty(getTranslation(backend.getClasse().get()));
+        classe = new SimpleStringProperty(getTranslation(backend.getClasse().get()));
         bindObservableString(classe, backend.getClasse());
 
-        this.species = new SimpleStringProperty(getTranslation(backend.getSpecies().get()));
+        species = new SimpleStringProperty(getTranslation(backend.getSpecies().get()));
         bindObservableString(species, backend.getSpecies());
 
-        this.background = new SimpleStringProperty(getTranslation(backend.getBackground().get()));
+        background = new SimpleStringProperty(getTranslation(backend.getBackground().get()));
         bindObservableString(background, backend.getBackground());
-        
-        this.generationPoints = new SimpleIntegerProperty(backend.getGenerationPoints().get());
+
+        generationPoints = new SimpleIntegerProperty(backend.getGenerationPoints().get());
         bindObservableInteger(generationPoints, backend.getGenerationPoints());
 
-        this.initiativeBonus = new SimpleIntegerProperty(backend.getInitiativeBonus().get());
+        initiativeBonus = new SimpleIntegerProperty(backend.getInitiativeBonus().get());
         bindObservableInteger(initiativeBonus, backend.getInitiativeBonus());
 
-        this.proficiencyBonus = new SimpleIntegerProperty(backend.getProficiencyBonus().get());
+        proficiencyBonus = new SimpleIntegerProperty(backend.getProficiencyBonus().get());
         bindObservableInteger(proficiencyBonus, backend.getProficiencyBonus());
 
-        this.speed = new SimpleDoubleProperty(backend.getSpeed().get() * Constants.LENGTH_MULTIPLIER);
+        speed = new SimpleDoubleProperty(backend.getSpeed().get() * Constants.LENGTH_MULTIPLIER);
         bindObservableDouble(speed, backend.getSpeed(), Constants.LENGTH_MULTIPLIER);
 
-        this.darkvision = new SimpleDoubleProperty(backend.getDarkvision().get() * Constants.LENGTH_MULTIPLIER);
+        darkvision = new SimpleDoubleProperty(backend.getDarkvision().get() * Constants.LENGTH_MULTIPLIER);
         bindObservableDouble(darkvision, backend.getDarkvision(), Constants.LENGTH_MULTIPLIER);
 
-        this.armorClass = new SimpleIntegerProperty(backend.getArmorClass().get());
+        armorClass = new SimpleIntegerProperty(backend.getArmorClass().get());
         bindObservableInteger(armorClass, backend.getArmorClass());
 
-        this.health = new SimpleIntegerProperty(backend.getHealth().get());
+        health = new SimpleIntegerProperty(backend.getHealth().get());
         bindObservableInteger(health, backend.getHealth());
 
-        this.fixedHealth = new SimpleIntegerProperty(backend.getFixedHealth().get());
+        fixedHealth = new SimpleIntegerProperty(backend.getFixedHealth().get());
         bindObservableInteger(fixedHealth, backend.getFixedHealth());
 
-        this.hitDie = new SimpleIntegerProperty(backend.getHitDie().get());
+        hitDie = new SimpleIntegerProperty(backend.getHitDie().get());
         bindObservableInteger(hitDie, backend.getHitDie());
 
-        this.level = new SimpleIntegerProperty(backend.getLevel().get());
+        level = new SimpleIntegerProperty(backend.getLevel().get());
         bindObservableInteger(level, backend.getLevel());
 
-        this.exhaustion = new SimpleIntegerProperty(backend.getExhaustion().get());
+        exhaustion = new SimpleIntegerProperty(backend.getExhaustion().get());
         bindObservableInteger(exhaustion, backend.getExhaustion());
 
-        this.maxCantrips = new SimpleIntegerProperty(backend.getMaxCantrips().get());
+        maxCantrips = new SimpleIntegerProperty(backend.getMaxCantrips().get());
         bindObservableInteger(maxCantrips, backend.getMaxCantrips());
 
-        this.maxSpells = new SimpleIntegerProperty(backend.getMaxSpells().get());
+        maxSpells = new SimpleIntegerProperty(backend.getMaxSpells().get());
         bindObservableInteger(maxSpells, backend.getMaxSpells());
 
-        this.spellcastingAbilityModifier = new SimpleIntegerProperty(backend.getSpellcastingAbilityModifier().get());
+        spellcastingAbilityModifier = new SimpleIntegerProperty(backend.getSpellcastingAbilityModifier().get());
         bindObservableInteger(spellcastingAbilityModifier, backend.getSpellcastingAbilityModifier());
 
-        this.spellcastingAttackModifier = new SimpleIntegerProperty(backend.getSpellcastingAttackModifier().get());
+        spellcastingAttackModifier = new SimpleIntegerProperty(backend.getSpellcastingAttackModifier().get());
         bindObservableInteger(spellcastingAttackModifier, backend.getSpellcastingAttackModifier());
 
-        this.spellcastingSaveDC = new SimpleIntegerProperty(backend.getSpellcastingSaveDC().get());
+        spellcastingSaveDC = new SimpleIntegerProperty(backend.getSpellcastingSaveDC().get());
         bindObservableInteger(spellcastingSaveDC, backend.getSpellcastingSaveDC());
 
-        this.size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
+        size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
 
-        this.originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
+        originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
         bindObservableString(originFeat, backend.getOriginFeat());
 
-        this.spellcastingAbility = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility().get()));
+        spellcastingAbility = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility().get()));
         bindObservableString(spellcastingAbility, backend.getSpellcastingAbility());
 
-        this.blinded = new SimpleBooleanProperty(backend.getBlinded().get());
+        blinded = new SimpleBooleanProperty(backend.getBlinded().get());
         bindObservableBoolean(blinded, backend.getBlinded());
 
-        this.charmed = new SimpleBooleanProperty(backend.getCharmed().get());
+        charmed = new SimpleBooleanProperty(backend.getCharmed().get());
         bindObservableBoolean(charmed, backend.getCharmed());
 
-        this.deafened = new SimpleBooleanProperty(backend.getDeafened().get());
+        deafened = new SimpleBooleanProperty(backend.getDeafened().get());
         bindObservableBoolean(deafened, backend.getDeafened());
 
-        this.frightened = new SimpleBooleanProperty(backend.getFrightened().get());
+        frightened = new SimpleBooleanProperty(backend.getFrightened().get());
         bindObservableBoolean(frightened, backend.getFrightened());
 
-        this.grappled = new SimpleBooleanProperty(backend.getGrappled().get());
+        grappled = new SimpleBooleanProperty(backend.getGrappled().get());
         bindObservableBoolean(grappled, backend.getGrappled());
 
-        this.incapacitated = new SimpleBooleanProperty(backend.getIncapacitated().get());
+        incapacitated = new SimpleBooleanProperty(backend.getIncapacitated().get());
         bindObservableBoolean(incapacitated, backend.getIncapacitated());
 
-        this.incapacitation = new SimpleBooleanProperty(backend.getIncapacitation().get());
+        incapacitation = new SimpleBooleanProperty(backend.getIncapacitation().get());
         bindObservableBoolean(incapacitation, backend.getIncapacitation());
 
-        this.invisible = new SimpleBooleanProperty(backend.getInvisible().get());
+        invisible = new SimpleBooleanProperty(backend.getInvisible().get());
         bindObservableBoolean(invisible, backend.getInvisible());
 
-        this.paralyzed = new SimpleBooleanProperty(backend.getParalyzed().get());
+        paralyzed = new SimpleBooleanProperty(backend.getParalyzed().get());
         bindObservableBoolean(paralyzed, backend.getParalyzed());
 
-        this.petrified = new SimpleBooleanProperty(backend.getPetrified().get());
+        petrified = new SimpleBooleanProperty(backend.getPetrified().get());
         bindObservableBoolean(petrified, backend.getPetrified());
 
-        this.poisoned = new SimpleBooleanProperty(backend.getPoisoned().get());
+        poisoned = new SimpleBooleanProperty(backend.getPoisoned().get());
         bindObservableBoolean(poisoned, backend.getPoisoned());
 
-        this.prone = new SimpleBooleanProperty(backend.getProne().get());
+        prone = new SimpleBooleanProperty(backend.getProne().get());
         bindObservableBoolean(prone, backend.getProne());
 
-        this.proneness = new SimpleBooleanProperty(backend.getProneness().get());
+        proneness = new SimpleBooleanProperty(backend.getProneness().get());
         bindObservableBoolean(proneness, backend.getProneness());
 
-        this.restrained = new SimpleBooleanProperty(backend.getRestrained().get());
+        restrained = new SimpleBooleanProperty(backend.getRestrained().get());
         bindObservableBoolean(restrained, backend.getRestrained());
 
-        this.stunned = new SimpleBooleanProperty(backend.getStunned().get());
+        stunned = new SimpleBooleanProperty(backend.getStunned().get());
         bindObservableBoolean(stunned, backend.getStunned());
 
-        this.unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
+        unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
         bindObservableBoolean(unconscious, backend.getUnconscious());
 
-        this.moneysShown = new SimpleStringProperty[5];
+        moneysShown = new SimpleStringProperty[5];
         for (int i = 0; i < 5; i++) {
-            this.moneysShown[i] = new SimpleStringProperty(getTranslation(backend.getMoneyShown(i).get()));
+            moneysShown[i] = new SimpleStringProperty(getTranslation(backend.getMoneyShown(i).get()));
             bindObservableString(moneysShown[i], backend.getMoneyShown(i));
         }
 
-        this.availableSizes = new StringProperty[2];
+        availableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
-            this.availableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
+            availableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
             bindObservableString(availableSizes[i], backend.getAvailableSize(i));
         }
 
         int maxSubclasses = backend.getMaxSubclasses();
         int maxLineages = backend.getMaxLineages();
+        int maxSets = backend.getMaxSets();
 
-        this.availableSubclasses = new StringProperty[maxSubclasses];
+        availableSubclasses = new StringProperty[maxSubclasses];
         for (int i = 0; i < maxSubclasses; i++) {
-            this.availableSubclasses[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i).get()));
+            availableSubclasses[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i).get()));
             bindObservableString(availableSubclasses[i], backend.getAvailableSubclass(i));
         }
 
-        this.availableLineages = new StringProperty[maxLineages];
+        availableLineages = new StringProperty[maxLineages];
         for (int i = 0; i < maxLineages; i++) {
-            this.availableLineages[i] = new SimpleStringProperty(getTranslation(backend.getAvailableLineage(i).get()));
+            availableLineages[i] = new SimpleStringProperty(getTranslation(backend.getAvailableLineage(i).get()));
             bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
         }
 
-        this.spellSlots = new IntegerProperty[9];
+        classEquipment = new StringProperty[maxSets];
+        for (int i = 0; i < maxSets; i++) {
+            classEquipment[i] = new SimpleStringProperty(getTranslation(backend.getClassEquipment(i).get()));
+            bindObservableString(classEquipment[i], backend.getClassEquipment(i));
+        }
+
+        backgroundEquipment = new StringProperty[maxSets];
+        for (int i = 0; i < maxSets; i++) {
+            backgroundEquipment[i] = new SimpleStringProperty(getTranslation(backend.getBackgroundEquipment(i).get()));
+            bindObservableString(backgroundEquipment[i], backend.getBackgroundEquipment(i));
+        }
+
+        spellSlots = new IntegerProperty[9];
         for (int i = 0; i < 9; i ++) {
-            this.spellSlots[i] = new SimpleIntegerProperty(backend.getSpellSlot(i).get());
+            spellSlots[i] = new SimpleIntegerProperty(backend.getSpellSlot(i).get());
             bindObservableInteger(spellSlots[i], backend.getSpellSlot(i));
         }
 
-        this.availableSpellSlots = new IntegerProperty[9];
+        availableSpellSlots = new IntegerProperty[9];
         for (int i = 0; i < 9; i ++) {
-            this.availableSpellSlots[i] = new SimpleIntegerProperty(backend.getAvailableSpellSlot(i).get());
+            availableSpellSlots[i] = new SimpleIntegerProperty(backend.getAvailableSpellSlot(i).get());
             bindObservableInteger(availableSpellSlots[i], backend.getAvailableSpellSlot(i));
         }
 
         int skillCount = backend.getSkillNames().length;
         int abilityCount = backend.getAbilityNames().length;
 
-        this.abilityBasesShown = new StringProperty[abilityCount];
+        abilityBasesShown = new StringProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilityBasesShown[i] = new SimpleStringProperty(getTranslation(backend.getAbilityBasesShown(i).get()));
+            abilityBasesShown[i] = new SimpleStringProperty(getTranslation(backend.getAbilityBasesShown(i).get()));
             bindObservableString(abilityBasesShown[i], backend.getAbilityBasesShown(i));
         }
 
-        this.abilities = new IntegerProperty[abilityCount];
+        abilities = new IntegerProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilities[i] = new SimpleIntegerProperty(backend.getAbility(i).get());
+            abilities[i] = new SimpleIntegerProperty(backend.getAbility(i).get());
             bindObservableInteger(abilities[i], backend.getAbility(i));
         }
 
-        this.abilityModifiers = new IntegerProperty[abilityCount];
+        abilityModifiers = new IntegerProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilityModifiers[i] = new SimpleIntegerProperty(backend.getAbilityModifier(i).get());
+            abilityModifiers[i] = new SimpleIntegerProperty(backend.getAbilityModifier(i).get());
             bindObservableInteger(abilityModifiers[i], backend.getAbilityModifier(i));
         }
 
-        this.savingThrowModifiers = new IntegerProperty[abilityCount];
+        savingThrowModifiers = new IntegerProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.savingThrowModifiers[i] = new SimpleIntegerProperty(backend.getSavingThrowModifier(i).get());
+            savingThrowModifiers[i] = new SimpleIntegerProperty(backend.getSavingThrowModifier(i).get());
             bindObservableInteger(savingThrowModifiers[i], backend.getSavingThrowModifier(i));
         }
 
-        this.skillModifiers = new IntegerProperty[skillCount];
+        skillModifiers = new IntegerProperty[skillCount];
         for (int i = 0; i < skillCount; i++) {
-            this.skillModifiers[i] = new SimpleIntegerProperty(backend.getSkillModifier(i).get());
+            skillModifiers[i] = new SimpleIntegerProperty(backend.getSkillModifier(i).get());
             bindObservableInteger(skillModifiers[i], backend.getSkillModifier(i));
         }
 
-        this.abilityBases = new IntegerProperty[abilityCount];
+        abilityBases = new IntegerProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilityBases[i] = new SimpleIntegerProperty(backend.getAbilityBase(i).get());
+            abilityBases[i] = new SimpleIntegerProperty(backend.getAbilityBase(i).get());
             bindObservableInteger(abilityBases[i], backend.getAbilityBase(i));
         }
-        
-        this.availablePlusOnes = new BooleanProperty[abilityCount];
+
+        availablePlusOnes = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.availablePlusOnes[i] = new SimpleBooleanProperty(backend.getAvailablePlusOne(i).get());
+            availablePlusOnes[i] = new SimpleBooleanProperty(backend.getAvailablePlusOne(i).get());
             bindObservableBoolean(availablePlusOnes[i], backend.getAvailablePlusOne(i));
         }
 
-        this.availablePlusTwos = new BooleanProperty[abilityCount];
+        availablePlusTwos = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.availablePlusTwos[i] = new SimpleBooleanProperty(backend.getAvailablePlusTwo(i).get());
+            availablePlusTwos[i] = new SimpleBooleanProperty(backend.getAvailablePlusTwo(i).get());
             bindObservableBoolean(availablePlusTwos[i], backend.getAvailablePlusTwo(i));
         }
 
-        this.availablePluses = new BooleanProperty[abilityCount];
+        availablePluses = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.availablePluses[i] = new SimpleBooleanProperty(backend.getAvailablePlus(i).get());
+            availablePluses[i] = new SimpleBooleanProperty(backend.getAvailablePlus(i).get());
             bindObservableBoolean(availablePluses[i], backend.getAvailablePlus(i));
         }
 
-        this.availableMinuses = new BooleanProperty[abilityCount];
+        availableMinuses = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.availableMinuses[i] = new SimpleBooleanProperty(backend.getAvailableMinus(i).get());
+            availableMinuses[i] = new SimpleBooleanProperty(backend.getAvailableMinus(i).get());
             bindObservableBoolean(availableMinuses[i], backend.getAvailableMinus(i));
         }
 
-        this.availableSkills = new BooleanProperty[skillCount];
+        availableSkills = new BooleanProperty[skillCount];
         for (int i = 0; i < skillCount; i++) {
-            this.availableSkills[i] = new SimpleBooleanProperty(backend.getAvailableSkill(i).get());
+            availableSkills[i] = new SimpleBooleanProperty(backend.getAvailableSkill(i).get());
             bindObservableBoolean(availableSkills[i], backend.getAvailableSkill(i));
         }
 
-        this.abilityPlusOnes = new BooleanProperty[abilityCount];
+        abilityPlusOnes = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilityPlusOnes[i] = new SimpleBooleanProperty(backend.getAbilityPlusOne(i).get());
+            abilityPlusOnes[i] = new SimpleBooleanProperty(backend.getAbilityPlusOne(i).get());
             bindObservableBoolean(abilityPlusOnes[i], backend.getAbilityPlusOne(i));
         }
 
-        this.abilityPlusTwos = new BooleanProperty[abilityCount];
+        abilityPlusTwos = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.abilityPlusTwos[i] = new SimpleBooleanProperty(backend.getAbilityPlusTwo(i).get());
+            abilityPlusTwos[i] = new SimpleBooleanProperty(backend.getAbilityPlusTwo(i).get());
             bindObservableBoolean(abilityPlusTwos[i], backend.getAbilityPlusTwo(i));
         }
 
-        this.savingThrowProficiencies = new BooleanProperty[abilityCount];
+        savingThrowProficiencies = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            this.savingThrowProficiencies[i] = new SimpleBooleanProperty(backend.getSavingThrowProficiency(i).get());
+            savingThrowProficiencies[i] = new SimpleBooleanProperty(backend.getSavingThrowProficiency(i).get());
             bindObservableBoolean(savingThrowProficiencies[i], backend.getSavingThrowProficiency(i));
         }
 
-        this.skillProficiencies = new BooleanProperty[skillCount];
+        skillProficiencies = new BooleanProperty[skillCount];
         for (int i = 0; i < skillCount; i++) {
-            this.skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
+            skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
 
-        this.actives = FXCollections.observableArrayList();
+        actives = FXCollections.observableArrayList();
         updateList(actives, backend.getActives());
 
-        this.passives = FXCollections.observableArrayList();
+        passives = FXCollections.observableArrayList();
         updateList(passives, backend.getPassives());
-        
-        this.weaponProficiencies = FXCollections.observableArrayList();
+
+        weaponProficiencies = FXCollections.observableArrayList();
         updateList(weaponProficiencies, backend.getWeaponProficiencies());
 
-        this.armorProficiencies = FXCollections.observableArrayList();
+        armorProficiencies = FXCollections.observableArrayList();
         updateList(armorProficiencies, backend.getArmorProficiencies());
 
-        this.classEquipment = FXCollections.observableArrayList();
-        updateList(classEquipment, backend.getClassEquipment());
-
-        this.backgroundEquipment = FXCollections.observableArrayList();
-        updateList(backgroundEquipment, backend.getBackgroundEquipment());
-
-        this.choiceProficiencies = FXCollections.observableArrayList();
-        updateList(choiceProficiencies, backend.getChoiceProficiencies());
-
-        this.toolProficiencies = FXCollections.observableArrayList();
+        toolProficiencies = FXCollections.observableArrayList();
         updateList(toolProficiencies, backend.getToolProficiencies());
 
-        this.selectableFeats = FXCollections.observableArrayList();
+        selectableFeats = FXCollections.observableArrayList();
         updateList(selectableFeats, backend.getNewSelectableFeats());
 
-        this.availableCantrips = FXCollections.observableArrayList();
-        updateList(availableCantrips, backend.getAvailableCantrips());
+        choiceProficiencies = FXCollections.observableArrayList();
+        updateCustomList(choiceProficiencies, backend.getChoiceProficiencies());
 
-        this.availableSpells = FXCollections.observableArrayList();
-        updateList(availableSpells, backend.getAvailableSpells());
+        availableCantrips = FXCollections.observableArrayList();
+        updateCustomList(availableCantrips, backend.getAvailableCantrips());
 
-        this.cantrips = FXCollections.observableArrayList();
-        updateList(cantrips, backend.getCantrips());
+        availableSpells = FXCollections.observableArrayList();
+        updateCustomList(availableSpells, backend.getAvailableSpells());
 
-        this.spells = FXCollections.observableArrayList();
-        updateList(spells, backend.getSpells());
+        cantrips = FXCollections.observableArrayList();
+        updateCustomList(cantrips, backend.getCantrips());
+
+        spells = FXCollections.observableArrayList();
+        updateCustomList(spells, backend.getSpells());
 
         maxFeats = backend.getMaxFeats();
-        this.availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
+        availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
         bindObservableInteger(availableFeats, backend.getAvailableFeats());
-        this.feats = new StringProperty[maxFeats];
+        feats = new StringProperty[maxFeats];
         for (int i = 0; i < maxFeats; i++) {
-            this.feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
+            feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
             bindObservableString(feats[i], backend.getFeat(i));
         }
 
-        this.featAbilities = new StringProperty[maxFeats][abilityCount];
+        featAbilities = new StringProperty[maxFeats][abilityCount];
         for (int i = 0; i < maxFeats; i++) {
             for (int j = 0; j < abilityCount; j++) {
-                this.featAbilities[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j).get()));
+                featAbilities[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j).get()));
                 bindObservableString(featAbilities[i][j], backend.getFeatAbility(i, j));
             }
         }
 
-        this.featOnes = new StringProperty[maxFeats];
+        featOnes = new StringProperty[maxFeats];
         for (int i = 0; i < maxFeats; i++) {
-            this.featOnes[i] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i).get()));
+            featOnes[i] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i).get()));
             bindObservableString(featOnes[i], backend.getFeatOne(i));
         }
 
-        this.featTwos = new StringProperty[maxFeats];
+        featTwos = new StringProperty[maxFeats];
         for (int i = 0; i < maxFeats; i++) {
-            this.featTwos[i] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i).get()));
+            featTwos[i] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i).get()));
             bindObservableString(featTwos[i], backend.getFeatTwo(i));
         }
     }
 
-    private void updateList(ObservableList<StringProperty> front, CustomObservableList<ObservableString> back) {
-        Runnable update = () -> {
-            List<StringProperty> translated = new java.util.ArrayList<>();
-            for (ObservableString key : back.getList()) {
-                translated.add(new SimpleStringProperty(getTranslation(key.get())));
+    private <T extends MyItems<T>> void updateCustomList(ObservableList<T> front, CustomObservableList<T> back) {
+        AtomicBoolean updating = new AtomicBoolean(false);
+
+        java.util.function.Consumer<ObservableList<T>> updateFtB = (ObservableList<T> newValue) -> {
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<T> original = new java.util.ArrayList<>();
+                for (T key : newValue) {
+                    T copy = (T) key.copy();
+                    copy.setName(getOriginal(copy.getName()));
+                    original.add(copy);
+                    copy.getNameProperty().addListener(newVal -> {
+                        key.setName(getTranslation(newVal));
+                        // System.out.println("Updated front name to: " + key.getName());
+                    });
+                    key.getNameProperty().addListener(newVal -> {
+                        copy.setName(getOriginal(newVal));
+                    });
+                }
+                back.setAll(original);
+            } finally {
+                updating.set(false);
             }
-            front.setAll(translated); // Only triggers listeners once
         };
 
-        back.addListener(_ -> update.run());
+        front.addListener((ListChangeListener<T>) _ -> updateFtB.accept(front));
+        
+        java.util.function.Consumer<CustomObservableList<T>> updateBtF = (CustomObservableList<T> newValue) -> {
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<T> translated = new java.util.ArrayList<>();
+                for (T key : newValue.getList()) {
+                    T copy = (T) key.copy();
+                    copy.setName(getTranslation(copy.getName()));
+                    translated.add(copy);
+                    copy.getNameProperty().addListener(newVal -> {
+                        key.setName(getOriginal(newVal));
+                        // System.out.println("Updated back name to: " + key.getName());
+                    });
+                    key.getNameProperty().addListener(newVal -> {
+                        copy.setName(getTranslation(newVal));
+                    });
+                }
+                front.setAll(translated);
+            } finally {
+                updating.set(false);
+            }
+        };
 
-        update.run();
+        back.addListener(newVal -> updateBtF.accept(newVal));
+        updateBtF.accept(back);
+        updateFtB.accept(front);
     }
-    
+
+    private void updateList(ObservableList<StringProperty> front, CustomObservableList<ObservableString> back) {
+        AtomicBoolean updating = new AtomicBoolean(false);
+        
+        Runnable updateFtB = () -> {
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<ObservableString> original = new java.util.ArrayList<>();
+                for (StringProperty key : front) {
+                    original.add(new ObservableString(getOriginal(key.get())));
+                }
+                back.setAll(original);
+            } finally {
+                updating.set(false);
+            }
+        };
+
+        front.addListener((ListChangeListener<StringProperty>) _ -> updateFtB.run());
+        
+        Runnable updateBtF = () -> {
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<StringProperty> translated = new java.util.ArrayList<>();
+                for (ObservableString key : back.asList()) {
+                    translated.add(new SimpleStringProperty(getTranslation(key.get())));
+                }
+                front.setAll(translated);
+            } finally {
+                updating.set(false);
+            }
+        };
+
+        back.addListener(_ -> updateBtF.run());
+        updateBtF.run();
+    }
+
     private void bindObservableString(StringProperty front, ObservableString back) {
-        back.addListener(_ -> front.set(getTranslation(back.get())));
-        front.addListener(_ -> back.set(getOriginal(front.get())));
+        back.addListener(_ -> {
+            // System.out.println("Back changed: " + back.get() + " -> Front: " + getTranslation(back.get()));
+            front.set(getTranslation(back.get()));
+        });
+        front.addListener(_ -> {
+            // System.out.println("Front changed: " + front.get() + " -> Back: " + getOriginal(front.get()));
+            back.set(getOriginal(front.get()));
+        });
     }
 
     private void bindObservableInteger(IntegerProperty front, ObservableInteger back) {
@@ -523,11 +617,11 @@ public class ViewModel {
 
     // Getters for all properties
 
-    public ObservableList<StringProperty> getCantrips() {
+    public ObservableList<Spell> getCantrips() {
         return cantrips;
     }
 
-    public ObservableList<StringProperty> getSpells() {
+    public ObservableList<Spell> getSpells() {
         return spells;
     }
 
@@ -555,23 +649,27 @@ public class ViewModel {
         return selectableFeats;
     }
 
-    public ObservableList<StringProperty> getClassEquipment() {
+    public StringProperty getClassEquipment(int index) {
+        return classEquipment[index];
+    }
+
+    public StringProperty[] getClassEquipments() {
         return classEquipment;
     }
 
-    public ObservableList<StringProperty> getBackgroundEquipment() {
-        return backgroundEquipment;
+    public StringProperty getBackgroundEquipment(int index) {
+        return backgroundEquipment[index];
     }
 
-    public ObservableList<StringProperty> getChoiceProficiencies() {
-        return choiceProficiencies;
+    public Proficiency getChoiceProficiency(int index) {
+        return choiceProficiencies.get(index);
     }
 
-    public ObservableList<StringProperty> getAvailableCantrips() {
+    public ObservableList<Spell> getAvailableCantrips() {
         return availableCantrips;
     }
 
-    public ObservableList<StringProperty> getAvailableSpells() {
+    public ObservableList<Spell> getAvailableSpells() {
         return availableSpells;
     }
 
@@ -899,6 +997,10 @@ public class ViewModel {
         return TranslationManager.getInstance().getOriginal(key);
     }
 
+
+    public ViewModel duplicate() {
+        return new ViewModel(backend.duplicate());
+    }
 
     public void fill() {
         backend.fill();

@@ -58,7 +58,7 @@ public class TranslationManager {
     public String[] getGroup(String[] group) {
         JsonNode node = rootNode;
         for (String subGroup : group) {
-            if (node == null) { // Check if node is null before accessing
+            if (node == null || subGroup == null) { // Check if node is null before accessing
                 return new String[0];
             }
             node = node.get(subGroup);
@@ -108,9 +108,9 @@ public class TranslationManager {
         }
 
         if (node.isBoolean()) {
-            return node.asBoolean(); // Convert the node to a boolean
+            return node.asBoolean(); // Convert the node to a Boolean
         } else {
-            System.err.println("Warning: Expected a boolean but found something else.");
+            System.err.println("Warning: Expected a Boolean but found something else.");
             return false; // Return false as a fallback
         }
     }
@@ -133,7 +133,7 @@ public class TranslationManager {
         if (node.isObject()) {
             node.fieldNames().forEachRemaining(fieldName -> {
                 keys.add(Boolean.valueOf(fieldName));
-            }); // Add all field names (parsed as booleans) to the list
+            }); // Add all field names (parsed as Booleans) to the list
         }
         else {
             for (JsonNode element : node) {

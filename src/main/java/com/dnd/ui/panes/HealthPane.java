@@ -77,6 +77,11 @@ public class HealthPane extends GridPane {
             }
         });
 
+        character.getHealth().addListener((_, _, newVal) -> {
+            hpCustom.setText(String.valueOf(newVal));
+        });
+        hpCustom.setText(String.valueOf(character.getHealth().get()));
+
         hpMedium.textProperty().bind(
             character.getHealth().asString()
         );

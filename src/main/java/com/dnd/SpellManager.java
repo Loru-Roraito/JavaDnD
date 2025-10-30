@@ -120,9 +120,9 @@ public class SpellManager {
         }
 
         if (node.isBoolean()) {
-            return node.asBoolean(); // Convert the node to a boolean
+            return node.asBoolean(); // Convert the node to a Boolean
         } else {
-            System.err.println("Warning: Expected a boolean but found something else.");
+            System.err.println("Warning: Expected a Boolean but found something else.");
             return false; // Return false as a fallback
         }
     }
@@ -145,7 +145,7 @@ public class SpellManager {
         if (node.isObject()) {
             node.fieldNames().forEachRemaining(fieldName -> {
                 keys.add(Boolean.valueOf(fieldName));
-            }); // Add all field names (parsed as booleans) to the list
+            }); // Add all field names (parsed as Booleans) to the list
         }
         else {
             for (JsonNode element : node) {

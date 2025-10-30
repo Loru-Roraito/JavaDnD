@@ -54,7 +54,7 @@ public class ComboBoxUtils {
 
         // Preserve selection by VALUE (index can shift).
         final String currentValue = comboBox.getValue();
-        final boolean currentStillValid = currentValue != null && newItems.contains(currentValue);
+        final Boolean currentStillValid = currentValue != null && newItems.contains(currentValue);
 
         // If current value will be invalid, clear selection BEFORE mutating to avoid IOBE.
         if (!currentStillValid) {

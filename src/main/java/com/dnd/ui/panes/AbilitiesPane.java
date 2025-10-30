@@ -54,7 +54,10 @@ public class AbilitiesPane extends GridPane {
         TooltipTitledPane abilitiesPane = new TooltipTitledPane(getTranslation("ABILITIES"), abilitiesSection);
         TooltipTitledPane skillsPane = new TooltipTitledPane(getTranslation("SKILLS"), skillsSection);
         TooltipTitledPane saveThrowsPane = new TooltipTitledPane(getTranslation("SAVE_THROWS"), saveThrowsSection);
-    
+        abilitiesPane.setCollapsible(false);
+        skillsPane.setCollapsible(false);
+        saveThrowsPane.setCollapsible(false);
+
         // Set up each section
         setupAbilitiesGeneration();
         setupSkills(skillsSection);
@@ -87,7 +90,7 @@ public class AbilitiesPane extends GridPane {
             bonusOne.disableProperty().bind(character.getAvailablePlusOne(index).not());
             bonusTwo.disableProperty().bind(character.getAvailablePlusTwo(index).not());
 
-            // Bind the CheckBox states to the Character's boolean properties
+            // Bind the CheckBox states to the Character's Boolean properties
             bonusOne.selectedProperty().bindBidirectional(character.getAbilityPlusOne(index));
             bonusTwo.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
 
@@ -193,31 +196,6 @@ public class AbilitiesPane extends GridPane {
         }
 
         chooseAbilitiesUI();
-    } 
-
-    private int rollFourDropLowest() {
-        // Roll 4 dice
-        int[] rolls = new int[4];
-        for (int i = 0; i < 4; i++) {
-            rolls[i] = throwDice(1, 6, 0, 0, false, false); // Roll a d6
-        }
-        
-        // Find the lowest value
-        int lowest = 6;
-        for (int roll : rolls) {
-            if (roll < lowest) {
-                lowest = roll;
-            }
-        }
-    
-        // Calculate the sum of the remaining three rolls
-        int sum = 0;
-        for (int roll : rolls) {
-            sum += roll;
-        }
-        sum -= lowest; // Subtract the lowest roll
-    
-        return sum;
     }
         
     public void chooseAbilitiesUI() {
@@ -269,7 +247,7 @@ public class AbilitiesPane extends GridPane {
             }
         }
 
-        if (generationType.equals("POINT_BUY")) {
+        if (generationType.equals(getTranslation("POINT_BUY"))) {
             abilitiesSection.add(points, 0, 6);
             points.textProperty().bind(
                 Bindings.concat(getTranslation("POINTS"), ": ", character.getGenerationPoints().asString())
@@ -368,7 +346,11 @@ public class AbilitiesPane extends GridPane {
     }
 
     // Method to update the die result
-    public int throwDice(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
-        return ThrowManager.getInstance().ThrowDice(times, size, base, bonus, advantage, disadvantage);
+    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
+        return ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage);
+    }
+
+    private int rollFourDropLowest() {
+        return ThrowManager.getInstance().rollFourDropLowest();
     }
 }

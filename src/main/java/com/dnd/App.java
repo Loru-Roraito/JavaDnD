@@ -52,10 +52,7 @@ public class App extends Application {
         stage.setTitle(TranslationManager.getInstance().getTranslation("MAIN_TITLE"));
         stage.setScene(scene);
 
-        // Set maximum size to screen dimensions
-        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
-        stage.setMaxWidth(screenBounds.getWidth());
-        stage.setMaxHeight(screenBounds.getHeight());
+        stage.setMaximized(true); // Maximized window (with title bar)
 
         stage.show();
     }
@@ -66,133 +63,76 @@ public class App extends Application {
 }
 
 // fix any todo
-// fix ugly tooltips
 // interfaccia per accedere a varie sezioni
 // mostri
-// aspetto estetico
-// tiri per condizioni + condizioni attuali
-// sistemare livelli talenti e impedire si superi una certa soglia di punti. Aggiungere talenti extra (possibilità di inserire talenti aggiuntivi)
+// tiri per condizioni
 // punti ferita temporanei
 // dado vita
-// denaro
 // armi pesanti
 // copertura
 // armi versatili
-// abilità extra talenti
 // ispirazione eroica
 // riposi brevi e lunghi
-// affaticamento
-// competenza e uso strumenti
 // long rest resets hit point maximum, ability score reduction and exhaustion
 // lancio incantesimi con livello maggiore
-// preparare incantesimi
 // currency conversion
 // morte
-// save advantages
 // no spell se non competenza armature
-// custom health
-// average (medium) health
 // aggiungere specifiche categorie di specie (es.: umanoidi, taglia, solo base)
-// possibilità di comprimere alcune finestre
-// sistemare dimensioni relative
+// finestra a parte con impostazioni generatore, spostare attuali elementi in SystemPane
+// sistemare dimensioni relative (px in css resta fastidioso)
 // better differentiate which tab is active
-// aggiungere tooltip
-// automatic BASE_PATH
-// scrollbar brutta, da sistemare
 // iniziativa automatica (per mostri)
-// avviso se si inserisce valore sbagliato
 // avviso prima di levelUp
 // calcolo peso trasportabile/trasportato
-// riaggiungere freccette per nuovo equipaggiamento (va risolto il problema per cui inserisce l'oggetto due volte)
-// aggiungere dizionario al ToolTipItemDelegate
-// mostra dado di tiro e bonus facendo mouseover su dado
 // PF aggiuntivi a livello devono essere almeno 1
-// taglia modificabile
-// custom abilities che si aggiorni in base alla classe quando non è selezionata
-// chiudi tutto senza salvare
 // ordinare elementi comboBox
-// memorizza oggetti equipaggiati
+// oggetti equipaggiati
 // danno non può essere negativo
 // scegliere tipo danno arma improvvisata
 // riposo breve sblocca possibilità di usare dadi vita
-// dizionario per buttons
-// cosa succede se finiscono le competenze disponibili?
 // elementi da riempire di colore diverso (es.: comboBox su casuale)
-// salvare se abilità attiva è utilizzabile o meno (forse intendevo "in uso?", devo controllare)
 // togliere duplicati da resistenze, ecc.
 // dado più coreografico
-// personaggio risulta modificato anche se non lo è. Evidentemente viene richiamato erroneamente il metodo dell'*
-// link in dizionario non rimanda a stesso elemento
 // add logger (to file)
-// oggetti
 // flavour a pagina 39/40
 // equipaggiamento iniziale a livelli più alti
 // trinket (pagina 46)
 // minimo di 1 per dado vita
-// abilità attive specie
-// features talenti da magic initiate in poi
-// niente magie in Ira
+// abilità attive e passive
 // multiclassing
 // mix lignaggi/specie (eredità dai genitori) + schede parenti (usare tabelle di Xanathar)(definire funzione per vari parametri)
 // generatore/caricatore di mappe
 // simulazione combattimento
-// magia
 // app su telefono
 // armi +1/elementali
 // rendere utili borse nell'inventario. Drag and drop
 // tasto destro per varie opzioni (come rimuovere oggetto o creare una borsa)
+// aggiunta equipaggiamento
 // rivendita oggetti
 // sistemazione armatura di taglia sbagliata/rovinata
-// sotto-sottorazze (es: sottorazze umano)
-// allineamento che influenzi caratteristiche di lore
 // tiri abilità con altre caratteristiche (es: storia(forza)). Probabilmente con tasto destro
 // concentrazione
-// add other image formats
-// cambiare icona app
+// add images
 // image and txt saved as one file
+// cambiare icona app
 // riordinare equipaggiamento
 // drag and drop per le tab (eventualmente scrollbar orizzontale? Devo valurare)
-// introdurre f-string?
-// voci dizionario con nome di default
-// non più di una copia della stessa voce del dizionario (se già presente, apri quella)
-// LineEdit con possibilità di cliccare parole (e avere prima un tooltip)
-// sottoclassi
-// classi
+// abilità classi
 // nomi d'infanzia (elfi)
 // soprannomi (goliath)
 // molteplici nomi (gnomi)
-// custom abilities che si aggiorni in base alla classe ad ogni generazione (quindi che suggerisca le stat migliori) (in realtà probabilmente meglio fare solo il contrario)
-// add bags to inventory (utile per equipaggiamento iniziale, per esempio). L'ideale sarebbe poter spostare gli oggetti col mouse (drag and drop, magari anche per le tab)
-// tasto destro per avere varie opzioni (come rimuovere oggetto o creare una borsa)
 // creature type (umanoide, ecc.)
-// talenti che possono essere acquisiti solo una volta (non li ho già?)
-// finesse a scelta (anche se inutile)
-// heavy weapons
+// finesse a scelta
 // secondo attacco con arma leggera puù avere bonus negativo
-// rivendita oggetti/sistemazione misura armatura
-// sottoclassi dal livello 3
 // forza critico
 // array per probabilità classe/razza dipendente da statistiche
-// forse posso usare meglio i json
-// spostare tutta la logica al back
-// migliorare la logica di traduzione. Caricare tute le traduzioni subito e salvare il termine originale
-// modificare la struttura delle abilità bonus (niente cose complicate, solamente lista e numero di abilità selezionabili)
 // change male/female logic for translation
-// migliorare custom binding/observable
-// ordinare funzioni
-// scurovisione per sottorazze e simili
 // tooltip per origine che mostra passive sbloccate e simili
 // sistemare bene la questione del lignaggio degli gnomi/elfi. Voglio scrivere esplicitamente dei trucchetti posseduti
-// custom observableMap, mi sembra la cosa più comoda (E PER COSA??)
-// sostituisci label passive/attive con textField e text così da poter cliccare sulle parole
-// riordinare elementi in comboBox (alfabeticamente o boh. Devo creare un metodo nella ComboBox custom)
 // possibilità di scegliere il tipo di calcolo CA
-// TooltipLabel che aggiorni il tooltip
 // further divide some files (especially groups.json and TranslationManager.java)
-// forse l'ho già indicato, ma tiri personalizzati (es: acrobazia su carisma)
 // rimuovere i listener quando elimino un oggetto
-// non distruggere le comboBox delle feat (bisogna modificare CustomObservableList)
-// semplificare CustomObservableList (non serve tenere traccia di tutte le ObservableList, possono essere recuperate con getItems())
 // magical focus
 // packages (like adventurer's stuff)
 // add item whose proficiency you selected (in case it applies)
@@ -202,19 +142,17 @@ public class App extends Application {
 // popup (critico, miss, debolezza, resistenza, immunità, vantaggio, svantaggio, ecc.)
 // mostrare icone per effetti di stato in schermata principale
 // peso aumenta sotto pietrificazione (in generale rivedere vari effetti di stato, come resistenza di pietrificazione)
-// custom skill/ability check (es: storia con forza)
-// consenti solo certe caratteristiche per ogni talento
-// sistemare numero di pixel in popup combobox (deve essere dinamico)
-// epic boons and fighting styles
-// potentially change scrollbar background when disabled
-// change denaro posizione
+// fighting styles
+// potentially, change scrollbar background when disabled
 // descriptions for epic boons, class abilities, spells
 // possibilità di cliccare T su tooltip come in BG3
-// make spell names in prepared selection clickable
-// nascondere magie se non utilizzate
+// make spell names in prepared selection clickable per selezionarli
+// nascondere sezione magie se non utilizzate
 // magia Warlock (al momento non è nemmeno in classi magiche)
 // rendere spell levels scrollable
 // tradurre materiali e descrizioni incantesimi
-// ExtraTab
-// pesi a random
-// remove RunLater from GameCharacter
+// Riempire ExtraTab
+// pesi a random. Ed evitare random ripeta elementi
+// spostare posizione competenze a scelta
+// possibilità di regolare pesi random in tab apposita
+// migliorare disposizione magie di livello

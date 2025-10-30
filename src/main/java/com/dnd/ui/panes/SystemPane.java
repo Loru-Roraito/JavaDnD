@@ -4,6 +4,7 @@ import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
+import com.dnd.ui.tabs.CharacterTab;
 import com.dnd.ui.tooltip.TooltipButton;
 
 import javafx.collections.FXCollections;
@@ -79,7 +80,13 @@ public class SystemPane extends GridPane {
         TooltipButton confirm = new TooltipButton(getTranslation("CONFIRM"), mainTabPane);
         add(confirm, 3, 1);
         confirm.setOnAction(_ -> {
-            character.fill();
+            ViewModel newCharacter = character.duplicate();
+            newCharacter.fill();
+            CharacterTab characterTab = new CharacterTab("", newCharacter, mainTabPane);
+            characterTab.setClosable(true); // Make the tab closable
+            mainTabPane.getTabs().add(characterTab);
+            characterTab.setText(newCharacter.getName().get());
+            mainTabPane.getSelectionModel().select(characterTab);
         });
     }
 

@@ -5,17 +5,20 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ObservableBoolean implements Observable<Boolean> {
-    public boolean value;
+    public Boolean value;
     public final List<Consumer<Boolean>> listeners = new ArrayList<>();
 
-    public ObservableBoolean(boolean initialValue) {
+    public ObservableBoolean(Boolean initialValue) {
         this.value = initialValue;
     }
 
-    public void set(boolean newValue) {
-        this.value = newValue;
-        for (Consumer<Boolean> listener : listeners) {
-            listener.accept(newValue);
+    public void set(Boolean newValue) {
+        Boolean oldValue = this.value;
+        
+        // Only update and notify if value actually changed
+        if (!oldValue.equals(newValue)) {
+            this.value = newValue;
+            notifyListeners();
         }
     }
 
@@ -27,5 +30,11 @@ public class ObservableBoolean implements Observable<Boolean> {
     @Override
     public void addListener(Consumer<Boolean> listener) {
         listeners.add(listener);
+    }
+
+    private void notifyListeners() {
+        for (Consumer<Boolean> listener : listeners) {
+            listener.accept(value);
+        }
     }
 }

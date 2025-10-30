@@ -2,51 +2,85 @@
 .root {
     background-color: #ffffff; /* Standard CSS background color */
     -fx-background-color: #ffffff; /* JavaFX-specific background color */
+
+    -fx-background-color: linear-gradient(to bottom, #faf6ef, #e8dcc0);
+    font-family: "Book Antiqua", "Georgia", serif;
+    -fx-font-family: "Book Antiqua", "Georgia", serif;
+    -fx-text-fill: #2e1f1c;
+    
+    /* 
+    Size variables, just for easy of modification
+    radius 5.01px
+    width 1px
+    padding 2px
+    hpadding 1.02px
+    vpadding 1.01px
+    hgap 3px
+    vgap 2.02px
+    */
 }
 
 /* TabPane styling */
 .tab-pane {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: transparent; /* Standard CSS background color */
+    -fx-background-color: transparent; /* JavaFX-specific background color */
 
-    padding: 1px; /* Standard CSS padding */
-    -fx-padding: 1px; /* JavaFX-specific padding */
+    padding: 2px; /* Standard CSS padding */
+    -fx-padding: 2px; /* JavaFX-specific padding */
+}
+
+.tab-pane .tab-header-background {
+    background-color: linear-gradient(to bottom, #f5f1e0, #e3d8b4);
+    -fx-background-color: linear-gradient(to bottom, #e9dec4, #d6c59a);
+    border-color: #b19c6d;
+    -fx-border-color: #b19c6d;
 }
 
 /* Default tab styling */
 .tab {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: linear-gradient(to bottom, #f2ead5, #e2d4aa); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #f2ead5, #e2d4aa); /* JavaFX-specific background color */
 
-    color: #ffffff; /* Standard CSS text color */
-    -fx-text-fill: #ffffff; /* JavaFX-specific text color */
+    -fx-text-fill: #4a2c2a; /* JavaFX-specific text color */
+    font-weight: bold;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 2,0,0,1);
 
-    padding: 1px 5px; /* Standard CSS padding */
-    -fx-padding: 1px 5px; /* JavaFX-specific padding */
+    cursor: hand;
+    -fx-cursor: hand;
+    transition: all 0.2s ease-in-out;
+    -fx-transition: all 0.2s ease-in-out;
 
-    border-color: #d3d3d3; /* Standard CSS border color*/
-    -fx-border-color: #d3d3d3; /* JavaFX-specific border color */
+    padding: 2px; /* Standard CSS padding */
+    -fx-padding: 2px; /* JavaFX-specific padding */
+
+    border-color: #b19c6d; /* Standard CSS border color*/
+    -fx-border-color: #b19c6d; /* JavaFX-specific border color */
     border-width: 1px; /* Standard CSS border width */
     -fx-border-width: 1px; /* JavaFX-specific border width */
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     -fx-focus-color: transparent; /* Remove focus color */
     -fx-faint-focus-color: transparent; /* Remove faint focus color */
 }
 
+.tab:hover {
+    background-color: linear-gradient(to bottom, #f7eed8, #e8d6a9); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #f7eed8, #e8d6a9);
+}
+
 /* Styling for the selected tab */
 .tab:selected {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: linear-gradient(to bottom, #dec68b, #cbb06a); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #dec68b, #cbb06a); /* JavaFX-specific background color */
 
-    color: #000000; /* Standard CSS text color */
-    -fx-text-fill: #000000; /* JavaFX-specific text color */
+    -fx-text-fill: #2a1a10; /* JavaFX-specific text color */
 
-    border-color: #666666; /* Standard CSS bordcolorer */
-    -fx-border-color: #666666; /* JavaFX-specific border color */
-    border-width: 2px; /* Standard CSS border width */
-    -fx-border-width: 2px; /* JavaFX-specific border width */
+    border-color: #7b3e19; /* Standard CSS bordcolorer */
+    -fx-border-color: #7b3e19; /* JavaFX-specific border color */
+    border-width: 1px; /* Standard CSS border width */
+    -fx-border-width: 1px; /* JavaFX-specific border width */
     
     -fx-focus-color: transparent; /* Remove focus color */
     -fx-faint-focus-color: transparent; /* Remove faint focus color */
@@ -55,79 +89,78 @@
 
 /* Custom style for the TitledPane */
 .titled-pane {
-    border-color: #e3e3e3; /* Black border */
-    -fx-border-color: #e3e3e3; /* Black border */
+    border-color: #b19c6d; /* Black border */
+    -fx-border-color: #b19c6d; /* Black border */
     border-width: 1px; /* Border width */
     -fx-border-width: 1px; /* Border width */
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
-    background-color: #ffffff;
-    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4,0,0,2);
 
-    -fx-background-radius: 5px; /* Match the border radius */
+    background-color: #fdf8e6;
+    -fx-background-color: #fdf8e6;
+
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
     
-    padding: 10px; /* Padding around the title */
-    -fx-padding: 10px; /* Padding around the title */
+    padding: 2px; /* Padding around the title */
+    -fx-padding: 2px; /* Padding around the title */
 
     /* Remove focus highlighting */
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    
-    -fx-animated: false;
 }
 
 /* Custom style for the content area of the TitledPane */
 .titled-pane > .content {
     /* Background color */
-    background-color: #f0f0f0; /* Light gray background */
-    -fx-background-color: #f0f0f0; /* JavaFX-specific background color */
+    background-color: #f9f4e4; /* Light gray background */
+    -fx-background-color: #f9f4e4; /* JavaFX-specific background color */
 
     /* Border styling */
     border-color: #f0f0f0; /* Light gray border */
     -fx-border-color: #f0f0f0; /* JavaFX-specific border color */
-    border-radius: 5px; /* Rounded corners */
-    -fx-border-radius: 5px; /* JavaFX-specific rounded corners */
+    border-radius: 5.01px; /* Rounded corners */
+    -fx-border-radius: 5.01px; /* JavaFX-specific rounded corners */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 
     /* Padding */
-    padding: 10px; /* Standard CSS padding */
-    -fx-padding: 10px; /* JavaFX-specific padding */
+    padding: 2px; /* Standard CSS padding */
+    -fx-padding: 2px; /* JavaFX-specific padding */
 }
 
 /* Custom style for the title area of the TitledPane */
 .titled-pane > .title {
-    background-color: #ffffff; /* Background for the title */
-    -fx-background-color: #ffffff; /* Background for the title */
+    background-color: linear-gradient(to bottom, #e8dec4, #d7c597); /* Background for the title */
+    -fx-background-color: linear-gradient(to bottom, #e8dec4, #d7c597); /* Background for the title */
 
-    -fx-text-fill: black; /* Black text color */
+    -fx-text-fill: #3d2723; /* Black text color */
+    font-weight: bold;
+    -fx-font-weight: bold;
     
-    padding: 5px; /* Padding around the title */
-    -fx-padding: 5px; /* Padding around the title */
+    padding: 2px; /* Padding around the title */
+    -fx-padding: 2px; /* Padding around the title */
 }
 
 /* Style for the GridPane */
 .grid-pane {
-    padding: 5px; /* Padding around the GridPane */
-    -fx-padding: 5px; /* Padding around the GridPane */
+    padding: 2px; /* Padding around the GridPane */
+    -fx-padding: 2px; /* Padding around the GridPane */
 
-    -fx-hgap: 5px; /* Horizontal gap between columns */
-    -fx-vgap: 5px; /* Vertical gap between rows */
-    background-color: #f0f0f0; /* Light gray background */
-    -fx-background-color: #f0f0f0; /* Light gray background */
+    -fx-hgap: 3px; /* Horizontal gap between columns */
+    -fx-vgap: 2.02px; /* Vertical gap between rows */
+    background-color: #f9f4e4; /* Light gray background */
+    -fx-background-color: #f9f4e4; /* Light gray background */
     
-    border-color: #f0f0f0;
-    -fx-border-color: #f0f0f0;
+    border-color: #d3c299;
+    -fx-border-color: #d3c299;
 
-    border-radius: 5px; /* Rounded corners */
-    -fx-border-radius: 5px; /* Rounded corners */
-    
-    padding: 10px; /* Standard CSS */
-    -fx-padding: 10px; /* JavaFX-specific */
+    border-radius: 5.01px; /* Rounded corners */
+    -fx-border-radius: 5.01px; /* Rounded corners */
 }
 
 /* Styling for the tab bar background */
@@ -141,64 +174,71 @@
     background-color: #ffffff; /* Standard CSS background color */
     -fx-background-color: #ffffff; /* JavaFX-specific background color */
 
-    padding: 1px; /* Standard CSS padding */
-    -fx-padding: 1px; /* JavaFX-specific padding */
+    padding: 2px; /* Standard CSS padding */
+    -fx-padding: 2px; /* JavaFX-specific padding */
 }
 
 /* Default button styling */
 .button {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: linear-gradient(to bottom, #f2ead5, #e2d4aa); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #f2ead5, #e2d4aa); /* JavaFX-specific background color */
 
-    color: #000000; /* Standard CSS text color */
-    -fx-text-fill: #000000; /* JavaFX-specific text color */
+    -fx-text-fill: #3d2723; /* JavaFX-specific text color */
 
-    padding: 1px 2px; /* Standard CSS padding */
-    -fx-padding: 1px 2px; /* JavaFX-specific padding */
+    padding: 2px; /* Standard CSS padding */
+    -fx-padding: 2px; /* JavaFX-specific padding */
 
-    border-color: #cccccc; /* Standard CSS border color */
-    -fx-border-color: #cccccc; /* JavaFX-specific border color */
+    font-weight: bold;
+    -fx-font-weight: bold;
+    cursor: hand;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 2,0,0,1);
+
+    border-color: #b19c6d; /* Standard CSS border color */
+    -fx-border-color: #b19c6d; /* JavaFX-specific border color */
 
     border-width: 1px; /* Standard CSS border width */
     -fx-border-width: 1px; /* JavaFX-specific border width */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Hover effect for buttons */
 .button:hover {
-    background-color: #d3d3d3; /* Standard CSS background color */
-    -fx-background-color: #d3d3d3; /* JavaFX-specific background color */
+    background-color: linear-gradient(to bottom, #f7eed8, #e8d6a9); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #f7eed8, #e8d6a9); /* JavaFX-specific background color */
 
-    border-color: #000000; /* Standard CSS border color */
-    -fx-border-color: #000000; /* JavaFX-specific border color */
+    border-color: #7b3e19; /* Standard CSS border color */
+    -fx-border-color: #7b3e19; /* JavaFX-specific border color */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Pressed effect for buttons */
 .button:pressed {
-    background-color: #555555; /* Standard CSS background color */
-    -fx-background-color: #555555; /* JavaFX-specific background color */
+    background-color: linear-gradient(to bottom, #cbb06a, #b3964f); /* Standard CSS background color */
+    -fx-background-color: linear-gradient(to bottom, #cbb06a, #b3964f); /* JavaFX-specific background color */
 
     border-color: #000000; /* Standard CSS border color */
     -fx-border-color: #000000; /* JavaFX-specific border color */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    -fx-text-fill: #ffffff;
+
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
@@ -215,28 +255,28 @@
 }
 
 .combo-box .list-view .list-cell {
-    -fx-cell-size: 20;
+    -fx-cell-size: 5;
 }
 
 /* Default ComboBox styling */
 .combo-box {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: #f9f4e4; /* Standard CSS background color */
+    -fx-background-color: #f9f4e4; /* JavaFX-specific background color */
 
-    border-color: #cccccc; /* Standard CSS border color */
-    -fx-border-color: #cccccc; /* JavaFX-specific border color */
+    border-color: #b19c6d; /* Standard CSS border color */
+    -fx-border-color: #b19c6d; /* JavaFX-specific border color */
 
     border-width: 1px; /* Standard CSS border width */
     -fx-border-width: 1px; /* JavaFX-specific border width */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
-    padding: 0px; /* Standard CSS padding */
-    -fx-padding: 0px; /* JavaFX-specific padding */
+    padding: 1.02px 1.01px; /* Standard CSS padding */
+    -fx-padding: 1.02px 1.01px; /* JavaFX-specific padding */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
@@ -251,65 +291,80 @@
     border-width: 1px; /* Standard CSS border width */
     -fx-border-width: 1px; /* JavaFX-specific border width */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Style the list inside the dropdown */
 .combo-box-popup .list-view {  
-    padding: 1px;
-    -fx-padding: 1px;
+    background-color: #fdf8e6; /* Standard CSS background color */
+    -fx-background-color: #fdf8e6;
+    border-color: #b19c6d; /* Standard CSS border color */
+    -fx-border-color: #b19c6d;
+
+    padding: 1.02px 1.01px;
+    -fx-padding: 1.02px 1.01px;
     
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 .combo-box-popup .list-cell {
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Hover effect for items in the dropdown */
 .combo-box-popup .list-cell:hover {
+    background-color: #dec68b; /* Standard CSS background color */
+    -fx-background-color: #dec68b;
+    -fx-text-fill: #2a1a10;
+
+    cursor: hand;
+    -fx-cursor: hand;
+
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 .combo-box-popup .list-cell:selected {
-    background-color: #aaaaaa; /* Standard CSS background color */
-    -fx-background-color: #aaaaaa; /* JavaFX-specific background color */
+    background-color: #e1b953; /* Standard CSS background color */
+    -fx-background-color: #e1b953; /* JavaFX-specific background color */
 
     color: #000000; /* Standard CSS text color */
     -fx-text-fill: #000000; /* JavaFX-specific text color */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
 /* Hover effect for ComboBox */
 .combo-box:hover {
-    background-color: #d3d3d3; /* Standard CSS background color */
-    -fx-background-color: #d3d3d3; /* JavaFX-specific background color */
+    background-color: #f3e9d2; /* Standard CSS background color */
+    -fx-background-color: #f3e9d2; /* JavaFX-specific background color */
 
-    border-color: #000000; /* Standard CSS border color */
-    -fx-border-color: #000000; /* JavaFX-specific border color */
+    cursor: hand;
+    -fx-cursor: hand;
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-color: #7b3e19; /* Standard CSS border color */
+    -fx-border-color: #7b3e19; /* JavaFX-specific border color */
+
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
@@ -324,11 +379,11 @@
     color: #000000; /* Standard CSS text color */
     -fx-text-fill: #000000; /* JavaFX-specific text color */
 
-    border-radius: 5px; /* Standard CSS border radius */
-    -fx-border-radius: 5px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
     /* Ensure the background respects the rounded corners */
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from exceeding the border */
 }
 
@@ -339,24 +394,27 @@
 
 /* Styling the CheckBox box */
 .check-box > .box {
-    border-color: #cccccc; /* Border color for the box */
-    -fx-border-color: #cccccc; /* Border color for the box */
+    border-color: #b19c6d; /* Border color for the box */
+    -fx-border-color: #b19c6d; /* Border color for the box */
     border-width: 1px; /* Border width for the box */
     -fx-border-width: 1px; /* Border width for the box */
 
-    border-radius: 3px; /* Standard CSS border radius */
-    -fx-border-radius: 3px; /* JavaFX-specific border radius */
+    border-radius: 5.01px; /* Standard CSS border radius */
+    -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
 
-    background-color: #ffffff; /* Border radius for the box */
-    -fx-background-color: #ffffff; /* Background color for the box */
+    background-color: #fdf8e6; /* Border radius for the box */
+    -fx-background-color: #fdf8e6; /* Background color for the box */
     
     -fx-background-insets: 0; /* Prevent background from overflowing */
 }
 
 /* Styling the CheckBox box */
 .check-box > .box:hover {
-    background-color: #d3d3d3; /* Border radius for the box */
-    -fx-background-color: #d3d3d3; /* Background color for the box */
+    cursor: hand;
+    -fx-cursor: hand;
+    
+    background-color: #f3e9d2; /* Border radius for the box */
+    -fx-background-color: #f3e9d2; /* Background color for the box */
 
     border-color: #000000; /* Border color for the box */
     -fx-border-color: #000000; /* Border color for the box */
@@ -380,8 +438,8 @@
 
 /* Styling the CheckBox mark (check symbol) */
 .check-box > .mark {
-    background-color: #000000; /* Color of the check mark */
-    -fx-background-color: #000000; /* Color of the check mark */
+    background-color: #7b3e19; /* Color of the check mark */
+    -fx-background-color: #7b3e19; /* Color of the check mark */
 
     -fx-background-insets: 0; /* Prevent background from overflowing */
 }
@@ -405,35 +463,42 @@
     -fx-border-color: #ffffff; /* JavaFX-specific */
 
     /* Padding */
-    padding: 10px; /* Standard CSS */
-    -fx-padding: 10px; /* JavaFX-specific */
+    padding: 2px; /* Standard CSS */
+    -fx-padding: 2px; /* JavaFX-specific */
 }
 
 .tooltip {
+    background-color: #e2d4aa; /* Standard CSS */
+    -fx-background-color: #e2d4aa;
+
+    -fx-text-fill: #2a1a10;
+
+    border-color: #7b3e19; /* Standard CSS */
+    -fx-border-color: #7b3e19;
+
     -fx-show-delay: 10ms; /* Delay before showing the tooltip */
 
-    border-radius: 5px; /* Standard CSS */
-    -fx-border-radius: 5px; /* JavaFX-specific */
+    border-radius: 5.01px; /* Standard CSS */
+    -fx-border-radius: 5.01px; /* JavaFX-specific */
 
-    -fx-background-radius: 5px; /* Match the border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
     -fx-background-insets: 0; /* Prevent background from overflowing */
 }
 
 /* Default TextField styling */
 .text-field {
-    background-color: #ffffff; /* Standard CSS */
-    -fx-background-color: #ffffff; /* JavaFX-specific */
+    background-color: #fdf8e6; /* Standard CSS */
+    -fx-background-color: #fdf8e6; /* JavaFX-specific */
 
-    color: #000000; /* Standard CSS */
     -fx-text-fill: #000000; /* JavaFX-specific */
 
-    border-color: #cccccc; /* Standard CSS */
-    -fx-border-color: #cccccc; /* JavaFX-specific */
+    border-color: #b19c6d; /* Standard CSS */
+    -fx-border-color: #b19c6d; /* JavaFX-specific */
     border-width: 1px; /* Standard CSS */
     -fx-border-width: 1px; /* JavaFX-specific */
 
-    border-radius: 5px; /* Standard CSS */
-    -fx-border-radius: 5px; /* JavaFX-specific */
+    border-radius: 5.01px; /* Standard CSS */
+    -fx-border-radius: 5.01px; /* JavaFX-specific */
 }
 
 /* Hover effect for TextField */
@@ -444,13 +509,13 @@
 
 /* Focused TextField styling */
 .text-field:focus {
-    background-color: #f9f9f9; /* Standard CSS */
-    -fx-background-color: #f9f9f9; /* JavaFX-specific */
+    background-color: #fffbe9; /* Standard CSS */
+    -fx-background-color: #fffbe9; /* JavaFX-specific */
 
-    border-color: #0000ff; /* Standard CSS */
-    -fx-border-color: #0000ff; /* JavaFX-specific */
-    border-width: 2px; /* Standard CSS */
-    -fx-border-width: 2px; /* JavaFX-specific */
+    border-color: #7b3e19; /* Standard CSS */
+    -fx-border-color: #7b3e19; /* JavaFX-specific */
+    border-width: 1px; /* Standard CSS */
+    -fx-border-width: 1px; /* JavaFX-specific */
 }
 
 /* Disabled TextField styling */
@@ -475,4 +540,15 @@
 
     color: #ff0000; /* Standard CSS */
     -fx-text-fill: #ff0000; /* JavaFX-specific */
+}
+
+/* ===== ScrollBars ===== */
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    background-color: #dec68b;
+    -fx-background-color: #cbb06a;
+}
+
+.scroll-bar .track {
+    background-color: #f5eed8;
+    -fx-background-color: #f5eed8;
 }

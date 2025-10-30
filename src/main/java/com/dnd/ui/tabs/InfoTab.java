@@ -13,11 +13,13 @@ import com.dnd.ui.panes.ProficienciesPane;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 public class InfoTab extends Tab {
 
@@ -38,11 +40,12 @@ public class InfoTab extends Tab {
         HealthPane healthPane = new HealthPane(character, mainTabPane, this);
         addTitledPane("HEALTH", healthPane, 0, 1, 1, 1);
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
-        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 1, 2);
-        addTitledPane("EQUIPMENT", new EquipmentPane(character, mainTabPane), 3, 1, 2, 2);
+        addTitledPane("CLASS", new ClassPane(character, mainTabPane), 2, 1, 3, 2);
+        EquipmentPane equipmentPane = new EquipmentPane(character, mainTabPane);
+        addTitledPane("EQUIPMENT", equipmentPane , 3, 3, 2, 2);
         systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
-        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, mainTabPane), 0, 4, 5, 1);
+        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text
@@ -56,8 +59,13 @@ public class InfoTab extends Tab {
         // Wrap the pane in a ScrollPane
         ScrollPane scrollPane = new ScrollPane(pane);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToWidth(true);
 
         TooltipTitledPane titledPane = new TooltipTitledPane(getTranslation(title), scrollPane);
+        GridPane.setVgrow(titledPane, Priority.ALWAYS);
+        GridPane.setHgrow(titledPane, Priority.ALWAYS);
+        titledPane.setCollapsible(false);
+        titledPane.setCursor(Cursor.DEFAULT);
         gridPane.add(titledPane, column, row);
         GridPane.setRowSpan(titledPane, rowSpan);
         GridPane.setColumnSpan(titledPane, columnSpan);
@@ -68,7 +76,7 @@ public class InfoTab extends Tab {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
-    public void throwDie(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage, Boolean failState) {
+    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, Boolean failState) {
         if (failState) {
             dieResultLabel.setText(getTranslation("FAILURE"));
         } else {
@@ -77,7 +85,7 @@ public class InfoTab extends Tab {
     }
 
     // Method to update the die result
-    public void throwDie(int times, int size, int base, int bonus, boolean advantage, boolean disadvantage) {
-        dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().ThrowDice(times, size, base, bonus, advantage, disadvantage, systemPane)));
+    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
+        dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage, systemPane)));
     }
 }

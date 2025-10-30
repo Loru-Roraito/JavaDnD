@@ -13,18 +13,18 @@ import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.utils.ComboBoxUtils;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.collections.ListChangeListener;
+import javafx.scene.layout.VBox;
 
 public class ProficienciesPane extends GridPane {
 
@@ -34,9 +34,13 @@ public class ProficienciesPane extends GridPane {
     private final List<String[]> startingValues;
     private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
+    private final VBox proficienciesBox = new VBox();
 
     public ProficienciesPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
+
+        // TODO: I want it dynamic
+        DoubleBinding paneWidthBinding = mainTabPane.widthProperty().multiply(0.26);
 
         this.character = character;
         this.choiceComboBoxes = new java.util.ArrayList<>();
@@ -90,6 +94,7 @@ public class ProficienciesPane extends GridPane {
 
         Runnable updateProficiencies = () -> {
             proficienciesFlow.getChildren().clear();
+            proficienciesBox.getChildren().clear();
             updateProficienciesBox(proficienciesFlow, character.getWeaponProficiencies());
 
             ObservableList<StringProperty> armorProficiencies = character.getArmorProficiencies();
@@ -103,7 +108,7 @@ public class ProficienciesPane extends GridPane {
             ObservableList<StringProperty> toolProficiencies = character.getToolProficiencies();
             if (!toolProficiencies.isEmpty()) {
                 // Check if there is at least one proficiency that is NOT a group/set name
-                boolean hasNonArray = toolProficiencies.stream()
+                Boolean hasNonArray = toolProficiencies.stream()
                         .map(StringProperty::get)
                         .anyMatch(name -> !Arrays.asList(choiceArrays).contains(name));
                 if (hasNonArray) {
@@ -130,16 +135,7 @@ public class ProficienciesPane extends GridPane {
         proficienciesGridPane.add(proficienciesFlow, 0, 0);
         proficienciesGridPane.setPadding(new Insets(0));
 
-        GridPane.setVgrow(proficienciesFlow, Priority.ALWAYS);
-
-        ScrollPane proficienciesScroll = new ScrollPane(proficienciesGridPane);
-        proficienciesScroll.setFitToWidth(true);
-        proficienciesScroll.setFitToHeight(true);
-        proficienciesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        proficienciesScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-
-        TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesScroll);
-        proficienciesPane.setPrefWidth(200); // TODO: relative to the window size
+        TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesGridPane);
         add(proficienciesPane, 0, 4);
 
         TextFlow activesFlow = new TextFlow();
@@ -149,19 +145,11 @@ public class ProficienciesPane extends GridPane {
                 -> updateBox(activesFlow, character.getActives())
         );
 
-        activesFlow.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(activesFlow, Priority.ALWAYS);
+        add (proficienciesBox, 0, 5);
 
-        ScrollPane activesScroll = new ScrollPane(activesFlow);
-        activesScroll.setFitToWidth(true);
-        activesScroll.setFitToHeight(true);
-        activesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        activesScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesScroll);
-        activesPane.setPrefWidth(200);
-
-        add(activesPane, 0, 5);
+        TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
+        add(activesPane, 0, 6);
 
         TextFlow passivesFlow = new TextFlow();
         updateBox(passivesFlow, character.getPassives());
@@ -170,19 +158,23 @@ public class ProficienciesPane extends GridPane {
             updateBox(passivesFlow, character.getPassives());
         });
 
+
+        TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesFlow);
+        
+        add(passivesPane, 0, 7);
+        
+        proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
+        activesPane.maxWidthProperty().bind(paneWidthBinding);
+        passivesPane.maxWidthProperty().bind(paneWidthBinding);
+
+        // TODO: flow grows too much
+        proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
+        proficienciesPane.setMaxHeight(Double.MAX_VALUE);
+        activesFlow.setMaxHeight(Double.MAX_VALUE);
+        activesPane.setMaxHeight(Double.MAX_VALUE);
         passivesFlow.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(passivesFlow, Priority.ALWAYS);
-
-        ScrollPane passivesScroll = new ScrollPane(passivesFlow);
-        passivesScroll.setFitToWidth(true);
-        passivesScroll.setFitToHeight(true);
-        passivesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        passivesScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-
-        TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesScroll);
-        passivesPane.setPrefWidth(200); // TODO: relative to the window size
-
-        add(passivesPane, 0, 6);
+        passivesPane.setMaxHeight(Double.MAX_VALUE);
+    
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
@@ -201,13 +193,12 @@ public class ProficienciesPane extends GridPane {
                 ObservableList<String> groupItems = FXCollections.observableArrayList(items);
                 groupItems.add(0, getTranslation("RANDOM"));
                 TooltipComboBox comboBox = new TooltipComboBox(groupItems, mainTabPane);
-                comboBox.setPromptText(getTranslation("RANDOM"));
                 choiceComboBoxes.add(comboBox);
                 startingValues.add(items);
                 groupItemsList.add(groupItems);
 
                 int index = choiceComboBoxes.size();
-                add(comboBox, 0, 6 + index);
+                proficienciesBox.getChildren().add(comboBox);
 
                 comboBox.valueProperty().addListener((_, _, _) -> {
                     for (int j = 0; j < choiceComboBoxes.size(); j++) {
@@ -215,7 +206,15 @@ public class ProficienciesPane extends GridPane {
                     }
                 });
 
-                comboBox.valueProperty().bindBidirectional(character.getChoiceProficiencies().get(index - 1));
+                comboBox.valueProperty().addListener((_, _, newVal) -> {
+                    character.getChoiceProficiency(index - 1).setName(newVal);
+                });
+
+                character.getChoiceProficiency(index - 1).getNameProperty().addListener((newVal) -> {
+                    comboBox.setValue(newVal);
+                });
+
+                comboBox.setValue(character.getChoiceProficiency(index - 1).getName());
 
             } else {
                 if (isFirstLine) {
@@ -231,7 +230,7 @@ public class ProficienciesPane extends GridPane {
 
     private void updateBox(TextFlow textFlow, Iterable<StringProperty> properties) {
         textFlow.getChildren().clear();
-        boolean isFirstLine = true;
+        Boolean isFirstLine = true;
         for (StringProperty property : properties) {
             if (isFirstLine) {
                 isFirstLine = false;

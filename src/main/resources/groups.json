@@ -65,8 +65,10 @@
     "CHARISMA"
   ],
 
+  "max_lineages": 10,
   "max_subclasses": 4,
   "max_feats": 7,
+  "max_sets": 2,
 
   "classes": {
     "NONE_F": {
@@ -802,13 +804,14 @@
     "UNDERCOMMON_LANGUAGE"
   ],
 
-  "max_lineages": 10,
-
   "species": {
     "AASIMAR": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["SMALL", "MEDIUM"],
+      "males": [],
+      "females": [],
+      "lasts": [],
 
       "passives": {
         "CELESTIAL_RESISTENCE": 0,
@@ -823,6 +826,9 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Adrex", "Arjhan", "Azzakh", "Balasar", "Baradad", "Bharash", "Bidreked", "Dadalan", "Dazzazn", "Direcris", "Donaar", "Fax", "Gargax", "Ghesh", "Gorbundus", "Greethen", "Heskan", "Hirrathak", "Ildrex", "Kaladan", "Kerkad", "Kiirith", "Kriv", "Maagog", "Medrash", "Mehen", "Mozikth", "Mreksh", "Mugrunden", "Nadarr", "Nithther", "Norkruuth", "Nykkan", "Pandjed", "Patrin", "Pijjirik", "Quarethon", "Rathkran", "Rhogar", "Rivaan", "Sethrekar", "Shamash", "Shedinn", "Srorthen", "Tarhun", "Torinn", "Trynnicus", "Valorean", "Vrondiss", "Zedaar"],
+      "females": ["Akra", "Aasathra", "Antrara", "Arava", "Biri", "Blendaeth", "Burana", "Chassath", "Daar", "Dentratha", "Doudra", "Driindar", "Eggren", "Farideh", "Findex", "Furrele", "Gesrethe", "Gilkass", "Harann", "Havilar", "Hethress", "Hillanot", "Jaxi", "Jezean", "Jheri", "Kadana", "Kava", "Korinn", "Megren", "Mijira", "Mishann", "Nala", "Nuthra", "Perra", "Pogranix", "Pyxrin", "Quespa", "Raiann", "Rezena", "Ruloth", "Saphara", "Savaran", "Sora", "Surina", "Synthrin", "Tatyan", "Thava", "Uadjit", "Vezera", "Zykroff"],
+      "lasts": ["Akambherylliax", "Argenthrixus", "Baharoosh", "Beryntolthropal", "Bhenkumbyrznaax", "Caavylteradyn", "Chumbyxirinnish", "Clethtinthiallor", "Daardendrian", "Delmirev", "Dhyrktelonis", "Ebynichtomonis", "Esstyrlynn", "Fharngnarthnost", "Ghaallixirn", "Grrrmmballhyst", "Gygazzylyshrift", "Hashphronyxadyn", "Hshhsstoroth", "Imbixtellrhyst", "Jerynomonis", "Jharthraxyn", "Kerrhylon", "Kimbatuul", "Lhamboldennish", "Linxakasendalor", "Mohradyllion", "Mystan", "Nemmonis", "Norixius", "Ophinshtalajiir", "Orexijandilin", "Pfaphnyrennish", "Phrahdrandon", "Pyraxtallinost", "Qyxpahrgh", "Raghthroknaar", "Shestendeliath", "Skaarzborroosh", "Sumnarghthrysh", "Tiammanthyllish", "Turnuroth", "Umbyrphrael", "Vangdondalor", "Verthisathurgiesh", "Wivvyrholdalphiax", "Wystongjiir", "Xephyrbahnor", "Yarjerit", "Zzzxaaxthroth"],
       "actives": {
         "DRACONIC_FLIGHT": 5
       },
@@ -916,6 +922,9 @@
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Adrik", "Alberich", "Baern", "Barendd", "Beloril", "Brottor", "Dain", "Dalgal", "Darrak", "Delg", "Duergath", "Dworic", "Eberk", "Einkil", "Elaim", "Erias", "Fallond", "Fargrim", "Gardain", "Gilthur", "Gimgen", "Gimurt", "Harbek", "Kildrak", "Kilvar", "Morgran", "Morkral", "Nalral", "Nordak", "Nuraval", "Oloric", "Olunt", "Orsik", "Oskar", "Rangrim", "Reirak", "Rurik", "Taklinn", "Thoradin", "Thorin", "Thradal", "Tordek", "Traubon", "Travok", "Ulfgar", "Uraim", "Veit", "Vonbin", "Vondal", "Whurbin"],
+      "females": ["Anbera", "Artin", "Audhild", "Balifra", "Barbena", "Bardryn", "Bolhild", "Dagnal", "Dariff", "Delre", "Diesa", "Eldeth", "Eridred", "Falkrunn", "Fallthra", "Finellen", "Gillydd", "Gunnloda", "Gurdis", "Helgret", "Helja", "Hlin", "Ilde", "Jarana", "Kathra", "Kilia", "Kristryd", "Liftrasa", "Marastyr", "Mardred", "Morana", "Nalaed", "Nora", "Nurkara", "Oriff", "Ovina", "Riswynn", "Sannl", "Therlin", "Thodris", "Torbera", "Tordrid", "Torgga", "Urshar", "Valida", "Vistra", "Vonana", "Werydd", "Whurdred", "Yurgunn"],
+      "lasts": ["Aranore", "Balderk", "Battlehammer", "Bigtoe", "Bloodkith", "Bofdann", "Brawnanvil", "Brazzik", "Broodfist", "Burrowfound", "Caebrek", "Daerdahk", "Dankil", "Daraln", "Deepdelver", "Durthane", "Eversharp", "Fallack", "Fireforge", "Foamtankard", "Frostbeard", "Glanhig", "Goblinbane", "Goldfinder", "Gorunn", "Graybeard", "Hammerstone", "Helcral", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Morigak", "Orcfoe", "Rakankrak", "Ruby-Eye", "Rumnaheim", "Silveraxe", "Silverstone", "Steelfist", "Stoutale", "Strakeln", "Strongheart", "Thrahak", "Torevir", "Torunn", "Trollbleeder", "Trueanvil", "Trueblood", "Ungart"],
       "passives": {
         "DWARVEN_RESILIENCE": 0,
         "DWARVEN_TOUGHNESS": 0
@@ -934,6 +943,9 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Adran", "Aelar", "Aramil", "Arannis", "Aust", "Azaki", "Beiro", "Berrian", "Caeldrim", "Carric", "Dayereth", "Dreali", "Efferil", "Eiravel", "Enialis", "Erdan", "Erevan", "Fivin", "Galinndan", "Gennal", "Hadarai", "Halimath", "Heian", "Himo", "Immeral", "Ivellios", "Korfel", "Lamlis", "Laucian", "Lucan", "Mindartis", "Naal", "Nutae", "Paelias", "Peren", "Quarion", "Riardon", "Rolen", "Soveliss", "Suhnae", "Thamior", "Tharivol", "Theren", "Theriatis", "Thervan", "Uthemar", "Vanuath", "Varis"],
+      "females": ["Adrie", "Ahinar", "Althaea", "Anastrianna", "Andraste", "Antinua", "Arara", "Baelitae", "Bethrynna", "Birel", "Caelynn", "Chaedi", "Claira", "Dara", "Drusilia", "Elama", "Enna", "Faral", "Felosial", "Hatae", "Ielenia", "Ilanis", "Irann", "Jarsali", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Maiathah", "Malquis", "Meriele", "Mialee", "Myathethil", "Naivara", "Quelenna", "Quillathe", "Ridaro", "Sariel", "Shanairla", "Shava", "Silaqui", "Sumnes", "Theirastra", "Thiala", "Tiaathque", "Traulam", "Vadania", "Valanthe", "Valna", "Xanaphia"],
+      "lasts": ["Aloro", "Amakiir", "Amastacia", "Ariessus", "Arnuanna", "Berevan", "Caerdonel", "Caphaxath", "Casilltenirra", "Cithreth", "Dalanthan", "Eathalena", "Erenaeth", "Ethanasath", "Fasharash", "Firahel", "Floshem", "Galanodel", "Goltorah", "Hanali", "Holimion", "Horineth", "Iathrana", "Ilphelkiir", "Iranapha", "Koehlanna", "Lathalas", "Liadon", "Meliamne", "Mellerelel", "Mystralath", "Naïlo", "Netyoive", "Ofandrus", "Ostoroth", "Othronus", "Qualanthri", "Raethran", "Rothenel", "Selevarun", "Siannodel", "Suithrasas", "Sylvaranth", "Teinithra", "Tiltathana", "Wasanthi", "Withrethin", "Xiloscient", "Xistsrith", "Yaeldrin"],
       "passives":{
         "TRANCE": 0,
         "FEY_ANCESTRY": 0,
@@ -968,6 +980,9 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["SMALL"],
+      "males": ["Alston", "Alvyn", "Anverth", "Arumawann", "Bilbron", "Boddynock", "Brocc", "Burgell", "Cockaby", "Crampernap", "Dabbledob", "Delebean", "Dimble", "Eberdeb", "Eldon", "Erky", "Fablen", "Fibblestib", "Fonkin", "Frouse", "Frug", "Gerbo", "Gimble", "Glim", "Igden", "Jabble", "Jebeddo", "Kellen", "Kipper", "Namfoodle", "Oppleby", "Orryn", "Paggen", "Pallabar", "Pog", "Qualen", "Ribbles", "Rimple", "Roondar", "Sapply", "Seebo", "Senteq", "Sindri", "Umpen", "Warryn", "Wiggens", "Wobbles", "Wrenn", "Zaffrab", "Zook"],
+      "females": ["Abalaba", "Bimpnottin", "Breena", "Buvvie", "Callybon", "Caramip", "Carlin", "Cumpen", "Dalaba", "Donella", "Duvamil", "Ella", "Ellyjoybell", "Ellywick", "Enidda", "Lilli", "Loopmottin", "Lorilla", "Luthra", "Mardnab", "Meena", "Menny", "Mumpena", "Nissa", "Numba", "Nyx", "Oda", "Oppah", "Orla", "Panana", "Pyntle", "Quilla", "Ranala", "Reddlepop", "Roywyn", "Salanop", "Shamil", "Siffress", "Symma", "Tana", "Tenena", "Tervaround", "Tippletoe", "Ulla", "Unvera", "Velptima", "Virra", "Waywocket", "Yebe", "Zanna"],
+      "lasts": ["Albaratie", "Bafflestone", "Beren", "Boondiggles", "Cobblelob", "Daergel", "Dunben", "Fabblestabble", "Fapplestamp", "Fiddlefen", "Folkor", "Garrick", "Gimlen", "Glittergem", "Gobblefirn", "Gummen", "Horcusporcus", "Humplebumple", "Ironhide", "Leffery", "Lingenhall", "Loofollue", "Maekkelferce", "Miggledy", "Munggen", "Murnig", "Musgraben", "Nackle", "Ningel", "Nopenstallen", "Nucklestamp", "Offund", "Oomtrowl", "Pilwicken", "Pingun", "Quillsharpener", "Raulnor", "Reese", "Rofferton", "Scheppen", "Shadowcloak", "Silverthread", "Sympony", "Tarkelby", "Timbers", "Turen", "Umbodoben", "Waggletop", "Welber", "Wildwander"],
       "passives":{
         "GNOMISH_CUNNING": 0,
         "GNOMISH_LINEAGE": 0
@@ -989,6 +1004,9 @@
       "speed": 35,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
+      "females": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
+      "lasts": ["Anakalathai", "Elanithino", "Gathakanathi", "Kalagiano", "Katho-Olavi", "Kolae-Gileana", "Ogolakanu", "Thuliaga", "Thunukalathi", "Vaimei-Laga"],
       "actives": {
         "LARGE_FORM": 5
       },
@@ -1032,6 +1050,9 @@
     "HALFLING": {
       "type": "HUMANOID",
       "size": ["SMALL"],
+      "males": ["Alton", "Ander", "Bernie", "Bobbin", "Cade", "Callus", "Corrin", "Dannad", "Danniel", "Eddie", "Egart", "Eldon", "Errich", "Fildo", "Finnan", "Franklin", "Garret", "Garth", "Gilbert", "Gob", "Harol", "Igor", "Jasper", "Keith", "Kevin", "Lazam", "Lerry", "Lindal", "Lyle", "Merric", "Mican", "Milo", "Morrin", "Nebin", "Nevil", "Osborn", "Ostran", "Oswalt", "Perrin", "Poppy", "Reed", "Roscoe", "Sam", "Shardon", "Tye", "Ulmo", "Wellby", "Wendel", "Wenner", "Wes"],
+      "females": ["Alain", "Andry", "Anne", "Bella", "Blossom", "Bree", "Callie", "Chenna", "Cora", "Dee", "Dell", "Eida", "Eran", "Euphemia", "Georgina", "Gynnie", "Harriet", "Jasmine", "Jillian", "Jo", "Kithri", "Lavinia", "Lidda", "Maegan", "Marigold", "Merla", "Myria", "Nedda", "Nikki", "Nora", "Olivia", "Paela", "Pearl", "Pennie", "Philomena", "Portia", "Robbie", "Rose", "Saral", "Seraphina", "Shaena", "Stacee", "Tawna", "Thea", "Trym", "Tyna", "Vani", "Verna", "Wella", "Willow"],
+      "lasts": ["Appleblossom", "Bigheart", "Brightmoon", "Brushgather", "Cherrycheeks", "Copperkettle", "Deephollow", "Elderberry", "Fastfoot", "Fatrabbit", "Glenfellow", "Goldfound", "Tallbarrel", "Tallearth", "Greenbottle", "Greenleaf", "High-hill", "Hilltopple", "Hogcollar", "Honeypot", "Jamjar", "Kettlewhistle", "Leagallow", "Littlefoot", "Nimblefingers", "Porridgepot", "Quickstep", "Reedfellow", "Shadowquick", "Silvereyes", "Smoothhands", "Stonebridge", "Stoutbridge", "Stoutman", "Strongbones", "Sunmeadow", "Swiftwhistle", "Tallfellow", "Tealeaf", "Tenpenny", "Thistletop", "Thorngage", "Tosscobble", "Underbough", "Underfoot", "Warmwater", "Whispermouse", "Wildcloak", "Wildheart", "Wiseacre"],
       "passives": {
         "BRAVE": 0,
         "HALFLING_NIMBLENESS": 0,
@@ -1057,22 +1078,49 @@
       },
       "lineages": {
         "CALISHITA": {
+          "males": ["Aseir", "Bardeid", "Haseid", "Khemed", "Mehmen", "Sudeiman", "Zasheir"],
+          "females": ["Atala", "Ceidil", "Hama", "Jasmal", "Meilil", "Seipora", "Yasheira", "Zasheida"],
+          "lasts": ["Basha", "Dumein", "Jassan", "Khalid", "Mostana", "Pashar", "Rein"]
         },
         "CHONDATHAN": {
+          "males": ["Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Hel", "Malark", "Morn", "Randal", "Stedd"],
+          "females": ["Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Miri", "Rowan", "Shandri", "Tessele"],
+          "lasts": ["Amblecrown", "Buckman", "Dundragon", "Evenwood", "Greycastle", "Tallstag"]
         },
         "DAMARAN": {
+          "males": ["Bor", "Fodel", "Glar", "Grigor", "Igan", "Ivor", "Kosef", "Mival", "Orel", "Pavel", "Sergor"],
+          "females": ["Alethra", "Kara", "Katernin", "Mara", "Natali", "Olma", "Tana", "Zora"],
+          "lasts": ["Bersk", "Chernin", "Dotsk", "Kulenov", "Marsk", "Nemetsk", "Shemov", "Starag"]
         },
         "ILLUSKAN": {
+          "males": ["Ander", "Blath", "Bran", "Frath", "Geth", "Lander", "Luth", "Malcer", "Stor", "Taman", "Urth"],
+          "females": ["Amafrey", "Betha", "Cefrey", "Kethra", "Mara", "Olga", "Silifrey", "Westra"],
+          "lasts": ["Brightwood", "Helder", "Hornraven", "Lackmen", "Stormwind", "Windrivver"]
         },
         "MULAN": {
+          "males": ["Aoth", "Bareris", "Ehput-Ki", "Kethoth", "Mumed", "Ramas", "So-Kehur", "Thazar-De", "Urhur"],
+          "females": ["Arizima", "Charhi", "Nephis", "Nulara", "Murithi", "Sefris", "Thola", "Umara", "Zolis"],
+          "lasts": ["Ankhalab", "Anskuld", "Fezim", "Hahpet", "Nathandem", "Sepret", "Uuthrakt"]
         },
         "RASHEMI": {
+          "males": ["Borivik", "Faurgar", "Jandar", "Kanithar", "Madislak", "Ralmevik", "Shaumar", "Vladislak"],
+          "females": ["Fyevarra", "Hulmarra", "Immith", "Imzel", "Navarra", "Shevarra", "Tammith", "Yuldra"],
+          "lasts": ["Chergoba", "Dyernina", "Iltazyara", "Murneyethara", "Stayanoga", "Ulmokina"]
         },
         "SHOU": {
+          "males": ["An", "Chen", "Chi", "Fai", "Jiang", "Jun", "Lian", "Long", "Meng", "On", "Shan", "Shui", "Wen"],
+          "females": ["Bai", "Chao", "Jia", "Lei", "Mei", "Qiao", "Shui", "Tai"],
+          "lasts": ["Chien", "Huang", "Kao", "Kung", "Lao", "Ling", "Mei", "Pin", "Shin", "Sum", "Tan", "Wan"]
         },
         "TETHYRIAN": {
+          "males": ["Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Hel", "Malark", "Morn", "Randal", "Stedd"],
+          "females": ["Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Miri", "Rowan", "Shandri", "Tessele"],
+          "lasts": ["Amblecrown", "Buckman", "Dundragon", "Evenwood", "Greycastle", "Tallstag"]
         },
         "TURAMI": {
+          "males": ["Anton", "Diero", "Marcon", "Pieron", "Rimardo", "Romero", "Salazar", "Umbero"],
+          "females": ["Balama", "Dona", "Faila", "Jalana", "Luisa", "Marta", "Quara", "Selise", "Vonda"],
+          "lasts": ["Agosto", "Astorio", "Calabra", "Domine", "Falone", "Marivaldi", "Pisacar", "Ramondo"]
         }
       }
     },
@@ -1080,6 +1128,9 @@
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Argran", "Braak", "Brug", "Cagak", "Dench", "Dorn", "Dren", "Druuk", "Feng", "Gell", "Gnarsh", "Grumbar", "Gubrash", "Hagren", "Henk", "Hogar", "Holg", "Imsh", "Karash", "Karg", "Keth", "Korag", "Krusk", "Lubash", "Megged", "Mhurren", "Mord", "Morg", "Nil", "Nybarg", "Odorr", "Ohr", "Rendar", "Resh", "Ront", "Rrath", "Sark", "Scrag", "Sheggen", "Shump", "Tanglar", "Tarak", "Thar", "Thokk", "Trag", "Ugarth", "Varg", "Vilberg", "Yurk", "Zed"],
+      "females": ["Arha", "Baggi", "Bendoo", "Bilga", "Brakka", "Creega", "Drenna", "Ekk", "Emen", "Engong", "Fistula", "Gaaki", "Gorga", "Grai", "Greeba", "Grigi", "Gynk", "Hrathy", "Huru", "Ilga", "Kabbarg", "Kansif", "Lagazi", "Lezre", "Murgen", "Murook", "Myev", "Nagrette", "Neega", "Nella", "Nogu", "Oolah", "Ootah", "Ovak", "Ownka", "Puyet", "Reeza", "Shautha", "Silgre", "Sutha", "Tagga", "Tawar", "Tomph", "Ubada", "Vanchu", "Vola", "Volen", "Vorka", "Yevelda", "Zagga"],
+      "lasts": [],
       "actives": {
         "ADRENALINE_RUSH": 0,
         "RELENTLESS_ENDURANCE": 0
@@ -1089,6 +1140,9 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
+      "males": ["Abad", "Ahrim", "Akmen", "Amnon", "Andram", "Astar", "Balam", "Barakas", "Bathin", "Caim", "Chem", "Cimer", "Cressel", "Damakos", "Ekemon", "Euron", "Fenriz", "Forcas", "Habor", "Iados", "Kairon", "Leucis", "Mamnen", "Mantus", "Marbas", "Melech", "Merihim", "Modean", "Mordai", "Mormo", "Morthos", "Nicor", "Nirgel", "Oriax", "Paymon", "Pelaios", "Purson", "Qemuel", "Raam", "Rimmon", "Sammal", "Skamos", "Tethren", "Thamuz", "Therai", "Valafar", "Vassago", "Xappan", "Zepar", "Zephan"],
+      "females": ["Akta", "Anakis", "Armara", "Astaro", "Aym", "Azza", "Beleth", "Bryseis", "Bune", "Criella", "Damaia", "Decarabia", "Ea", "Gadreel", "Gomory", "Hecat", "Ishte", "Jezebeth", "Kali", "Kallista", "Kasdeya", "Lerissa", "Lilith", "Makaria", "Manea", "Markosian", "Mastema", "Naamah", "Nemeia", "Nija", "Orianna", "Osah", "Phelaia", "Prosperine", "Purah", "Pyra", "Rieta", "Ronobe", "Ronwe", "Seddit", "Seere", "Sekhmet", "Semyaza", "Shava", "Shax", "Sorath", "Uzza", "Vapula", "Vepar", "Verin"],
+      "lasts": [],
       "passives": {
         "FIENDISH_LEGACY": 0,
         "OTHERWORLDLY_PRESENCE": 0
@@ -1938,79 +1992,92 @@
       "actives": ["INITIATIVE_PROFICIENCY", "INITIATIVE_SWAP"],
       "passives": [],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "CRAFTER": {
       "actives": ["FAST_CRAFTING"],
       "passives": ["TOOL_PROFICIENCY", "DISCOUNT"],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "HEALER": {
       "actives": ["BATTLE_MEDIC", "HEALING_REROLLS"],
       "passives": [],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "LUCKY": {
       "actives": ["ADVANTAGE", "DISADVANTAGE"],
       "passives": ["LUCK_POINTS"],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "MAGIC_INITIATE": {
       "actives": ["MAGIC_INITIATE"],
       "passives": [],
       "type": "ORIGIN",
-      "repeatable": true
+      "repeatable": true,
+      "abilities": []
     },
     "MAGIC_INITIATE_CLERIC": {
       "actives": ["MAGIC_INITIATE_CLERIC"],
       "passives": [],
       "type": "",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "MAGIC_INITIATE_DRUID": {
       "actives": ["MAGIC_INITIATE_DRUID"],
       "passives": [],
       "type": "",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "MAGIC_INITIATE_WIZARD": {
       "actives": ["MAGIC_INITIATE_WIZARD"],
       "passives": [],
       "type": "",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "MUSICIAN": {
       "actives": ["ENCOURAGING_SONG"],
       "passives": ["INSTRUMENT_TRAINING"],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "SAVAGE_ATTACKER": {
       "actives": ["SAVAGE_ATTACKER"],
       "passives": [],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "SKILLED": {
       "actives": [],
       "passives": ["SKILLED"],
       "type": "ORIGIN",
-      "repeatable": true
+      "repeatable": true,
+      "abilities": []
     },
     "TAVERN_BRAWLER": {
       "actives": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH_BRAWLER"],
       "passives": ["IMPROVISED_WEAPONRY"],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
     "TOUGH": {
       "actives": [],
       "passives": ["TOUGH"],
       "type": "ORIGIN",
-      "repeatable": false
+      "repeatable": false,
+      "abilities": []
     },
 
     "ABILITY_SCORE_IMPROVEMENT": {

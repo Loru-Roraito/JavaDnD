@@ -1,10 +1,10 @@
 package com.dnd;
+import com.dnd.items.Spell;
+import com.dnd.utils.Constants;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
-import com.dnd.utils.Constants;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,8 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-
-
 public class DefinitionManager {
     private static DefinitionManager instance;
     private static final Properties definitions = new Properties();
@@ -128,26 +126,46 @@ public class DefinitionManager {
                 }
             }
         }
+    }public void openDefinitionTab(Spell spell, TabPane mainTabPane) {
+        StringBuilder definition = new StringBuilder();
+        String spellName = spell.getName();
+        int level = spell.getLevel();
+        if (level > 0) {
+            definition.append(spellName)
+                .append(" (")
+                .append(getTranslation("LEVEL"))
+                .append(" ")
+                .append(level)
+                .append(")")
+                .append("\n\n");
+            definition.append(fetchSpellTooltip(spell));
+        } else {
+            definition.append(spellName)
+                .append(" (")
+                .append(getTranslation("CANTRIP"))
+                .append(")")
+                .append("\n\n");
+            definition.append(fetchSpellTooltip(spell));
+        }
+
+        displayDefinitionTab(spellName, definition.toString(), mainTabPane);
     }
 
     // Open a new tab with the definition of the word
     public void openDefinitionTab(String text, TabPane mainTabPane) {
         String realText = text.replace(" ", "_");
-        String[] spells = getSpells();
-        String[] cantrips = getCantrips();
         String definition;
         String newDefinition;
-        if (java.util.Arrays.asList(spells).contains(getOriginal(text)) || java.util.Arrays.asList(cantrips).contains(getOriginal(text))) {
-            definition = createSpellDefinition(text);
-        } else {
-            definition = definitions.getProperty(realText, "");
-            newDefinition = definitions.getProperty(definition, "");
-            if (newDefinition != null && !newDefinition.isEmpty()) {
-                text = definition;
-                definition =  newDefinition; // Update the definition if a new one is found
-            }
+        definition = definitions.getProperty(realText, "");
+        newDefinition = definitions.getProperty(definition, "");
+        if (newDefinition != null && !newDefinition.isEmpty()) {
+            text = definition;
+            definition =  newDefinition; // Update the definition if a new one is found
         }
+        displayDefinitionTab(text, definition, mainTabPane);
+    }
 
+    public void displayDefinitionTab(String text, String definition, TabPane mainTabPane) {
         // Check if a tab with the same title already exists
         for (Tab tab : mainTabPane.getTabs()) {
             if (tab.getText().replace(" ", "_").equals(text)) {
@@ -195,18 +213,80 @@ public class DefinitionManager {
     // Assign a tooltip to a UI element
     public void assignTooltip(javafx.scene.Node node, String key) {
         String tooltipText = fetchTooltip(key);
-        String[] spells = getSpells();
-        String[] cantrips = getCantrips();
-        if (java.util.Arrays.asList(spells).contains(getOriginal(key)) || java.util.Arrays.asList(cantrips).contains(getOriginal(key))) {
-            tooltipText = createSpellTooltip(key);
+        placeTooltip(node, tooltipText);
+    }
+
+    // Assign a tooltip to a UI element
+    public void assignTooltip(javafx.scene.Node node, Spell spell) {
+        String tooltipText = fetchSpellTooltip(spell);
+        placeTooltip(node, tooltipText);
+    }
+    
+    private String fetchSpellTooltip(Spell spell) {
+        String tooltip = getTranslation(spell.getSchool());
+
+        if (spell.getRitual()) {
+            tooltip += ", " + getTranslation("RITUAL");
         }
-        if (!tooltipText.isEmpty()) {
-            Tooltip tooltip = new Tooltip(tooltipText);
-            tooltip.setWrapText(true);
-            tooltip.setMaxWidth(300);
-            tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
-            Tooltip.install(node, tooltip);
+
+        if (spell.getConcentration()) {
+            tooltip += ", " + getTranslation("CONCENTRAZIONE");
         }
+
+        int time = spell.getTime();
+        String timeSpan = spell.getTimeSpan();
+        if (timeSpan.equals("DISPELLED")) {
+            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + getTranslation(timeSpan);
+        } else {
+            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + time + " " + getTranslation(timeSpan);
+        }
+
+        int range = spell.getRange();
+        if (range > 0) {
+            tooltip += "\n" + getTranslation("RANGE") + ": " + range * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
+        } else if (range == 0) {
+            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("TOUCH");
+        } else if (range == -1) {
+            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("SELF");
+        }
+
+        tooltip += "\n" + getTranslation("COMPONENTS") + ": ";
+        Boolean[] components = spell.getComponents();
+        String[] componentNames = {"V", "S", "M"};
+        for (int i = 0; i < components.length; i++) {
+            if (components[i]) {
+                tooltip += getTranslation(componentNames[i]);
+                if (i == 2) {
+                    tooltip += " (" + getIngredient(spell.getNominative()) + "), ";
+                } else {
+                    tooltip += ", ";  
+                }
+            }
+        }
+        tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
+
+        int duration = spell.getDuration();
+        String durationSpan = spell.getDurationSpan();
+        if (durationSpan.equals("INSTANTANEOUS")) {
+            tooltip += "\n" + getTranslation("DURATION") + ": " + getTranslation(durationSpan);
+        } else {
+            tooltip += "\n" + getTranslation("DURATION") + ": " + duration + " " + getTranslation(durationSpan);
+        }
+
+        tooltip += "\n\n" + getDefinition(spell.getNominative());
+
+        return tooltip;
+    }
+
+    public void placeTooltip(javafx.scene.Node node, String tooltipText) {
+        if (tooltipText == null || tooltipText.isEmpty()) {
+            return; // No tooltip to place
+        }
+        Tooltip tooltip = new Tooltip(tooltipText);
+        tooltip.setWrapText(true);
+        tooltip.setMaxWidth(300);
+        tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
+        Tooltip.install(node, tooltip);
     }
 
     public void forceTooltip(javafx.scene.Node node, String tooltipText) {
@@ -219,129 +299,19 @@ public class DefinitionManager {
         }
     }
 
-    private String createSpellDefinition(String key) {
-        StringBuilder definition = new StringBuilder();
-        String spell = getOriginal(key);
-        int level = getSpellInt(new String[] {spell, "level"});
-        if (level > 0) {
-            definition.append(key)
-                .append(" (")
-                .append(getTranslation("LEVEL"))
-                .append(" ")
-                .append(level)
-                .append(")")
-                .append("\n\n");
-            definition.append(createSpellTooltip(key));
-        } else {
-            definition.append(key)
-                .append(" (")
-                .append(getTranslation("CANTRIP"))
-                .append(")")
-                .append("\n\n");
-            definition.append(createSpellTooltip(key));
-        }
-
-        return definition.toString();
-    }
-
-    private String createSpellTooltip(String key) {
-        String spell = getOriginal(key);
-        String tooltip = getTranslation(getSpellString(new String[] {spell, "school"}));
-
-        if (getSpellBoolean(new String[] {spell, "ritual"})) {
-            tooltip += ", " + getTranslation("RITUAL");
-        }
-
-        if (getSpellBoolean(new String[] {spell, "concentration"})) {
-            tooltip += ", " + getTranslation("CONCENTRAZIONE");
-        }
-
-        int time = getSpellInt(new String[] {spell, "time"});
-        String timeSpan = getSpellString(new String[] {spell, "timeSpan"});
-        if (timeSpan.equals("DISPELLED")) {
-            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + getTranslation(timeSpan);
-        } else {
-            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + time + " " + getTranslation(timeSpan);
-        }
-
-        int range = getSpellInt(new String[] {spell, "range"});
-        if (range > 0) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + range * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
-        } else if (range == 0) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("TOUCH");
-        } else if (range == -1) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("SELF");
-        }
-
-        tooltip += "\n" + getTranslation("COMPONENTS") + ": ";
-        Boolean[] components = getSpellBooleans(new String[] {spell, "components"});
-        String[] componentNames = {"V", "S", "M"};
-        for (int i = 0; i < components.length; i++) {
-            if (components[i]) {
-                tooltip += getTranslation(componentNames[i]);
-                if (i == 2) {
-                    tooltip += " (" + fetchIngredient(spell) + "), ";
-                } else {
-                    tooltip += ", ";  
-                }
-            }
-        }
-        tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
-
-        int duration = getSpellInt(new String[] {spell, "duration"});
-        String durationSpan = getSpellString(new String[] {spell, "durationSpan"});
-        if (durationSpan.equals("INSTANTANEOUS")) {
-            tooltip += "\n" + getTranslation("DURATION") + ": " + getTranslation(durationSpan);
-        } else {
-            tooltip += "\n" + getTranslation("DURATION") + ": " + duration + " " + getTranslation(durationSpan);
-        }
-
-        tooltip += "\n\n" + fetchSpell(spell);
-
-        return tooltip;
+    public String[] getGroup(String[] key) {
+        return TranslationManager.getInstance().getGroup(key);
     }
 
     private String getTranslation(String key) {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
-    public String[] getGroup(String[] key) {
-        return TranslationManager.getInstance().getGroup(key);
-    }
-
-    private String getOriginal(String key) {
-        return TranslationManager.getInstance().getOriginal(key);
-    }
-
-    private String fetchSpell(String key) {
+    private String getDefinition(String key) {
         return MiscsManager.getInstance().fetchSpell(key);
     }
 
-    private String fetchIngredient(String key) {
+    private String getIngredient(String key) {
         return MiscsManager.getInstance().fetchIngredient(key);
-    }
-
-    private int getSpellInt(String[] key) {
-        return SpellManager.getInstance().getSpellInt(key);
-    }
-
-    private String getSpellString(String[] key) {
-        return SpellManager.getInstance().getSpellString(key);
-    }
-
-    private Boolean getSpellBoolean(String[] key) {
-        return SpellManager.getInstance().getSpellBoolean(key);
-    }
-
-    private Boolean[] getSpellBooleans(String[] key) {
-        return SpellManager.getInstance().getSpellBooleans(key);
-    }
-
-    private String[] getSpells() {
-        return SpellManager.getInstance().getSpells();
-    }
-
-    private String[] getCantrips() {
-        return SpellManager.getInstance().getCantrips();
     }
 }

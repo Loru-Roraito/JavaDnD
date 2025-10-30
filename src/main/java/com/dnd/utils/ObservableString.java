@@ -14,11 +14,12 @@ public class ObservableString implements Observable<String> {
     }
 
     public void set(String newValue) {
-        if (!Objects.equals(this.value, newValue)) {
-            this.value = newValue;
-            for (Consumer<String> listener : listeners) {
-                listener.accept(newValue);
-            }
+        String oldValue = value;
+        
+        // Only update and notify if value actually changed
+        if (!Objects.equals(oldValue, newValue)) {
+            value = newValue;
+            notifyListeners();
         }
     }
 
@@ -30,5 +31,11 @@ public class ObservableString implements Observable<String> {
     @Override
     public void addListener(Consumer<String> listener) {
         listeners.add(listener);
+    }
+
+    private void notifyListeners() {
+        for (Consumer<String> listener : listeners) {
+            listener.accept(value);
+        }
     }
 }
