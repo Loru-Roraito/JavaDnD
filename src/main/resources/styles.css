@@ -370,11 +370,11 @@
 
 /* Disabled ComboBox styling */
 .combo-box:disabled {
-    background-color: #f0f0f0; /* Standard CSS background color */
-    -fx-background-color: #f0f0f0; /* JavaFX-specific background color */
+    background-color: transparent; /* Standard CSS background color */
+    -fx-background-color: transparent; /* JavaFX-specific background color */
 
-    border-color: #cccccc; /* Standard CSS border color */
-    -fx-border-color: #cccccc; /* JavaFX-specific border color */
+    border-color: transparent; /* Standard CSS border color */
+    -fx-border-color: transparent; /* JavaFX-specific border color */
 
     color: #000000; /* Standard CSS text color */
     -fx-text-fill: #000000; /* JavaFX-specific text color */
@@ -390,6 +390,24 @@
 .combo-box:disabled, .combo-box:disabled > * {
     opacity: 1;
     -fx-opacity: 1;
+}
+
+.combo-box:disabled .arrow-button {
+    opacity: 0;
+    -fx-opacity: 0;
+    visibility: hidden;
+}
+
+.combo-box:disabled .arrow {
+    opacity: 0;
+    -fx-opacity: 0;
+    visibility: hidden;
+}
+
+/* Bold label styling */
+.bold-label {
+    font-weight: bold;
+    -fx-font-weight: bold;
 }
 
 /* Styling the CheckBox box */
@@ -424,13 +442,12 @@
 
 /* Disabled CheckBox styling */
 .check-box > .box:disabled {
-    background-color: #f0f0f0; /* Standard CSS background color */
-    -fx-background-color: #f0f0f0; /* JavaFX-specific background color */
+    background-color: transparent; /* Standard CSS background color */
+    -fx-background-color: transparent; /* JavaFX-specific background color */
 
-    border-color: #cccccc; /* Standard CSS border color */
-    -fx-border-color: #cccccc; /* JavaFX-specific border color */
+    border-color: transparent; /* Standard CSS border color */
+    -fx-border-color: transparent; /* JavaFX-specific border color */
 
-    color: #666666; /* Standard CSS text color */
     -fx-text-fill: #666666; /* JavaFX-specific text color */
 
     -fx-background-insets: 0; /* Prevent background from overflowing */
@@ -520,14 +537,16 @@
 
 /* Disabled TextField styling */
 .text-field:disabled {
-    background-color: #f0f0f0; /* Standard CSS */
-    -fx-background-color: #f0f0f0; /* JavaFX-specific */
+    background-color: transparent; /* Standard CSS */
+    -fx-background-color: transparent; /* JavaFX-specific */
 
-    color: #666666; /* Standard CSS */
-    -fx-text-fill: #666666; /* JavaFX-specific */
+    -fx-text-fill: #000000; /* JavaFX-specific */
 
-    border-color: #cccccc; /* Standard CSS */
-    -fx-border-color: #cccccc; /* JavaFX-specific */
+    border-color: transparent; /* Standard CSS */
+    -fx-border-color: transparent; /* JavaFX-specific */
+    
+    opacity: 1;
+    -fx-opacity: 1;
 }
 
 /* Error state styling (optional, for validation) */

@@ -30,6 +30,7 @@ public class ClassPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel classeLabel = new TooltipLabel(getTranslation("CLASS"), mainTabPane);
         add(classeLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
+        classeLabel.getStyleClass().add("bold-label"); // Add CSS class
         
         // Populate the class list and translation map
         ObservableList<String> classes = FXCollections.observableArrayList();
@@ -42,12 +43,14 @@ public class ClassPane extends GridPane {
         TooltipComboBox classComboBox = new TooltipComboBox(classes, mainTabPane);
         classComboBox.setPromptText(getTranslation("RANDOM"));
         add(classComboBox, 0, 1);
+        classComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
         classComboBox.valueProperty().bindBidirectional(character.getClasse());
 
         // Create a label as the title for the second ComboBox
         TooltipLabel subclassLabel = new TooltipLabel(getTranslation("SUBCLASS"), mainTabPane);
+        subclassLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Create the second ComboBox (subclass selection)
         ObservableList<String> subclasses = FXCollections.observableArrayList();
@@ -58,6 +61,7 @@ public class ClassPane extends GridPane {
         subclassComboBox.valueProperty().bindBidirectional(character.getSubclass());
         subclasses.add(getTranslation("RANDOM"));
         subclassComboBox.setItems(subclasses);
+        subclassComboBox.disableProperty().bind(character.isEditing().not());
 
         Runnable updateSubclassList = () -> {
             subclasses.clear();
@@ -77,10 +81,12 @@ public class ClassPane extends GridPane {
         updateSubclassList.run(); // Run during build
 
         TooltipLabel levelLabel = new TooltipLabel(getTranslation("LEVEL"), mainTabPane);
+        levelLabel.getStyleClass().add("bold-label"); // Add CSS class
         
         ObservableList<String> levels = FXCollections.observableArrayList();
         
         ComboBox<String> levelComboBox = new ComboBox<>(levels);
+        levelComboBox.disableProperty().bind(character.isEditing().not());
         
         // Why am I using a runnable instead of a method? I don't remember, but shouldn't change too much
         Runnable updateSubclasses = () -> {
@@ -108,7 +114,8 @@ public class ClassPane extends GridPane {
             }
         };
 
-        TooltipLabel featsLabel = new TooltipLabel(getTranslation("FEATS"), mainTabPane);
+        TooltipLabel featsLabel = new TooltipLabel(getTranslation("FEATS") + ":",getTranslation("FEATS"), mainTabPane);
+        featsLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
         int maxFeats = character.getMaxFeats();
@@ -157,7 +164,8 @@ public class ClassPane extends GridPane {
         Runnable updateOriginFeat = () -> {
             String background = character.getBackground().get();
             if (!background.equals(getTranslation("RANDOM"))) {
-                TooltipLabel originFeat = new TooltipLabel(character.getOriginFeat().get(), mainTabPane);
+                // TODO: spaces
+                TooltipLabel originFeat = new TooltipLabel("   " + character.getOriginFeat().get(), character.getOriginFeat().get(), mainTabPane);
                 getChildren().remove(originFeats.get(0));
                 originFeats.remove(0);
                 add(originFeat, 0, 7);
@@ -215,6 +223,7 @@ public class ClassPane extends GridPane {
                 ObservableList<String> observableArrayList = FXCollections.observableArrayList(baseArray);
 
                 TooltipComboBox comboBox = new TooltipComboBox(observableArrayList, mainTabPane);
+                comboBox.disableProperty().bind(character.isEditing().not());
                 baseValuesList.add(observableArrayList);
                 feats.add(comboBox);
 
@@ -277,9 +286,10 @@ public class ClassPane extends GridPane {
                 }
                 if (observableArrayListOne.size() > 1 && !observableArrayListOne.contains(getTranslation("RANDOM"))) {
                     observableArrayListOne.add(0, getTranslation("RANDOM"));
-                    one.setDisable(false);
+                    one.disableProperty().bind(character.isEditing().not());
                 } else if (observableArrayListOne.size() <= 1) {
                     observableArrayListOne.remove(getTranslation("RANDOM"));
+                    one.disableProperty().unbind();
                     one.setDisable(true);
                 }
             };
@@ -311,9 +321,10 @@ public class ClassPane extends GridPane {
                 }
                 if (observableArrayListTwo.size() != 1 && !observableArrayListTwo.contains(getTranslation("RANDOM"))) {
                     observableArrayListTwo.add(0, getTranslation("RANDOM"));
-                    two.setDisable(false);
+                    two.disableProperty().bind(character.isEditing().not());
                 } else if (observableArrayListTwo.size() <= 1) {
                     observableArrayListTwo.remove(getTranslation("RANDOM"));
+                    two.disableProperty().unbind();
                     two.setDisable(true);
                 }
             };

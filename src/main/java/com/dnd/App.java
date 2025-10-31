@@ -17,12 +17,12 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static TabPane mainTabPane;
-    ViewModel character = new ViewModel(new GameCharacter());
+    ViewModel character;
 
     @Override
     public void start(Stage stage) throws IOException {
         TranslationManager.language = "it"; // Change the language (relevant files need to be present in resources)
-
+        character = new ViewModel(new GameCharacter(), stage);
         BorderPane root = new BorderPane();
 
         // Initialize the TabPane
@@ -51,6 +51,14 @@ public class App extends Application {
 
         stage.setTitle(TranslationManager.getInstance().getTranslation("MAIN_TITLE"));
         stage.setScene(scene);
+
+        // Get screen dimensions
+        javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
+        javafx.geometry.Rectangle2D bounds = screen.getVisualBounds();
+        
+        // Set maximum size to screen size
+        stage.setMaxWidth(bounds.getWidth());
+        stage.setMaxHeight(bounds.getHeight());
 
         stage.setMaximized(true); // Maximized window (with title bar)
 
@@ -156,3 +164,7 @@ public class App extends Application {
 // spostare posizione competenze a scelta
 // possibilità di regolare pesi random in tab apposita
 // migliorare disposizione magie di livello
+// aggiungere label per caratteristiche potenziate da talenti
+// disegni Anastasia
+// eventualmente sfondo
+// continuare a sistemare estetica

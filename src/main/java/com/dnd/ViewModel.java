@@ -24,6 +24,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
 public class ViewModel {
     private final StringProperty creatureType;
@@ -86,6 +87,9 @@ public class ViewModel {
     private final DoubleProperty speed;
     private final DoubleProperty darkvision;
 
+    private final BooleanProperty isGenerator = new SimpleBooleanProperty(true);
+    private final BooleanProperty isEditing = new SimpleBooleanProperty(true);
+
     private final BooleanProperty blinded;
     private final BooleanProperty charmed;
     private final BooleanProperty deafened;
@@ -126,8 +130,10 @@ public class ViewModel {
     private final ObservableList<Spell> cantrips;
 
     private final GameCharacter backend;
+    private final Stage stage;
 
-    public ViewModel(GameCharacter backend) {
+    public ViewModel(GameCharacter backend, Stage stage) {
+        this.stage = stage;
         this.backend = backend;
         creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
         bindObservableString(creatureType, backend.getCreatureType());
@@ -889,6 +895,14 @@ public class ViewModel {
     }
 
 
+    public BooleanProperty isGenerator() {
+        return isGenerator;
+    }
+
+    public BooleanProperty isEditing() {
+        return isEditing;
+    }
+
     public BooleanProperty getBlinded() {
         return blinded;
     }
@@ -999,10 +1013,18 @@ public class ViewModel {
 
 
     public ViewModel duplicate() {
-        return new ViewModel(backend.duplicate());
+        return new ViewModel(backend.duplicate(), stage);
     }
 
     public void fill() {
         backend.fill();
+    }
+
+    public void save(Boolean newFile) {
+        backend.save(newFile, stage);
+    }
+
+    public ViewModel load() {
+        return new ViewModel(GameCharacter.load(stage), stage);
     }
 }

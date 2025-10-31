@@ -90,6 +90,11 @@ public class AbilitiesPane extends GridPane {
             bonusOne.disableProperty().bind(character.getAvailablePlusOne(index).not());
             bonusTwo.disableProperty().bind(character.getAvailablePlusTwo(index).not());
 
+            bonusOne.visibleProperty().bind(character.isEditing());
+            bonusTwo.visibleProperty().bind(character.isEditing());
+            bonusOne.managedProperty().bind(character.isEditing());
+            bonusTwo.managedProperty().bind(character.isEditing());
+
             // Bind the CheckBox states to the Character's Boolean properties
             bonusOne.selectedProperty().bindBidirectional(character.getAbilityPlusOne(index));
             bonusTwo.selectedProperty().bindBidirectional(character.getAbilityPlusTwo(index));
@@ -193,6 +198,9 @@ public class AbilitiesPane extends GridPane {
                     custom.setText(oldValue); // Revert to the old value if invalid input is detected
                 }
             });
+
+            custom.visibleProperty().bind(character.isEditing());
+            custom.managedProperty().bind(character.isEditing());
         }
 
         chooseAbilitiesUI();
@@ -274,7 +282,7 @@ public class AbilitiesPane extends GridPane {
             CheckBox proficiency = new CheckBox();
             skillsArea.add(proficiency, 1, i); // Column 1, Row i
 
-            proficiency.disableProperty().bind(character.getAvailableSkill(index).not());
+            proficiency.disableProperty().bind(character.getAvailableSkill(index).not().or(character.isEditing().not()));
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
             
             // Button to roll a D20

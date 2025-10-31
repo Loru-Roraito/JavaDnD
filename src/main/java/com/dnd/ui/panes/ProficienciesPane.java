@@ -52,8 +52,10 @@ public class ProficienciesPane extends GridPane {
 
         TooltipLabel languages = new TooltipLabel(getTranslation("LANGUAGES") + ":", getTranslation("LANGUAGES"), mainTabPane);
         add(languages, 0, 0);
+        languages.getStyleClass().add("bold-label"); // Add CSS class
 
-        TooltipLabel common = new TooltipLabel(getTranslation("COMMON_LANGUAGE"), mainTabPane);
+        // TODO: spaces
+        TooltipLabel common = new TooltipLabel("   " + getTranslation("COMMON_LANGUAGE"), getTranslation("COMMON_LANGUAGE"), mainTabPane);
         add(common, 0, 1);
 
         List<ObservableList<String>> languageValuesList = new ArrayList<>(2);
@@ -72,12 +74,13 @@ public class ProficienciesPane extends GridPane {
         languageOne.setPromptText(getTranslation("RANDOM"));
         add(languageOne, 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
+        languageOne.disableProperty().bind(character.isEditing().not());
 
         TooltipComboBox languageTwo = new TooltipComboBox(languageValuesList.get(1), mainTabPane);
         languageTwo.setPromptText(getTranslation("RANDOM"));
         add(languageTwo, 0, 3);
-
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
+        languageTwo.disableProperty().bind(character.isEditing().not());
 
         languageComboBoxes.add(languageOne);
         languageComboBoxes.add(languageTwo);

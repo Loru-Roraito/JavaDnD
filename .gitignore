@@ -13,6 +13,7 @@
 # reference files
 old/
 utilities/
+saves/
 
 target/
 .vscode/

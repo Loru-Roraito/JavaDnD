@@ -81,6 +81,7 @@ public class HealthPane extends GridPane {
             hpCustom.setText(String.valueOf(newVal));
         });
         hpCustom.setText(String.valueOf(character.getHealth().get()));
+        hpCustom.disableProperty().bind(character.isEditing().not());
 
         hpMedium.textProperty().bind(
             character.getHealth().asString()

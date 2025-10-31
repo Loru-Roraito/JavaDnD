@@ -29,8 +29,9 @@ public class ParametersPane extends GridPane {
             }
         });
         add(name, 0, 1); // Add the label to the GridPane
+        name.getStyleClass().add("text-field");
         name.textProperty().bindBidirectional(character.getName());
-        
+        name.disableProperty().bind(character.isEditing().not());        
 
         // Create a label as the title for the ComboBox
         TooltipLabel genderLabel = new TooltipLabel(getTranslation("GENDER"), mainTabPane);
@@ -46,6 +47,7 @@ public class ParametersPane extends GridPane {
         TooltipComboBox genderComboBox = new TooltipComboBox(genders, mainTabPane);
         genderComboBox.setPromptText(getTranslation("RANDOM"));
         add(genderComboBox, 0, 3);
+        genderComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
         genderComboBox.valueProperty().bindBidirectional(character.getGender());
@@ -64,6 +66,7 @@ public class ParametersPane extends GridPane {
         TooltipComboBox speciesComboBox = new TooltipComboBox(species, mainTabPane);
         speciesComboBox.setPromptText(getTranslation("RANDOM"));
         add(speciesComboBox, 0, 5);
+        speciesComboBox.disableProperty().bind(character.isEditing().not());        
 
         // Listen for ComboBox changes (Translated → English)
         speciesComboBox.valueProperty().bindBidirectional(character.getSpecies());
@@ -77,6 +80,7 @@ public class ParametersPane extends GridPane {
         TooltipComboBox lineageComboBox = new TooltipComboBox(lineages, mainTabPane);
         lineageComboBox.setPromptText(getTranslation("RANDOM"));
         add(lineageComboBox, 0, 7);
+        lineageComboBox.disableProperty().bind(character.isEditing().not());        
         
         // Listen for ComboBox changes (Translated → English)
         lineageComboBox.valueProperty().bindBidirectional(character.getLineage());
@@ -127,6 +131,7 @@ public class ParametersPane extends GridPane {
         TooltipComboBox backgroundComboBox = new TooltipComboBox(backgrounds, mainTabPane);
         backgroundComboBox.setPromptText(getTranslation("RANDOM"));
         add(backgroundComboBox, 0, 9);
+        backgroundComboBox.disableProperty().bind(character.isEditing().not());      
 
         // Listen for ComboBox changes (Translated → English)
         backgroundComboBox.valueProperty().bindBidirectional(character.getBackground());
@@ -148,6 +153,7 @@ public class ParametersPane extends GridPane {
         // Listen for ComboBox changes (Translated → English)
         alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
         add(alignmentComboBox, 0, 11);
+        alignmentComboBox.disableProperty().bind(character.isEditing().not());    
 
         TooltipLabel sizeLabel = new TooltipLabel("", getTranslation("SIZE"), mainTabPane);
 

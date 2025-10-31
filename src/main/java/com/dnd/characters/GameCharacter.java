@@ -11,10 +11,14 @@ import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
+
+import javafx.stage.Stage;
+
 import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
 
 public class GameCharacter {
+    private String path = "";
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames;
     private final String[] sets;
@@ -446,6 +450,14 @@ public class GameCharacter {
 
     public ObservableString getFeatAbility(int featIndex, int abilityIndex) {
         return featsAbilities[featIndex][abilityIndex];
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getMaxLineages() {
@@ -1713,6 +1725,9 @@ public class GameCharacter {
         for (ObservableInteger ability : abilities) {
             ability.addListener(_ -> updateSelectableFeats.run());
         }
+        for (ObservableString feat : feats) {
+            feat.addListener(_ -> updateSelectableFeats.run());
+        }
         updateSelectableFeats.run();
     }
 
@@ -2040,24 +2055,22 @@ public class GameCharacter {
         }
 
         // Remove selected non repeatable feats
-        List<ObservableString> possibleFeats = selectableFeats.asList();for (int i = 0; i < feats.length; i++) {
-            int index = i;
-            if (!feats[i].get().equals("RANDOM") && availableFeats.get() > i) {
-                if (!getBoolean(new String[]{"feats", feats[i].get(), "repeatable"})) {
-                    possibleFeats.removeIf(feat -> feat.get().equals(feats[index].get()));
-                }
-            } else if (availableFeats.get() <= i) {
-                break;
-            }
-        }
         for (int i = 0; i < feats.length; i++) {
-            int index = i;
+            List<ObservableString> possibleFeats = selectableFeats.asList();
+            for (int j = 0; j < feats.length; j++) {
+                int index = j;
+                if (!feats[j].get().equals("RANDOM") && availableFeats.get() > j) {
+                    if (!getBoolean(new String[]{"feats", feats[j].get(), "repeatable"})) {
+                        possibleFeats.removeIf(feat -> feat.get().equals(feats[index].get()));
+                    }
+                } else if (availableFeats.get() <= j) {
+                    break;
+                }
+            }
+            
             if (feats[i].get().equals("RANDOM") && availableFeats.get() > i) {
                 if (!possibleFeats.isEmpty()) {
                     feats[i].set(possibleFeats.get((int) (Math.random() * possibleFeats.size())).get());
-                    if (!getBoolean(new String[]{"feats", feats[i].get(), "repeatable"})) {
-                        possibleFeats.removeIf(feat -> feat.get().equals(feats[index].get()));
-                    }
                 }
             } else if (availableFeats.get() <= i) {
                 break;
@@ -2301,5 +2314,13 @@ public class GameCharacter {
                 skillProficiency.set(true);
             }
         }
+    }
+
+    public void save(Boolean newFile, Stage stage) {
+        CharacterSerializer.save(this, newFile, stage);
+    }
+
+    public static GameCharacter load(Stage stage) {
+        return CharacterSerializer.load(stage);
     }
 }

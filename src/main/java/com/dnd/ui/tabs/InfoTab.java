@@ -45,7 +45,7 @@ public class InfoTab extends Tab {
         addTitledPane("EQUIPMENT", equipmentPane , 3, 3, 2, 2);
         systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
-        addTitledPane("PROFICIENCIES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
+        addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
 
         // Initialize the die result label
         dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text

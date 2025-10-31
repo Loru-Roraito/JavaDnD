@@ -4,6 +4,7 @@ module com.dnd {
     requires javafx.fxml;
     requires transitive javafx.graphics;
     requires java.logging;
+    requires com.google.gson;
 
     opens com.dnd to javafx.fxml;
     exports com.dnd;

@@ -30,7 +30,8 @@ public class EquipmentPane extends GridPane {
         GridPane moneyPane = new GridPane();
         moneyPane.getStyleClass().add("grid-pane");
 
-        int width = 50;
+        // TODO: dynamic
+        int width = 40;
 
         TooltipLabel copperLabel = new TooltipLabel(getTranslation("COPPER") + ":", getTranslation("COPPER"), mainTabPane);
         TextField copperField = new TextField();
@@ -99,6 +100,8 @@ public class EquipmentPane extends GridPane {
         ObservableList<String> backgroundEquipments = FXCollections.observableArrayList();
         backgroundEquipments.add(getTranslation("RANDOM"));
         TooltipComboBox backgroundEquipment = new TooltipComboBox(backgroundEquipments, mainTabPane);
+        backgroundEquipment.managedProperty().bind(character.isGenerator().not());
+        backgroundEquipment.visibleProperty().bind(character.isGenerator().not());
 
         Runnable selectBackgroundEquipment = () -> {            
             String newVal = character.getBackgroundEquipment(0).get();
@@ -191,6 +194,8 @@ public class EquipmentPane extends GridPane {
         ObservableList<String> classEquipments = FXCollections.observableArrayList();
         classEquipments.add(getTranslation("RANDOM"));
         TooltipComboBox classEquipment = new TooltipComboBox(classEquipments, mainTabPane);
+        classEquipment.managedProperty().bind(character.isGenerator().not());
+        classEquipment.visibleProperty().bind(character.isGenerator().not());
 
         Runnable selectClassEquipment = () -> {
             String newVal = character.getClassEquipment(0).get();

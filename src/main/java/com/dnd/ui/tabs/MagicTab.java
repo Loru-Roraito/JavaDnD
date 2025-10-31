@@ -57,6 +57,8 @@ public class MagicTab extends Tab {
         VBox cantripsBox = new VBox(5);
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsBox);
         gridPane.add(cantripsPane, 0, 2);
+        GridPane.setVgrow(cantripsPane, Priority.ALWAYS);
+        GridPane.setHgrow(cantripsPane, Priority.ALWAYS);
 
         VBox[] levelBoxes = new VBox[9];
         for (int i = 0; i < 9; i++) {
@@ -107,6 +109,8 @@ public class MagicTab extends Tab {
             VBox levelBox = new VBox(5);
             levelBoxes[index] = levelBox;
             TooltipTitledPane levelPane = new TooltipTitledPane("", levelBox);
+            GridPane.setVgrow(levelPane, Priority.ALWAYS);
+            GridPane.setHgrow(levelPane, Priority.ALWAYS);
             levelPane.setGraphic(customHeader);
             gridPane.add(levelPane, 1 + index / 3, 2 + index % 3);
         }
