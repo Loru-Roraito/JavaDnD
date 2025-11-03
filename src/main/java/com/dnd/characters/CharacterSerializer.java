@@ -79,14 +79,24 @@ public class CharacterSerializer {
     }
     
     public static class SpellData {
-        public String name;
+        public String nominative;
+        public String prepare;
+        public String[] focus;
+        public int ability;
+        public Boolean overriding;
+        public Boolean limited;
         
-        public SpellData(String name) {
-            this.name = name;
+        public SpellData(String nominative, String prepare, String[] focus, int ability, Boolean overriding, Boolean limited) {
+            this.nominative = nominative;
+            this.prepare = prepare;
+            this.focus = focus;
+            this.ability = ability;
+            this.overriding = overriding;
+            this.limited = limited;
         }
     }
 
-    public static void save(GameCharacter character, Boolean newFile, Stage stage) {
+    public static Boolean save(GameCharacter character, Boolean newFile, Stage stage) {
         File file;
 
         String currentFilePath = character.getPath();
@@ -108,11 +118,18 @@ public class CharacterSerializer {
             fileChooser.setInitialDirectory(savesDir);
             
             fileChooser.setInitialFileName(
-                character.getName().get().isEmpty() ? "character.dnd" : character.getName().get() + ".dnd"
+                character.getSaveName().isEmpty() ? character.getName().get() + ".dnd" : character.getSaveName() + ".dnd"
             );
             
             file = fileChooser.showSaveDialog(stage);
+        
+            // Return false if user cancelled
+            if (file == null) {
+                return false;
+            }
+
             character.setPath(file.getAbsolutePath());
+            character.setSaveName(file.getName().replace(".dnd", ""));
         }
         
         try (Writer writer = new FileWriter(file)) {
@@ -205,17 +222,19 @@ public class CharacterSerializer {
             
             // Spells
             data.spells = character.getSpells().asList().stream()
-                .map(s -> new SpellData(s.getName()))
+                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
                 .toArray(SpellData[]::new);
             
             data.cantrips = character.getCantrips().asList().stream()
-                .map(s -> new SpellData(s.getName()))
+                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
                 .toArray(SpellData[]::new);
             
             gson.toJson(data, writer);
-            
+            return true;
+
         } catch (IOException e) {
             System.err.println("Error saving character: " + e.getMessage());
+            return false;
         }
     }
 
@@ -310,19 +329,23 @@ public class CharacterSerializer {
                 character.getUnconscious().set(data.unconscious);
                 
                 // Load proficiencies and spells
+                character.getChoiceProficiencies().getList().clear();
                 for (ProficiencyData prof : data.choiceProficiencies) {
                     character.getChoiceProficiencies().add(new Proficiency(prof.name, prof.group));
                 }
                 
+                character.getSpells().getList().clear();
                 for (SpellData spell : data.spells) {
-                    character.getSpells().add(new Spell(spell.name, "", new String[0], 0, false, false));
+                    character.getSpells().add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.overriding, spell.limited));
                 }
                 
+                character.getCantrips().getList().clear();
                 for (SpellData cantrip : data.cantrips) {
-                    character.getCantrips().add(new Spell(cantrip.name, "", new String[0], 0, false, false));
+                    character.getCantrips().add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.overriding, cantrip.limited));
                 }
                 
                 character.setPath(file.getAbsolutePath());
+                character.setSaveName(file.getName().replace(".dnd", ""));
                 return character;
                 
             } catch (IOException e) {

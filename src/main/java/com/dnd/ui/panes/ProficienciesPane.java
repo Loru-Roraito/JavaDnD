@@ -30,7 +30,7 @@ public class ProficienciesPane extends GridPane {
 
     private final TabPane mainTabPane;
     private final String[] choiceArrays;
-    private final List<ComboBox<String>> choiceComboBoxes;
+    private final List<TooltipComboBox> choiceComboBoxes;
     private final List<String[]> startingValues;
     private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
@@ -59,7 +59,7 @@ public class ProficienciesPane extends GridPane {
         add(common, 0, 1);
 
         List<ObservableList<String>> languageValuesList = new ArrayList<>(2);
-        List<ComboBox<String>> languageComboBoxes = new ArrayList<>(2);
+        List<TooltipComboBox> languageComboBoxes = new ArrayList<>(2);
 
         // In the future more languages should be available. Take the abilities ComboBoxes as an example for the available values update
         // Populate the class list and translation map
@@ -73,12 +73,14 @@ public class ProficienciesPane extends GridPane {
         TooltipComboBox languageOne = new TooltipComboBox(languageValuesList.get(0), mainTabPane);
         languageOne.setPromptText(getTranslation("RANDOM"));
         add(languageOne, 0, 2);
+        add(languageOne.getLabel(), 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
         languageOne.disableProperty().bind(character.isEditing().not());
 
         TooltipComboBox languageTwo = new TooltipComboBox(languageValuesList.get(1), mainTabPane);
         languageTwo.setPromptText(getTranslation("RANDOM"));
         add(languageTwo, 0, 3);
+        add(languageTwo.getLabel(), 0, 3);
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
         languageTwo.disableProperty().bind(character.isEditing().not());
 
@@ -148,7 +150,7 @@ public class ProficienciesPane extends GridPane {
                 -> updateBox(activesFlow, character.getActives())
         );
 
-        add (proficienciesBox, 0, 5);
+        add(proficienciesBox, 0, 5);
 
 
         TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
@@ -181,8 +183,9 @@ public class ProficienciesPane extends GridPane {
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
-        for (ComboBox<String> comboBox : choiceComboBoxes) {
+        for (TooltipComboBox comboBox : choiceComboBoxes) {
             getChildren().remove(comboBox);
+            getChildren().remove(comboBox.getLabel());
         }
         choiceComboBoxes.clear();
         startingValues.clear();
@@ -200,8 +203,11 @@ public class ProficienciesPane extends GridPane {
                 startingValues.add(items);
                 groupItemsList.add(groupItems);
 
+                comboBox.disableProperty().bind(character.isEditing().not());
+
                 int index = choiceComboBoxes.size();
                 proficienciesBox.getChildren().add(comboBox);
+                proficienciesBox.getChildren().add(comboBox.getLabel());
 
                 comboBox.valueProperty().addListener((_, _, _) -> {
                     for (int j = 0; j < choiceComboBoxes.size(); j++) {

@@ -31,7 +31,7 @@ public class ParametersPane extends GridPane {
         add(name, 0, 1); // Add the label to the GridPane
         name.getStyleClass().add("text-field");
         name.textProperty().bindBidirectional(character.getName());
-        name.disableProperty().bind(character.isEditing().not());        
+        name.disableProperty().bind(character.isEditing().not());
 
         // Create a label as the title for the ComboBox
         TooltipLabel genderLabel = new TooltipLabel(getTranslation("GENDER"), mainTabPane);
@@ -47,6 +47,7 @@ public class ParametersPane extends GridPane {
         TooltipComboBox genderComboBox = new TooltipComboBox(genders, mainTabPane);
         genderComboBox.setPromptText(getTranslation("RANDOM"));
         add(genderComboBox, 0, 3);
+        add(genderComboBox.getLabel(), 0, 3);
         genderComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
@@ -66,7 +67,8 @@ public class ParametersPane extends GridPane {
         TooltipComboBox speciesComboBox = new TooltipComboBox(species, mainTabPane);
         speciesComboBox.setPromptText(getTranslation("RANDOM"));
         add(speciesComboBox, 0, 5);
-        speciesComboBox.disableProperty().bind(character.isEditing().not());        
+        add(speciesComboBox.getLabel(), 0, 5);
+        speciesComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
         speciesComboBox.valueProperty().bindBidirectional(character.getSpecies());
@@ -80,7 +82,8 @@ public class ParametersPane extends GridPane {
         TooltipComboBox lineageComboBox = new TooltipComboBox(lineages, mainTabPane);
         lineageComboBox.setPromptText(getTranslation("RANDOM"));
         add(lineageComboBox, 0, 7);
-        lineageComboBox.disableProperty().bind(character.isEditing().not());        
+        add(lineageComboBox.getLabel(), 0, 7);
+        lineageComboBox.disableProperty().bind(character.isEditing().not());
         
         // Listen for ComboBox changes (Translated → English)
         lineageComboBox.valueProperty().bindBidirectional(character.getLineage());
@@ -101,19 +104,23 @@ public class ParametersPane extends GridPane {
         }
     
         // Update the lineages based on the selected species
-        speciesComboBox.valueProperty().addListener((_, _, _) -> {
-            // Dynamically add or remove the lineage elements
+        Runnable updateLineages = () -> {
             if (lineages.size() <= 1) {
-                getChildren().removeAll(lineageLabel, lineageComboBox); // Remove from GridPane
+                getChildren().removeAll(lineageLabel, lineageComboBox, lineageComboBox.getLabel()); // Remove from GridPane
             } else {
                 if (!getChildren().contains(lineageLabel)) {
                     add(lineageLabel, 0, 6); // Add back to GridPane
                 }
                 if (!getChildren().contains(lineageComboBox)) {
                     add(lineageComboBox, 0, 7); // Add back to GridPane
+                    add(lineageComboBox.getLabel(), 0, 7); // Add back to GridPane
                 }
             }
+        };
+        speciesComboBox.valueProperty().addListener((_, _, _) -> {
+            updateLineages.run();
         });
+        updateLineages.run(); // Initial population
 
         getChildren().removeAll(lineageLabel, lineageComboBox); // Initially remove specific elements
 
@@ -131,7 +138,8 @@ public class ParametersPane extends GridPane {
         TooltipComboBox backgroundComboBox = new TooltipComboBox(backgrounds, mainTabPane);
         backgroundComboBox.setPromptText(getTranslation("RANDOM"));
         add(backgroundComboBox, 0, 9);
-        backgroundComboBox.disableProperty().bind(character.isEditing().not());      
+        add(backgroundComboBox.getLabel(), 0, 9);
+        backgroundComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
         backgroundComboBox.valueProperty().bindBidirectional(character.getBackground());
@@ -153,7 +161,8 @@ public class ParametersPane extends GridPane {
         // Listen for ComboBox changes (Translated → English)
         alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
         add(alignmentComboBox, 0, 11);
-        alignmentComboBox.disableProperty().bind(character.isEditing().not());    
+        add(alignmentComboBox.getLabel(), 0, 11);
+        alignmentComboBox.disableProperty().bind(character.isEditing().not());
 
         TooltipLabel sizeLabel = new TooltipLabel("", getTranslation("SIZE"), mainTabPane);
 
@@ -192,7 +201,7 @@ public class ParametersPane extends GridPane {
 
         character.getSpecies().addListener((_, _, _) -> {
             if (character.getAvailableSizes()[0].get().equals("")) {
-                getChildren().removeAll(sizeLabel, sizeComboBox);
+                getChildren().removeAll(sizeLabel, sizeComboBox, sizeComboBox.getLabel());
             } else if (character.getAvailableSizes()[1].get().equals("")) {
                 getChildren().remove(sizeComboBox);
                 if (!getChildren().contains(sizeLabel)) {
@@ -204,6 +213,7 @@ public class ParametersPane extends GridPane {
                 }
                 if (!getChildren().contains(sizeComboBox)) {
                     add(sizeComboBox, 0, 13);
+                    add(sizeComboBox.getLabel(), 0, 13);
                 }
             }
         });

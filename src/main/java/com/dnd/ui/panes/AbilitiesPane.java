@@ -7,6 +7,7 @@ import com.dnd.ThrowManager;
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.tabs.InfoTab;
+import com.dnd.ui.tooltip.TooltipComboBox;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.utils.ComboBoxUtils;
@@ -28,7 +29,7 @@ public class AbilitiesPane extends GridPane {
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
     private final String[] abilityNames = getTranslations("abilities");
-    private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
+    private final List<TooltipComboBox> comboBoxes = new ArrayList<>();
     private final List<Button> minuses = new ArrayList<>();
     private final List<Label> labels = new ArrayList<>();
     private final List<Button> pluses = new ArrayList<>();
@@ -134,7 +135,7 @@ public class AbilitiesPane extends GridPane {
 
             // ComboBox for selecting the starting value
             ObservableList<String> baseValues = FXCollections.observableArrayList(startingValues);
-            ComboBox<String> comboBox = new ComboBox<>(baseValues);
+            TooltipComboBox comboBox = new TooltipComboBox(baseValues, mainTabPane);
 
             // Add the ComboBox to the list
             comboBoxes.add(comboBox);

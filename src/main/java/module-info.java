@@ -10,6 +10,7 @@ module com.dnd {
     exports com.dnd;
     exports com.dnd.ui.tabs;
     exports com.dnd.ui.panes;
+    exports com.dnd.ui.tooltip;
     exports com.dnd.characters;
     exports com.dnd.utils;
     exports com.dnd.items;

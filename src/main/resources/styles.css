@@ -1,15 +1,13 @@
 /* General root styling */
 .root {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
-
+    background-color: linear-gradient(to bottom, #faf6ef, #e8dcc0); /* Standard CSS background color */
     -fx-background-color: linear-gradient(to bottom, #faf6ef, #e8dcc0);
     font-family: "Book Antiqua", "Georgia", serif;
     -fx-font-family: "Book Antiqua", "Georgia", serif;
     -fx-text-fill: #2e1f1c;
     
     /* 
-    Size variables, just for easy of modification
+    Size variables, just for easiness of modification
     radius 5.01px
     width 1px
     padding 2px

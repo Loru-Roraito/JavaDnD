@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.dnd.ui.tooltip.TooltipComboBox;
+
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
@@ -29,8 +31,8 @@ public class ComboBoxUtils {
      * @param repeatables    Values allowed to repeat across ComboBoxes (e.g., "RANDOM").
      */
     public static void updateItems(
-            ComboBox<String> comboBox,
-            List<ComboBox<String>> comboBoxes,
+            TooltipComboBox comboBox,
+            List<TooltipComboBox> comboBoxes,
             ObservableList<String> baseValues,
             String[] startingValues,
             String[] repeatables

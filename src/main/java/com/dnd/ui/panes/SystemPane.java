@@ -92,11 +92,13 @@ public class SystemPane extends GridPane {
             newCharacter.fill();
             newCharacter.isGenerator().set(false);
             newCharacter.isEditing().set(false);
-            CharacterTab characterTab = new CharacterTab("", newCharacter, mainTabPane);
+            CharacterTab characterTab = new CharacterTab("", mainTabPane);
+            characterTab.createSubTabPane(newCharacter);
             characterTab.setClosable(true); // Make the tab closable
             mainTabPane.getTabs().add(characterTab);
-            characterTab.setText(newCharacter.getName().get());
+            characterTab.newEdit();
             mainTabPane.getSelectionModel().select(characterTab);
+            newCharacter.setCharacterTab(characterTab);
         });
         confirm.visibleProperty().bind(character.isGenerator());
         confirm.managedProperty().bind(character.isGenerator());
@@ -114,7 +116,6 @@ public class SystemPane extends GridPane {
         finish.setOnAction(_ -> {
             character.fill();
             character.isEditing().set(false);
-            mainTabPane.getSelectionModel().getSelectedItem().setText(character.getName().get());
         });
         finish.visibleProperty().bind(character.isGenerator().not().and(character.isEditing()));
         finish.managedProperty().bind(character.isGenerator().not().and(character.isEditing()));
@@ -139,13 +140,17 @@ public class SystemPane extends GridPane {
         add(load, 4, 1);
         load.setOnAction(_ -> {
             ViewModel newCharacter = character.load();
-            newCharacter.isGenerator().set(false);
-            newCharacter.isEditing().set(false);
-            CharacterTab characterTab = new CharacterTab("", newCharacter, mainTabPane);
-            characterTab.setClosable(true); // Make the tab closable
-            mainTabPane.getTabs().add(characterTab);
-            characterTab.setText(newCharacter.getName().get());
-            mainTabPane.getSelectionModel().select(characterTab);
+            if (newCharacter != null) {
+                newCharacter.isGenerator().set(false);
+                newCharacter.isEditing().set(false);
+                CharacterTab characterTab = new CharacterTab("", mainTabPane);
+                characterTab.createSubTabPane(newCharacter);
+                characterTab.setClosable(true); // Make the tab closable
+                mainTabPane.getTabs().add(characterTab);
+                characterTab.setText(newCharacter.getSaveName());
+                mainTabPane.getSelectionModel().select(characterTab);
+                newCharacter.setCharacterTab(characterTab);
+            }
         });
         load.visibleProperty().bind(character.isGenerator());
         load.managedProperty().bind(character.isGenerator());

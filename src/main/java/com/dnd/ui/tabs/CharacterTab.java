@@ -1,31 +1,33 @@
 package com.dnd.ui.tabs;
 
+import java.util.Optional;
+
 import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 
 import javafx.geometry.Side;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 public class CharacterTab extends Tab{
-    private final ViewModel character;
-    private final TabPane mainTabPane; // Reference to the main TabPane
-    public CharacterTab(String title, ViewModel character, TabPane mainTabPane) {
-        this.character = character;
+    private boolean isSaved = true;
+    private final TabPane mainTabPane; // Reference to the main TabPaneù
+    private ViewModel character;
+    public CharacterTab(String title, TabPane mainTabPane) {
         this.mainTabPane = mainTabPane;
         
         // Set the tab title using the translation key
         setText(TranslationManager.getInstance().getTranslation(title));
-
-        // Set the content of the tab
-        setContent(createSubTabPane());
 
         // Make the tab closable (default behavior, can be overridden)
         setClosable(false);
     }
 
     // Create the TabPane for sub-tabs
-    private TabPane createSubTabPane() {
+    public void createSubTabPane(ViewModel character) {
+        this.character = character;
         TabPane subTabPane = new TabPane();
         subTabPane.setSide(Side.LEFT); // Display tabs on the left
         subTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); // Prevent closing sub-tabs
@@ -38,6 +40,79 @@ public class CharacterTab extends Tab{
         // Add sub-tabs
         subTabPane.getTabs().addAll(infoTab, magicTab, statusTab, extraTab);
 
-        return subTabPane;
+        setContent(subTabPane);
+        setupCloseHandler();
+    }
+
+    public void newEdit() {
+        isSaved = false;
+        String text = getText();
+        if (!text.equals(getTranslation("GENERATOR_WINDOW")) && !text.endsWith("*")) {
+            String name = !character.getSaveName().equals("") ? character.getSaveName() : character.getName().get();
+            setText(name + "*");
+        }
+    }
+
+    public void setSaved() {
+        isSaved = true;
+        setText(character.getSaveName());
+    }
+
+    private void setupCloseHandler() {
+        setOnCloseRequest(event -> {
+            if (!isSaved) {
+                // Show confirmation dialog
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle(getTranslation("UNSAVED_CHANGES"));
+                alert.setHeaderText(getTranslation("WARNING_UNSAVED"));
+                alert.setContentText(getTranslation("SAVE_BEFORE_CLOSING"));
+                
+                ButtonType saveButton = new ButtonType(getTranslation("SAVE"));
+                ButtonType dontSaveButton = new ButtonType(getTranslation("DONT_SAVE"));
+                ButtonType cancelButton = new ButtonType(getTranslation("CANCEL"));
+                
+                // Apply CSS to the alert dialog
+                alert.getDialogPane().getStylesheets().add(
+                    getClass().getResource("/styles.css").toExternalForm()
+                );
+
+                alert.getButtonTypes().setAll(saveButton, dontSaveButton, cancelButton);
+                
+                Optional<ButtonType> result = alert.showAndWait();
+                
+                if (result.isPresent()) {
+                    if (result.get() == saveButton) {
+                        if (!saveCharacter()) {
+                            // Cancel close if save was cancelled or failed
+                            event.consume();
+                        }
+                    } else if (result.get() == cancelButton) {
+                        // Cancel the close
+                        event.consume();
+                    }
+                    // If "Don't Save" was clicked, let the tab close
+                }
+            }
+        });
+    }
+
+    public boolean saveCharacter() {
+        if (character != null) {
+            boolean saved = character.save(false);
+            if (saved) {
+                isSaved = true;
+                setText(character.getSaveName());
+            }
+            return saved;
+        }
+        return false;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    private String getTranslation(String key) {
+        return TranslationManager.getInstance().getTranslation(key);
     }
 }

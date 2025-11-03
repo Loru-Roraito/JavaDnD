@@ -13,11 +13,13 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
 public class TooltipComboBox extends ComboBox<String> {
     private final TabPane mainTabPane;
     private String hoveredItem; // Store the currently hovered item
     private ListView<String> listView;
     private PopupControl popup;
+    private TooltipLabel replacementLabel; // Label to show when disabled
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
         super(items);
@@ -27,6 +29,8 @@ public class TooltipComboBox extends ComboBox<String> {
         setupKeyListener();
         setupComboBoxScrolling();
         setupClickHandling();
+        setupDisabledListener();
+        updateLabel();
     }
 
     public TooltipComboBox(TabPane mainTabPane) {
@@ -37,6 +41,47 @@ public class TooltipComboBox extends ComboBox<String> {
         setupKeyListener();
         setupComboBoxScrolling();
         setupClickHandling();
+        setupDisabledListener();
+        updateLabel();
+    }
+
+    public TooltipLabel getLabel() {
+        return replacementLabel;
+    }
+
+    private void setupDisabledListener() {
+        replacementLabel = new TooltipLabel("", mainTabPane);
+        replacementLabel.getStyleClass().add("combo-box-disabled-label");
+        replacementLabel.setVisible(false);
+
+        // Listen for disabled state changes
+        this.disabledProperty().addListener((_, _, isDisabled) -> {
+            if (isDisabled) {
+                updateLabel();
+                replacementLabel.setVisible(true);
+                this.setVisible(false);
+                this.setManaged(false);
+            } else {
+                replacementLabel.setVisible(false);
+                this.setVisible(true);
+                this.setManaged(true);
+            }
+        });
+
+        this.valueProperty().addListener((_, _, _) -> {
+            updateLabel();
+        });
+    }
+
+    private void updateLabel() {
+        // Update label text and tooltip
+        String currentValue = getValue();
+        if (currentValue != null) {
+            // TODO: spaces
+            replacementLabel.setText("   " + currentValue);
+            replacementLabel.changeTooltip(currentValue);
+            replacementLabel.changeDefinition(currentValue);
+        }
     }
 
     private void createPopup() {

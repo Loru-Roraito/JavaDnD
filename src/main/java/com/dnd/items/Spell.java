@@ -87,6 +87,26 @@ public class Spell implements MyItems<Spell> {
         return nominative;
     }
 
+    public String getPrepare() {
+        return prepare;
+    }
+
+    public String[] getFocus() {
+        return focus;
+    }
+
+    public int getAbility() {
+        return ability;
+    }
+
+    public Boolean getOverriding() {
+        return overriding;
+    }
+
+    public Boolean getLimited() {
+        return limited;
+    }
+
     public int getLevel() {
         return level;
     }

@@ -23,7 +23,7 @@ import javafx.collections.ListChangeListener;
 
 public class ClassPane extends GridPane {
     private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
-    private final Map<ComboBox<String>, ChangeListener<String>> featListeners = new HashMap<>();
+    private final Map<TooltipComboBox, ChangeListener<String>> featListeners = new HashMap<>();
     public ClassPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");
 
@@ -43,6 +43,7 @@ public class ClassPane extends GridPane {
         TooltipComboBox classComboBox = new TooltipComboBox(classes, mainTabPane);
         classComboBox.setPromptText(getTranslation("RANDOM"));
         add(classComboBox, 0, 1);
+        add(classComboBox.getLabel(), 0, 1);
         classComboBox.disableProperty().bind(character.isEditing().not());
 
         // Listen for ComboBox changes (Translated → English)
@@ -92,13 +93,14 @@ public class ClassPane extends GridPane {
         Runnable updateSubclasses = () -> {
             // Dynamically add or remove the subclass elements
             if (subclasses.isEmpty() || subclasses.size() == 1 && subclasses.get(0).equals(getTranslation("RANDOM"))) {
-                getChildren().removeAll(subclassLabel, subclassComboBox); // Remove from GridPane
+                getChildren().removeAll(subclassLabel, subclassComboBox, subclassComboBox.getLabel()); // Remove from GridPane
             } else {
                 if (!getChildren().contains(subclassLabel)) {
                     add(subclassLabel, 0, 2); // Add back to GridPane
                 }
                 if (!getChildren().contains(subclassComboBox)) {
                     add(subclassComboBox, 0, 3); // Add back to GridPane
+                    add(subclassComboBox.getLabel(), 0, 3); // Add back to GridPane
                 }
             }
             
@@ -119,7 +121,7 @@ public class ClassPane extends GridPane {
 
         // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
         int maxFeats = character.getMaxFeats();
-        List<ComboBox<String>> feats = new ArrayList<>(maxFeats);
+        List<TooltipComboBox> feats = new ArrayList<>(maxFeats);
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel().get() >= 4 || !character.getBackground().get().equals(getTranslation("RANDOM"))) {
@@ -184,8 +186,10 @@ public class ClassPane extends GridPane {
             for (int i = 0; i < maxFeats; i++) {
                 if (i < newVal && !getChildren().contains(feats.get(i))) {
                     add(feats.get(i), 0, 8 + i);
+                    add(feats.get(i).getLabel(), 0, 8 + i);
                 } else if (i >= newVal) {
                     getChildren().remove(feats.get(i));
+                    getChildren().remove(feats.get(i).getLabel());
                 }
             }
         };
@@ -194,7 +198,7 @@ public class ClassPane extends GridPane {
 
         Runnable updateFeats = () -> {
             int counter = 0;
-            for (ComboBox<String> feat : feats) {
+            for (TooltipComboBox feat : feats) {
                 ChangeListener<String> listener = featListeners.remove(feat);
                 if (listener != null) {
                     feat.valueProperty().removeListener(listener);
@@ -202,6 +206,7 @@ public class ClassPane extends GridPane {
                 if (getChildren().contains(feat)) {
                     counter ++;
                     getChildren().remove(feat);
+                    getChildren().remove(feat.getLabel());
                 }
             }
             featListeners.clear();
@@ -246,6 +251,7 @@ public class ClassPane extends GridPane {
 
             for (int i = 0; i < counter; i++) {
                 add(feats.get(i), 0, 8 + i);
+                add(feats.get(i).getLabel(), 0, 8 + i);
             }
 
             updateAvailableFeats.run();

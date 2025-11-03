@@ -23,6 +23,7 @@ public class GameCharacter {
     private final String[] abilityNames;
     private final String[] sets;
 
+    private final ObservableString saveName = new ObservableString("");
     private final ObservableString creatureType = new ObservableString("");
     private final ObservableString languageOne = new ObservableString("RANDOM");
     private final ObservableString languageTwo = new ObservableString("RANDOM");
@@ -458,6 +459,18 @@ public class GameCharacter {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getSaveName() {
+        return saveName.get();
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName.set(saveName);
+    }
+
+    public ObservableString getSaveNameProperty() {
+        return saveName;
     }
 
     public int getMaxLineages() {
@@ -1958,6 +1971,9 @@ public class GameCharacter {
         for (int i = 0; i < moneys.length; i++) {
             copy.moneys[i].set(this.moneys[i].get());
         }
+        for (int i = 0; i < 9; i++) {
+            copy.availableSpellSlots[i].set(availableSpellSlots[i].get());
+        }
         
         return copy;
     }
@@ -2316,11 +2332,12 @@ public class GameCharacter {
         }
     }
 
-    public void save(Boolean newFile, Stage stage) {
-        CharacterSerializer.save(this, newFile, stage);
+    public Boolean save(Boolean newFile, Stage stage) {
+        return CharacterSerializer.save(this, newFile, stage);
     }
 
     public static GameCharacter load(Stage stage) {
-        return CharacterSerializer.load(stage);
+        GameCharacter NC = CharacterSerializer.load(stage);
+        return NC;
     }
 }

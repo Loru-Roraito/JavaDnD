@@ -12,6 +12,7 @@ import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
 import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
+import com.dnd.ui.tabs.CharacterTab;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -27,6 +28,8 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 public class ViewModel {
+    private final StringProperty saveName;
+
     private final StringProperty creatureType;
     private final StringProperty languageOne;
     private final StringProperty languageTwo;
@@ -131,10 +134,16 @@ public class ViewModel {
 
     private final GameCharacter backend;
     private final Stage stage;
+    private CharacterTab characterTab;
 
-    public ViewModel(GameCharacter backend, Stage stage) {
+    public ViewModel(GameCharacter backend, Stage stage, CharacterTab characterTab) {
         this.stage = stage;
         this.backend = backend;
+        this.characterTab = characterTab;
+
+        saveName = new SimpleStringProperty(backend.getSaveNameProperty().get());
+        bindObservableString(saveName, backend.getSaveNameProperty());
+
         creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
         bindObservableString(creatureType, backend.getCreatureType());
 
@@ -500,6 +509,7 @@ public class ViewModel {
         AtomicBoolean updating = new AtomicBoolean(false);
 
         java.util.function.Consumer<ObservableList<T>> updateFtB = (ObservableList<T> newValue) -> {
+            characterTab.newEdit();
             if (!updating.compareAndSet(false, true)) return;
             try {
                 List<T> original = new java.util.ArrayList<>();
@@ -512,6 +522,7 @@ public class ViewModel {
                         // System.out.println("Updated front name to: " + key.getName());
                     });
                     key.getNameProperty().addListener(newVal -> {
+                        characterTab.newEdit();
                         copy.setName(getOriginal(newVal));
                     });
                 }
@@ -532,6 +543,7 @@ public class ViewModel {
                     copy.setName(getTranslation(copy.getName()));
                     translated.add(copy);
                     copy.getNameProperty().addListener(newVal -> {
+                        characterTab.newEdit();
                         key.setName(getOriginal(newVal));
                         // System.out.println("Updated back name to: " + key.getName());
                     });
@@ -554,6 +566,7 @@ public class ViewModel {
         AtomicBoolean updating = new AtomicBoolean(false);
         
         Runnable updateFtB = () -> {
+            characterTab.newEdit();
             if (!updating.compareAndSet(false, true)) return;
             try {
                 List<ObservableString> original = new java.util.ArrayList<>();
@@ -591,6 +604,7 @@ public class ViewModel {
             front.set(getTranslation(back.get()));
         });
         front.addListener(_ -> {
+            characterTab.newEdit();
             // System.out.println("Front changed: " + front.get() + " -> Back: " + getOriginal(front.get()));
             back.set(getOriginal(front.get()));
         });
@@ -598,17 +612,26 @@ public class ViewModel {
 
     private void bindObservableInteger(IntegerProperty front, ObservableInteger back) {
         back.addListener(_ -> front.set(back.get()));
-        front.addListener(_ -> back.set(front.get()));
+        front.addListener(_ -> {
+            characterTab.newEdit();
+            back.set(front.get());
+        });
     }
 
     private void bindObservableDouble(DoubleProperty front, ObservableInteger back, double multiplier) {
         back.addListener(_ -> front.set(back.get() * multiplier));
-        front.addListener(_ -> back.set((int) (front.get() / multiplier)));
+        front.addListener(_ -> {
+            characterTab.newEdit();
+            back.set((int) (front.get() / multiplier));
+        });
     }
 
     private void bindObservableBoolean(BooleanProperty front, ObservableBoolean back) {
         back.addListener(_ -> front.set(back.get()));
-        front.addListener(_ -> back.set(front.get()));
+        front.addListener(_ -> {
+            characterTab.newEdit();
+            back.set(front.get());
+        });
     }
 
     // Editors
@@ -693,6 +716,10 @@ public class ViewModel {
 
     public StringProperty getHeight() {
         return height;
+    }
+
+    public String getSaveName() {
+        return saveName.get();
     }
 
     public StringProperty getWeight() {
@@ -1013,18 +1040,31 @@ public class ViewModel {
 
 
     public ViewModel duplicate() {
-        return new ViewModel(backend.duplicate(), stage);
+        return new ViewModel(backend.duplicate(), stage, characterTab);
     }
 
     public void fill() {
         backend.fill();
     }
 
-    public void save(Boolean newFile) {
-        backend.save(newFile, stage);
+    public Boolean save(Boolean newFile) {
+        Boolean saveSuccessful = backend.save(newFile, stage);
+        if (saveSuccessful) {
+            characterTab.setSaved();
+        }
+        return saveSuccessful;
     }
 
     public ViewModel load() {
-        return new ViewModel(GameCharacter.load(stage), stage);
+        GameCharacter character = GameCharacter.load(stage);
+        if (character != null) {
+            return new ViewModel(character, stage, characterTab);
+        } else {
+            return null;
+        }
+    }
+
+    public void setCharacterTab(CharacterTab characterTab) {
+        this.characterTab = characterTab;
     }
 }
