@@ -126,6 +126,8 @@ public class App extends Application {
         // Get screen dimensions
         javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
         javafx.geometry.Rectangle2D bounds = screen.getVisualBounds();
+
+        stage.setMaximized(true);
         
         // Set maximum size to screen size
         stage.setMaxWidth(bounds.getWidth());
@@ -239,3 +241,4 @@ public class App extends Application {
 // disegni Anastasia
 // eventualmente sfondo
 // continuare a sistemare estetica
+// more than one character

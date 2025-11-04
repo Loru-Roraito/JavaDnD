@@ -286,17 +286,10 @@ public class DefinitionManager {
         tooltip.setWrapText(true);
         tooltip.setMaxWidth(300);
         tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
-        Tooltip.install(node, tooltip);
-    }
 
-    public void forceTooltip(javafx.scene.Node node, String tooltipText) {
-        if (!tooltipText.isEmpty()) {
-            Tooltip tooltip = new Tooltip(tooltipText);
-            tooltip.setWrapText(true);
-            tooltip.setMaxWidth(300);
-            tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
-            Tooltip.install(node, tooltip);
-        }
+        tooltip.setAutoFix(true); // Automatically adjust position to stay on screen
+    
+        Tooltip.install(node, tooltip);
     }
 
     public String[] getGroup(String[] key) {

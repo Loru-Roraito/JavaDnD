@@ -274,8 +274,10 @@ public class ClassPane extends GridPane {
                 String newVal = character.getFeatOne(index).get();
                 if (newVal != null && !newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(one)) {
                     add(one, 1, 8 + index);
+                    add(one.getLabel(), 1, 8 + index);
                 } else if (newVal != null && newVal.equals(getTranslation("NONE_M")) && getChildren().contains(one)) {
                     getChildren().remove(one);
+                    getChildren().remove(one.getLabel());
                 }
             };
 
@@ -309,8 +311,10 @@ public class ClassPane extends GridPane {
                 String newVal = character.getFeatTwo(index).get();
                 if (newVal != null && !newVal.equals(getTranslation("NONE_M")) && !getChildren().contains(two)) {
                     add(two, 2, 8 + index);
+                    add(two.getLabel(), 2, 8 + index);
                 } else if (newVal != null && newVal.equals(getTranslation("NONE_M")) && getChildren().contains(two)) {
                     getChildren().remove(two);
+                    getChildren().remove(two.getLabel());
                 }
             };
 
