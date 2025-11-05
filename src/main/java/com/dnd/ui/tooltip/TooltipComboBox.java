@@ -81,6 +81,10 @@ public class TooltipComboBox extends ComboBox<String> {
             replacementLabel.setText("   " + currentValue);
             replacementLabel.changeTooltip(currentValue);
             replacementLabel.changeDefinition(currentValue);
+        } else {
+            replacementLabel.setText("");
+            replacementLabel.changeTooltip("");
+            replacementLabel.changeDefinition("");
         }
     }
 

@@ -69,6 +69,7 @@
   "max_subclasses": 4,
   "max_feats": 7,
   "max_sets": 2,
+  "max_classes": 12,
 
   "classes": {
     "NONE_F": {
@@ -2687,17 +2688,18 @@
     "CUSTOM_M"
   ],
 
-  "magic_classes": [
-    "BARD",
-    "CLERIC",
-    "DRUID",
-    "PALADIN",
-    "RANGER",
-    "SORCERER",
-    "WIZARD"
-  ],
+  "magic_classes": {
+    "BARD": true,
+    "CLERIC": true,
+    "DRUID": true,
+    "PALADIN": false,
+    "RANGER": false,
+    "SORCERER": true,
+    "WIZARD": true
+  },
 
   "spell_slots": {
+    "0": [2, 0, 0, 0, 0, 0, 0, 0, 0],
     "1": [2, 0, 0, 0, 0, 0, 0, 0, 0],
     "2": [3, 0, 0, 0, 0, 0, 0, 0, 0],
     "3": [4, 2, 0, 0, 0, 0, 0, 0, 0],

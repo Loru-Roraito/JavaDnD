@@ -201,7 +201,7 @@ public class EquipmentPane extends GridPane {
             String newVal = character.getClassEquipment(0).get();
             if(newVal.equals(getTranslation("RANDOM"))) {
                 classEquipment.setValue(getTranslation("RANDOM"));
-            } else if (newVal.equals(character.getClasse().get())) {
+            } else if (newVal.equals(character.getClasse(0).get())) {
                 classEquipment.setValue(textClass);
             } else if (newVal.equals(getTranslation("GOLD"))) {
                 classEquipment.setValue(goldClass);
@@ -209,7 +209,7 @@ public class EquipmentPane extends GridPane {
         };
 
         Runnable updateClassEquipment = () -> {
-            String currentClass = character.getClasse().get();
+            String currentClass = character.getClasse(0).get();
             if (currentClass.equals(getTranslation("RANDOM")) || currentClass.equals(getTranslation("NONE_F"))) {
                 if(getChildren().contains(classEquipment)) {
                     getChildren().remove(classEquipment);
@@ -231,7 +231,7 @@ public class EquipmentPane extends GridPane {
             selectClassEquipment.run();
         };
 
-        character.getClasse().addListener((_, _, _) -> {
+        character.getClasse(0).addListener((_, _, _) -> {
             updateClassEquipment.run();
         });
         
@@ -254,9 +254,9 @@ public class EquipmentPane extends GridPane {
             if (newVal != null) {
                 if (newVal.equals(getTranslation("RANDOM"))) {
                     character.getClassEquipment(0).set(newVal);
-                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + character.getClasse().get())) {
-                    String classe = character.getClasse().get();
-                    character.getClassEquipment(0).set(character.getClasse().get());
+                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + character.getClasse(0).get())) {
+                    String classe = character.getClasse(0).get();
+                    character.getClassEquipment(0).set(character.getClasse(0).get());
 
                     String[] equips = getGroup(new String[] {"classes", getOriginal(classe), "equipment"});
                     for (String equip : equips) {

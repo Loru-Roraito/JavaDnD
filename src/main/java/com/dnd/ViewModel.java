@@ -37,31 +37,32 @@ public class ViewModel {
     private final StringProperty weight;
     private final StringProperty name;
     private final StringProperty gender;
-    private final StringProperty subclass;
     private final StringProperty lineage;
     private final StringProperty alignment;
     private final StringProperty generationMethod;
     private final StringProperty healthMethod;
-    private final StringProperty levelShown;
-    private final StringProperty classe;
     private final StringProperty species;
     private final StringProperty background;
     private final StringProperty size;
     private final StringProperty originFeat;
-    private final StringProperty spellcastingAbility;
+    private final StringProperty[] classes;
+    private final StringProperty[] subclasses;
+    private final StringProperty[] levelsShown;
+    private final StringProperty[] spellcastingAbilities;
     private final StringProperty[] moneysShown;
-    private final StringProperty[] feats;
-    private final StringProperty[] featOnes;
-    private final StringProperty[] featTwos;
     private final StringProperty[] availableSizes;
-    private final StringProperty[] availableSubclasses;
     private final StringProperty[] availableLineages;
     private final StringProperty[] abilityBasesShown;
     private final StringProperty[] classEquipment;
     private final StringProperty[] backgroundEquipment;
-    private final StringProperty[][] featAbilities;
+    private final StringProperty[][] availableSubclasses;
+    private final StringProperty[][] feats;
+    private final StringProperty[][] featOnes;
+    private final StringProperty[][] featTwos;
+    private final StringProperty[][][] featAbilities;
 
     private final int maxFeats;
+    private final int maxClasses;
 
     private final IntegerProperty generationPoints;
     private final IntegerProperty initiativeBonus;
@@ -69,15 +70,16 @@ public class ViewModel {
     private final IntegerProperty armorClass;
     private final IntegerProperty health;
     private final IntegerProperty fixedHealth;
-    private final IntegerProperty hitDie;
-    private final IntegerProperty availableFeats;
-    private final IntegerProperty level;
     private final IntegerProperty exhaustion;
-    private final IntegerProperty maxCantrips;
-    private final IntegerProperty maxSpells;
-    private final IntegerProperty spellcastingAbilityModifier;
-    private final IntegerProperty spellcastingAttackModifier;
-    private final IntegerProperty spellcastingSaveDC;
+    private final IntegerProperty totalLevel;
+    private final IntegerProperty[] hitDies;
+    private final IntegerProperty[] availableFeats;
+    private final IntegerProperty[] levels;
+    private final IntegerProperty[] maxCantrips;
+    private final IntegerProperty[] maxSpells;
+    private final IntegerProperty[] spellcastingAbilityModifiers;
+    private final IntegerProperty[] spellcastingAttackModifiers;
+    private final IntegerProperty[] spellcastingSaveDCs;
     private final IntegerProperty[] abilities;
     private final IntegerProperty[] abilityModifiers;
     private final IntegerProperty[] savingThrowModifiers;
@@ -125,10 +127,10 @@ public class ViewModel {
     private final ObservableList<StringProperty> weaponProficiencies;
     private final ObservableList<StringProperty> armorProficiencies;
     private final ObservableList<StringProperty> toolProficiencies;
-    private final ObservableList<StringProperty> selectableFeats;
+    private final ObservableList<ObservableList<StringProperty>> selectableFeats;
     private final ObservableList<Proficiency> choiceProficiencies;
-    private final ObservableList<Spell> availableCantrips;
-    private final ObservableList<Spell> availableSpells;
+    private final ObservableList<ObservableList<Spell>> availableCantrips;
+    private final ObservableList<ObservableList<Spell>> availableSpells;
     private final ObservableList<Spell> spells;
     private final ObservableList<Spell> cantrips;
 
@@ -165,9 +167,6 @@ public class ViewModel {
         gender = new SimpleStringProperty(getTranslation(backend.getGender().get()));
         bindObservableString(gender, backend.getGender());
 
-        subclass = new SimpleStringProperty(getTranslation(backend.getSubclass().get()));
-        bindObservableString(subclass, backend.getSubclass());
-
         lineage = new SimpleStringProperty(getTranslation(backend.getLineage().get()));
         bindObservableString(lineage, backend.getLineage());
 
@@ -180,11 +179,8 @@ public class ViewModel {
         healthMethod = new SimpleStringProperty(getTranslation(backend.getHealthMethod().get()));
         bindObservableString(healthMethod, backend.getHealthMethod());
 
-        levelShown = new SimpleStringProperty(getTranslation(backend.getLevelShown().get()));
-        bindObservableString(levelShown, backend.getLevelShown());
-
-        classe = new SimpleStringProperty(getTranslation(backend.getClasse().get()));
-        bindObservableString(classe, backend.getClasse());
+        totalLevel = new SimpleIntegerProperty(backend.getTotalLevel().get());
+        bindObservableInteger(totalLevel, backend.getTotalLevel());
 
         species = new SimpleStringProperty(getTranslation(backend.getSpecies().get()));
         bindObservableString(species, backend.getSpecies());
@@ -216,38 +212,14 @@ public class ViewModel {
         fixedHealth = new SimpleIntegerProperty(backend.getFixedHealth().get());
         bindObservableInteger(fixedHealth, backend.getFixedHealth());
 
-        hitDie = new SimpleIntegerProperty(backend.getHitDie().get());
-        bindObservableInteger(hitDie, backend.getHitDie());
-
-        level = new SimpleIntegerProperty(backend.getLevel().get());
-        bindObservableInteger(level, backend.getLevel());
-
         exhaustion = new SimpleIntegerProperty(backend.getExhaustion().get());
         bindObservableInteger(exhaustion, backend.getExhaustion());
-
-        maxCantrips = new SimpleIntegerProperty(backend.getMaxCantrips().get());
-        bindObservableInteger(maxCantrips, backend.getMaxCantrips());
-
-        maxSpells = new SimpleIntegerProperty(backend.getMaxSpells().get());
-        bindObservableInteger(maxSpells, backend.getMaxSpells());
-
-        spellcastingAbilityModifier = new SimpleIntegerProperty(backend.getSpellcastingAbilityModifier().get());
-        bindObservableInteger(spellcastingAbilityModifier, backend.getSpellcastingAbilityModifier());
-
-        spellcastingAttackModifier = new SimpleIntegerProperty(backend.getSpellcastingAttackModifier().get());
-        bindObservableInteger(spellcastingAttackModifier, backend.getSpellcastingAttackModifier());
-
-        spellcastingSaveDC = new SimpleIntegerProperty(backend.getSpellcastingSaveDC().get());
-        bindObservableInteger(spellcastingSaveDC, backend.getSpellcastingSaveDC());
 
         size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
         bindObservableString(size, backend.getSize());
 
         originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
         bindObservableString(originFeat, backend.getOriginFeat());
-
-        spellcastingAbility = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility().get()));
-        bindObservableString(spellcastingAbility, backend.getSpellcastingAbility());
 
         blinded = new SimpleBooleanProperty(backend.getBlinded().get());
         bindObservableBoolean(blinded, backend.getBlinded());
@@ -297,6 +269,54 @@ public class ViewModel {
         unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
         bindObservableBoolean(unconscious, backend.getUnconscious());
 
+        maxClasses = backend.getMaxClasses();
+        levelsShown = new SimpleStringProperty[maxClasses];
+        classes = new SimpleStringProperty[maxClasses];
+        subclasses = new SimpleStringProperty[maxClasses];
+        hitDies = new SimpleIntegerProperty[maxClasses];
+        levels = new SimpleIntegerProperty[maxClasses];
+        maxCantrips = new SimpleIntegerProperty[maxClasses];
+        maxSpells = new SimpleIntegerProperty[maxClasses];
+        spellcastingAbilityModifiers = new SimpleIntegerProperty[maxClasses];
+        spellcastingAttackModifiers = new SimpleIntegerProperty[maxClasses];
+        spellcastingSaveDCs = new SimpleIntegerProperty[maxClasses];
+        spellcastingAbilities = new SimpleStringProperty[maxClasses];
+
+        for (int i = 0; i < maxClasses; i++) {
+            levelsShown[i] = new SimpleStringProperty(getTranslation(backend.getLevelShown(i).get()));
+            bindObservableString(levelsShown[i], backend.getLevelShown(i));
+
+            classes[i] = new SimpleStringProperty(getTranslation(backend.getClasse(i).get()));
+            bindObservableString(classes[i], backend.getClasse(i));
+
+            subclasses[i] = new SimpleStringProperty(getTranslation(backend.getSubclass(i).get()));
+            bindObservableString(subclasses[i], backend.getSubclass(i));
+
+            hitDies[i] = new SimpleIntegerProperty(backend.getHitDie(i).get());
+            bindObservableInteger(hitDies[i], backend.getHitDie(i));
+
+            levels[i] = new SimpleIntegerProperty(backend.getLevel(i).get());
+            bindObservableInteger(levels[i], backend.getLevel(i));
+
+            maxCantrips[i] = new SimpleIntegerProperty(backend.getMaxCantrips(i).get());
+            bindObservableInteger(maxCantrips[i], backend.getMaxCantrips(i));
+
+            maxSpells[i] = new SimpleIntegerProperty(backend.getMaxSpells(i).get());
+            bindObservableInteger(maxSpells[i], backend.getMaxSpells(i));
+
+            spellcastingAbilityModifiers[i] = new SimpleIntegerProperty(backend.getSpellcastingAbilityModifier(i).get());
+            bindObservableInteger(spellcastingAbilityModifiers[i], backend.getSpellcastingAbilityModifier(i));
+
+            spellcastingAttackModifiers[i] = new SimpleIntegerProperty(backend.getSpellcastingAttackModifier(i).get());
+            bindObservableInteger(spellcastingAttackModifiers[i], backend.getSpellcastingAttackModifier(i));
+
+            spellcastingSaveDCs[i] = new SimpleIntegerProperty(backend.getSpellcastingSaveDC(i).get());
+            bindObservableInteger(spellcastingSaveDCs[i], backend.getSpellcastingSaveDC(i));
+
+            spellcastingAbilities[i] = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility(i).get()));
+            bindObservableString(spellcastingAbilities[i], backend.getSpellcastingAbility(i));
+        }
+
         moneysShown = new SimpleStringProperty[5];
         for (int i = 0; i < 5; i++) {
             moneysShown[i] = new SimpleStringProperty(getTranslation(backend.getMoneyShown(i).get()));
@@ -313,10 +333,12 @@ public class ViewModel {
         int maxLineages = backend.getMaxLineages();
         int maxSets = backend.getMaxSets();
 
-        availableSubclasses = new StringProperty[maxSubclasses];
-        for (int i = 0; i < maxSubclasses; i++) {
-            availableSubclasses[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i).get()));
-            bindObservableString(availableSubclasses[i], backend.getAvailableSubclass(i));
+        availableSubclasses = new StringProperty[maxClasses][maxSubclasses];
+        for (int i = 0; i < maxClasses; i++) {
+            for (int j = 0; j < maxSubclasses; j++) {
+                availableSubclasses[i][j] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i, j).get()));
+                bindObservableString(availableSubclasses[i][j], backend.getAvailableSubclass(i, j));
+            }
         }
 
         availableLineages = new StringProperty[maxLineages];
@@ -457,17 +479,25 @@ public class ViewModel {
         toolProficiencies = FXCollections.observableArrayList();
         updateList(toolProficiencies, backend.getToolProficiencies());
 
-        selectableFeats = FXCollections.observableArrayList();
-        updateList(selectableFeats, backend.getNewSelectableFeats());
-
         choiceProficiencies = FXCollections.observableArrayList();
         updateCustomList(choiceProficiencies, backend.getChoiceProficiencies());
 
+        selectableFeats = FXCollections.observableArrayList();
         availableCantrips = FXCollections.observableArrayList();
-        updateCustomList(availableCantrips, backend.getAvailableCantrips());
-
         availableSpells = FXCollections.observableArrayList();
-        updateCustomList(availableSpells, backend.getAvailableSpells());
+        for (int i = 0; i < maxClasses; i++) {
+            ObservableList<StringProperty> selectableFeat = FXCollections.observableArrayList();
+            selectableFeats.add(selectableFeat);
+            updateList(selectableFeat, backend.getNewSelectableFeats(i));
+
+            ObservableList<Spell> classCantrips = FXCollections.observableArrayList();
+            availableCantrips.add(classCantrips);
+            updateCustomList(classCantrips, backend.getAvailableCantrips(i));
+
+            ObservableList<Spell> classSpells = FXCollections.observableArrayList();
+            availableSpells.add(classSpells);
+            updateCustomList(classSpells, backend.getAvailableSpells(i));
+        }
 
         cantrips = FXCollections.observableArrayList();
         updateCustomList(cantrips, backend.getCantrips());
@@ -476,32 +506,30 @@ public class ViewModel {
         updateCustomList(spells, backend.getSpells());
 
         maxFeats = backend.getMaxFeats();
-        availableFeats = new SimpleIntegerProperty(backend.getAvailableFeats().get());
-        bindObservableInteger(availableFeats, backend.getAvailableFeats());
-        feats = new StringProperty[maxFeats];
-        for (int i = 0; i < maxFeats; i++) {
-            feats[i] = new SimpleStringProperty(getTranslation(backend.getFeat(i).get()));
-            bindObservableString(feats[i], backend.getFeat(i));
-        }
+        availableFeats = new IntegerProperty[maxClasses];
+        feats = new StringProperty[maxClasses][maxFeats];
+        featOnes = new StringProperty[maxClasses][maxFeats];
+        featTwos = new StringProperty[maxClasses][maxFeats];
+        featAbilities = new StringProperty[maxClasses][maxFeats][abilityCount];
+        for (int i = 0; i < maxClasses; i++) {
+            availableFeats[i] = new SimpleIntegerProperty(backend.getAvailableFeats(i).get());
+            bindObservableInteger(availableFeats[i], backend.getAvailableFeats(i));
 
-        featAbilities = new StringProperty[maxFeats][abilityCount];
-        for (int i = 0; i < maxFeats; i++) {
-            for (int j = 0; j < abilityCount; j++) {
-                featAbilities[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j).get()));
-                bindObservableString(featAbilities[i][j], backend.getFeatAbility(i, j));
+            for (int j = 0; j < maxFeats; j++) {
+                feats[i][j] = new SimpleStringProperty(getTranslation(backend.getFeat(i, j).get()));
+                bindObservableString(feats[i][j], backend.getFeat(i, j));
+
+                featOnes[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i, j).get()));
+                bindObservableString(featOnes[i][j], backend.getFeatOne(i, j));
+
+                featTwos[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i, j).get()));
+                bindObservableString(featTwos[i][j], backend.getFeatTwo(i, j));
+
+                for (int k = 0; k < abilityCount; k++) {
+                    featAbilities[i][j][k] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j, k).get()));
+                    bindObservableString(featAbilities[i][j][k], backend.getFeatAbility(i, j, k));
+                }
             }
-        }
-
-        featOnes = new StringProperty[maxFeats];
-        for (int i = 0; i < maxFeats; i++) {
-            featOnes[i] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i).get()));
-            bindObservableString(featOnes[i], backend.getFeatOne(i));
-        }
-
-        featTwos = new StringProperty[maxFeats];
-        for (int i = 0; i < maxFeats; i++) {
-            featTwos[i] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i).get()));
-            bindObservableString(featTwos[i], backend.getFeatTwo(i));
         }
     }
 
@@ -674,8 +702,8 @@ public class ViewModel {
         return toolProficiencies;
     }
 
-    public ObservableList<StringProperty> getSelectableFeats() {
-        return selectableFeats;
+    public ObservableList<StringProperty> getSelectableFeats(int index) {
+        return selectableFeats.get(index);
     }
 
     public StringProperty getClassEquipment(int index) {
@@ -694,11 +722,11 @@ public class ViewModel {
         return choiceProficiencies.get(index);
     }
 
-    public ObservableList<Spell> getAvailableCantrips() {
+    public ObservableList<ObservableList<Spell>> getAvailableCantrips() {
         return availableCantrips;
     }
 
-    public ObservableList<Spell> getAvailableSpells() {
+    public ObservableList<ObservableList<Spell>> getAvailableSpells() {
         return availableSpells;
     }
 
@@ -734,8 +762,8 @@ public class ViewModel {
         return gender;
     }
 
-    public StringProperty getSubclass() {
-        return subclass;
+    public StringProperty getSubclass(int index) {
+        return subclasses[index];
     }
 
     public StringProperty getLineage() {
@@ -754,12 +782,15 @@ public class ViewModel {
         return healthMethod;
     }
 
-    public StringProperty getLevelShown() {
-        return levelShown;
+    public StringProperty getLevelShown(int index) {
+        return levelsShown[index];
     }
 
-    public StringProperty getClasse() {
-        return classe;
+    public StringProperty getClasse(int index) {
+        return classes[index];
+    }
+    public StringProperty[] getClasses() {
+        return classes;
     }
 
     public StringProperty getSpecies() {
@@ -782,24 +813,28 @@ public class ViewModel {
         return originFeat;
     }
 
-    public StringProperty getSpellcastingAbility() {
-        return spellcastingAbility;
+    public StringProperty[] getSpellcastingAbilities() {
+        return spellcastingAbilities;
     }
 
-    public StringProperty getFeat(int index) {
-        return feats[index];
+    public StringProperty getSpellcastingAbility(int index) {
+        return spellcastingAbilities[index];
     }
 
-    public StringProperty getFeatOne(int index) {
-        return featOnes[index];
+    public StringProperty getFeat(int classIndex, int index) {
+        return feats[classIndex][index];
     }
 
-    public StringProperty getFeatTwo(int index) {
-        return featTwos[index];
+    public StringProperty getFeatOne(int classIndex, int index) {
+        return featOnes[classIndex][index];
     }
 
-    public StringProperty[] getFeatAbilities(int index) {
-        return featAbilities[index];
+    public StringProperty getFeatTwo(int classIndex, int index) {
+        return featTwos[classIndex][index];
+    }
+
+    public StringProperty[] getFeatAbilities(int classIndex, int index) {
+        return featAbilities[classIndex][index];
     }
 
     public StringProperty[] getAvailableSizes() {
@@ -807,8 +842,8 @@ public class ViewModel {
     }
 
 
-    public StringProperty[] getAvailableSubclasses() {
-        return availableSubclasses;
+    public StringProperty[] getAvailableSubclasses(int index) {
+        return availableSubclasses[index];
     }
 
     public StringProperty[] getAvailableLineages() {
@@ -819,17 +854,20 @@ public class ViewModel {
     public int getMaxFeats() {
         return maxFeats;
     }
-
-    public IntegerProperty getSpellcastingAbilityModifier() {
-        return spellcastingAbilityModifier;
+    public int getMaxClasses() {
+        return maxClasses;
     }
 
-    public IntegerProperty getSpellcastingAttackModifier() {
-        return spellcastingAttackModifier;
+    public IntegerProperty getSpellcastingAbilityModifier(int index) {
+        return spellcastingAbilityModifiers[index];
     }
 
-    public IntegerProperty getSpellcastingSaveDC() {
-        return spellcastingSaveDC;
+    public IntegerProperty getSpellcastingAttackModifier(int index) {
+        return spellcastingAttackModifiers[index];
+    }
+
+    public IntegerProperty getSpellcastingSaveDC(int index) {
+        return spellcastingSaveDCs[index];
     }
 
     public IntegerProperty getSpellSlot(int index) {
@@ -840,12 +878,12 @@ public class ViewModel {
         return availableSpellSlots[index];
     }
 
-    public IntegerProperty getMaxCantrips() {
-        return maxCantrips;
+    public IntegerProperty getMaxCantrips(int index) {
+        return maxCantrips[index];
     }
 
-    public IntegerProperty getMaxSpells() {
-        return maxSpells;
+    public IntegerProperty getMaxSpells(int index) {
+        return maxSpells[index];
     }
 
     public IntegerProperty getExhaustion() {
@@ -872,12 +910,16 @@ public class ViewModel {
         return darkvision;
     }
 
-    public IntegerProperty getLevel() {
-        return level;
+    public IntegerProperty getTotalLevel() {
+        return totalLevel;
     }
 
-    public IntegerProperty getAvailableFeats() {
-        return availableFeats;
+    public IntegerProperty getLevel(int index) {
+        return levels[index];
+    }
+
+    public IntegerProperty getAvailableFeats(int index) {
+        return availableFeats[index];
     }
 
     public IntegerProperty getArmorClass() {
@@ -892,8 +934,12 @@ public class ViewModel {
         return fixedHealth;
     }
 
-    public IntegerProperty getHitDie() {
-        return hitDie;
+    public IntegerProperty[] getHitDies() {
+        return hitDies;
+    }
+
+    public IntegerProperty getHitDie(int index) {
+        return hitDies[index];
     }
 
     public StringProperty getMoneyShown(int index) {

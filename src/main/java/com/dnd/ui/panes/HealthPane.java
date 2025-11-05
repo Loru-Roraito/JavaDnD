@@ -6,6 +6,7 @@ import com.dnd.ui.tabs.InfoTab;
 import com.dnd.ui.tooltip.TooltipLabel;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -87,18 +88,24 @@ public class HealthPane extends GridPane {
             character.getHealth().asString()
         );
 
-        hpRandom.textProperty().bind(
-            Bindings.createStringBinding(() -> {
-                int level = character.getLevel().get();
-                String fixed = character.getFixedHealth().asString().get();
-                if (level > 1) {
-                    String hitDie = character.getHitDie().asString().get();
-                    return fixed + " + " + (level - 1) + "d" + hitDie;
-                } else {
-                    return fixed;
+        Runnable updateRandomText = () -> {
+            int level = character.getTotalLevel().get();
+            String fixed = character.getFixedHealth().asString().get();
+            if (level > 1) {
+                for (IntegerProperty hitDie : character.getHitDies()) {
+                    fixed += " + " + (level - 1) + "d" + hitDie.asString();
                 }
-            }, character.getLevel(), character.getFixedHealth(), character.getHitDie())
-        );
+            }
+            hpRandom.textProperty().set(
+                fixed
+            );
+        };
+        updateRandomText.run();
+        character.getTotalLevel().addListener((_, _, _) -> updateRandomText.run());
+        character.getFixedHealth().addListener((_, _, _) -> updateRandomText.run());
+        for (IntegerProperty hitDie : character.getHitDies()) {
+            hitDie.addListener((_, _, _) -> updateRandomText.run());
+        }
 
         chooseHealthUI();
     }

@@ -1,11 +1,15 @@
 package com.dnd.ui.tabs;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import com.dnd.SpellManager;
 import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.ViewModel;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.items.Spell;
+import com.dnd.ui.tooltip.TooltipComboBox;
 
 import javafx.scene.control.Tab;
 import javafx.scene.Scene;
@@ -21,13 +25,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TabPane;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Region;
+import javafx.beans.property.StringProperty;
 
 public class MagicTab extends Tab {
-
     private final ViewModel character;
     private final TabPane mainTabPane; // Reference to the main TabPane
+    private final Map<String, Integer> spellcasting = new HashMap<>();
 
     public MagicTab(ViewModel character, TabPane mainTabPane) {
         this.character = character;
@@ -42,17 +48,53 @@ public class MagicTab extends Tab {
         prepareSpellsButton.setOnAction(_ -> openSpellSelectionWindow());
         gridPane.add(prepareSpellsButton, 0, 0);
 
-        TooltipLabel abilityLabel = new TooltipLabel(getTranslation("SPELLCASTING_ABILITY"), mainTabPane);
-        abilityLabel.textProperty().bind(Bindings.concat(getTranslation("SPELLCASTING_ABILITY"), ": ", character.getSpellcastingAbility(), " (", character.getSpellcastingAbilityModifier(), ")"));
-        gridPane.add(abilityLabel, 1, 0, 2, 1);
+        ObservableList<String> abilities = FXCollections.observableArrayList();
+        TooltipComboBox ability = new TooltipComboBox(abilities, mainTabPane);
+        gridPane.add(ability, 1, 0, 1, 1);
+        gridPane.add(ability.getLabel(), 1, 0, 1, 1);
+        ability.disableProperty().bind(Bindings.size(abilities).lessThan(2));
+
+        StringProperty[] spellcastingAbilities = character.getSpellcastingAbilities();
+        Runnable updateSpellcasting = () -> {
+            spellcasting.clear();
+            abilities.clear();
+            for (int i = 0; i < spellcastingAbilities.length; i++) {
+                if (!spellcastingAbilities[i].get().equals(getTranslation("NONE_F")) && !spellcastingAbilities[i].get().equals(getTranslation("")) && !spellcasting.containsKey(spellcastingAbilities[i].get())) {
+                    spellcasting.put(spellcastingAbilities[i].get(), i);
+                    abilities.add(spellcastingAbilities[i].get());
+                }
+            }
+            ability.getSelectionModel().select(0);
+        };
+        for (StringProperty spellcastingAbility : spellcastingAbilities) {
+            spellcastingAbility.addListener((_, _, _) -> {
+                updateSpellcasting.run();
+            });
+        }
+        updateSpellcasting.run();
 
         TooltipLabel attackLabel = new TooltipLabel(getTranslation("ATTACK_MODIFIER"), mainTabPane);
-        attackLabel.textProperty().bind(Bindings.concat(getTranslation("ATTACK_MODIFIER"), ": ", character.getSpellcastingAttackModifier()));
         gridPane.add(attackLabel, 1, 1, 2, 1);
 
         TooltipLabel saveDCLabel = new TooltipLabel(getTranslation("DC"), mainTabPane);
-        saveDCLabel.textProperty().bind(Bindings.concat(getTranslation("DC"), ": ", character.getSpellcastingSaveDC()));
         gridPane.add(saveDCLabel, 0, 1);
+
+        Runnable updateValues = () -> {
+            if (spellcasting.get(ability.valueProperty().get()) != null){
+                int index = spellcasting.get(ability.valueProperty().get());
+                attackLabel.setText(getTranslation("ATTACK_MODIFIER") + ": " + character.getSpellcastingAttackModifier(index).get());
+                saveDCLabel.setText(getTranslation("DC") + ": " + character.getSpellcastingSaveDC(index).get());
+            } else {
+                attackLabel.setText("");
+                saveDCLabel.setText("");
+            }
+        };
+        ability.valueProperty().addListener((_, _, _) -> updateValues.run());
+        for (int i = 0; i < spellcastingAbilities.length; i++) {
+            character.getSpellcastingAttackModifier(i).addListener((_, _, _) -> updateValues.run());
+            character.getSpellcastingSaveDC(i).addListener((_, _, _) -> updateValues.run());
+        }
+        updateValues.run();
 
         VBox cantripsBox = new VBox(5);
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsBox);
@@ -166,77 +208,85 @@ public class MagicTab extends Tab {
         spellScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         spellStage.setScene(spellScene);
 
-        GridPane cantripsGrid = new GridPane();
+        VBox cantripsGrid = new VBox();
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsGrid);
         spellLayout.getChildren().add(cantripsPane);
 
-        ObservableList<Spell> availableCantrips = character.getAvailableCantrips();
-        ObservableList<Spell> cantrips = character.getCantrips();
-        for (int i = 0; i < availableCantrips.size(); i++) {
-            Spell cantrip = availableCantrips.get(i);
-            CheckBox cantripCheckBox = new CheckBox();
-            TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
-            for (Spell myCantrip : cantrips) {
-                if (myCantrip.equals(cantrip)) {
-                    cantripCheckBox.setSelected(true);
-                    break;
+        ObservableList<ObservableList<Spell>> availablesCantrips = character.getAvailableCantrips();
+        ObservableList<ObservableList<Spell>> availablesSpells = character.getAvailableSpells();
+
+        for (int index = 0; index < availablesCantrips.size(); index++) {
+            ObservableList<Spell> availableCantrips = availablesCantrips.get(index);
+            ObservableList<Spell> cantrips = character.getCantrips();
+            for (int i = 0; i < availableCantrips.size(); i++) {
+                Spell cantrip = availableCantrips.get(i);
+                CheckBox cantripCheckBox = new CheckBox();
+                TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
+                for (Spell myCantrip : cantrips) {
+                    if (myCantrip.equals(cantrip)) {
+                        cantripCheckBox.setSelected(true);
+                        break;
+                    }
                 }
-            }
-            cantripCheckBox.setOnAction(_ -> {
-                if (cantripCheckBox.isSelected()) {
-                    cantrips.add(cantrip);
-                } else {
-                    cantrips.remove(cantrip);
-                }
-            });
-            cantripCheckBox.disableProperty().bind(
-                    character.getMaxCantrips().lessThanOrEqualTo(
+                cantripCheckBox.setOnAction(_ -> {
+                    if (cantripCheckBox.isSelected()) {
+                        cantrips.add(cantrip);
+                    } else {
+                        cantrips.remove(cantrip);
+                    }
+                });
+                cantripCheckBox.disableProperty().bind(
+                    character.getMaxCantrips(index).lessThanOrEqualTo(
                             Bindings.size(cantrips)
                     ).and(cantripCheckBox.selectedProperty().not())
-            );
+                );
 
-            cantripsGrid.add(cantripCheckBox, 0, i);
-            cantripsGrid.add(cantripLabel, 1, i);
-        }
+                HBox cantripHBox = new HBox();
+                cantripHBox.getChildren().addAll(cantripCheckBox, cantripLabel);
 
-        GridPane[] levelGrids = new GridPane[9];
-        for (int i = 0; i < 9; i++) {
-            GridPane levelGrid = new GridPane();
-            levelGrids[i] = levelGrid;
-            TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelGrid);
-            spellLayout.getChildren().add(levelPane);
-        }
-
-        ObservableList<Spell> availableSpells = character.getAvailableSpells();
-        ObservableList<Spell> spells = character.getSpells();
-        for (int i = 0; i < availableSpells.size(); i++) {
-            Spell spell = availableSpells.get(i);
-            int spellLevel = spell.getLevel();
-            GridPane levelGrid = levelGrids[spellLevel - 1];
-
-            CheckBox spellCheckBox = new CheckBox();
-            TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
-            for (Spell mySpell : spells) {
-                if (mySpell.equals(spell)) {
-                    spellCheckBox.setSelected(true);
-                    break;
-                }
+                cantripsGrid.getChildren().add(cantripHBox);
             }
-            spellCheckBox.setOnAction(_ -> {
-                if (spellCheckBox.isSelected()) {
-                    spells.add(spell);
-                } else {
-                    spells.remove(spell);
+
+            VBox[] levelGrids = new VBox[9];
+            for (int i = 0; i < 9; i++) {
+                VBox levelGrid = new VBox();
+                levelGrids[i] = levelGrid;
+                TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelGrid);
+                spellLayout.getChildren().add(levelPane);
+            }
+
+            ObservableList<Spell> availableSpells = availablesSpells.get(index);
+            ObservableList<Spell> spells = character.getSpells();
+            for (int i = 0; i < availableSpells.size(); i++) {
+                Spell spell = availableSpells.get(i);
+                int spellLevel = spell.getLevel();
+                VBox levelGrid = levelGrids[spellLevel - 1];
+
+                CheckBox spellCheckBox = new CheckBox();
+                TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
+                for (Spell mySpell : spells) {
+                    if (mySpell.equals(spell)) {
+                        spellCheckBox.setSelected(true);
+                        break;
+                    }
                 }
-            });
-            spellCheckBox.disableProperty().bind(
-                    character.getMaxSpells().lessThanOrEqualTo(
+                spellCheckBox.setOnAction(_ -> {
+                    if (spellCheckBox.isSelected()) {
+                        spells.add(spell);
+                    } else {
+                        spells.remove(spell);
+                    }
+                });
+                spellCheckBox.disableProperty().bind(
+                    character.getMaxSpells(index).lessThanOrEqualTo(
                             Bindings.size(spells)
                     ).and(spellCheckBox.selectedProperty().not())
-            );
+                );
 
-            levelGrid.add(spellCheckBox, 0, i);
-            levelGrid.add(spellLabel, 1, i);
+                HBox spellHBox = new HBox();
+                spellHBox.getChildren().addAll(spellCheckBox, spellLabel);
+                levelGrid.getChildren().add(spellHBox);
+            }
         }
 
         // Show and wait - this makes it modal

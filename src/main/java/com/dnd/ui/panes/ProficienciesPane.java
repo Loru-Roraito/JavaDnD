@@ -18,7 +18,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -87,7 +86,7 @@ public class ProficienciesPane extends GridPane {
         languageComboBoxes.add(languageOne);
         languageComboBoxes.add(languageTwo);
 
-        for (ComboBox<String> comboBox : languageComboBoxes) {
+        for (TooltipComboBox comboBox : languageComboBoxes) {
             comboBox.valueProperty().addListener((_, _, _) -> {
                 for (int j = 0; j < languageComboBoxes.size(); j++) {
                     ComboBoxUtils.updateItems(languageComboBoxes.get(j), languageComboBoxes, languageValuesList.get(j), languageKeys, new String[]{getTranslation("RANDOM")});
@@ -143,15 +142,14 @@ public class ProficienciesPane extends GridPane {
         TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesGridPane);
         add(proficienciesPane, 0, 4);
 
+        add(proficienciesBox, 0, 5);
+
         TextFlow activesFlow = new TextFlow();
         updateBox(activesFlow, character.getActives());
 
         character.getActives().addListener((ListChangeListener<StringProperty>) _
                 -> updateBox(activesFlow, character.getActives())
         );
-
-        add(proficienciesBox, 0, 5);
-
 
         TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
         add(activesPane, 0, 6);
@@ -165,7 +163,6 @@ public class ProficienciesPane extends GridPane {
 
 
         TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesFlow);
-        
         add(passivesPane, 0, 7);
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);

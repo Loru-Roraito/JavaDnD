@@ -20,18 +20,16 @@
 
 /* TabPane styling */
 .tab-pane {
-    background-color: transparent; /* Standard CSS background color */
-    -fx-background-color: transparent; /* JavaFX-specific background color */
-
     padding: 2px; /* Standard CSS padding */
     -fx-padding: 2px; /* JavaFX-specific padding */
 }
 
-.tab-pane .tab-header-background {
-    background-color: linear-gradient(to bottom, #f5f1e0, #e3d8b4);
-    -fx-background-color: linear-gradient(to bottom, #e9dec4, #d6c59a);
-    border-color: #b19c6d;
-    -fx-border-color: #b19c6d;
+.tab-pane .tab-content-area .tab-header-area .tab-header-background {
+    background-color: transparent;
+    -fx-background-color: transparent;
+
+    border-color: transparent;
+    -fx-border-color: transparent;
 }
 
 /* Default tab styling */
@@ -58,6 +56,8 @@
     -fx-border-width: 1px; /* JavaFX-specific border width */
     border-radius: 5.01px; /* Standard CSS border radius */
     -fx-border-radius: 5.01px; /* JavaFX-specific border radius */
+    -fx-background-radius: 5.01px; /* Match the border radius */
+    -fx-background-insets: 0; /* Prevent background from exceeding the border */
 
     -fx-focus-color: transparent; /* Remove focus color */
     -fx-faint-focus-color: transparent; /* Remove faint focus color */
@@ -568,4 +568,13 @@
 .scroll-bar .track {
     background-color: #f5eed8;
     -fx-background-color: #f5eed8;
+}
+.scroll-pane {
+    background-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    background-color: transparent;
+    -fx-background-color: transparent;
 }

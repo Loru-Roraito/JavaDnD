@@ -20,10 +20,10 @@ public class CharacterSerializer {
         public String gender;
         public String species;
         public String lineage;
-        public String classe;
-        public String subclass;
+        public String[] classes;
+        public String[] subclasses;
         public String background;
-        public String levelShown;
+        public String[] levelsShown;
         public String alignment;
         public String size;
         public String languageOne;
@@ -38,9 +38,9 @@ public class CharacterSerializer {
         public boolean[] abilityPlusTwos;
         public boolean[] skillProficiencies;
         
-        public String[] feats;
-        public String[] featOnes;
-        public String[] featTwos;
+        public String[][] feats;
+        public String[][] featOnes;
+        public String[][] featTwos;
         
         public String[] classEquipment;
         public String[] backgroundEquipment;
@@ -140,10 +140,7 @@ public class CharacterSerializer {
             data.gender = character.getGender().get();
             data.species = character.getSpecies().get();
             data.lineage = character.getLineage().get();
-            data.classe = character.getClasse().get();
-            data.subclass = character.getSubclass().get();
             data.background = character.getBackground().get();
-            data.levelShown = character.getLevelShown().get();
             data.alignment = character.getAlignment().get();
             data.size = character.getSize().get();
             data.languageOne = character.getLanguageOne().get();
@@ -169,14 +166,22 @@ public class CharacterSerializer {
                 data.skillProficiencies[i] = character.getSkillProficiency(i).get();
             }
             
+            data.classes = new String[character.getMaxClasses()];
+            data.subclasses = new String[character.getMaxClasses()];
+            data.levelsShown = new String[character.getMaxClasses()];
             // Feats
-            data.feats = new String[character.getMaxFeats()];
-            data.featOnes = new String[character.getMaxFeats()];
-            data.featTwos = new String[character.getMaxFeats()];
-            for (int i = 0; i < character.getMaxFeats(); i++) {
-                data.feats[i] = character.getFeat(i).get();
-                data.featOnes[i] = character.getFeatOne(i).get();
-                data.featTwos[i] = character.getFeatTwo(i).get();
+            data.feats = new String[character.getMaxClasses()][character.getMaxFeats()];
+            data.featOnes = new String[character.getMaxClasses()][character.getMaxFeats()];
+            data.featTwos = new String[character.getMaxClasses()][character.getMaxFeats()];
+            for (int i = 0; i < character.getMaxClasses(); i++) {
+                data.classes[i] = character.getClasse(i).get();
+                data.subclasses[i] = character.getSubclass(i).get();
+                data.levelsShown[i] = character.getLevelShown(i).get();
+                for (int j = 0; j < character.getMaxFeats(); j++) {
+                    data.feats[i][j] = character.getFeat(i, j).get();
+                    data.featOnes[i][j] = character.getFeatOne(i, j).get();
+                    data.featTwos[i][j] = character.getFeatTwo(i, j).get();
+                }
             }
             
             // Equipment
@@ -264,10 +269,7 @@ public class CharacterSerializer {
                 character.getGender().set(data.gender);
                 character.getSpecies().set(data.species);
                 character.getLineage().set(data.lineage);
-                character.getClasse().set(data.classe);
-                character.getSubclass().set(data.subclass);
                 character.getBackground().set(data.background);
-                character.getLevelShown().set(data.levelShown);
                 character.getAlignment().set(data.alignment);
                 character.getSize().set(data.size);
                 character.getLanguageOne().set(data.languageOne);
@@ -289,11 +291,16 @@ public class CharacterSerializer {
                     character.getSkillProficiency(i).set(data.skillProficiencies[i]);
                 }
                 
-                // Load feats
-                for (int i = 0; i < data.feats.length; i++) {
-                    character.getFeat(i).set(data.feats[i]);
-                    character.getFeatOne(i).set(data.featOnes[i]);
-                    character.getFeatTwo(i).set(data.featTwos[i]);
+                for (int i = 0; i < data.classes.length; i++) {
+                    character.getClasse(i).set(data.classes[i]);
+                    character.getSubclass(i).set(data.subclasses[i]);
+                    character.getLevelShown(i).set(data.levelsShown[i]);
+                    // Load feats
+                    for (int j = 0; j < data.feats[i].length; j++) {
+                        character.getFeat(i, j).set(data.feats[i][j]);
+                        character.getFeatOne(i, j).set(data.featOnes[i][j]);
+                        character.getFeatTwo(i, j).set(data.featTwos[i][j]);
+                    }
                 }
                 
                 // Load equipment
