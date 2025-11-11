@@ -66,7 +66,7 @@ public class App extends Application {
         }
         
         // Show confirmation dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(getTranslation("UNSAVED_CHANGES"));
         alert.setHeaderText(getTranslation("WARNING_MULTIPLE_UNSAVED"));
         alert.setContentText(getTranslation("SAVE_ALL_BEFORE_CLOSING"));
@@ -109,7 +109,7 @@ public class App extends Application {
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS); // Enable closable tabs
 
         // Add the generator tab
-        CharacterTab generatorTab = new CharacterTab("GENERATOR_WINDOW", mainTabPane);
+        CharacterTab generatorTab = new CharacterTab("GENERATOR_WINDOW", stage, mainTabPane);
         ViewModel character = new ViewModel(new GameCharacter(), stage, generatorTab);
         generatorTab.createSubTabPane(character);
         mainTabPane.getTabs().add(generatorTab);
@@ -242,3 +242,8 @@ public class App extends Application {
 // eventualmente sfondo
 // continuare a sistemare estetica
 // more than one character
+// rendere denaro dinamico (quantità di valute)
+// Epic boons' descriptions
+// Valutare se rendere classe e simili array. Personalmente preferisco la situazione attuale, ma potrebbe rivelarsi lenta
+// Uscire da suggeritore disattiva scrittura
+// Make tooltip and die rounded

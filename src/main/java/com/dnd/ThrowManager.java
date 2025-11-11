@@ -2,13 +2,23 @@ package com.dnd;
 
 import java.util.Random;
 
+import com.dnd.characters.GameCharacter;
 import com.dnd.ui.panes.SystemPane;
 
 public class ThrowManager {
     private static ThrowManager instance;
     private final Random random = new Random(); // Reusable Random instance
 
-    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, SystemPane systemPane) {
+    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, int ability, GameCharacter character, SystemPane systemPane) {
+        if (size == 20 && times == 1) {
+            // Exhaustion affects D20 tests
+            int exhaustion = systemPane.getCharacter().getExhaustion().get();
+            bonus -= exhaustion * 2;
+
+            if ((ability == 0 || ability == 1) && !character.hasArmorProficiency().get()) {
+                disadvantage = true;
+            }
+        }
         Boolean adv;
         Boolean disadv;
         
@@ -29,11 +39,6 @@ public class ThrowManager {
                 adv = advantage;
                 disadv = disadvantage;
             }
-        }
-
-        if (size == 20 && times == 1) { // Exhaustion affects D20 tests
-            int exhaustion = systemPane.getCharacter().getExhaustion().get();
-            bonus -= exhaustion * 2;
         }
 
         return throwDice(times, size, base, bonus, adv, disadv);

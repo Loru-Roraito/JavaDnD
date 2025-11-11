@@ -8,31 +8,36 @@ import com.dnd.TranslationManager;
 import com.dnd.ViewModel;
 import com.dnd.ui.panes.AbilitiesPane;
 import com.dnd.ui.panes.ClassPane;
+import com.dnd.ui.panes.CombatPane;
 import com.dnd.ui.panes.SystemPane;
 import com.dnd.ui.panes.EquipmentPane;
 import com.dnd.ui.panes.HealthPane;
 import com.dnd.ui.panes.ParametersPane;
 import com.dnd.ui.panes.ProficienciesPane;
 import com.dnd.ui.tooltip.TooltipComboBox;
-import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.ui.tooltip.TooltipTitledPane;
+import com.dnd.utils.DieToast;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.beans.property.StringProperty;
+import javafx.stage.Stage;
 
 public class InfoTab extends Tab {
     // Create a GridPane
     private final GridPane gridPane = new GridPane(); // Class-level field for the GridPane
-    private final Label dieResultLabel; // Shared label for die result
     private final SystemPane systemPane;
+    private final ViewModel character;
+    private final Stage stage;
 
-    public InfoTab(ViewModel character, TabPane mainTabPane) {
+    public InfoTab(ViewModel character, TabPane mainTabPane, Stage stage) {
+        this.character = character;
+        this.stage = stage;
         setText(getTranslation("INFO"));
 
         // Add a style class to the GridPane
@@ -47,13 +52,10 @@ public class InfoTab extends Tab {
         EquipmentPane equipmentPane = new EquipmentPane(character, mainTabPane);
         addTitledPane("EQUIPMENT", equipmentPane , 3, 3, 2, 2);
         addClass(character, mainTabPane, 2, 1, 3, 2);
-        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character);
+        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character, stage);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
         addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
-
-        // Initialize the die result label
-        dieResultLabel = new TooltipLabel(getTranslation("DIE"), mainTabPane); // Default text
-        gridPane.add(dieResultLabel, 1, 1);
+        addTitledPane("COMBAT", new CombatPane(mainTabPane, character), 1, 1, 1, 1);
 
         // Set the GridPane as the content of the tab
         setContent(gridPane);
@@ -133,7 +135,7 @@ public class InfoTab extends Tab {
             newScrollPane.setFitToHeight(true);
 
             Tab newTab = new Tab();
-            newTab.setClosable(true);
+            newTab.closableProperty().bind(character.isEditing());
             newTab.textProperty().bind(character.getClasse(index));
             newTab.setContent(newScrollPane);
 
@@ -165,7 +167,13 @@ public class InfoTab extends Tab {
         GridPane.setColumnSpan(tabPane, columnSpan);
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
-            if (newVal.getText().equals("+")) {
+            int requiredLevels = 0;
+            for (StringProperty classe : character.getClasses()) {
+                if (classe.get().equals(getTranslation("RANDOM"))) {
+                    requiredLevels ++;
+                }
+            }
+            if (newVal.equals(addTab) && character.getTotalLevel().get() + requiredLevels < 20) {
                 if (character.getClasse(0).get().equals(getTranslation("NONE_F"))) {
                     character.getClasse(0).set(getTranslation("RANDOM"));
                 }
@@ -187,7 +195,10 @@ public class InfoTab extends Tab {
                 }
 
                 tabPane.getSelectionModel().select(i + 1);
+            } else if (newVal.equals(addTab)) {
+                tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
             }
+            // TODO: eventualmente nascondere addTab quando inutilizzabile
         });
 
         for (int i = 0; i < tabs.length; i++) {
@@ -203,16 +214,13 @@ public class InfoTab extends Tab {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
-    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, Boolean failState) {
-        if (failState) {
-            dieResultLabel.setText(getTranslation("FAILURE"));
-        } else {
-            throwDie(times, size, base, bonus, advantage, disadvantage);
-        }
+    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, Boolean failState, int ability) {
+        throwDie(times, size, base, bonus, advantage, disadvantage, ability);
     }
 
     // Method to update the die result
-    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
-        dieResultLabel.setText(String.valueOf(ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage, systemPane)));
+    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, int ability) {
+        int result = ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage, ability, character.getBackend(), systemPane);
+        DieToast.show(String.valueOf(result), stage, 2000);
     }
 }

@@ -18,13 +18,6 @@ saves/
 target/
 .vscode/
 
-# copyrighted files
-actives.json
-passives.json
-definitions_it.properties
-tooltips_it.properties
-miscs_it.properties
-
 # Package Files #
 *.jar
 *.war

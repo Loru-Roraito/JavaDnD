@@ -1,6 +1,6 @@
 package com.dnd.items;
 
-import com.dnd.SpellManager;
+import com.dnd.characters.SpellManager;
 import com.dnd.utils.ObservableString;
 
 public class Spell implements MyItems<Spell> {
@@ -46,40 +46,40 @@ public class Spell implements MyItems<Spell> {
 
     public Spell(String nominative, String prepare, String[] focus, int ability, Boolean overriding, Boolean limited) {
         this.nominative = nominative;
-        this.name = new ObservableString(nominative);
+        name = new ObservableString(nominative);
         this.prepare = prepare;
         this.focus = focus;
         this.ability = ability;
         this.overriding = overriding;
         this.limited = limited;
         
-        this.school = getSpellString(new String[]{nominative, "school"});
-        this.time = getSpellInt(new String[]{nominative, "time"});
-        this.timeSpan = getSpellString(new String[]{nominative, "time_span"});
-        this.duration = getSpellInt(new String[]{nominative, "duration"});
-        this.durationSpan = getSpellString(new String[]{nominative, "duration_span"});
-        this.level = getSpellInt(new String[]{nominative, "level"});
-        this.range = getSpellInt(new String[]{nominative, "range"});
-        this.concentration = getSpellBoolean(new String[]{nominative, "concentration"});
-        this.ritual = getSpellBoolean(new String[]{nominative, "ritual"});
-        this.components = getSpellBooleans(new String[]{nominative, "components"});
+        school = getSpellString(new String[]{nominative, "school"});
+        time = getSpellInt(new String[]{nominative, "time"});
+        timeSpan = getSpellString(new String[]{nominative, "time_span"});
+        duration = getSpellInt(new String[]{nominative, "duration"});
+        durationSpan = getSpellString(new String[]{nominative, "duration_span"});
+        level = getSpellInt(new String[]{nominative, "level"});
+        range = getSpellInt(new String[]{nominative, "range"});
+        concentration = getSpellBoolean(new String[]{nominative, "concentration"});
+        ritual = getSpellBoolean(new String[]{nominative, "ritual"});
+        components = getSpellBooleans(new String[]{nominative, "components"});
     }
 
     public Boolean equals(Spell other) {
         Boolean found = false;
         for (String otherFocus : other.focus) {
-            for (String thisFocus : this.focus) {
+            for (String thisFocus : focus) {
                 if (!thisFocus.equals(otherFocus)) {
                     found = true;
                     break;
                 }
             }
         }
-        return this.nominative.equals(other.nominative)
-            && this.prepare.equals(other.prepare)
-            && this.ability == other.ability
-            && this.overriding.equals(other.overriding)
-            && this.limited.equals(other.limited)
+        return nominative.equals(other.nominative)
+            && prepare.equals(other.prepare)
+            && ability == other.ability
+            && overriding.equals(other.overriding)
+            && limited.equals(other.limited)
             && !found;
     }
 

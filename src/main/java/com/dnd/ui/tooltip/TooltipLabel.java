@@ -6,6 +6,7 @@ import com.dnd.items.Spell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 public class TooltipLabel extends Label {
     private final TabPane mainTabPane;
@@ -62,6 +63,11 @@ public class TooltipLabel extends Label {
         // Add a key listener for the "T" key
         this.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.T) {
+                openTab.run();
+            }
+        });
+        this.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
                 openTab.run();
             }
         });

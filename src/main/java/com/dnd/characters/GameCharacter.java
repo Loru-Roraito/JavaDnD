@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.dnd.SpellManager;
 import com.dnd.TranslationManager;
 import com.dnd.ThrowManager;
+import com.dnd.items.Item;
 import com.dnd.utils.CustomObservableList;
 import com.dnd.utils.ObservableBoolean;
 import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
+import com.dnd.utils.ObservableItem;
 
 import javafx.stage.Stage;
 
@@ -18,6 +19,11 @@ import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
 
 public class GameCharacter {
+    private final ObservableItem mainHand = new ObservableItem(new Item("UNARMED_STRIKE"));
+    private final ObservableItem offHand = new ObservableItem(new Item("NONE_F"));
+    private final ObservableItem armor = new ObservableItem(new Item("NONE_F"));
+    private final ObservableItem shield = new ObservableItem(new Item("NONE_M"));
+
     private String path = "";
     private final String[] skillNames; // Get the names of all skills
     private final String[] abilityNames;
@@ -63,9 +69,10 @@ public class GameCharacter {
     private final CustomObservableList<CustomObservableList<ObservableString>> selectableFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> availableCantrips = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> availableSpells = new CustomObservableList<>();
-    private final CustomObservableList<Proficiency> choiceProficiencies = new CustomObservableList<>();
+    private final CustomObservableList<Proficiency> choiceToolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<Spell> spells = new CustomObservableList<>();
     private final CustomObservableList<Spell> cantrips = new CustomObservableList<>();
+    private final CustomObservableList<Item> items = new CustomObservableList<>();
 
     // Instead of this I could turn availableSubclasses and availableLineages into Lists, but it shouldn't change much
     private final int maxSubclasses;
@@ -124,6 +131,8 @@ public class GameCharacter {
     private final ObservableBoolean restrained = new ObservableBoolean(false);
     private final ObservableBoolean stunned = new ObservableBoolean(false);
     private final ObservableBoolean unconscious = new ObservableBoolean(false);
+    private final ObservableBoolean hasShieldProficiency = new ObservableBoolean(false);
+    private final ObservableBoolean hasArmorProficiency = new ObservableBoolean(false);
 
     private final ObservableBoolean[] availableSkills;
     private final ObservableBoolean[] abilityPlusOnes;
@@ -334,7 +343,7 @@ public class GameCharacter {
 
         bindPassives();
 
-        bindChoiceProficiencies();
+        bindChoiceToolProficiencies();
 
         bindWeaponProficiencies();
         bindArmorProficiencies();
@@ -364,6 +373,8 @@ public class GameCharacter {
         bindSpellcastingAbility();
 
         bindSubclass();
+
+        bindHasProficiencies();
     }
 
     // Getters
@@ -541,6 +552,22 @@ public class GameCharacter {
 
     public int getMaxClasses() {
         return maxClasses;
+    }
+
+    public ObservableItem getMainHand() {
+        return mainHand;
+    }
+
+    public ObservableItem getOffHand() {
+        return offHand;
+    }
+
+    public ObservableItem getArmor() {
+        return armor;
+    }
+
+    public ObservableItem getShield() {
+        return shield;
     }
 
     public ObservableInteger getAvailableFeats(int index) {
@@ -731,6 +758,18 @@ public class GameCharacter {
         return skillProficiencies[index];
     }
 
+    public ObservableBoolean hasShieldProficiency() {
+        return hasShieldProficiency;
+    }
+
+    public ObservableBoolean hasArmorProficiency() {
+        return hasArmorProficiency;
+    }
+
+    public int[] getSkillAbilities() {
+        return skillAbilities;
+    }
+
     public CustomObservableList<ObservableString> getActives() {
         return actives;
     }
@@ -759,8 +798,8 @@ public class GameCharacter {
         return backgroundEquipment[index];
     }
 
-    public CustomObservableList<Proficiency> getChoiceProficiencies() {
-        return choiceProficiencies;
+    public CustomObservableList<Proficiency> getChoiceToolProficiencies() {
+        return choiceToolProficiencies;
     }
 
     public CustomObservableList<ObservableString> getNewSelectableFeats(int index) {
@@ -781,6 +820,10 @@ public class GameCharacter {
 
     public CustomObservableList<Spell> getCantrips() {
         return cantrips;
+    }
+
+    public CustomObservableList<Item> getItems() {
+        return items;
     }
 
     // Binders
@@ -821,9 +864,10 @@ public class GameCharacter {
 
     private void bindOriginFeat() {
         background.addListener(
-                (newVal) -> {
-                    originFeat.set(getString(new String[]{"backgrounds", newVal, "feat"}));
-                }
+            (newVal) -> {
+                originFeat.set(getString(new String[]{"backgrounds", newVal, "feat"}));
+                backgroundEquipment[0].set(newVal);
+            }
         );
     }
 
@@ -1313,10 +1357,15 @@ public class GameCharacter {
             } else {
                 speed.set(30);
             }
+            
             if (grappled.get() || paralyzed.get() || petrified.get() || restrained.get() || unconscious.get()) {
                 speed.set(0);
             } else {
-                speed.set(Math.max(speed.get() - exhaustion.get() * 5, 0));
+                int armorMalus = 0;
+                if (abilities[0].get() < armor.get().getStrength()) {
+                    armorMalus = 10;
+                }
+                speed.set(Math.max(speed.get() - exhaustion.get() * 5 - armorMalus, 0));
             }
         };
         species.addListener(_ -> updateSpeed.run());
@@ -1327,6 +1376,8 @@ public class GameCharacter {
         petrified.addListener(_ -> updateSpeed.run());
         restrained.addListener(_ -> updateSpeed.run());
         unconscious.addListener(_ -> updateSpeed.run());
+        abilities[0].addListener(_ -> updateSpeed.run());
+        armor.addListener(_ -> updateSpeed.run());
     }
 
     private void bindDarkvision() {
@@ -1340,11 +1391,26 @@ public class GameCharacter {
 
     private void bindArmorClass() {
         Runnable updateArmorClass = () -> {
+            int base = armor.get().getArmorClass();
+            int dexterity = armor.get().getDexterity();
+            int shieldAC = 0;
+            if (hasShieldProficiency.get()) {
+                shieldAC = shield.get().getArmorClass(); // If shield is equipped and has proficiency, add its AC
+            }
+            int modifier;
+            switch (dexterity) {
+                case 1 -> modifier = 0; // no DEX bonus
+                case 2 -> modifier = Math.max(abilityModifiers[1].get(), 2); // max +2 bonus
+                default -> modifier = abilityModifiers[1].get();
+            }
             armorClass.set(
-                    abilityModifiers[1].get() + 10
+                Math.max(base, 10) + modifier + shieldAC
             );
         };
         abilityModifiers[1].addListener(_ -> updateArmorClass.run());
+        armorProficiencies.addListener(_ -> updateArmorClass.run());
+        armor.addListener(_ -> updateArmorClass.run());
+        shield.addListener(_ -> updateArmorClass.run());
     }
 
     private void bindProficiencyBonus() {
@@ -1706,10 +1772,10 @@ public class GameCharacter {
             for (ObservableString classe : classes) {
                 String[] armors = getGroup(new String[]{"classes", classe.get(), "armors"});
                 if (armors != null) {
-                    for (String armor : armors) {
-                        if (armor != null && !takenArmors.contains(armor)) {
-                            armorProficiencies.add(new ObservableString(armor));
-                            takenArmors.add(armor);
+                    for (String armorProficiency : armors) {
+                        if (armorProficiency != null && !takenArmors.contains(armorProficiency)) {
+                            armorProficiencies.add(new ObservableString(armorProficiency));
+                            takenArmors.add(armorProficiency);
                         }
                     }
                 }
@@ -1896,7 +1962,7 @@ public class GameCharacter {
         });
     }
 
-    private void bindChoiceProficiencies() {
+    private void bindChoiceToolProficiencies() {
         toolProficiencies.addListener((newVal) -> {
             List<Proficiency> newChoices = new ArrayList<>();
             for (ObservableString equipment : newVal.asList()) {
@@ -1905,7 +1971,7 @@ public class GameCharacter {
                 }
             }
 
-            for (Proficiency choice : choiceProficiencies.asList()) {
+            for (Proficiency choice : choiceToolProficiencies.asList()) {
                 for (Proficiency newChoice : newChoices) {
                     if (newChoice.getGroup().equals(choice.getGroup()) && newChoice.getName().equals("RANDOM")) {
                         newChoice.setName(choice.getName());
@@ -1913,7 +1979,7 @@ public class GameCharacter {
                 }
             }
 
-            choiceProficiencies.setAll(newChoices);
+            choiceToolProficiencies.setAll(newChoices);
         });
     }
 
@@ -1927,10 +1993,11 @@ public class GameCharacter {
             int index = i;
 
             Runnable updateSpells = () -> {
+                // TODO: redundant, turn into a property (maximum level too)
                 float magicLevels = 0;
                 for (int j = 0; j < classes.length; j++) {
                     if (Arrays.asList(getMagicClasses()).contains(classes[j].get()) && getBoolean(new String[]{"magic_classes", classes[j].get()})) {
-                        magicLevels++;
+                        magicLevels += levels[j].get();
                     } else if (Arrays.asList(getMagicClasses()).contains(classes[j].get())) {
                         magicLevels += levels[j].get() / 2.0;
                     }
@@ -2037,6 +2104,31 @@ public class GameCharacter {
         }
     }
 
+    private void bindHasProficiencies() {
+        Runnable updateArmor = () -> {
+            hasArmorProficiency.set(false);
+            for (ObservableString prof : armorProficiencies.asList()) {
+                if (Arrays.asList(armor.get().getTags()).contains(prof.get())) {
+                    hasArmorProficiency.set(true);
+                    return;
+                }
+            }
+        };
+        armorProficiencies.addListener(_ -> updateArmor.run());
+        armor.addListener(_ -> updateArmor.run());
+
+        Runnable updateShield = () -> {
+            hasShieldProficiency.set(false);
+            for (ObservableString prof : armorProficiencies.asList()) {
+                if (prof.get().equals("SHIELDS")) {
+                    hasShieldProficiency.set(true);
+                    return;
+                }
+            }
+        };
+        armorProficiencies.addListener(_ -> updateShield.run());
+    }
+
     // Helpers
     private String[] getGroup(String[] group) {
         return TranslationManager.getInstance().getGroup(group);
@@ -2078,6 +2170,10 @@ public class GameCharacter {
         return SpellManager.getInstance().getSpellGroup(group);
     }
 
+    public void addItem(String item) {
+        ItemManager.getInstance().addItem(this, item);
+    }
+
     public GameCharacter duplicate() {
         GameCharacter copy = new GameCharacter();
         copy.gender.set(this.gender.get());
@@ -2103,9 +2199,10 @@ public class GameCharacter {
             copy.classEquipment[i].set(this.classEquipment[i].get());
             copy.backgroundEquipment[i].set(this.backgroundEquipment[i].get());
         }
-        copy.choiceProficiencies.setAll(choiceProficiencies.asList());
+        copy.choiceToolProficiencies.setAll(choiceToolProficiencies.asList());
         copy.spells.setAll(spells.asList());
         copy.cantrips.setAll(cantrips.asList());
+        copy.items.setAll(items.asList());
         copy.healthMethod.set(this.healthMethod.get());
         copy.health.set(this.health.get());
         copy.generationMethod.set(this.generationMethod.get());
@@ -2123,11 +2220,15 @@ public class GameCharacter {
         for (int i = 0; i < 9; i++) {
             copy.availableSpellSlots[i].set(availableSpellSlots[i].get());
         }
-        
+        copy.mainHand.set(mainHand.get());
+        copy.offHand.set(offHand.get());
+        copy.armor.set(armor.get());
+        copy.shield.set(shield.get());
+
         return copy;
     }
 
-    public void fill() {
+    public void fill(boolean firstTime) {
         if (gender.get().equals("RANDOM")) {
             String[] availableGenders = getGroup(new String[]{"genders"});
             gender.set(availableGenders[(int) (Math.random() * availableGenders.length)]);
@@ -2162,7 +2263,7 @@ public class GameCharacter {
                     remainingClasses.removeIf(c -> c.equals(classe.get()));
                 }
             }
-
+            
             if (totalClasses > 1) {
                 remainingClasses.remove("NONE_F");
             }
@@ -2189,10 +2290,10 @@ public class GameCharacter {
             alignment.set(availableAlignments[(int) (Math.random() * availableAlignments.length)]);
         }
 
-        fillLater();
+        fillLater(firstTime);
     }
 
-    public void fillLater() {
+    public void fillLater(boolean firstTime) {
         int requiredLevels = 0;
         for (int i = 0; i < classes.length; i++) {
             if (!classes[i].get().equals("NONE_F") && levelsShown[i].get().equals("RANDOM")) {
@@ -2340,36 +2441,70 @@ public class GameCharacter {
             }
         }
 
-        if (classEquipment[0].get().equals("RANDOM")) {
-            String[] possibleEquipments = new String[]{classes[0].get(), "GOLD"};
-            classEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
-        }
+        if (firstTime) {
+            if (classEquipment[0].get().equals("RANDOM")) {
+                String[] possibleEquipments = new String[]{classes[0].get(), "GOLD"};
+                classEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
+            }
 
-        if (classEquipment[0].get().equals(classes[0].get())) {
-            String[] equipments = getGroup(new String[]{"classes", classes[0].get(), "equipment"});
-            int index = 1;
-            for (String equipment : equipments) {
-                if (Arrays.asList(sets).contains(equipment)) {
-                    String[] options = getGroup(new String[]{"sets", equipment});
-                    classEquipment[index].set(options[(int) (Math.random() * options.length)]);
-                    index++;
+            if (classEquipment[0].get().equals(classes[0].get())) {
+                String[] equipments = getGroup(new String[]{"classes", classes[0].get(), "equipment"});
+                int index = 1;
+                for (String equipment : equipments) {
+                    if (Arrays.asList(sets).contains(equipment)) {
+                        String[] options = getGroup(new String[]{"sets", equipment});
+                        classEquipment[index].set(options[(int) (Math.random() * options.length)]);
+                        index++;
+                    }
                 }
             }
-        }
 
-        if (backgroundEquipment[0].get().equals("RANDOM")) {
-            String[] possibleEquipments = new String[]{background.get(), "GOLD"};
-            backgroundEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
-        }
+            if (backgroundEquipment[0].get().equals("RANDOM")) {
+                String[] possibleEquipments = new String[]{background.get(), "GOLD"};
+                backgroundEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
+            }
 
-        if (backgroundEquipment[0].get().equals(background.get())) {
-            String[] equipments = getGroup(new String[]{"backgrounds", background.get(), "equipment"});
-            int index = 1;
-            for (String equipment : equipments) {
-                if (Arrays.asList(sets).contains(equipment)) {
-                    String[] options = getGroup(new String[]{"sets", equipment});
-                    backgroundEquipment[index].set(options[(int) (Math.random() * options.length)]);
-                    index++;
+            if (backgroundEquipment[0].get().equals(background.get())) {
+                String[] equipments = getGroup(new String[]{"backgrounds", background.get(), "equipment"});
+                int index = 1;
+                for (String equipment : equipments) {
+                    if (Arrays.asList(sets).contains(equipment)) {
+                        String[] options = getGroup(new String[]{"sets", equipment});
+                        backgroundEquipment[index].set(options[(int) (Math.random() * options.length)]);
+                        index++;
+                    }
+                }
+            }
+
+            switch (classEquipment[0].get()) {
+                case ("GOLD") -> {
+                    moneys[3].set(moneys[3].get() + getInt(new String[]{"classes", classes[0].get(), "gold"})); // Roll 4d6 x10 gold pieces
+                }
+                default -> {
+                    for (String item : getGroup(new String[]{"classes", classes[0].get(), "equipment"})) {
+                        addItem(item);
+                    }
+                    for (int i = 1; i < classEquipment.length; i++) {
+                        if (!classEquipment[i].get().equals("RANDOM")) {
+                            addItem(classEquipment[i].get());
+                        }
+                    }
+                }
+            }
+
+            switch (backgroundEquipment[0].get()) {
+                case ("GOLD") -> {
+                    moneys[3].set(moneys[3].get() + getInt(new String[]{"backgrounds", background.get(), "gold"})); // Roll 4d6 x10 gold pieces
+                }
+                default -> {
+                    for (String item : getGroup(new String[]{"backgrounds", background.get(), "equipment"})) {
+                        addItem(item);
+                    }
+                    for (int i = 1; i < backgroundEquipment.length; i++) {
+                        if (!backgroundEquipment[i].get().equals("RANDOM")) {
+                            addItem(backgroundEquipment[i].get());
+                        }
+                    }
                 }
             }
         }
@@ -2384,14 +2519,14 @@ public class GameCharacter {
         for (ObservableString proficiency : weaponProficiencies.asList()) {
             usedProficiencies.add(proficiency.get());
         }
-        for (Proficiency proficiency : choiceProficiencies.asList()) {
+        for (Proficiency proficiency : choiceToolProficiencies.asList()) {
             if (!proficiency.getName().equals("RANDOM")) {
                 usedProficiencies.add(proficiency.getName());
             }
         }
-        for (Proficiency choiceProficiency : choiceProficiencies.asList()) {
-            if (choiceProficiency.getName().equals("RANDOM")) {
-                String[] options = getGroup(new String[]{"sets", choiceProficiency.getGroup()});
+        for (Proficiency choiceToolProficiency : choiceToolProficiencies.asList()) {
+            if (choiceToolProficiency.getName().equals("RANDOM")) {
+                String[] options = getGroup(new String[]{"sets", choiceToolProficiency.getGroup()});
                 // Remove used proficiencies
                 List<String> availableOptions = new ArrayList<>();
                 for (String option : options) {
@@ -2399,8 +2534,8 @@ public class GameCharacter {
                         availableOptions.add(option);
                     }
                 }
-                choiceProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
-                usedProficiencies.add(choiceProficiency.getName());
+                choiceToolProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
+                usedProficiencies.add(choiceToolProficiency.getName());
             }
         }
 

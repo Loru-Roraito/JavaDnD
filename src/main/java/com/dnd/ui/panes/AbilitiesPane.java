@@ -293,8 +293,11 @@ public class AbilitiesPane extends GridPane {
             );
 
             // Add a listener to the button to roll
+            boolean isStealth = skill.equals(getTranslation("STEALTH"));
             rollButton.setOnAction(_ -> {
-                infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false, character.getPoisoned().get());
+                infoTab.throwDie(1, 20, 0, character.getSkillModifier(index).get(), false,
+                    character.getPoisoned().get() || (isStealth && character.getArmor().get().getStealth()),
+                    character.getSkillAbilities()[index]);
             });
             skillsArea.add(rollButton, 3, i); // Column 3, Row i
         }
@@ -327,21 +330,25 @@ public class AbilitiesPane extends GridPane {
             );
 
             // Add a listener to the button to roll
-            switch (i) {
+            switch (index) {
                 case 0 -> // Strength saving throw
                     rollButton.setOnAction(_ -> {
-                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false, character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get());
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false,
+                        character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get(),
+                        index);
                     });
                 case 1 -> // Dexterity saving throw
                     rollButton.setOnAction(_ -> {
-                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false, character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get() || character.getRestrained().get());
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false,
+                        character.getParalyzed().get() || character.getPetrified().get() || character.getStunned().get() || character.getUnconscious().get() || character.getRestrained().get(),
+                        index);
                     });
                 default -> 
                     rollButton.setOnAction(_ -> {
-                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false);
+                        infoTab.throwDie(1, 20, 0, character.getSavingThrowModifier(index).get(), false, false, index);
                     });
             }
-            savingThrowsArea.add(rollButton, 2, i); // Column 2, Row i
+            savingThrowsArea.add(rollButton, 2, index); // Column 2, Row i
         }
     }
 
@@ -352,11 +359,6 @@ public class AbilitiesPane extends GridPane {
 
     private String[] getTranslations(String key) {
         return TranslationManager.getInstance().getTranslations(key);
-    }
-
-    // Method to update the die result
-    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
-        return ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage);
     }
 
     private int rollFourDropLowest() {

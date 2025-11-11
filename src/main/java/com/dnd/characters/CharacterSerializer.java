@@ -2,6 +2,7 @@ package com.dnd.characters;
 
 import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
+import com.dnd.items.Item;
 import com.dnd.TranslationManager;
 
 import com.google.gson.*;
@@ -63,17 +64,31 @@ public class CharacterSerializer {
         public boolean stunned;
         public boolean unconscious;
         
-        public ProficiencyData[] choiceProficiencies;
+        public ProficiencyData[] choiceToolProficiencies;
         public SpellData[] spells;
         public SpellData[] cantrips;
+        public ItemData[] items;
+
+        public ItemData mainHand;
+        public ItemData offHand;
+        public ItemData armor;
+        public ItemData shield;
+    }
+
+    public static class ItemData {
+        public String nominative;
+        
+        public ItemData(String nominative) {
+            this.nominative = nominative;
+        }
     }
     
     public static class ProficiencyData {
-        public String name;
+        public String nominative;
         public String group;
         
-        public ProficiencyData(String name, String group) {
-            this.name = name;
+        public ProficiencyData(String nominative, String group) {
+            this.nominative = nominative;
             this.group = group;
         }
     }
@@ -221,10 +236,15 @@ public class CharacterSerializer {
             data.unconscious = character.getUnconscious().get();
             
             // Proficiencies
-            data.choiceProficiencies = character.getChoiceProficiencies().asList().stream()
+            data.choiceToolProficiencies = character.getChoiceToolProficiencies().asList().stream()
                 .map(p -> new ProficiencyData(p.getName(), p.getGroup()))
                 .toArray(ProficiencyData[]::new);
-            
+
+            // Items
+            data.items = character.getItems().asList().stream()
+                .map(i -> new ItemData(i.getName()))
+                .toArray(ItemData[]::new);
+
             // Spells
             data.spells = character.getSpells().asList().stream()
                 .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
@@ -233,6 +253,11 @@ public class CharacterSerializer {
             data.cantrips = character.getCantrips().asList().stream()
                 .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
                 .toArray(SpellData[]::new);
+
+            data.mainHand = new ItemData(character.getMainHand().get().getNominative());
+            data.offHand = new ItemData(character.getOffHand().get().getNominative());
+            data.armor = new ItemData(character.getArmor().get().getNominative());
+            data.shield = new ItemData(character.getShield().get().getNominative());
             
             gson.toJson(data, writer);
             return true;
@@ -336,11 +361,16 @@ public class CharacterSerializer {
                 character.getUnconscious().set(data.unconscious);
                 
                 // Load proficiencies and spells
-                character.getChoiceProficiencies().getList().clear();
-                for (ProficiencyData prof : data.choiceProficiencies) {
-                    character.getChoiceProficiencies().add(new Proficiency(prof.name, prof.group));
+                character.getChoiceToolProficiencies().getList().clear();
+                for (ProficiencyData prof : data.choiceToolProficiencies) {
+                    character.getChoiceToolProficiencies().add(new Proficiency(prof.nominative, prof.group));
                 }
-                
+
+                character.getItems().getList().clear();
+                for (ItemData item : data.items) {
+                    character.getItems().add(new Item(item.nominative));
+                }
+
                 character.getSpells().getList().clear();
                 for (SpellData spell : data.spells) {
                     character.getSpells().add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.overriding, spell.limited));
@@ -350,6 +380,11 @@ public class CharacterSerializer {
                 for (SpellData cantrip : data.cantrips) {
                     character.getCantrips().add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.overriding, cantrip.limited));
                 }
+
+                character.getMainHand().set(new Item(data.mainHand.nominative));
+                character.getOffHand().set(new Item(data.offHand.nominative));
+                character.getArmor().set(new Item(data.armor.nominative));
+                character.getShield().set(new Item(data.shield.nominative));
                 
                 character.setPath(file.getAbsolutePath());
                 character.setSaveName(file.getName().replace(".dnd", ""));

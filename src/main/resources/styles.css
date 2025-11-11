@@ -252,6 +252,35 @@
     -fx-border-color: #aaaaaa; /* JavaFX-specific border color */
 }
 
+.list-view {
+    background-color: #fdf8e6;
+    -fx-background-color: #fdf8e6;
+    border-color: #b19c6d;
+    -fx-border-color: #b19c6d;
+    border-width: 1px;
+    -fx-border-width: 1px;
+    border-radius: 5.01px;
+    -fx-border-radius: 5.01px;
+    -fx-background-radius: 5.01px;
+}
+
+.popup .list-cell {
+    background-color: transparent;
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000;
+}
+
+.popup .list-cell:hover {
+    background-color: #f7eed8;
+    -fx-background-color: #f7eed8;
+}
+
+.popup .list-cell:selected {
+    background-color: #e8d6a9;
+    -fx-background-color: #e8d6a9;
+    -fx-text-fill: #2a1a10;
+}
+
 .combo-box .list-view .list-cell {
     -fx-cell-size: 5;
 }
@@ -438,6 +467,29 @@
     -fx-background-insets: 0; /* Prevent background from overflowing */
 }
 
+.toast {
+    background-color: linear-gradient(to bottom, #e8dec4, #d7c597);
+    -fx-background-color: linear-gradient(to bottom, #e8dec4, #d7c597);
+    -fx-text-fill: #3d2723;
+    font-size: 24px;
+    -fx-font-size: 24px;
+    font-weight: bold;
+    -fx-font-weight: bold;
+    padding: 20px 40px;
+    -fx-padding: 20px 40px;
+
+    border-radius: 5.01px;
+    -fx-border-radius: 5.01px;
+    border-color: #7b3e19;
+    -fx-border-color: #7b3e19;
+    border-width: 2px;
+    -fx-border-width: 2px;
+
+    -fx-background-radius: 5.01px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-background-insets: 0; /* Prevent background from overflowing */
+}
+
 /* Disabled CheckBox styling */
 .check-box > .box:disabled {
     background-color: transparent; /* Standard CSS background color */
@@ -497,7 +549,7 @@
     -fx-border-radius: 5.01px; /* JavaFX-specific */
 
     -fx-background-radius: 5.01px; /* Match the border radius */
-    -fx-background-insets: 0; /* Prevent background from overflowing */
+    -fx-background-insets: 0; /* Prevent background from overflowing TODO: not working */
 }
 
 /* Default TextField styling */

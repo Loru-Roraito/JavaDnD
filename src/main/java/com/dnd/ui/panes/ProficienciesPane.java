@@ -213,14 +213,14 @@ public class ProficienciesPane extends GridPane {
                 });
 
                 comboBox.valueProperty().addListener((_, _, newVal) -> {
-                    character.getChoiceProficiency(index - 1).setName(newVal);
+                    character.getChoiceToolProficiency(index - 1).setName(newVal);
                 });
 
-                character.getChoiceProficiency(index - 1).getNameProperty().addListener((newVal) -> {
+                character.getChoiceToolProficiency(index - 1).getNameProperty().addListener((newVal) -> {
                     comboBox.setValue(newVal);
                 });
 
-                comboBox.setValue(character.getChoiceProficiency(index - 1).getName());
+                comboBox.setValue(character.getChoiceToolProficiency(index - 1).getName());
 
             } else {
                 if (isFirstLine) {

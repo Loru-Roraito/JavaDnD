@@ -72,8 +72,7 @@ public class ClassPane extends GridPane {
         subclassComboBox.disableProperty().bind(character.isEditing().not());
 
         Runnable updateSubclassList = () -> {
-            subclasses.clear();
-            subclasses.add(getTranslation("RANDOM"));
+            subclasses.setAll(getTranslation("RANDOM"));
             for (StringProperty prop : character.getAvailableSubclasses(classIndex)) {
                 if (prop != null && !prop.get().isEmpty()) {
                     subclasses.add(prop.get());
@@ -111,7 +110,7 @@ public class ClassPane extends GridPane {
                 }
             }
             
-            if (levels.isEmpty()) {
+            if (levels.size() <= 1) {
                 getChildren().removeAll(levelLabel, levelComboBox); // Remove from GridPane
             } else {
                 if (!getChildren().contains(levelLabel)) {
@@ -174,7 +173,7 @@ public class ClassPane extends GridPane {
                     levelComboBox.setValue(getTranslation("RANDOM"));
                 }
             } else {
-                levels.clear();
+                levels.setAll(new ArrayList<>(List.of(getTranslation("RANDOM"))));
                 levelComboBox.valueProperty().set(getTranslation("RANDOM"));
             }
                 

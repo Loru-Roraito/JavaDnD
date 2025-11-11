@@ -3,10 +3,10 @@ package com.dnd.ui.tabs;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.dnd.SpellManager;
 import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.ViewModel;
+import com.dnd.characters.SpellManager;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.items.Spell;
 import com.dnd.ui.tooltip.TooltipComboBox;
@@ -212,6 +212,14 @@ public class MagicTab extends Tab {
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsGrid);
         spellLayout.getChildren().add(cantripsPane);
 
+        VBox[] levelGrids = new VBox[9];
+        for (int i = 0; i < 9; i++) {
+            VBox levelGrid = new VBox();
+            levelGrids[i] = levelGrid;
+            TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelGrid);
+            spellLayout.getChildren().add(levelPane);
+        }
+
         ObservableList<ObservableList<Spell>> availablesCantrips = character.getAvailableCantrips();
         ObservableList<ObservableList<Spell>> availablesSpells = character.getAvailableSpells();
 
@@ -245,14 +253,6 @@ public class MagicTab extends Tab {
                 cantripHBox.getChildren().addAll(cantripCheckBox, cantripLabel);
 
                 cantripsGrid.getChildren().add(cantripHBox);
-            }
-
-            VBox[] levelGrids = new VBox[9];
-            for (int i = 0; i < 9; i++) {
-                VBox levelGrid = new VBox();
-                levelGrids[i] = levelGrid;
-                TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelGrid);
-                spellLayout.getChildren().add(levelPane);
             }
 
             ObservableList<Spell> availableSpells = availablesSpells.get(index);

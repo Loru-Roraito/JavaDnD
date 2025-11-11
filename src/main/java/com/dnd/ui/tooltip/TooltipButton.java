@@ -5,6 +5,7 @@ import com.dnd.DefinitionManager;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 public class TooltipButton extends Button {
     private final TabPane mainTabPane;
@@ -34,6 +35,11 @@ public class TooltipButton extends Button {
         // Add a key listener for the "T" key
         this.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.T) {
+                DefinitionManager.getInstance().openDefinitionTab(text, mainTabPane);
+            }
+        });
+        this.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
                 DefinitionManager.getInstance().openDefinitionTab(text, mainTabPane);
             }
         });

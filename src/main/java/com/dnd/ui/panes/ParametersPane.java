@@ -20,6 +20,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel nameLabel = new TooltipLabel(getTranslation("NAME"), mainTabPane);
         add(nameLabel, 0, 0); // Add the label to the GridPane
+        nameLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         TextField name = new TextField();
         final int maxLength = 22;
@@ -36,6 +37,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel genderLabel = new TooltipLabel(getTranslation("GENDER"), mainTabPane);
         add(genderLabel, 0, 2); // Add the label to the GridPane
+        genderLabel.getStyleClass().add("bold-label"); // Add CSS class
         
         // Populate the class list and translation map
         ObservableList<String> genders = FXCollections.observableArrayList();
@@ -56,6 +58,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel speciesLabel = new TooltipLabel(getTranslation("SPECIES"), mainTabPane);
         add(speciesLabel, 0, 4); // Add the label to the GridPane
+        speciesLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Populate the class list and translation map
         ObservableList<String> species = FXCollections.observableArrayList();
@@ -76,6 +79,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the second ComboBox
         TooltipLabel lineageLabel = new TooltipLabel(getTranslation("LINEAGE"), mainTabPane);
         add(lineageLabel, 0, 6); // Add the label to the GridPane
+        lineageLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Create the second ComboBox (lineage selection)
         ObservableList<String> lineages = FXCollections.observableArrayList();
@@ -127,6 +131,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel backgroundLabel = new TooltipLabel(getTranslation("BACKGROUND"), mainTabPane);
         add(backgroundLabel, 0, 8); // Add the label to the GridPane
+        backgroundLabel.getStyleClass().add("bold-label"); // Add CSS class
         
         // Create the second ComboBox (subclass selection)
         ObservableList<String> backgrounds = FXCollections.observableArrayList();
@@ -147,6 +152,7 @@ public class ParametersPane extends GridPane {
         // Create a label as the title for the ComboBox
         TooltipLabel alignmentLabel = new TooltipLabel(getTranslation("ALIGNMENT"), mainTabPane);
         add(alignmentLabel, 0, 10); // Add the label to the GridPane
+        alignmentLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Populate the class list and translation map
         ObservableList<String> alignments = FXCollections.observableArrayList();

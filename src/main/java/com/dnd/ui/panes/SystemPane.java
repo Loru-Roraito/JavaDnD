@@ -11,12 +11,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-
+import javafx.stage.Stage;
 
 public class SystemPane extends GridPane {
     private String advantage = getTranslation("DISABLED_M");
     private final ViewModel character;
-    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, ViewModel character) {
+    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, ViewModel character, Stage stage) {
         getStyleClass().add("grid-pane");
         this.character = character;
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
@@ -89,10 +89,10 @@ public class SystemPane extends GridPane {
         add(confirm, 3, 1);
         confirm.setOnAction(_ -> {
             ViewModel newCharacter = character.duplicate();
-            newCharacter.fill();
+            newCharacter.fill(true);
             newCharacter.isGenerator().set(false);
             newCharacter.isEditing().set(false);
-            CharacterTab characterTab = new CharacterTab("", mainTabPane);
+            CharacterTab characterTab = new CharacterTab("", stage, mainTabPane);
             characterTab.createSubTabPane(newCharacter);
             characterTab.setClosable(true); // Make the tab closable
             mainTabPane.getTabs().add(characterTab);
@@ -114,7 +114,7 @@ public class SystemPane extends GridPane {
         TooltipButton finish = new TooltipButton(getTranslation("FINISH"), mainTabPane);
         add(finish, 3, 1);
         finish.setOnAction(_ -> {
-            character.fill();
+            character.fill(false);
             character.isEditing().set(false);
         });
         finish.visibleProperty().bind(character.isGenerator().not().and(character.isEditing()));
@@ -143,7 +143,7 @@ public class SystemPane extends GridPane {
             if (newCharacter != null) {
                 newCharacter.isGenerator().set(false);
                 newCharacter.isEditing().set(false);
-                CharacterTab characterTab = new CharacterTab("", mainTabPane);
+                CharacterTab characterTab = new CharacterTab("", stage, mainTabPane);
                 characterTab.createSubTabPane(newCharacter);
                 characterTab.setClosable(true); // Make the tab closable
                 mainTabPane.getTabs().add(characterTab);

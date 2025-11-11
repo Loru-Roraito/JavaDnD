@@ -10,12 +10,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
 
 public class CharacterTab extends Tab{
     private boolean isSaved = true;
     private final TabPane mainTabPane; // Reference to the main TabPaneù
     private ViewModel character;
-    public CharacterTab(String title, TabPane mainTabPane) {
+    private final Stage stage;
+    public CharacterTab(String title, Stage stage, TabPane mainTabPane) {
+        this.stage = stage;
         this.mainTabPane = mainTabPane;
         
         // Set the tab title using the translation key
@@ -32,7 +35,7 @@ public class CharacterTab extends Tab{
         subTabPane.setSide(Side.LEFT); // Display tabs on the left
         subTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); // Prevent closing sub-tabs
 
-        InfoTab infoTab = new InfoTab(character, mainTabPane);
+        InfoTab infoTab = new InfoTab(character, mainTabPane, stage);
         MagicTab magicTab = new MagicTab(character, mainTabPane);
         StatusTab statusTab = new StatusTab(character, mainTabPane);
         ExtraTab extraTab = new ExtraTab(character, mainTabPane);

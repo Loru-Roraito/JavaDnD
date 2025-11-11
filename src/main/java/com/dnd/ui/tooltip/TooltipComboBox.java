@@ -13,6 +13,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class TooltipComboBox extends ComboBox<String> {
     private final TabPane mainTabPane;
@@ -240,11 +241,10 @@ public class TooltipComboBox extends ComboBox<String> {
 
     private void assignTooltip() {
         Tooltip comboBoxTooltip = new Tooltip();
-        Tooltip.install(this, comboBoxTooltip);
-        
-        if (comboBoxTooltip.getText().isEmpty()) {
-            Tooltip.uninstall(this, comboBoxTooltip);
-        }
+        comboBoxTooltip.setWrapText(true);
+        comboBoxTooltip.setMaxWidth(300);
+        comboBoxTooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
+        comboBoxTooltip.setAutoFix(true); // Automatically adjust position to stay on screen
     
         this.valueProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {

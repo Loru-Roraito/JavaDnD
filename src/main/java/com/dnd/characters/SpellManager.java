@@ -1,4 +1,4 @@
-package com.dnd;
+package com.dnd.characters;
 
 import java.io.IOException;
 import java.io.InputStream;

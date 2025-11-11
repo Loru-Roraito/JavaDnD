@@ -12,7 +12,9 @@ import com.dnd.utils.ObservableInteger;
 import com.dnd.utils.ObservableString;
 import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
+import com.dnd.items.Item;
 import com.dnd.ui.tabs.CharacterTab;
+import com.dnd.utils.ObservableItem;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -29,7 +31,6 @@ import javafx.stage.Stage;
 
 public class ViewModel {
     private final StringProperty saveName;
-
     private final StringProperty creatureType;
     private final StringProperty languageOne;
     private final StringProperty languageTwo;
@@ -63,6 +64,7 @@ public class ViewModel {
 
     private final int maxFeats;
     private final int maxClasses;
+    private final int[] skillAbilities;
 
     private final IntegerProperty generationPoints;
     private final IntegerProperty initiativeBonus;
@@ -111,6 +113,8 @@ public class ViewModel {
     private final BooleanProperty restrained;
     private final BooleanProperty stunned;
     private final BooleanProperty unconscious;
+    private final BooleanProperty hasShieldProficiency;
+    private final BooleanProperty hasArmorProficiency;
 
     private final BooleanProperty[] availablePlusOnes;
     private final BooleanProperty[] availablePlusTwos;
@@ -128,11 +132,17 @@ public class ViewModel {
     private final ObservableList<StringProperty> armorProficiencies;
     private final ObservableList<StringProperty> toolProficiencies;
     private final ObservableList<ObservableList<StringProperty>> selectableFeats;
-    private final ObservableList<Proficiency> choiceProficiencies;
+    private final ObservableList<Proficiency> choiceToolProficiencies;
     private final ObservableList<ObservableList<Spell>> availableCantrips;
     private final ObservableList<ObservableList<Spell>> availableSpells;
     private final ObservableList<Spell> spells;
     private final ObservableList<Spell> cantrips;
+    private final ObservableList<Item> items;
+
+    private final ObservableItem mainHand;
+    private final ObservableItem offHand;
+    private final ObservableItem armor;
+    private final ObservableItem shield;
 
     private final GameCharacter backend;
     private final Stage stage;
@@ -142,6 +152,17 @@ public class ViewModel {
         this.stage = stage;
         this.backend = backend;
         this.characterTab = characterTab;
+
+        skillAbilities = backend.getSkillAbilities();
+
+        mainHand = new ObservableItem(backend.getMainHand().get());
+        bindObservableItem(mainHand, backend.getMainHand());
+        offHand = new ObservableItem(backend.getOffHand().get());
+        bindObservableItem(offHand, backend.getOffHand());
+        armor = new ObservableItem(backend.getArmor().get());
+        bindObservableItem(armor, backend.getArmor());
+        shield = new ObservableItem(backend.getShield().get());
+        bindObservableItem(shield, backend.getShield());
 
         saveName = new SimpleStringProperty(backend.getSaveNameProperty().get());
         bindObservableString(saveName, backend.getSaveNameProperty());
@@ -268,6 +289,12 @@ public class ViewModel {
 
         unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
         bindObservableBoolean(unconscious, backend.getUnconscious());
+
+        hasShieldProficiency = new SimpleBooleanProperty(backend.hasShieldProficiency().get());
+        bindObservableBoolean(hasShieldProficiency, backend.hasShieldProficiency());
+
+        hasArmorProficiency = new SimpleBooleanProperty(backend.hasArmorProficiency().get());
+        bindObservableBoolean(hasArmorProficiency, backend.hasArmorProficiency());
 
         maxClasses = backend.getMaxClasses();
         levelsShown = new SimpleStringProperty[maxClasses];
@@ -479,8 +506,8 @@ public class ViewModel {
         toolProficiencies = FXCollections.observableArrayList();
         updateList(toolProficiencies, backend.getToolProficiencies());
 
-        choiceProficiencies = FXCollections.observableArrayList();
-        updateCustomList(choiceProficiencies, backend.getChoiceProficiencies());
+        choiceToolProficiencies = FXCollections.observableArrayList();
+        updateCustomList(choiceToolProficiencies, backend.getChoiceToolProficiencies());
 
         selectableFeats = FXCollections.observableArrayList();
         availableCantrips = FXCollections.observableArrayList();
@@ -492,18 +519,21 @@ public class ViewModel {
 
             ObservableList<Spell> classCantrips = FXCollections.observableArrayList();
             availableCantrips.add(classCantrips);
-            updateCustomList(classCantrips, backend.getAvailableCantrips(i));
+            updateCustomListNoEdits(classCantrips, backend.getAvailableCantrips(i));
 
             ObservableList<Spell> classSpells = FXCollections.observableArrayList();
             availableSpells.add(classSpells);
-            updateCustomList(classSpells, backend.getAvailableSpells(i));
+            updateCustomListNoEdits(classSpells, backend.getAvailableSpells(i));
         }
 
         cantrips = FXCollections.observableArrayList();
-        updateCustomList(cantrips, backend.getCantrips());
+        updateCustomListNoEdits(cantrips, backend.getCantrips());
 
         spells = FXCollections.observableArrayList();
-        updateCustomList(spells, backend.getSpells());
+        updateCustomListNoEdits(spells, backend.getSpells());
+
+        items = FXCollections.observableArrayList();
+        updateCustomListNoEdits(items, backend.getItems());
 
         maxFeats = backend.getMaxFeats();
         availableFeats = new IntegerProperty[maxClasses];
@@ -531,6 +561,46 @@ public class ViewModel {
                 }
             }
         }
+    }
+
+    private <T extends MyItems<T>> void updateCustomListNoEdits(ObservableList<T> front, CustomObservableList<T> back) {
+        AtomicBoolean updating = new AtomicBoolean(false);
+
+        java.util.function.Consumer<ObservableList<T>> updateFtB = (ObservableList<T> newValue) -> {
+            characterTab.newEdit();
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<T> original = new java.util.ArrayList<>();
+                for (T key : newValue) {
+                    T copy = (T) key.copy();
+                    copy.setName(getOriginal(copy.getName()));
+                    original.add(copy);
+                }
+                back.setAll(original);
+            } finally {
+                updating.set(false);
+            }
+        };
+
+        front.addListener((ListChangeListener<T>) _ -> updateFtB.accept(front));
+        
+        java.util.function.Consumer<CustomObservableList<T>> updateBtF = (CustomObservableList<T> newValue) -> {
+            if (!updating.compareAndSet(false, true)) return;
+            try {
+                List<T> translated = new java.util.ArrayList<>();
+                for (T key : newValue.getList()) {
+                    T copy = (T) key.copy();
+                    copy.setName(getTranslation(copy.getName()));
+                    translated.add(copy);
+                }
+                front.setAll(translated);
+            } finally {
+                updating.set(false);
+            }
+        };
+
+        back.addListener(newVal -> updateBtF.accept(newVal));
+        updateBtF.accept(back);
     }
 
     private <T extends MyItems<T>> void updateCustomList(ObservableList<T> front, CustomObservableList<T> back) {
@@ -626,6 +696,17 @@ public class ViewModel {
         updateBtF.run();
     }
 
+    private void bindObservableItem(ObservableItem front, ObservableItem back) {
+        back.addListener(_ -> {
+            front.set(back.get().copy());
+            front.get().setName(getTranslation(back.get().getName()));
+        });
+        front.addListener(_ -> {
+            characterTab.newEdit();
+            back.set(front.get().copy());
+        });
+    }
+
     private void bindObservableString(StringProperty front, ObservableString back) {
         back.addListener(_ -> {
             // System.out.println("Back changed: " + back.get() + " -> Front: " + getTranslation(back.get()));
@@ -674,12 +755,36 @@ public class ViewModel {
 
     // Getters for all properties
 
+    public int[] getSkillAbilities() {
+        return skillAbilities;
+    }
+
+    public ObservableItem getMainHand() {
+        return mainHand;
+    }
+
+    public ObservableItem getOffHand() {
+        return offHand;
+    }
+
+    public ObservableItem getArmor() {
+        return armor;
+    }
+
+    public ObservableItem getShield() {
+        return shield;
+    }
+
     public ObservableList<Spell> getCantrips() {
         return cantrips;
     }
 
     public ObservableList<Spell> getSpells() {
         return spells;
+    }
+
+    public ObservableList<Item> getItems() {
+        return items;
     }
 
     public ObservableList<StringProperty> getActives() {
@@ -718,8 +823,8 @@ public class ViewModel {
         return backgroundEquipment[index];
     }
 
-    public Proficiency getChoiceProficiency(int index) {
-        return choiceProficiencies.get(index);
+    public Proficiency getChoiceToolProficiency(int index) {
+        return choiceToolProficiencies.get(index);
     }
 
     public ObservableList<ObservableList<Spell>> getAvailableCantrips() {
@@ -968,6 +1073,14 @@ public class ViewModel {
     }
 
 
+    public BooleanProperty hasShieldProficiency() {
+        return hasShieldProficiency;
+    }
+
+    public BooleanProperty hasArmorProficiency() {
+        return hasArmorProficiency;
+    }
+
     public BooleanProperty isGenerator() {
         return isGenerator;
     }
@@ -1089,8 +1202,8 @@ public class ViewModel {
         return new ViewModel(backend.duplicate(), stage, characterTab);
     }
 
-    public void fill() {
-        backend.fill();
+    public void fill(boolean firstTime) {
+        backend.fill(firstTime);
     }
 
     public Boolean save(Boolean newFile) {
@@ -1108,6 +1221,14 @@ public class ViewModel {
         } else {
             return null;
         }
+    }
+
+    public GameCharacter getBackend() {
+        return backend;
+    }
+
+    public void addItem(String itemName) {
+        backend.addItem(itemName);
     }
 
     public void setCharacterTab(CharacterTab characterTab) {
