@@ -241,6 +241,16 @@ public class MagicTab extends Tab {
                 Spell cantrip = availableCantrips.get(i);
                 CheckBox cantripCheckBox = new CheckBox();
                 TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
+                for (int j = 0; j < availablesCantrips.size(); j++) {
+                    if (j != index) {
+                        for (Spell availableCantrip : availablesCantrips.get(j)) {
+                            if (availableCantrip.getNominative().equals(cantrip.getNominative())) {
+                                cantripLabel.setText(cantrip.getName() + " (" + character.getClasse(index).get() + ")");
+                                break;
+                            }
+                        }
+                    }
+                }
                 for (Spell myCantrip : cantrips) {
                     if (myCantrip.equals(cantrip)) {
                         cantripCheckBox.setSelected(true);
@@ -275,6 +285,16 @@ public class MagicTab extends Tab {
 
                 CheckBox spellCheckBox = new CheckBox();
                 TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
+                for (int j = 0; j < availablesSpells.size(); j++) {
+                    if (j != index) {
+                        for (Spell availableSpell : availablesSpells.get(j)) {
+                            if (availableSpell.getNominative().equals(spell.getNominative())) {
+                                spellLabel.setText(spell.getName() + " (" + character.getClasse(index).get() + ")");
+                                break;
+                            }
+                        }
+                    }
+                }
                 for (Spell mySpell : spells) {
                     if (mySpell.equals(spell)) {
                         spellCheckBox.setSelected(true);

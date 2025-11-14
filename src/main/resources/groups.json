@@ -2037,5 +2037,24 @@
     "18": [4, 3, 3, 3, 3, 1, 1, 1, 1],
     "19": [4, 3, 3, 3, 3, 2, 1, 1, 1],
     "20": [4, 3, 3, 3, 3, 2, 2, 1, 1]
+  },
+
+  "weapon categories": {
+    "SIMPLE_WEAPONS": {
+      "tag": "SIMPLE",
+      "attributes": []
+    },
+    "MARTIAL_WEAPONS":  {
+      "tag": "MARTIAL",
+      "attributes": []
+    },
+    "LIGHT_MARTIAL_WEAPONS": {
+      "tag": "MARTIAL",
+      "attributes": ["LIGHT"]
+    },
+    "FINESSELIGHT_MARTIAL_WEAPONS": {
+      "tag": "MARTIAL",
+      "attributes": ["LIGHT", "FINESSE"]
+    }
   }
 }

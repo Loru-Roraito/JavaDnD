@@ -99,15 +99,13 @@ public class CharacterSerializer {
         public String prepare;
         public String[] focus;
         public int ability;
-        public Boolean overriding;
         public Boolean limited;
         
-        public SpellData(String nominative, String prepare, String[] focus, int ability, Boolean overriding, Boolean limited) {
+        public SpellData(String nominative, String prepare, String[] focus, int ability, Boolean limited) {
             this.nominative = nominative;
             this.prepare = prepare;
             this.focus = focus;
             this.ability = ability;
-            this.overriding = overriding;
             this.limited = limited;
         }
     }
@@ -249,11 +247,11 @@ public class CharacterSerializer {
 
             // Spells
             data.spells = character.getSpells().asList().stream()
-                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
+                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
                 .toArray(SpellData[]::new);
             
             data.cantrips = character.getCantrips().asList().stream()
-                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getOverriding(), s.getLimited()))
+                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
                 .toArray(SpellData[]::new);
 
             data.mainHand = new ItemData(character.getMainHand().get().getNominative());
@@ -376,12 +374,12 @@ public class CharacterSerializer {
 
                 character.getSpells().getList().clear();
                 for (SpellData spell : data.spells) {
-                    character.getSpells().add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.overriding, spell.limited));
+                    character.getSpells().add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.limited));
                 }
                 
                 character.getCantrips().getList().clear();
                 for (SpellData cantrip : data.cantrips) {
-                    character.getCantrips().add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.overriding, cantrip.limited));
+                    character.getCantrips().add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.limited));
                 }
 
                 character.getMainHand().set(new Item(data.mainHand.nominative));

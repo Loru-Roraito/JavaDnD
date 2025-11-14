@@ -2049,9 +2049,9 @@ public class GameCharacter {
 
                         if (spellLevel <= maximumLevel && Arrays.asList(acceptedClasses).contains(classes[index].get())) {
                             if (spellLevel > 0) {
-                                availableSpells.getList().get(index).add(new Spell(spell, getString(new String[]{classes[index].get(), "change"}), new String[0], Arrays.asList(abilityNames).indexOf(spellcastingAbilities[index].get()), false, getBoolean(new String[]{classes[index].get(), "limited"})));
+                                availableSpells.getList().get(index).add(new Spell(spell, getString(new String[]{"classes", classes[index].get(), "change"}), new String[0], getAbilityIndex(spellcastingAbilities[index].get()), getBoolean(new String[]{"classes", classes[index].get(), "limited"})));
                             } else if (levels[index].get() >= 1) {
-                                availableCantrips.getList().get(index).add(new Spell(spell, getString(new String[]{classes[index].get(), "change"}), new String[0], Arrays.asList(abilityNames).indexOf(spellcastingAbilities[index].get()), false, getBoolean(new String[]{classes[index].get(), "limited"})));
+                                availableCantrips.getList().get(index).add(new Spell(spell, getString(new String[]{"classes", classes[index].get(), "change"}), new String[0], getAbilityIndex(spellcastingAbilities[index].get()), getBoolean(new String[]{"classes", classes[index].get(), "limited"})));
                             }
                         }
                     }
@@ -2151,14 +2151,26 @@ public class GameCharacter {
         shield.addListener(_ -> updateShield.run());
 
         Runnable updateMainHand = () -> {
+            // Check if character proficiencies include the main hand weapon
             if (mainHand.get().getNominative().equals("UNARMED_STRIKE")) {
                 hasMainProficiency.set(true);
                 return;
             } else {
                 for (ObservableString prof : weaponProficiencies.asList()) {
-                    if (Arrays.asList(mainHand.get().getTags()).contains(prof.get())) {
-                        hasMainProficiency.set(true);
-                        return;
+                    String tag = getString(new String[]{"weapon categories", prof.get(), "tag"});
+                    String[] attributes = getGroup(new String[]{"weapon categories", prof.get(), "attributes"});
+                    if (Arrays.asList(mainHand.get().getTags()).contains(tag)) {
+                        boolean hasAttributes = true;
+                        for (String attribute : attributes) {
+                            if (!Arrays.asList(mainHand.get().getTags()).contains(attribute)) {
+                                hasAttributes = false;
+                                break;
+                            }
+                        }
+                        if (hasAttributes) {
+                            hasMainProficiency.set(true);
+                            return;
+                        }
                     }
                 }
             }
@@ -2169,9 +2181,20 @@ public class GameCharacter {
 
         Runnable updateOffHand = () -> {
             for (ObservableString prof : weaponProficiencies.asList()) {
-                if (Arrays.asList(offHand.get().getTags()).contains(prof.get())) {
-                    hasOffProficiency.set(true);
-                    return;
+                String tag = getString(new String[]{"weapon categories", prof.get(), "tag"});
+                String[] attributes = getGroup(new String[]{"weapon categories", prof.get(), "attributes"});
+                if (Arrays.asList(offHand.get().getTags()).contains(tag)) {
+                    boolean hasAttributes = true;
+                    for (String attribute : attributes) {
+                        if (!Arrays.asList(offHand.get().getTags()).contains(attribute)) {
+                            hasAttributes = false;
+                            break;
+                        }
+                    }
+                    if (hasAttributes) {
+                        hasOffProficiency.set(true);
+                        return;
+                    }
                 }
             }
             hasOffProficiency.set(false);
@@ -2721,5 +2744,12 @@ public class GameCharacter {
             }
         }
         return 0; // Default to first ability if not found
+    }
+
+    public static String getAbilityName (int index) {
+        if (index >= 0 && index < abilityNames.length) {
+            return abilityNames[index];
+        }
+        return abilityNames[0]; // Default to first ability if index is out of bounds
     }
 }

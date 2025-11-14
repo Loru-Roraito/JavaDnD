@@ -1,9 +1,12 @@
 package com.dnd;
 import com.dnd.items.Spell;
+import com.dnd.items.Item;
 import com.dnd.utils.Constants;
+import com.dnd.characters.GameCharacter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Properties;
 
 import javafx.geometry.Insets;
@@ -126,7 +129,62 @@ public class DefinitionManager {
                 }
             }
         }
-    }public void openDefinitionTab(Spell spell, TabPane mainTabPane) {
+    }
+
+    private String fetchItemTooltip(Item item) {
+        String tooltip = "";
+        if (item.getType().equals("WEAPON")) {
+            tooltip = String.valueOf(item.getHits()) + "d" + String.valueOf(item.getDamage());
+            
+            String properties[] = item.getProperties();
+            if (Arrays.asList(properties).contains("VERSATILE")) {
+                tooltip += " (" + String.valueOf(item.getVersatileHits()) + "d" + String.valueOf(item.getVersatileDamage()) + ")";
+            }
+
+            String attributes[] = item.getAttributes();
+            for (String attribute : attributes) {
+                tooltip += " " + getTranslation(attribute);
+            }
+            
+            String[] tags = item.getTags();
+            if (Arrays.asList(tags).contains("RANGED")) {
+                tooltip += ", " + getTranslation("RANGE") + ": " + item.getShortRange() + "/" + item.getLongRange() + " " + getTranslation("LENGTH_UNIT");
+            }
+
+            if (Arrays.asList(properties).contains("AMMUNITION")) {
+                tooltip += "\n" + getTranslation("AMMUNITION") + ": " + getTranslation(item.getAmmo());
+            }
+
+            tooltip += "\n\n";
+            for (String property : properties) {
+                tooltip += getTranslation(property) + ", ";
+            }
+            tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
+
+            tooltip += "\n";
+            for (String tag : tags) {
+                tooltip += getTranslation(tag) + ", ";
+            }
+            tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
+
+        } else if (item.getType().equals("ARMOR")) {
+            
+        }
+
+        return tooltip;
+    }
+
+    public void openDefinitionTab(Item item, TabPane mainTabPane) {
+        StringBuilder definition = new StringBuilder();
+        String itemName = item.getName();
+
+        definition.append(itemName);
+        definition.append(fetchItemTooltip(item));
+
+        displayDefinitionTab(itemName, definition.toString(), mainTabPane);
+    }
+    
+    public void openDefinitionTab(Spell spell, TabPane mainTabPane) {
         StringBuilder definition = new StringBuilder();
         String spellName = spell.getName();
         int level = spell.getLevel();
@@ -218,7 +276,20 @@ public class DefinitionManager {
 
     // Assign a tooltip to a UI element
     public void assignTooltip(javafx.scene.Node node, Spell spell) {
-        String tooltipText = fetchSpellTooltip(spell);
+        Boolean limited = spell.getLimited();
+        String number = " ";
+        if (limited) {
+            number = " 1 ";
+        }
+
+        String tooltipText = getTranslation("PREPARE") + number + getTranslation("EVERY") + " " + getTranslation(spell.getPrepare());
+        tooltipText += " (" + getTranslation(GameCharacter.getAbilityName(spell.getAbility())) + ")";
+        tooltipText += "\n\n" + fetchSpellTooltip(spell);
+        placeTooltip(node, tooltipText);
+    }
+
+    public void assignTooltip(javafx.scene.Node node, Item item) {
+        String tooltipText = fetchItemTooltip(item); // Placeholder: replace with actual tooltip fetching logic for Item
         placeTooltip(node, tooltipText);
     }
     

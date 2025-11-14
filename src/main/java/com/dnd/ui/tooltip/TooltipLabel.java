@@ -2,6 +2,7 @@ package com.dnd.ui.tooltip;
 
 import com.dnd.DefinitionManager;
 import com.dnd.items.Spell;
+import com.dnd.items.Item;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -17,6 +18,16 @@ public class TooltipLabel extends Label {
         assignTooltip(spell);
         Runnable openTab = () -> {
             DefinitionManager.getInstance().openDefinitionTab(spell, mainTabPane);
+        };
+        setupKeyListener(openTab);
+    }
+
+    public TooltipLabel(Item item, TabPane mainTabPane) {
+        super(item.getName()); // Set the label's text
+        this.mainTabPane = mainTabPane;
+        assignTooltip(item);
+        Runnable openTab = () -> {
+            DefinitionManager.getInstance().openDefinitionTab(item, mainTabPane);
         };
         setupKeyListener(openTab);
     }
@@ -53,6 +64,10 @@ public class TooltipLabel extends Label {
 
     private void assignTooltip(Spell spell) {
         DefinitionManager.getInstance().assignTooltip(this, spell);
+    }
+
+    private void assignTooltip(Item item) {
+        DefinitionManager.getInstance().assignTooltip(this, item);
     }
 
     // Set up a key listener for the "T" key

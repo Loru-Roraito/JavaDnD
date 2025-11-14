@@ -20,7 +20,6 @@ public class Spell implements MyItems<Spell> {
 
     private final Boolean concentration;
     private final Boolean ritual;
-    private final Boolean overriding; // If true, the spell takes the place of spell with same name
     private final Boolean limited; // Only one limited spell's preparation can be changed at a time
     private final Boolean[] components; // Verbal, somatic, material
 
@@ -36,7 +35,7 @@ public class Spell implements MyItems<Spell> {
 
     @Override
     public Spell copy() {
-        return new Spell(nominative, prepare, focus, ability, overriding, limited);
+        return new Spell(nominative, prepare, focus, ability, limited);
     }
 
     @Override
@@ -44,13 +43,12 @@ public class Spell implements MyItems<Spell> {
         return name;
     }
 
-    public Spell(String nominative, String prepare, String[] focus, int ability, Boolean overriding, Boolean limited) {
+    public Spell(String nominative, String prepare, String[] focus, int ability, Boolean limited) {
         this.nominative = nominative;
         name = new ObservableString(nominative);
         this.prepare = prepare;
         this.focus = focus;
         this.ability = ability;
-        this.overriding = overriding;
         this.limited = limited;
         
         school = getSpellString(new String[]{nominative, "school"});
@@ -78,7 +76,6 @@ public class Spell implements MyItems<Spell> {
         return nominative.equals(other.nominative)
             && prepare.equals(other.prepare)
             && ability == other.ability
-            && overriding.equals(other.overriding)
             && limited.equals(other.limited)
             && !found;
     }
@@ -97,10 +94,6 @@ public class Spell implements MyItems<Spell> {
 
     public int getAbility() {
         return ability;
-    }
-
-    public Boolean getOverriding() {
-        return overriding;
     }
 
     public Boolean getLimited() {

@@ -4292,7 +4292,7 @@
       true
     ]
   },
-  "LIGHT": {
+  "LIGHT_SPELL": {
     "level": 0,
     "range": 0,
     "time": 1,

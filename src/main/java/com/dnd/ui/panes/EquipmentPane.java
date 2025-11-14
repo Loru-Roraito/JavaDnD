@@ -310,7 +310,7 @@ public class EquipmentPane extends GridPane {
                     HBox itemBox = new HBox();
                     IntegerProperty quantityProperty = new SimpleIntegerProperty(1);
                     itemQuantities.put(item, quantityProperty);
-                    TooltipLabel itemLabel = new TooltipLabel(item.getName(), mainTabPane);
+                    TooltipLabel itemLabel = new TooltipLabel(item, mainTabPane);
 
                     String type = item.getType();
                     String[] properties = item.getProperties();

@@ -106,6 +106,18 @@ public class Item implements MyItems<Item> {
         return tags;
     }
 
+    public String[] getAttributes() {
+        return attributes;
+    }
+
+    public int getShortRange() {
+        return shortRange;
+    }
+
+    public int getLongRange() {
+        return longRange;
+    }
+
     public int getArmorClass() {
         return armorClass;
     }
