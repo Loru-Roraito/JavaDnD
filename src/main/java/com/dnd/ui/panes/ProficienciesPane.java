@@ -142,7 +142,7 @@ public class ProficienciesPane extends GridPane {
         TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesGridPane);
         add(proficienciesPane, 0, 4);
 
-        add(proficienciesBox, 0, 5);
+        proficienciesGridPane.add(proficienciesBox, 0, 1);
 
         TextFlow traitsFlow = new TextFlow();
         updateBox(traitsFlow, character.getTraits());
@@ -151,18 +151,16 @@ public class ProficienciesPane extends GridPane {
                 -> updateBox(traitsFlow, character.getTraits())
         );
 
-        TooltipTitledPane traitsPane = new TooltipTitledPane(getTranslation("TRAITS"), traitsFlow);
-        add(traitsPane, 0, 6);
+        add(traitsFlow, 0, 5);
 
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
-        traitsPane.maxWidthProperty().bind(paneWidthBinding);
+        traitsFlow.maxWidthProperty().bind(paneWidthBinding);
 
         // TODO: flow grows too much
         proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
         proficienciesPane.setMaxHeight(Double.MAX_VALUE);
-        traitsFlow.setMaxHeight(Double.MAX_VALUE);
-        traitsPane.setMaxHeight(Double.MAX_VALUE);    
+        traitsFlow.setMaxHeight(Double.MAX_VALUE);  
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {

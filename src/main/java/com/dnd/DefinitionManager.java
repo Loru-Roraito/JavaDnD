@@ -117,7 +117,7 @@ public class DefinitionManager {
 
                             // Underline the word and make it clickable
                             wordText.getStyleClass().clear();
-                            wordText.setStyle("-fx-fill: #0095ff; -fx-cursor: hand;");
+                            wordText.setStyle("-fx-fill: #694704ff; -fx-cursor: hand;");
                             wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
 
                             assignTooltip(wordText, newText);

@@ -147,7 +147,7 @@ public class CombatPane extends GridPane {
 
         }
 
-        if (critical.isSelected()) {
+        if (critical.isSelected() && !weapon.getNominative().equals("UNARMED_STRIKE")) {
             hits *= 2;
             critical.setSelected(false);
         }
