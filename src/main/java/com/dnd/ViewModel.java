@@ -30,6 +30,7 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 public class ViewModel {
+    private final StringProperty finesseAbility;
     private final StringProperty saveName;
     private final StringProperty creatureType;
     private final StringProperty languageOne;
@@ -115,6 +116,8 @@ public class ViewModel {
     private final BooleanProperty unconscious;
     private final BooleanProperty hasShieldProficiency;
     private final BooleanProperty hasArmorProficiency;
+    private final BooleanProperty hasMainProficiency;
+    private final BooleanProperty hasOffProficiency;
 
     private final BooleanProperty[] availablePlusOnes;
     private final BooleanProperty[] availablePlusTwos;
@@ -163,6 +166,9 @@ public class ViewModel {
         bindObservableItem(armor, backend.getArmor());
         shield = new ObservableItem(backend.getShield().get());
         bindObservableItem(shield, backend.getShield());
+
+        finesseAbility = new SimpleStringProperty(getTranslation(backend.getFinesseAbility().get()));
+        bindObservableString(finesseAbility, backend.getFinesseAbility());
 
         saveName = new SimpleStringProperty(backend.getSaveNameProperty().get());
         bindObservableString(saveName, backend.getSaveNameProperty());
@@ -295,6 +301,12 @@ public class ViewModel {
 
         hasArmorProficiency = new SimpleBooleanProperty(backend.hasArmorProficiency().get());
         bindObservableBoolean(hasArmorProficiency, backend.hasArmorProficiency());
+
+        hasMainProficiency = new SimpleBooleanProperty(backend.hasMainProficiency().get());
+        bindObservableBoolean(hasMainProficiency, backend.hasMainProficiency());
+
+        hasOffProficiency = new SimpleBooleanProperty(backend.hasOffProficiency().get());
+        bindObservableBoolean(hasOffProficiency, backend.hasOffProficiency());
 
         maxClasses = backend.getMaxClasses();
         levelsShown = new SimpleStringProperty[maxClasses];
@@ -855,6 +867,10 @@ public class ViewModel {
         return saveName.get();
     }
 
+    public StringProperty getFinesseAbility() {
+        return finesseAbility;
+    }
+
     public StringProperty getWeight() {
         return weight;
     }
@@ -1079,6 +1095,14 @@ public class ViewModel {
 
     public BooleanProperty hasArmorProficiency() {
         return hasArmorProficiency;
+    }
+
+    public BooleanProperty hasMainProficiency() {
+        return hasMainProficiency;
+    }
+
+    public BooleanProperty hasOffProficiency() {
+        return hasOffProficiency;
     }
 
     public BooleanProperty isGenerator() {

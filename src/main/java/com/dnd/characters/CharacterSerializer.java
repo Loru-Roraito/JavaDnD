@@ -31,6 +31,7 @@ public class CharacterSerializer {
         public String languageTwo;
         public String generationMethod;
         public String healthMethod;
+        public String finesseAbility;
         public int health;
         public int exhaustion;
         
@@ -162,6 +163,7 @@ public class CharacterSerializer {
             data.languageTwo = character.getLanguageTwo().get();
             data.generationMethod = character.getGenerationMethod().get();
             data.healthMethod = character.getHealthMethod().get();
+            data.finesseAbility = character.getFinesseAbility().get();
             data.health = character.getHealth().get();
             data.exhaustion = character.getExhaustion().get();
             
@@ -301,6 +303,7 @@ public class CharacterSerializer {
                 character.getLanguageTwo().set(data.languageTwo);
                 character.getGenerationMethod().set(data.generationMethod);
                 character.getHealthMethod().set(data.healthMethod);
+                character.getFinesseAbility().set(data.finesseAbility);
                 character.getHealth().set(data.health);
                 character.getExhaustion().set(data.exhaustion);
                 

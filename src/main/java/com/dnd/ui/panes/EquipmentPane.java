@@ -330,17 +330,24 @@ public class EquipmentPane extends GridPane {
                         off.setVisible(false);
                     } else if (Arrays.asList(tags).contains("SHIELDS")) {
                         main.setVisible(false);
-                    } else {
+                    } else if (!Arrays.asList(properties).contains("VERSATILE") && !Arrays.asList(properties).contains("TWO_HANDED")) {
                         off.setVisible(false);
                     }
 
                     Runnable updateMain = () -> {
                         if (type.equals("WEAPON")) {
                             Item mainHand = character.getMainHand().get();
-                            if (mainHand.equals(item) || mainHand.getNominative().equals("UNARMED_STRIKE")) {
-                                main.disableProperty().set(false);
-                            } else {
+                            Item offHand = character.getOffHand().get();
+                            Item shield = character.getShield().get();
+                            boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
+                            if (isTwoHanded && ((!offHand.getNominative().equals("NONE_F") && !offHand.equals(item)) || !shield.getNominative().equals("NONE_M"))) {
                                 main.disableProperty().set(true);
+                            } else {
+                                if (mainHand.equals(item) || mainHand.getNominative().equals("UNARMED_STRIKE")) {
+                                    main.disableProperty().set(false);
+                                } else {
+                                    main.disableProperty().set(true);
+                                }
                             }
                         } else if (type.equals("ARMOR")) {
                             Item armor = character.getArmor().get();
@@ -352,21 +359,45 @@ public class EquipmentPane extends GridPane {
                         }
                     };
                     updateMain.run();
-                    character.getMainHand().addListener(_ -> {
-                        updateMain.run();
-                    });
+                    character.getMainHand().addListener(_ -> updateMain.run());
+                    if (Arrays.asList(properties).contains("TWO_HANDED")) {
+                        character.getOffHand().addListener(_ -> updateMain.run());
+                        character.getShield().addListener(_ -> updateMain.run());
+                    }
+                    character.getArmor().addListener(_ -> updateMain.run());
 
                     Runnable updateOff = () -> {
                         if (type.equals("WEAPON")) {
-                            Item offHand = character.getOffHand().get();
-                            if (offHand.equals(item) || offHand.getNominative().equals("NONE_F")) {
-                                off.disableProperty().set(false);
+                            Item shield = character.getShield().get();
+                            if (shield.getNominative().equals("NONE_M")) {
+                                Item offHand = character.getOffHand().get();
+                                Item mainHand = character.getMainHand().get();
+                                boolean isVersatile = Arrays.asList(properties).contains("VERSATILE");
+                                boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
+                                if (isTwoHanded) {
+                                    if (mainHand.equals(item)) {
+                                        off.setSelected(true);
+                                    } else {
+                                        off.setSelected(false);
+                                    }
+                                    off.disableProperty().set(true);
+                                } else if (isVersatile && !mainHand.equals(item)) {
+                                    off.setSelected(false);
+                                    off.disableProperty().set(true);
+                                } else {
+                                    if (offHand.equals(item) ||  offHand.getNominative().equals("NONE_F")) {
+                                        off.disableProperty().set(false);
+                                    } else {
+                                        off.disableProperty().set(true);
+                                    }
+                                }
                             } else {
                                 off.disableProperty().set(true);
                             }
                         } else if (type.equals("ARMOR")) {
                             Item shield = character.getShield().get();
-                            if (shield.equals(item) || shield.getNominative().equals("NONE_M")) {
+                            Item offHand = character.getOffHand().get();
+                            if (offHand.getNominative().equals("NONE_F") && (shield.equals(item) || shield.getNominative().equals("NONE_M"))) {
                                 off.disableProperty().set(false);
                             } else {
                                 off.disableProperty().set(true);
@@ -374,9 +405,11 @@ public class EquipmentPane extends GridPane {
                         }
                     };
                     updateOff.run();
-                    character.getOffHand().addListener(_ -> {
-                        updateOff.run();
-                    });
+                    character.getOffHand().addListener(_ -> updateOff.run());
+                    if (Arrays.asList(properties).contains("VERSATILE") || Arrays.asList(properties).contains("TWO_HANDED")) {
+                        character.getMainHand().addListener(_ -> updateOff.run());
+                    }
+                    character.getShield().addListener(_ -> updateOff.run());
 
                     main.selectedProperty().addListener((_, _, newVal) -> {
                         if (newVal) {

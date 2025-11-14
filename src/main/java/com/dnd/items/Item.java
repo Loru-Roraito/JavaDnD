@@ -94,6 +94,10 @@ public class Item implements MyItems<Item> {
         return type;
     }
 
+    public String getAmmo() {
+        return ammo;
+    }
+
     public String[] getProperties() {
         return properties;
     }
@@ -112,6 +116,22 @@ public class Item implements MyItems<Item> {
 
     public int getStrength() {
         return strength;
+    }
+
+    public int getHits() {
+        return hits;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getVersatileHits() {
+        return versatileHits;
+    }
+
+    public int getVersatileDamage() {
+        return versatileDamage;
     }
 
     public Boolean getStealth() {

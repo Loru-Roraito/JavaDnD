@@ -18,6 +18,12 @@ import javafx.stage.Stage;
 import com.dnd.items.Proficiency;
 import com.dnd.items.Spell;
 
+/*
+    How to add a field to GameCharacter:
+     - Declare it here
+     - Share it with ViewModel
+     - If independent, it must be insertend in GameCharacter.fill() and in CharacterSerializer
+ */
 public class GameCharacter {
     private final ObservableItem mainHand = new ObservableItem(new Item("UNARMED_STRIKE"));
     private final ObservableItem offHand = new ObservableItem(new Item("NONE_F"));
@@ -25,10 +31,11 @@ public class GameCharacter {
     private final ObservableItem shield = new ObservableItem(new Item("NONE_M"));
 
     private String path = "";
-    private final String[] skillNames; // Get the names of all skills
-    private final String[] abilityNames;
+    private static String[] skillNames; // Get the names of all skills
+    private static String[] abilityNames;
     private final String[] sets;
 
+    private final ObservableString finesseAbility = new ObservableString("BEST_ONE");
     private final ObservableString saveName = new ObservableString("");
     private final ObservableString creatureType = new ObservableString("");
     private final ObservableString languageOne = new ObservableString("RANDOM");
@@ -133,6 +140,8 @@ public class GameCharacter {
     private final ObservableBoolean unconscious = new ObservableBoolean(false);
     private final ObservableBoolean hasShieldProficiency = new ObservableBoolean(false);
     private final ObservableBoolean hasArmorProficiency = new ObservableBoolean(false);
+    private final ObservableBoolean hasMainProficiency = new ObservableBoolean(false);
+    private final ObservableBoolean hasOffProficiency = new ObservableBoolean(false);
 
     private final ObservableBoolean[] availableSkills;
     private final ObservableBoolean[] abilityPlusOnes;
@@ -522,6 +531,10 @@ public class GameCharacter {
         this.path = path;
     }
 
+    public ObservableString getFinesseAbility() {
+        return finesseAbility;
+    }
+
     public String getSaveName() {
         return saveName.get();
     }
@@ -764,6 +777,14 @@ public class GameCharacter {
 
     public ObservableBoolean hasArmorProficiency() {
         return hasArmorProficiency;
+    }
+
+    public ObservableBoolean hasMainProficiency() {
+        return hasMainProficiency;
+    }
+
+    public ObservableBoolean hasOffProficiency() {
+        return hasOffProficiency;
     }
 
     public int[] getSkillAbilities() {
@@ -2106,27 +2127,57 @@ public class GameCharacter {
 
     private void bindHasProficiencies() {
         Runnable updateArmor = () -> {
-            hasArmorProficiency.set(false);
             for (ObservableString prof : armorProficiencies.asList()) {
                 if (Arrays.asList(armor.get().getTags()).contains(prof.get())) {
                     hasArmorProficiency.set(true);
                     return;
                 }
             }
+            hasArmorProficiency.set(false);
         };
         armorProficiencies.addListener(_ -> updateArmor.run());
         armor.addListener(_ -> updateArmor.run());
 
         Runnable updateShield = () -> {
-            hasShieldProficiency.set(false);
             for (ObservableString prof : armorProficiencies.asList()) {
                 if (prof.get().equals("SHIELDS")) {
                     hasShieldProficiency.set(true);
                     return;
                 }
             }
+            hasShieldProficiency.set(false);
         };
         armorProficiencies.addListener(_ -> updateShield.run());
+        shield.addListener(_ -> updateShield.run());
+
+        Runnable updateMainHand = () -> {
+            if (mainHand.get().getNominative().equals("UNARMED_STRIKE")) {
+                hasMainProficiency.set(true);
+                return;
+            } else {
+                for (ObservableString prof : weaponProficiencies.asList()) {
+                    if (Arrays.asList(mainHand.get().getTags()).contains(prof.get())) {
+                        hasMainProficiency.set(true);
+                        return;
+                    }
+                }
+            }
+            hasMainProficiency.set(false);
+        };
+        weaponProficiencies.addListener(_ -> updateMainHand.run());
+        mainHand.addListener(_ -> updateMainHand.run());
+
+        Runnable updateOffHand = () -> {
+            for (ObservableString prof : weaponProficiencies.asList()) {
+                if (Arrays.asList(offHand.get().getTags()).contains(prof.get())) {
+                    hasOffProficiency.set(true);
+                    return;
+                }
+            }
+            hasOffProficiency.set(false);
+        };
+        weaponProficiencies.addListener(_ -> updateOffHand.run());
+        offHand.addListener(_ -> updateOffHand.run());
     }
 
     // Helpers
@@ -2224,6 +2275,7 @@ public class GameCharacter {
         copy.offHand.set(offHand.get());
         copy.armor.set(armor.get());
         copy.shield.set(shield.get());
+        copy.finesseAbility.set(finesseAbility.get());
 
         return copy;
     }
@@ -2660,5 +2712,14 @@ public class GameCharacter {
     public static GameCharacter load(Stage stage) {
         GameCharacter NC = CharacterSerializer.load(stage);
         return NC;
+    }
+
+    public static int getAbilityIndex (String ability) {
+        for (int i = 0; i < abilityNames.length; i++) {
+            if (abilityNames[i].equals(ability)) {
+                return i;
+            }
+        }
+        return 0; // Default to first ability if not found
     }
 }

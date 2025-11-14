@@ -247,3 +247,4 @@ public class App extends Application {
 // Valutare se rendere classe e simili array. Personalmente preferisco la situazione attuale, ma potrebbe rivelarsi lenta
 // Uscire da suggeritore disattiva scrittura
 // Make tooltip and die rounded
+// Thrown weapons

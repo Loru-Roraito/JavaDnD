@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.dnd.TranslationManager;
 import com.dnd.ui.tooltip.TooltipTitledPane;
 import com.dnd.ViewModel;
+import com.dnd.characters.GameCharacter;
 import com.dnd.characters.SpellManager;
 import com.dnd.ui.tooltip.TooltipLabel;
 import com.dnd.items.Spell;
@@ -35,7 +36,7 @@ public class MagicTab extends Tab {
     private final TabPane mainTabPane; // Reference to the main TabPane
     private final Map<String, Integer> spellcasting = new HashMap<>();
 
-    public MagicTab(ViewModel character, TabPane mainTabPane) {
+    public MagicTab(ViewModel character, TabPane mainTabPane, InfoTab infoTab) {
         this.character = character;
         this.mainTabPane = mainTabPane;
         setText(getTranslation("MAGIC"));
@@ -53,6 +54,14 @@ public class MagicTab extends Tab {
         gridPane.add(ability, 1, 0, 1, 1);
         gridPane.add(ability.getLabel(), 1, 0, 1, 1);
         ability.disableProperty().bind(Bindings.size(abilities).lessThan(2));
+
+        Button attack = new Button(getTranslation("ATTACK_ROLL"));
+        gridPane.add(attack, 2, 0);
+        attack.setOnAction(_ -> {
+            int index = spellcasting.get(ability.valueProperty().get());
+            int abilityIndex = GameCharacter.getAbilityIndex(getOriginal(ability.valueProperty().get()));
+            infoTab.throwDie(1, 20, character.getSpellcastingAttackModifier(index).get(), false, false, abilityIndex);
+        });
 
         StringProperty[] spellcastingAbilities = character.getSpellcastingAbilities();
         Runnable updateSpellcasting = () -> {
@@ -84,9 +93,11 @@ public class MagicTab extends Tab {
                 int index = spellcasting.get(ability.valueProperty().get());
                 attackLabel.setText(getTranslation("ATTACK_MODIFIER") + ": " + character.getSpellcastingAttackModifier(index).get());
                 saveDCLabel.setText(getTranslation("DC") + ": " + character.getSpellcastingSaveDC(index).get());
+                attack.setVisible(true);
             } else {
                 attackLabel.setText("");
                 saveDCLabel.setText("");
+                attack.setVisible(false);
             }
         };
         ability.valueProperty().addListener((_, _, _) -> updateValues.run());

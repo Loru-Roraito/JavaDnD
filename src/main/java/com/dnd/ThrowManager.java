@@ -9,7 +9,7 @@ public class ThrowManager {
     private static ThrowManager instance;
     private final Random random = new Random(); // Reusable Random instance
 
-    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, int ability, GameCharacter character, SystemPane systemPane) {
+    public int throwDice(int times, int size, int bonus, Boolean advantage, Boolean disadvantage, int ability, GameCharacter character, SystemPane systemPane) {
         if (size == 20 && times == 1) {
             // Exhaustion affects D20 tests
             int exhaustion = systemPane.getCharacter().getExhaustion().get();
@@ -41,10 +41,10 @@ public class ThrowManager {
             }
         }
 
-        return throwDice(times, size, base, bonus, adv, disadv);
+        return throwDice(times, size, bonus, adv, disadv);
     }
 
-    public int throwDice(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage) {
+    public int throwDice(int times, int size, int bonus, Boolean advantage, Boolean disadvantage) {
         if (size <= 0) {
             throw new IllegalArgumentException("Die size must be greater than 0");
         }
@@ -52,7 +52,7 @@ public class ThrowManager {
             throw new IllegalArgumentException("Number of rolls (times) must be greater than 0");
         }
     
-        int total = base;
+        int total = 0;
     
         for (int i = 0; i < times; i++) {
             int roll;
@@ -73,7 +73,7 @@ public class ThrowManager {
         // Roll 4 dice
         int[] rolls = new int[4];
         for (int i = 0; i < 4; i++) {
-            rolls[i] = throwDice(1, 6, 0, 0, false, false); // Roll a d6
+            rolls[i] = throwDice(1, 6, 0, false, false); // Roll a d6
         }
         
         // Find the lowest value

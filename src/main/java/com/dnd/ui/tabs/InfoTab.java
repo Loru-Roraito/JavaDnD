@@ -55,7 +55,7 @@ public class InfoTab extends Tab {
         systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character, stage);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
         addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
-        addTitledPane("COMBAT", new CombatPane(mainTabPane, character), 1, 1, 1, 1);
+        addTitledPane("COMBAT", new CombatPane(mainTabPane, character, this), 1, 1, 1, 1);
 
         // Set the GridPane as the content of the tab
         setContent(gridPane);
@@ -214,13 +214,14 @@ public class InfoTab extends Tab {
         return TranslationManager.getInstance().getTranslation(key);
     }
 
-    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, Boolean failState, int ability) {
-        throwDie(times, size, base, bonus, advantage, disadvantage, ability);
+    public int throwDie(int times, int size, int bonus, Boolean advantage, Boolean disadvantage, Boolean failState, int ability) {
+        return throwDie(times, size, bonus, advantage, disadvantage, ability);
     }
 
     // Method to update the die result
-    public void throwDie(int times, int size, int base, int bonus, Boolean advantage, Boolean disadvantage, int ability) {
-        int result = ThrowManager.getInstance().throwDice(times, size, base, bonus, advantage, disadvantage, ability, character.getBackend(), systemPane);
+    public int throwDie(int times, int size, int bonus, Boolean advantage, Boolean disadvantage, int ability) {
+        int result = ThrowManager.getInstance().throwDice(times, size, bonus, advantage, disadvantage, ability, character.getBackend(), systemPane);
         DieToast.show(String.valueOf(result), stage, 2000);
+        return result;
     }
 }
