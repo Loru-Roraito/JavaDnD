@@ -68,8 +68,7 @@ public class GameCharacter {
     private final ObservableString[][] availableSubclasses;
     private final ObservableString[][][] featsAbilities;
 
-    private final CustomObservableList<ObservableString> actives = new CustomObservableList<>();
-    private final CustomObservableList<ObservableString> passives = new CustomObservableList<>();
+    private final CustomObservableList<ObservableString> traits = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> weaponProficiencies = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> armorProficiencies = new CustomObservableList<>();
     private final CustomObservableList<ObservableString> toolProficiencies = new CustomObservableList<>();
@@ -348,9 +347,7 @@ public class GameCharacter {
 
         bindOriginFeat();
 
-        bindActives();
-
-        bindPassives();
+        bindTraits();
 
         bindChoiceToolProficiencies();
 
@@ -791,12 +788,8 @@ public class GameCharacter {
         return skillAbilities;
     }
 
-    public CustomObservableList<ObservableString> getActives() {
-        return actives;
-    }
-
-    public CustomObservableList<ObservableString> getPassives() {
-        return passives;
+    public CustomObservableList<ObservableString> getTraits() {
+        return traits;
     }
 
     public CustomObservableList<ObservableString> getWeaponProficiencies() {
@@ -1591,59 +1584,59 @@ public class GameCharacter {
         });
     }
 
-    private void bindActives() {
-        Runnable updateActives = () -> {
-            actives.clear(); // Keep the list in sync
-            String[] activeNames = getGroup(new String[]{"species", species.get(), "actives"});
-            if (activeNames != null) {
-                for (String active : activeNames) {
-                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "actives", active})) {
-                        actives.add(new ObservableString(active));
+    private void bindTraits() {
+        Runnable updateTraits = () -> {
+            traits.clear(); // Keep the list in sync
+            String[] traitNames = getGroup(new String[]{"species", species.get(), "traits"});
+            if (traitNames != null) {
+                for (String trait : traitNames) {
+                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "traits", trait})) {
+                        traits.add(new ObservableString(trait));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[]{"species", species.get(), "lineages", lineage.get(), "actives"});
-            if (activeNames != null) {
-                for (String active : activeNames) {
-                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "lineages", lineage.get(), "actives", active})) {
-                        actives.add(new ObservableString(active));
+            traitNames = getGroup(new String[]{"species", species.get(), "lineages", lineage.get(), "traits"});
+            if (traitNames != null) {
+                for (String trait : traitNames) {
+                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "lineages", lineage.get(), "traits", trait})) {
+                        traits.add(new ObservableString(trait));
                     }
                 }
             }
 
-            activeNames = getGroup(new String[]{"feats", originFeat.get(), "actives"});
-            if (activeNames != null) {
-                for (String active : activeNames) {
-                    actives.add(new ObservableString(active));
+            traitNames = getGroup(new String[]{"feats", originFeat.get(), "traits"});
+            if (traitNames != null) {
+                for (String trait : traitNames) {
+                    traits.add(new ObservableString(trait));
                 }
             }
 
             for (int i = 0; i < classes.length; i++) {
-                activeNames = getGroup(new String[]{"classes", classes[i].get(), "actives"});
-                if (activeNames != null) {
-                    for (String active : activeNames) {
-                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "actives", active})) {
-                            actives.add(new ObservableString(active));
+                traitNames = getGroup(new String[]{"classes", classes[i].get(), "traits"});
+                if (traitNames != null) {
+                    for (String trait : traitNames) {
+                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "traits", trait})) {
+                            traits.add(new ObservableString(trait));
                         }
                     }
                 }
 
-                activeNames = getGroup(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "actives"});
-                if (activeNames != null) {
-                    for (String active : activeNames) {
-                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "actives", active})) {
-                            actives.add(new ObservableString(active));
+                traitNames = getGroup(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "traits"});
+                if (traitNames != null) {
+                    for (String trait : traitNames) {
+                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "traits", trait})) {
+                            traits.add(new ObservableString(trait));
                         }
                     }
                 }
 
                 for (ObservableString feat : feats[i]) {
-                    activeNames = getGroup(new String[]{"feats", feat.get(), "actives"});
-                    if (activeNames != null) {
-                        for (String active : activeNames) {
-                            if (levels[i].get() >= getInt(new String[]{"feats", feat.get(), "actives", active})) {
-                                actives.add(new ObservableString(active));
+                    traitNames = getGroup(new String[]{"feats", feat.get(), "traits"});
+                    if (traitNames != null) {
+                        for (String trait : traitNames) {
+                            if (levels[i].get() >= getInt(new String[]{"feats", feat.get(), "traits", trait})) {
+                                traits.add(new ObservableString(trait));
                             }
                         }
                     }
@@ -1651,18 +1644,18 @@ public class GameCharacter {
             }
         };
 
-        species.addListener(_ -> updateActives.run());
-        lineage.addListener(_ -> updateActives.run());
-        originFeat.addListener(_ -> updateActives.run());
+        species.addListener(_ -> updateTraits.run());
+        lineage.addListener(_ -> updateTraits.run());
+        originFeat.addListener(_ -> updateTraits.run());
         for (int i = 0; i < classes.length; i++) {
-            levels[i].addListener(_ -> updateActives.run());
+            levels[i].addListener(_ -> updateTraits.run());
             for (ObservableString feat : feats[i]) {
-                feat.addListener(_ -> updateActives.run());
+                feat.addListener(_ -> updateTraits.run());
             }
-            classes[i].addListener(_ -> updateActives.run());
-            subclasses[i].addListener(_ -> updateActives.run());
+            classes[i].addListener(_ -> updateTraits.run());
+            subclasses[i].addListener(_ -> updateTraits.run());
         }
-        updateActives.run();
+        updateTraits.run();
     }
 
     private void bindFeatsAbilities() {
@@ -1684,81 +1677,6 @@ public class GameCharacter {
                 updateFeatAbilities.run();
             }
         }
-    }
-
-    private void bindPassives() {
-        Runnable updatePassives = () -> {
-            passives.clear(); // Keep the list in sync
-            String[] passiveNames = getGroup(new String[]{"species", species.get(), "passives"});
-            if (passiveNames != null) {
-                for (String passive : passiveNames) {
-                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "passives", passive})) {
-                        passives.add(new ObservableString(passive));
-                    }
-                }
-            }
-
-            passiveNames = getGroup(new String[]{"species", species.get(), "lineages", lineage.get(), "passives"});
-            if (passiveNames != null) {
-                for (String passive : passiveNames) {
-                    if (totalLevel.get() >= getInt(new String[]{"species", species.get(), "lineages", lineage.get(), "passives", passive})) {
-                        passives.add(new ObservableString(passive));
-                    }
-                }
-            }
-
-            passiveNames = getGroup(new String[]{"feats", originFeat.get(), "passives"});
-            if (passiveNames != null) {
-                for (String passive : passiveNames) {
-                    passives.add(new ObservableString(passive));
-                }
-            }
-
-            for (int i = 0; i < classes.length; i++) {
-                passiveNames = getGroup(new String[]{"classes", classes[i].get(), "passives"});
-                if (passiveNames != null) {
-                    for (String passive : passiveNames) {
-                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "passives", passive})) {
-                            passives.add(new ObservableString(passive));
-                        }
-                    }
-                }
-
-                passiveNames = getGroup(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "passives"});
-                if (passiveNames != null) {
-                    for (String passive : passiveNames) {
-                        if (levels[i].get() >= getInt(new String[]{"classes", classes[i].get(), "subclasses", subclasses[i].get(), "passives", passive})) {
-                            passives.add(new ObservableString(passive));
-                        }
-                    }
-                }
-
-                for (ObservableString feat : feats[i]) {
-                    passiveNames = getGroup(new String[]{"feats", feat.get(), "passives"});
-                    if (passiveNames != null) {
-                        for (String passive : passiveNames) {
-                            if (levels[i].get() >= getInt(new String[]{"feats", feat.get(), "passives", passive})) {
-                                passives.add(new ObservableString(passive));
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-        species.addListener(_ -> updatePassives.run());
-        lineage.addListener(_ -> updatePassives.run());
-        originFeat.addListener(_ -> updatePassives.run());
-        for (int i = 0; i < classes.length; i++) {
-            int index = i;
-            levels[index].addListener(_ -> updatePassives.run());
-            for (ObservableString feat : feats[index]) {
-                feat.addListener(_ -> updatePassives.run());
-            }
-            classes[index].addListener(_ -> updatePassives.run());
-            subclasses[index].addListener(_ -> updatePassives.run());
-        }
-        updatePassives.run();
     }
 
     private void bindWeaponProficiencies() {

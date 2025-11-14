@@ -129,8 +129,7 @@ public class ViewModel {
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
     
-    private final ObservableList<StringProperty> actives;
-    private final ObservableList<StringProperty> passives;
+    private final ObservableList<StringProperty> traits;
     private final ObservableList<StringProperty> weaponProficiencies;
     private final ObservableList<StringProperty> armorProficiencies;
     private final ObservableList<StringProperty> toolProficiencies;
@@ -503,11 +502,8 @@ public class ViewModel {
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
 
-        actives = FXCollections.observableArrayList();
-        updateList(actives, backend.getActives());
-
-        passives = FXCollections.observableArrayList();
-        updateList(passives, backend.getPassives());
+        traits = FXCollections.observableArrayList();
+        updateList(traits, backend.getTraits());
 
         weaponProficiencies = FXCollections.observableArrayList();
         updateList(weaponProficiencies, backend.getWeaponProficiencies());
@@ -799,12 +795,8 @@ public class ViewModel {
         return items;
     }
 
-    public ObservableList<StringProperty> getActives() {
-        return actives;
-    }
-
-    public ObservableList<StringProperty> getPassives() {
-        return passives;
+    public ObservableList<StringProperty> getTraits() {
+        return traits;
     }
 
     public ObservableList<StringProperty> getWeaponProficiencies() {

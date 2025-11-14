@@ -82,26 +82,25 @@
     },
     "BARBARIAN": {
       "hit_die": 12,
-      "actives": {
-        "RAGE": 1,
-        "WEAPON_MASTERY": 1,
-        "RECKLESS_ATTACK": 2,
-        "PRIMAL_KNOWLEDGE": 3,
-        "BRUTAL_STRIKE": 9,
-        "IMPROVED_BRUTAL_STRIKE_1": 13,
-        "IMPROVED_BRUTAL_STRIKE_2": 17,
-        "RELENTLESS_RAGE": 11,
-        "PERSISTENT_RAGE": 15,
-        "INDOMITABLE_MIGHT": 18
-      },
-      "passives": {
-        "UNARMORED_DEFENSE": 1,
-        "DANGER_SENSE": 2,
-        "EXTRA_ATTACK": 5,
-        "FAST_MOVEMENT": 5,
-        "FERAL_INSTINCT": 7,
-        "INSTINCTIVE_POUNCE": 7,
-        "PRIMAL_CHAMPION": 4
+      "traits": {
+        "BARBARIAN_RAGE": 1,
+        "BARBARIAN_UNARMORED_DEFENSE": 1,
+        "BARBARIAN_WEAPON_MASTERY": 1,
+        "BARBARIAN_DANGER_SENSE": 2,
+        "BARBARIAN_RECKLESS_ATTACK": 2,
+        "BARBARIAN_PRIMAL_KNOWLEDGE": 3,
+        "BARBARIAN_ABILITY_SCORE_IMPROVEMENT": 4,
+        "BARBARIAN_EXTRA_ATTACK": 5,
+        "BARBARIAN_FAST_MOVEMENT": 5,
+        "BARBARIAN_FERAL_INSTINCT": 7,
+        "BARBARIAN_INSTINCTIVE_POUNCE": 7,
+        "BARBARIAN_BRUTAL_STRIKE": 9,
+        "BARBARIAN_RELENTLESS_RAGE": 11,
+        "BARBARIAN_IMPROVED_BRUTAL_STRIKE": 17,
+        "BARBARIAN_PERSISTENT_RAGE": 15,
+        "BARBARIAN_INDOMITABLE_MIGHT": 18,
+        "BARBARIAN_EPIC_BOON": 19,
+        "BARBARIAN_PRIMAL_CHAMPION": 20
       },
       "abilities": ["STRENGTH", "CONSTITUTION"],
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
@@ -116,44 +115,26 @@
       "masteries": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "subclasses": {
         "PATH_OF_THE_BERSERKER": {
-          "actives": {
-            "RETALIATION": 10,
-            "INTIMIDATING_PRESENCE": 14
-          },
-          "passives": {
-            "FRENZY": 3,
-            "MINDLESS_RAGE": 6
+          "traits": {
+            "BARBARIAN_SUB_FRENZY": 3,
+            "BARBARIAN_SUB_MINDLESS_RAGE": 6,
+            "BARBARIAN_SUB_RETALIATION": 10,
+            "BARBARIAN_SUB_INTIMIDATING_PRESENCE": 14
           }
         },
         "PATH_OF_THE_WILD_HEART": {
-          "actives": {
-            "RAGE_OF_THE_WILDS": 3,
-            "ASPECT_OF_THE_WILDS": 6,
-            "POWER_OF_THE_WILDS": 14
-          },
-          "passives": {
-            "ANIMAL_SPEAKER": 3,
-            "NATURE_SPEAKER": 10
-          }
-        },
-        "PATH_OF_THE_WORLD_TREE": {
-          "actives": {
-            "VITALITY_OF_THE_TREE": 3,
-            "BRANCHES_OF_THE_TREE": 6,
-            "BATTERING_ROOTS": 10,
-            "TRAVEL_ALONG_THE_TREE": 14
-          },
-          "passives": {
+          "traits": {
 
           }
         },
+        "PATH_OF_THE_WORLD_TREE": {
+          "traits": {
+            
+          }
+        },
         "PATH_OF_THE_ZEALOT": {
-          "actives": {
-            "DIVINE_FURY": 3,
-            "WARRIOR_OF_THE_GODS": 3,
-            "FANATICAL_FOCUS": 6,
-            "ZEALOUS_PRESENCE": 10,
-            "RAGE_OF_THE_GODS": 14
+          "traits": {
+            
           }
         }
       }
@@ -175,49 +156,41 @@
       "damage": [6, 6, 6, 6, 8, 8, 8, 8, 8, 10, 10, 10 ,10, 10, 12, 12, 12, 12, 12, 12],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-      "actives": {
-        "BARDIC_INSPIRATION": 1,
-        "COUNTERCHARM": 7
-      },
-      "passives": {
-        "EXPERTISE_FREE": 2,
-        "JACK_OF_ALL_TRADES": 2,
-        "FRONT_OF_INSPIRATION": 5,
-        "MAGICAL_SECRETS": 10,
-        "SUPERIOR_INSPIRATION": 18,
-        "WORDS_OF_CREATION": 20
+      "traits": {
+        "BARD_BARDIC_INSPIRATION": 1,
+        "BARD_SPELLCASTING": 1,
+        "BARD_EXPERTISE": 2,
+        "BARD_JACK_OF_ALL_TRADES": 2,
+        "BARD_ABILITY_SCORE_IMPROVEMENT": 4,
+        "BARD_FONT_OF_INSPIRATION": 5,
+        "BARD_COUNTERCHARM": 7,
+        "BARD_MAGICAL_SECRETS": 10,
+        "BARD_SUPERIOR_INSPIRATION": 18,
+        "BARD_EPIC_BOON": 19,
+        "BARD_WORDS_OF_CREATION": 20
       },
       "subclasses": {
         "COLLEGE_OF_DANCE": {
-          "actives": {
-            
-          },
-          "passives": {
-            
+          "traits": {
+
           }
         },
         "COLLEGE_OF_GLAMOUR": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "COLLEGE_OF_LORE": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "BARD_SUB_BONUS_PROFICIENCIES": 3,
+            "BARD_SUB_CUTTING_WORDS": 3,
+            "BARD_SUB_MAGICAL_DISCOVERIES": 6,
+            "BARD_SUB_PEERLESS_SKILL": 14
           }
         },
         "COLLEGE_OF_VALOR": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -238,43 +211,41 @@
       "charges": [0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "CLERIC_SPELLCASTING": 1,
+        "CLERIC_DIVINE_ORDER": 1,
+        "CLERIC_CHANNEL_DIVINITY": 2,
+        "CLERIC_ABILITY_SCORE_IMPROVEMENT": 4,
+        "CLERIC_SEAR_UNDEAD": 5,
+        "CLERIC_BLESSED_STRIKES": 7,
+        "CLERIC_DIVINE_INTERVENTION": 10,
+        "CLERIC_IMPROVED_BLESSED_STRIKES": 14,
+        "CLERIC_EPIC_BOON": 19,
+        "CLERIC_GREATER_DIVINE_INTERVENTION": 20
       },
       "subclasses": {
         "LIFE_DOMAIN": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "CLERIC_SUB_DISCIPLE_OF_LIFE": 3,
+            "CLERIC_SUB_LIFE_DOMAIN_SPELLS": 3,
+            "CLERIC_SUB_PRESERVE_LIFE": 3,
+            "CLERIC_SUB_BLESSED_HEALER": 6,
+            "CLERIC_SUB_SUPREME_HEALING": 17
           }
         },
         "LIGHT_DOMAIN": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "TRICKERY_DOMAIN": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "WAR_DOMAIN": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -296,43 +267,43 @@
       "charges": [0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4],
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "DRUID_SPELLCASTING": 1,
+        "DRUID_DRUIDIC": 1,
+        "DRUID_PRIMAL_ORDER": 1,
+        "DRUID_WILD_SHAPE": 2,
+        "DRUID_WILD_COMPANION": 2,
+        "DRUID_ABILITY_SCORE_IMPROVEMENT": 4,
+        "DRUID_WILD_RESURGENCE": 5,
+        "DRUID_ELEMENTAL_FURY": 7,
+        "DRUID_IMPROVED_ELEMENTAL_FURY": 15,
+        "DRUID_BEAST_SPELLS": 18,
+        "DRUID_EPIC_BOON": 19,
+        "DRUID_ARCHDRUID": 20
       },
       "subclasses": {
         "CIRCLE_OF_THE_LAND": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "DRUID_SUB_CIRCLE_OF_THE_LAND_SPELLS": 3,
+            "DRUID_SUB_LAND_S_AID": 3,
+            "DRUID_SUB_NATURAL_RECOVERY": 6,
+            "DRUID_SUB_NATURE_S_WARD": 10,
+            "DRUID_SUB_NATURE_S_SANCTUARY": 14
           }
         },
         "CIRCLE_OF_THE_MOON": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "CIRCLE_OF_THE_SEA": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "CIRCLE_OF_THE_STARS": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -349,43 +320,46 @@
       "gold": 155,
       "charges": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "masteries": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "FIGHTER_FIGHTING_STYLE": 1,
+        "FIGHTER_SECOND_WIND": 1,
+        "FIGHTER_WEAPON_MASTERY": 1,
+        "FIGHTER_ACTION_SURGE": 2,
+        "FIGHTER_TACTICAL_MIND": 2,
+        "FIGHTER_ABILITY_SCORE_IMPROVEMENT": 4,
+        "FIGHTER_EXTRA_ATTACK": 5,
+        "FIGHTER_TACTICAL_SHIFT": 5,
+        "FIGHTER_INDOMITABLE": 9,
+        "FIGHTER_TACTICAL_MASTER": 9,
+        "FIGHTER_TWO_EXTRA_ATTACKS": 11,
+        "FIGHTER_STUDIED_ATTACKS": 13,
+        "FIGHTER_EPIC_BOON": 19,
+        "FIGHTER_THREE_EXTRA_ATTACKS": 20
       },
       "subclasses": {
         "BATTLE_MASTER": {
-          "actives": {
-
-          },
-          "passives": {
+          "traits": {
 
           }
         },
         "CHAMPION": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "FIGHTER_SUB_IMPROVED_CRITICAL": 3,
+            "FIGHTER_SUB_REMARKABLE_ATHLETE": 3,
+            "FIGHTER_SUB_ADDITIONAL_FIGHTING_STYLE": 7,
+            "FIGHTER_SUB_HEROIC_WARRIOR": 10,
+            "FIGHTER_SUB_SUPERIOR_CRITICAL": 15,
+            "FIGHTER_SUB_SURVIVOR": 18
           }
         },
         "ELDRITCH_KNIGHT": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "PSI_WARRIOR": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -404,43 +378,51 @@
       "charges": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       "damage": [6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 12, 12, 12, 12],
       "passive": [0, 10, 10, 10, 10, 15, 15, 15, 15, 20, 20, 20, 20, 25, 25, 25, 25, 30, 30, 30],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "MONK_MARTIAL_ARTS": 1,
+        "MONK_UNARMORED_DEFENSE": 1,
+        "MONK_MONK_S_FOCUS": 2,
+        "MONK_UNARMORED_MOVEMENT": 2,
+        "MONK_UNCANNY_METABOLISM": 2,
+        "MONK_DEFLECT_ATTACKS": 3,
+        "MONK_ABILITY_SCORE_IMPROVEMENT": 4,
+        "MONK_SLOW_FALL": 4,
+        "MONK_EXTRA_ATTACK": 5,
+        "MONK_STUNNING_STRIKE": 5,
+        "MONK_EMPOWERED_STRIKES": 6,
+        "MONK_EVASION": 7,
+        "MONK_ACROBATIC_MOVEMENT": 9,
+        "MONK_HEIGHTENED_FOCUS": 10,
+        "MONK_SELF_RESTORATION": 10,
+        "MONK_DEFLECT_ENERGY": 13,
+        "MONK_DISCIPLINED_SURVIVOR": 14,
+        "MONK_PERFECT_FOCUS": 15,
+        "MONK_SUPERIOR_DEFENSE": 18,
+        "MONK_EPIC_BOON": 19,
+        "MONK_BODY_AND_MIND": 20
       },
       "subclasses": {
         "WARRIOR_OF_MERCY": {
-          "actives": {
-
-          },
-          "passives": {
+          "traits": {
 
           }
         },
         "WARRIOR_OF_SHADOW": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "WARRIOR_OF_THE_ELEMENTS": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "WARRIOR_OF_THE_OPEN_HAND": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "MONK_SUB_OPEN_HAND_TECHNIQUE": 3,
+            "MONK_SUB_WHOLENESS_OF_BODY": 6,
+            "MONK_SUB_FLEET_STEP": 11,
+            "MONK_SUB_QUIVERING_PALM": 17
           }
         }
       }
@@ -460,43 +442,47 @@
       "limited": true,
       "charges": [0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "PALADIN_LAY_ON_HANDS": 1,
+        "PALADIN_SPELLCASTING": 1,
+        "PALADIN_WEAPON_MASTERY": 1,
+        "PALADIN_FIGHTING_STYLE": 2,
+        "PALADIN_PALADIN_S_SMITE": 2,
+        "PALADIN_CHANNEL_DIVINITY": 3,
+        "PALADIN_ABILITY_SCORE_IMPROVEMENT": 4,
+        "PALADIN_EXTRA_ATTACK": 5,
+        "PALADIN_FAITHFUL_STEED": 5,
+        "PALADIN_AURA_OF_PROTECTION": 6,
+        "PALADIN_ABJURE_FOES": 9,
+        "PALADIN_AURA_OF_COURAGE": 10,
+        "PALADIN_RADIANT_STRIKES": 11,
+        "PALADIN_RESTORING_TOUCH": 14,
+        "PALADIN_AURA_EXPANSION": 18,
+        "PALADIN_EPIC_BOON": 19
       },
       "subclasses": {
         "OATH_OF_DEVOTION": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "PALADIN_SUB_OATH_OF_DEVOTION_SPELLS": 3,
+            "PALADIN_SUB_SACRED_WEAPON": 3,
+            "PALADIN_SUB_AURA_OF_DEVOTION": 7,
+            "PALADIN_SUB_SMITE_OF_PROTECTION": 15,
+            "PALADIN_SUB_HOLY_NIMBUS": 20
           }
         },
         "OATH_OF_GLORY": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "OATH_OF_THE_ANCIENTS": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "OATH_OF_VENGEANCE": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -516,43 +502,47 @@
       "limited": true,
       "charges": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "RANGER_SPELLCASTING": 1,
+        "RANGER_FAVORED_ENEMY": 1,
+        "RANGER_WEAPON_MASTERY": 1,
+        "RANGER_DEFT_EXPLORER": 2,
+        "RANGER_FIGHTING_STYLE": 2,
+        "RANGER_ABILITY_SCORE_IMPROVEMENT": 4,
+        "RANGER_EXTRA_ATTACK": 5,
+        "RANGER_ROVING": 6,
+        "RANGER_EXPERTISE": 9,
+        "RANGER_TIRELESS": 10,
+        "RANGER_RELENTLESS_HUNTER": 13,
+        "RANGER_NATURE_S_VEIL": 14,
+        "RANGER_PRECISE_HUNTER": 17,
+        "RANGER_FERAL_SENSES": 18,
+        "RANGER_EPIC_BOON": 19,
+        "RANGER_FOE_SLAYER": 20
       },
       "subclasses": {
         "BEAST_MASTER": {
-          "actives": {
-
-          },
-          "passives": {
+          "traits": {
 
           }
         },
         "FEY_WANDERER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "GLOOM_STALKER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "HUNTER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "RANGER_SUB_HUNTER_S_LORE": 3,
+            "RANGER_SUB_HUNTER_S_PREY": 3,
+            "RANGER_SUB_DEFENSIVE_TACTICS": 7,
+            "RANGER_SUB_SUPERIOR_HUNTER_S_PREY": 11,
+            "RANGER_SUB_SUPERIOR_HUNTER_S_DEFENSE": 15
           }
         }
       }
@@ -569,43 +559,48 @@
       "armors": ["LIGHT_ARMORS"],
       "tools": ["THIEVES_TOOLS"],
       "damage": [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "ROGUE_EXPERTISE": 1,
+        "ROGUE_SNEAK_ATTACK": 1,
+        "ROGUE_THIEVES_CANT": 1,
+        "ROGUE_WEAPON_MASTERY": 1,
+        "ROGUE_CUNNING_ACTION": 2,
+        "ROGUE_STEADY_AIM": 3,
+        "ROGUE_ABILITY_SCORE_IMPROVEMENT": 4,
+        "ROGUE_CUNNING_STRIKE": 5,
+        "ROGUE_UNCANNY_DODGE": 5,
+        "ROGUE_EVASION": 7,
+        "ROGUE_RELIABLE_TALENT": 7,
+        "ROGUE_IMPROVED_CUNNING_STRIKE": 11,
+        "ROGUE_DEVIOUS_STRIKES": 14,
+        "ROGUE_SLIPPERY_MIND": 15,
+        "ROGUE_ELUSIVE": 18,
+        "ROGUE_EPIC_BOON": 19,
+        "ROGUE_STROKE_OF_LUCK": 20
       },
       "subclasses": {
         "ARCANE_TRICKSTER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "ASSASSIN": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "SOULKNIFE": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "THIEF": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "ROGUE_SUB_FAST_HANDS": 3,
+            "ROGUE_SUB_SECOND_STORY_WORK": 3,
+            "ROGUE_SUB_SUPREME_SNEAK": 9,
+            "ROGUE_SUB_USE_MAGIC_DEVICE": 13,
+            "ROGUE_SUB_THIEF_S_REFLEXES": 17
           }
         }
       }
@@ -625,43 +620,40 @@
       "charges": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       "cantrips": [4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
       "prepared": [2, 4, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "SORCERER_SPELLCASTING": 1,
+        "SORCERER_INNATE_SORCERY": 1,
+        "SORCERER_FONT_OF_MAGIC": 2,
+        "SORCERER_METAMAGIC": 2,
+        "SORCERER_ABILITY_SCORE_IMPROVEMENT": 4,
+        "SORCERER_SORCEROUS_RESTORATION": 5,
+        "SORCERER_SORCERY_INCARNATE": 7,
+        "SORCERER_EPIC_BOON": 19,
+        "SORCERER_ARCANE_APOTHEOSIS": 20
       },
       "subclasses": {
         "ABERRANT_SORCERY": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "CLOCKWORK_SORCERY": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "DRACONIC_SORCERY": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "SORCERER_SUB_DRACONIC_RESILIENCE": 3,
+            "SORCERER_SUB_DRACONIC_SPELLS": 3,
+            "SORCERER_SUB_ELEMENTAL_AFFINITY": 6,
+            "SORCERER_SUB_DRAGON_WINGS": 14,
+            "SORCERER_SUB_DRAGON_COMPANION": 18
           }
         },
         "WILD_MAGIC_SORCERY": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -683,43 +675,39 @@
       "prepared": [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15],
       "damage": [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "passive": [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "WARLOCK_ELDRITCH_INVOCATIONS": 1,
+        "WARLOCK_PACT_MAGIC": 1,
+        "WARLOCK_MAGICAL_CUNNING": 2,
+        "WARLOCK_ABILITY_SCORE_IMPROVEMENT": 4,
+        "WARLOCK_CONTACT_PATRON": 9,
+        "WARLOCK_MYSTIC_ARCANUM": 11,
+        "WARLOCK_EPIC_BOON": 19,
+        "WARLOCK_ELDRITCH_MASTER": 20
       },
       "subclasses": {
         "ARCHFEY_PATRON": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "CELESTIAL_PATRON": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "FIEND_PATRON": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "WARLOCK_SUB_DARK_ONE_S_BLESSING": 3,
+            "WARLOCK_SUB_FIEND_SPELLS": 3,
+            "WARLOCK_SUB_DARK_ONE_S_OWN_LUCK": 6,
+            "WARLOCK_SUB_FIENDISH_RESILIENCE": 10,
+            "WARLOCK_SUB_HURL_THROUGH_HELL": 14
           }
         },
         "GREAT_OLD_ONE_PATRON": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -738,43 +726,40 @@
       "limited": false,
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 18, 19, 21, 22, 23, 24, 25],
-      "actives": {
-
-      },
-      "passives": {
-
+      "traits": {
+        "WIZARD_SPELLCASTING": 1,
+        "WIZARD_RITUAL_ADEPT": 1,
+        "WIZARD_ARCANE_RECOVERY": 1,
+        "WIZARD_SCHOLAR": 2,
+        "WIZARD_ABILITY_SCORE_IMPROVEMENT": 4,
+        "WIZARD_MEMORIZE_SPELL": 5,
+        "WIZARD_SPELL_MASTERY": 18,
+        "WIZARD_EPIC_BOON": 19,
+        "WIZARD_SIGNATURE_SPELLS": 20
       },
       "subclasses": {
         "ABJURER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "DIVINER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         },
         "EVOKER": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            "WIZARD_SUB_EVOCATION_SAVANT": 3,
+            "WIZARD_SUB_POTENT_CANTRIP": 3,
+            "WIZARD_SUB_SCULPT_SPELLS": 6,
+            "WIZARD_SUB_EMPOWERED_EVOCATION": 10,
+            "WIZARD_SUB_OVERCHANNEL": 14
           }
         },
         "ILLUSIONIST": {
-          "actives": {
-
-          },
-          "passives": {
-
+          "traits": {
+            
           }
         }
       }
@@ -814,11 +799,9 @@
       "females": [],
       "lasts": [],
 
-      "passives": {
+      "traits": {
         "CELESTIAL_RESISTENCE": 0,
-        "LIGHT_BEARER": 0
-      },
-      "actives": {
+        "LIGHT_BEARER": 0,
         "HEALING_HANDS": 0,
         "CELESTIAL_REVELATION": 3
       }
@@ -830,90 +813,68 @@
       "males": ["Adrex", "Arjhan", "Azzakh", "Balasar", "Baradad", "Bharash", "Bidreked", "Dadalan", "Dazzazn", "Direcris", "Donaar", "Fax", "Gargax", "Ghesh", "Gorbundus", "Greethen", "Heskan", "Hirrathak", "Ildrex", "Kaladan", "Kerkad", "Kiirith", "Kriv", "Maagog", "Medrash", "Mehen", "Mozikth", "Mreksh", "Mugrunden", "Nadarr", "Nithther", "Norkruuth", "Nykkan", "Pandjed", "Patrin", "Pijjirik", "Quarethon", "Rathkran", "Rhogar", "Rivaan", "Sethrekar", "Shamash", "Shedinn", "Srorthen", "Tarhun", "Torinn", "Trynnicus", "Valorean", "Vrondiss", "Zedaar"],
       "females": ["Akra", "Aasathra", "Antrara", "Arava", "Biri", "Blendaeth", "Burana", "Chassath", "Daar", "Dentratha", "Doudra", "Driindar", "Eggren", "Farideh", "Findex", "Furrele", "Gesrethe", "Gilkass", "Harann", "Havilar", "Hethress", "Hillanot", "Jaxi", "Jezean", "Jheri", "Kadana", "Kava", "Korinn", "Megren", "Mijira", "Mishann", "Nala", "Nuthra", "Perra", "Pogranix", "Pyxrin", "Quespa", "Raiann", "Rezena", "Ruloth", "Saphara", "Savaran", "Sora", "Surina", "Synthrin", "Tatyan", "Thava", "Uadjit", "Vezera", "Zykroff"],
       "lasts": ["Akambherylliax", "Argenthrixus", "Baharoosh", "Beryntolthropal", "Bhenkumbyrznaax", "Caavylteradyn", "Chumbyxirinnish", "Clethtinthiallor", "Daardendrian", "Delmirev", "Dhyrktelonis", "Ebynichtomonis", "Esstyrlynn", "Fharngnarthnost", "Ghaallixirn", "Grrrmmballhyst", "Gygazzylyshrift", "Hashphronyxadyn", "Hshhsstoroth", "Imbixtellrhyst", "Jerynomonis", "Jharthraxyn", "Kerrhylon", "Kimbatuul", "Lhamboldennish", "Linxakasendalor", "Mohradyllion", "Mystan", "Nemmonis", "Norixius", "Ophinshtalajiir", "Orexijandilin", "Pfaphnyrennish", "Phrahdrandon", "Pyraxtallinost", "Qyxpahrgh", "Raghthroknaar", "Shestendeliath", "Skaarzborroosh", "Sumnarghthrysh", "Tiammanthyllish", "Turnuroth", "Umbyrphrael", "Vangdondalor", "Verthisathurgiesh", "Wivvyrholdalphiax", "Wystongjiir", "Xephyrbahnor", "Yarjerit", "Zzzxaaxthroth"],
-      "actives": {
-        "DRACONIC_FLIGHT": 5
-      },
-      "passives": {
+      "traits": {
+        "DRACONIC_FLIGHT": 5,
         "DRACONIC_ANCESTRY": 0
       },
       "lineages": {
         "SILVER_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_SILVER": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_SILVER": 0,
             "DAMAGE_RESISTANCE_SILVER": 0
           }
         },
         "WHITE_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_WHITE": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_WHITE": 0,
             "DAMAGE_RESISTANCE_WHITE": 0
           }
         },
         "BLUE_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_BLUE": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_BLUE": 0,
             "DAMAGE_RESISTANCE_BLUE": 0
           }
         },
         "BRONZE_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_BRONZE": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_BRONZE": 0,
             "DAMAGE_RESISTANCE_BRONZE": 0
           }
         },
         "BLACK_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_BLACK": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_BLACK": 0,
             "DAMAGE_RESISTANCE_BLACK": 0
           }
         },
         "GOLD_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_GOLD": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_GOLD": 0,
             "DAMAGE_RESISTANCE_GOLD": 0
           }
         },
         "BRASS_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_BRASS": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_BRASS": 0,
             "DAMAGE_RESISTANCE_BRASS": 0
           }
         },
         "COPPER_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_COPPER": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_COPPER": 0,
             "DAMAGE_RESISTANCE_COPPER": 0
           }
         },
         "RED_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_RED": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_RED": 0,
             "DAMAGE_RESISTANCE_RED": 0
           }
         },
         "GREEN_DRAGONBORN": {
-          "actives": {
-            "BREATH_WEAPON_GREEN": 0
-          },
-          "passives": {
+          "traits": {
+            "BREATH_WEAPON_GREEN": 0,
             "DAMAGE_RESISTANCE_GREEN": 0
           }
         }
@@ -926,11 +887,9 @@
       "males": ["Adrik", "Alberich", "Baern", "Barendd", "Beloril", "Brottor", "Dain", "Dalgal", "Darrak", "Delg", "Duergath", "Dworic", "Eberk", "Einkil", "Elaim", "Erias", "Fallond", "Fargrim", "Gardain", "Gilthur", "Gimgen", "Gimurt", "Harbek", "Kildrak", "Kilvar", "Morgran", "Morkral", "Nalral", "Nordak", "Nuraval", "Oloric", "Olunt", "Orsik", "Oskar", "Rangrim", "Reirak", "Rurik", "Taklinn", "Thoradin", "Thorin", "Thradal", "Tordek", "Traubon", "Travok", "Ulfgar", "Uraim", "Veit", "Vonbin", "Vondal", "Whurbin"],
       "females": ["Anbera", "Artin", "Audhild", "Balifra", "Barbena", "Bardryn", "Bolhild", "Dagnal", "Dariff", "Delre", "Diesa", "Eldeth", "Eridred", "Falkrunn", "Fallthra", "Finellen", "Gillydd", "Gunnloda", "Gurdis", "Helgret", "Helja", "Hlin", "Ilde", "Jarana", "Kathra", "Kilia", "Kristryd", "Liftrasa", "Marastyr", "Mardred", "Morana", "Nalaed", "Nora", "Nurkara", "Oriff", "Ovina", "Riswynn", "Sannl", "Therlin", "Thodris", "Torbera", "Tordrid", "Torgga", "Urshar", "Valida", "Vistra", "Vonana", "Werydd", "Whurdred", "Yurgunn"],
       "lasts": ["Aranore", "Balderk", "Battlehammer", "Bigtoe", "Bloodkith", "Bofdann", "Brawnanvil", "Brazzik", "Broodfist", "Burrowfound", "Caebrek", "Daerdahk", "Dankil", "Daraln", "Deepdelver", "Durthane", "Eversharp", "Fallack", "Fireforge", "Foamtankard", "Frostbeard", "Glanhig", "Goblinbane", "Goldfinder", "Gorunn", "Graybeard", "Hammerstone", "Helcral", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Morigak", "Orcfoe", "Rakankrak", "Ruby-Eye", "Rumnaheim", "Silveraxe", "Silverstone", "Steelfist", "Stoutale", "Strakeln", "Strongheart", "Thrahak", "Torevir", "Torunn", "Trollbleeder", "Trueanvil", "Trueblood", "Ungart"],
-      "passives": {
+      "traits": {
         "DWARVEN_RESILIENCE": 0,
-        "DWARVEN_TOUGHNESS": 0
-      },
-      "actives":{
+        "DWARVEN_TOUGHNESS": 0,
         "STONECUTTING": 0
       },
       "lineages": {
@@ -947,7 +906,7 @@
       "males": ["Adran", "Aelar", "Aramil", "Arannis", "Aust", "Azaki", "Beiro", "Berrian", "Caeldrim", "Carric", "Dayereth", "Dreali", "Efferil", "Eiravel", "Enialis", "Erdan", "Erevan", "Fivin", "Galinndan", "Gennal", "Hadarai", "Halimath", "Heian", "Himo", "Immeral", "Ivellios", "Korfel", "Lamlis", "Laucian", "Lucan", "Mindartis", "Naal", "Nutae", "Paelias", "Peren", "Quarion", "Riardon", "Rolen", "Soveliss", "Suhnae", "Thamior", "Tharivol", "Theren", "Theriatis", "Thervan", "Uthemar", "Vanuath", "Varis"],
       "females": ["Adrie", "Ahinar", "Althaea", "Anastrianna", "Andraste", "Antinua", "Arara", "Baelitae", "Bethrynna", "Birel", "Caelynn", "Chaedi", "Claira", "Dara", "Drusilia", "Elama", "Enna", "Faral", "Felosial", "Hatae", "Ielenia", "Ilanis", "Irann", "Jarsali", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Maiathah", "Malquis", "Meriele", "Mialee", "Myathethil", "Naivara", "Quelenna", "Quillathe", "Ridaro", "Sariel", "Shanairla", "Shava", "Silaqui", "Sumnes", "Theirastra", "Thiala", "Tiaathque", "Traulam", "Vadania", "Valanthe", "Valna", "Xanaphia"],
       "lasts": ["Aloro", "Amakiir", "Amastacia", "Ariessus", "Arnuanna", "Berevan", "Caerdonel", "Caphaxath", "Casilltenirra", "Cithreth", "Dalanthan", "Eathalena", "Erenaeth", "Ethanasath", "Fasharash", "Firahel", "Floshem", "Galanodel", "Goltorah", "Hanali", "Holimion", "Horineth", "Iathrana", "Ilphelkiir", "Iranapha", "Koehlanna", "Lathalas", "Liadon", "Meliamne", "Mellerelel", "Mystralath", "Naïlo", "Netyoive", "Ofandrus", "Ostoroth", "Othronus", "Qualanthri", "Raethran", "Rothenel", "Selevarun", "Siannodel", "Suithrasas", "Sylvaranth", "Teinithra", "Tiltathana", "Wasanthi", "Withrethin", "Xiloscient", "Xistsrith", "Yaeldrin"],
-      "passives":{
+      "traits":{
         "TRANCE": 0,
         "FEY_ANCESTRY": 0,
         "KEEN_SENSES": 0,
@@ -955,21 +914,21 @@
       },
       "lineages": {
         "HIGH_ELF": {
-          "passives": {
+          "traits": {
             "HIGH_ELF_1": 1,
             "HIGH_ELF_3": 3,
             "HIGH_ELF_5": 5
           }
         },
         "WOOD_ELF":{
-          "passives": {
+          "traits": {
             "WOOD_ELF_1": 1,
             "WOOD_ELF_3": 3,
             "WOOD_ELF_5": 5
           }
         },
         "DROW": {
-          "passives": {
+          "traits": {
             "DROW_1": 1,
             "DROW_3": 3,
             "DROW_5": 5
@@ -984,18 +943,18 @@
       "males": ["Alston", "Alvyn", "Anverth", "Arumawann", "Bilbron", "Boddynock", "Brocc", "Burgell", "Cockaby", "Crampernap", "Dabbledob", "Delebean", "Dimble", "Eberdeb", "Eldon", "Erky", "Fablen", "Fibblestib", "Fonkin", "Frouse", "Frug", "Gerbo", "Gimble", "Glim", "Igden", "Jabble", "Jebeddo", "Kellen", "Kipper", "Namfoodle", "Oppleby", "Orryn", "Paggen", "Pallabar", "Pog", "Qualen", "Ribbles", "Rimple", "Roondar", "Sapply", "Seebo", "Senteq", "Sindri", "Umpen", "Warryn", "Wiggens", "Wobbles", "Wrenn", "Zaffrab", "Zook"],
       "females": ["Abalaba", "Bimpnottin", "Breena", "Buvvie", "Callybon", "Caramip", "Carlin", "Cumpen", "Dalaba", "Donella", "Duvamil", "Ella", "Ellyjoybell", "Ellywick", "Enidda", "Lilli", "Loopmottin", "Lorilla", "Luthra", "Mardnab", "Meena", "Menny", "Mumpena", "Nissa", "Numba", "Nyx", "Oda", "Oppah", "Orla", "Panana", "Pyntle", "Quilla", "Ranala", "Reddlepop", "Roywyn", "Salanop", "Shamil", "Siffress", "Symma", "Tana", "Tenena", "Tervaround", "Tippletoe", "Ulla", "Unvera", "Velptima", "Virra", "Waywocket", "Yebe", "Zanna"],
       "lasts": ["Albaratie", "Bafflestone", "Beren", "Boondiggles", "Cobblelob", "Daergel", "Dunben", "Fabblestabble", "Fapplestamp", "Fiddlefen", "Folkor", "Garrick", "Gimlen", "Glittergem", "Gobblefirn", "Gummen", "Horcusporcus", "Humplebumple", "Ironhide", "Leffery", "Lingenhall", "Loofollue", "Maekkelferce", "Miggledy", "Munggen", "Murnig", "Musgraben", "Nackle", "Ningel", "Nopenstallen", "Nucklestamp", "Offund", "Oomtrowl", "Pilwicken", "Pingun", "Quillsharpener", "Raulnor", "Reese", "Rofferton", "Scheppen", "Shadowcloak", "Silverthread", "Sympony", "Tarkelby", "Timbers", "Turen", "Umbodoben", "Waggletop", "Welber", "Wildwander"],
-      "passives":{
+      "traits":{
         "GNOMISH_CUNNING": 0,
         "GNOMISH_LINEAGE": 0
       },
       "lineages": {
         "FOREST_GNOME": {
-          "passives": {
+          "traits": {
             "FOREST_GNOME": 0
           }
         },
         "ROCK_GNOME": {
-          "passives": {
+          "traits": {
             "ROCK_GNOME": 0
           }
         }
@@ -1008,41 +967,39 @@
       "males": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
       "females": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
       "lasts": ["Anakalathai", "Elanithino", "Gathakanathi", "Kalagiano", "Katho-Olavi", "Kolae-Gileana", "Ogolakanu", "Thuliaga", "Thunukalathi", "Vaimei-Laga"],
-      "actives": {
-        "LARGE_FORM": 5
-      },
-      "passives": {
+      "traits": {
+        "LARGE_FORM": 5,
         "POWERFUL_BUILD": 0,
         "GIANT_ANCESTRY": 0
       },
       "lineages": {
         "CLOUD_GIANT": {
-          "passives": {
+          "traits": {
             "CLOUDS_JAUNT": 0
           }
         },
         "FIRE_GIANT": {
-          "passives": {
+          "traits": {
             "FIRES_BURN": 0
           }
         },
         "FROST_GIANT": {
-          "passives": {
+          "traits": {
             "FROSTS_CHILL": 0
           }
         },
         "HILL_GIANT": {
-          "passives": {
+          "traits": {
             "HILLS_TUMBLE": 0
           }
         },
         "STONE_GIANT": {
-          "passives": {
+          "traits": {
             "STONES_ENDURANCE": 0
           }
         },
         "STORM_GIANT": {
-          "passives": {
+          "traits": {
             "STORMS_THUNDER": 0
           }
         }
@@ -1054,12 +1011,10 @@
       "males": ["Alton", "Ander", "Bernie", "Bobbin", "Cade", "Callus", "Corrin", "Dannad", "Danniel", "Eddie", "Egart", "Eldon", "Errich", "Fildo", "Finnan", "Franklin", "Garret", "Garth", "Gilbert", "Gob", "Harol", "Igor", "Jasper", "Keith", "Kevin", "Lazam", "Lerry", "Lindal", "Lyle", "Merric", "Mican", "Milo", "Morrin", "Nebin", "Nevil", "Osborn", "Ostran", "Oswalt", "Perrin", "Poppy", "Reed", "Roscoe", "Sam", "Shardon", "Tye", "Ulmo", "Wellby", "Wendel", "Wenner", "Wes"],
       "females": ["Alain", "Andry", "Anne", "Bella", "Blossom", "Bree", "Callie", "Chenna", "Cora", "Dee", "Dell", "Eida", "Eran", "Euphemia", "Georgina", "Gynnie", "Harriet", "Jasmine", "Jillian", "Jo", "Kithri", "Lavinia", "Lidda", "Maegan", "Marigold", "Merla", "Myria", "Nedda", "Nikki", "Nora", "Olivia", "Paela", "Pearl", "Pennie", "Philomena", "Portia", "Robbie", "Rose", "Saral", "Seraphina", "Shaena", "Stacee", "Tawna", "Thea", "Trym", "Tyna", "Vani", "Verna", "Wella", "Willow"],
       "lasts": ["Appleblossom", "Bigheart", "Brightmoon", "Brushgather", "Cherrycheeks", "Copperkettle", "Deephollow", "Elderberry", "Fastfoot", "Fatrabbit", "Glenfellow", "Goldfound", "Tallbarrel", "Tallearth", "Greenbottle", "Greenleaf", "High-hill", "Hilltopple", "Hogcollar", "Honeypot", "Jamjar", "Kettlewhistle", "Leagallow", "Littlefoot", "Nimblefingers", "Porridgepot", "Quickstep", "Reedfellow", "Shadowquick", "Silvereyes", "Smoothhands", "Stonebridge", "Stoutbridge", "Stoutman", "Strongbones", "Sunmeadow", "Swiftwhistle", "Tallfellow", "Tealeaf", "Tenpenny", "Thistletop", "Thorngage", "Tosscobble", "Underbough", "Underfoot", "Warmwater", "Whispermouse", "Wildcloak", "Wildheart", "Wiseacre"],
-      "passives": {
+      "traits": {
         "BRAVE": 0,
         "HALFLING_NIMBLENESS": 0,
-        "NATURALLY_STEALTHY": 0
-      },
-      "actives": {
+        "NATURALLY_STEALTHY": 0,
         "LUCK": 0
       },
       "lineages": {
@@ -1072,7 +1027,7 @@
     "HUMAN": {
       "type": "HUMANOID",
       "size": ["SMALL", "MEDIUM"],
-      "passives": {
+      "traits": {
         "RESOURCEFUL": 0,
         "SKILLFUL": 0,
         "VERSATILE_PASSIVE": 0
@@ -1132,7 +1087,7 @@
       "males": ["Argran", "Braak", "Brug", "Cagak", "Dench", "Dorn", "Dren", "Druuk", "Feng", "Gell", "Gnarsh", "Grumbar", "Gubrash", "Hagren", "Henk", "Hogar", "Holg", "Imsh", "Karash", "Karg", "Keth", "Korag", "Krusk", "Lubash", "Megged", "Mhurren", "Mord", "Morg", "Nil", "Nybarg", "Odorr", "Ohr", "Rendar", "Resh", "Ront", "Rrath", "Sark", "Scrag", "Sheggen", "Shump", "Tanglar", "Tarak", "Thar", "Thokk", "Trag", "Ugarth", "Varg", "Vilberg", "Yurk", "Zed"],
       "females": ["Arha", "Baggi", "Bendoo", "Bilga", "Brakka", "Creega", "Drenna", "Ekk", "Emen", "Engong", "Fistula", "Gaaki", "Gorga", "Grai", "Greeba", "Grigi", "Gynk", "Hrathy", "Huru", "Ilga", "Kabbarg", "Kansif", "Lagazi", "Lezre", "Murgen", "Murook", "Myev", "Nagrette", "Neega", "Nella", "Nogu", "Oolah", "Ootah", "Ovak", "Ownka", "Puyet", "Reeza", "Shautha", "Silgre", "Sutha", "Tagga", "Tawar", "Tomph", "Ubada", "Vanchu", "Vola", "Volen", "Vorka", "Yevelda", "Zagga"],
       "lasts": [],
-      "actives": {
+      "traits": {
         "ADRENALINE_RUSH": 0,
         "RELENTLESS_ENDURANCE": 0
       }
@@ -1144,27 +1099,27 @@
       "males": ["Abad", "Ahrim", "Akmen", "Amnon", "Andram", "Astar", "Balam", "Barakas", "Bathin", "Caim", "Chem", "Cimer", "Cressel", "Damakos", "Ekemon", "Euron", "Fenriz", "Forcas", "Habor", "Iados", "Kairon", "Leucis", "Mamnen", "Mantus", "Marbas", "Melech", "Merihim", "Modean", "Mordai", "Mormo", "Morthos", "Nicor", "Nirgel", "Oriax", "Paymon", "Pelaios", "Purson", "Qemuel", "Raam", "Rimmon", "Sammal", "Skamos", "Tethren", "Thamuz", "Therai", "Valafar", "Vassago", "Xappan", "Zepar", "Zephan"],
       "females": ["Akta", "Anakis", "Armara", "Astaro", "Aym", "Azza", "Beleth", "Bryseis", "Bune", "Criella", "Damaia", "Decarabia", "Ea", "Gadreel", "Gomory", "Hecat", "Ishte", "Jezebeth", "Kali", "Kallista", "Kasdeya", "Lerissa", "Lilith", "Makaria", "Manea", "Markosian", "Mastema", "Naamah", "Nemeia", "Nija", "Orianna", "Osah", "Phelaia", "Prosperine", "Purah", "Pyra", "Rieta", "Ronobe", "Ronwe", "Seddit", "Seere", "Sekhmet", "Semyaza", "Shava", "Shax", "Sorath", "Uzza", "Vapula", "Vepar", "Verin"],
       "lasts": [],
-      "passives": {
+      "traits": {
         "FIENDISH_LEGACY": 0,
         "OTHERWORLDLY_PRESENCE": 0
       },
       "lineages": {
         "ABYSSAL_TIEFLING": {
-          "passives": {
+          "traits": {
             "ABYSSAL_TIEFLING_1": 1,
             "ABYSSAL_TIEFLING_3": 3,
             "ABYSSAL_TIEFLING_5": 5
           }
         },
         "CHTONIC_TIEFLING": {
-          "passives": {
+          "traits": {
             "CHTONIC_TIEFLING_1": 1,
             "CHTONIC_TIEFLING_3": 3,
             "CHTONIC_TIEFLING_5": 5
           }
         },
         "INFERNAL_TIEFLING": {
-          "passives": {
+          "traits": {
             "INFERNAL_TIEFLING_1": 1,
             "INFERNAL_TIEFLING_3": 3,
             "INFERNAL_TIEFLING_5": 5
@@ -1307,100 +1262,86 @@
 
   "feats": {
     "ALERT": {
-      "actives": ["INITIATIVE_PROFICIENCY", "INITIATIVE_SWAP"],
-      "passives": [],
+      "traits": ["INITIATIVE_PROFICIENCY", "INITIATIVE_SWAP"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "CRAFTER": {
-      "actives": ["FAST_CRAFTING"],
-      "passives": ["TOOL_PROFICIENCY", "DISCOUNT"],
+      "traits": ["FAST_CRAFTING", "TOOL_PROFICIENCY", "DISCOUNT"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "HEALER": {
-      "actives": ["BATTLE_MEDIC", "HEALING_REROLLS"],
-      "passives": [],
+      "traits": ["BATTLE_MEDIC", "HEALING_REROLLS"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "LUCKY": {
-      "actives": ["ADVANTAGE", "DISADVANTAGE"],
-      "passives": ["LUCK_POINTS"],
+      "traits": ["ADVANTAGE", "DISADVANTAGE", "LUCK_POINTS"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "MAGIC_INITIATE": {
-      "actives": ["MAGIC_INITIATE"],
-      "passives": [],
+      "traits": ["MAGIC_INITIATE"],
       "type": "ORIGIN",
       "repeatable": true,
       "abilities": []
     },
     "MAGIC_INITIATE_CLERIC": {
-      "actives": ["MAGIC_INITIATE_CLERIC"],
-      "passives": [],
+      "traits": ["MAGIC_INITIATE_CLERIC"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
     "MAGIC_INITIATE_DRUID": {
-      "actives": ["MAGIC_INITIATE_DRUID"],
-      "passives": [],
+      "traits": ["MAGIC_INITIATE_DRUID"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
     "MAGIC_INITIATE_WIZARD": {
-      "actives": ["MAGIC_INITIATE_WIZARD"],
-      "passives": [],
+      "traits": ["MAGIC_INITIATE_WIZARD"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
     "MUSICIAN": {
-      "actives": ["ENCOURAGING_SONG"],
-      "passives": ["INSTRUMENT_TRAINING"],
+      "traits": ["ENCOURAGING_SONG", "INSTRUMENT_TRAINING"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "SAVAGE_ATTACKER": {
-      "actives": ["SAVAGE_ATTACKER"],
-      "passives": [],
+      "traits": ["SAVAGE_ATTACKER"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "SKILLED": {
-      "actives": [],
-      "passives": ["SKILLED"],
+      "traits": ["SKILLED"],
       "type": "ORIGIN",
       "repeatable": true,
       "abilities": []
     },
     "TAVERN_BRAWLER": {
-      "actives": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH_BRAWLER"],
-      "passives": ["IMPROVISED_WEAPONRY"],
+      "traits": ["ENHANCED_UNARMED_STRIKE", "DAMAGE_REROLLS", "PUSH_BRAWLER", "IMPROVISED_WEAPONRY"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
     "TOUGH": {
-      "actives": [],
-      "passives": ["TOUGH"],
+      "traits": ["TOUGH"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
 
     "ABILITY_SCORE_IMPROVEMENT": {
-      "actives": [],
-      "passives": [],
+      "traits": [],
       "type": "GENERAL",
       "repeatable": true,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1409,8 +1350,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "ACTOR": {
-      "actives": ["MIMICRY"],
-      "passives": ["IMPERSONATION"],
+      "traits": ["MIMICRY", "IMPERSONATION"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["CHARISMA"],
@@ -1419,8 +1359,7 @@
       "stats": [0, 0, 0, 0, 0, 13]
     },
     "ATHLETE": {
-      "actives": ["HOP_UP", "JUMPING"],
-      "passives": ["CLIMB_SPEED"],
+      "traits": ["HOP_UP", "JUMPING", "CLIMB_SPEED"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1429,8 +1368,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "CHARGER": {
-      "actives": ["CHARGE_ATTACK"],
-      "passives": ["IMPROVED_DASH"],
+      "traits": ["CHARGE_ATTACK", "IMPROVED_DASH"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1439,8 +1377,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "CHEF": {
-      "actives": ["REPLENISHING_MEAL", "BOLSTERING_TREATS"],
-      "passives": ["COOKS_UTENSILS"],
+      "traits": ["REPLENISHING_MEAL", "BOLSTERING_TREATS", "COOKS_UTENSILS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["CONSTITUTION", "WISDOM"],
@@ -1449,8 +1386,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "CROSSBOW_EXPERT": {
-      "actives": ["DUAL_WIELDING"],
-      "passives": ["IGNORE_LOADING", "FIRING_IN_MELEE_CROSSBOWS"],
+      "traits": ["DUAL_WIELDING", "IGNORE_LOADING", "FIRING_IN_MELEE_CROSSBOWS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY"],
@@ -1459,8 +1395,7 @@
       "stats": [0, 13, 0, 0, 0, 0]
     },
     "CRUSHER": {
-      "actives": ["PUSH_CRUSHER"],
-      "passives": ["ENHANCED_CRITICAL_BLUDGEONING"],
+      "traits": ["PUSH_CRUSHER", "ENHANCED_CRITICAL_BLUDGEONING"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "CONSTITUTION"],
@@ -1469,8 +1404,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "DEFENSIVE_DUELIST": {
-      "actives": ["PARRY"],
-      "passives": [],
+      "traits": ["PARRY"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY"],
@@ -1479,8 +1413,7 @@
       "stats": [0, 13, 0, 0, 0, 0]
     },
     "DUAL_WIELDER": {
-      "actives": ["ENHANCED_DUAL_WIELDING"],
-      "passives": ["QUICK_DRAW"],
+      "traits": ["ENHANCED_DUAL_WIELDING", "QUICK_DRAW"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1489,8 +1422,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "DURABLE": {
-      "actives": ["SPEEDY_RECOVERY"],
-      "passives": ["DEFY_DEATH"],
+      "traits": ["SPEEDY_RECOVERY", "DEFY_DEATH"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["CONSTITUTION"],
@@ -1499,8 +1431,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },    
     "ELEMENTAL_ADEPT": {
-      "actives": ["ENERGY_MASTERY"],
-      "passives": [],
+      "traits": ["ENERGY_MASTERY"],
       "type": "GENERAL",
       "repeatable": true,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1510,8 +1441,7 @@
       "magic": true
     },
     "FEY_TOUCHED": {
-      "actives": ["FEY_MAGIC"],
-      "passives": [],
+      "traits": ["FEY_MAGIC"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1520,8 +1450,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "GRAPPLER": {
-      "actives": ["PUNCH_AND_GRAB"],
-      "passives": ["ATTACK_ADVANTAGE", "FAST_WRESTLER"],
+      "traits": ["PUNCH_AND_GRAB", "ATTACK_ADVANTAGE", "FAST_WRESTLER"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1530,8 +1459,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "GREAT_WEAPON_MASTER": {
-      "actives": ["HEAVY_WEAPON_MASTERY"],
-      "passives": ["HEW"],
+      "traits": ["HEAVY_WEAPON_MASTERY", "HEW"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH"],
@@ -1540,8 +1468,7 @@
       "stats": [13, 0, 0, 0, 0, 0]
     },
     "HEAVILY_ARMORED": {
-      "actives": [],
-      "passives": ["ARMOR_TRAINING_HEAVY"],
+      "traits": ["ARMOR_TRAINING_HEAVY"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "CONSTITUTION"],
@@ -1551,8 +1478,7 @@
       "armorProficiencies": ["MEDIUM_ARMORS"]
     },
     "HEAVY_ARMOR_MASTER": {
-      "actives": [],
-      "passives": ["DAMAGE_REDUCTION"],
+      "traits": ["DAMAGE_REDUCTION"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "CONSTITUTION"],
@@ -1562,8 +1488,7 @@
       "armorProficiencies": ["HEAVY_ARMORS"]
     },
     "INSPIRING_LEADER": {
-      "actives": ["BOLSTERING_PERFORMANCE"],
-      "passives": [],
+      "traits": ["BOLSTERING_PERFORMANCE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["WISDOM", "CHARISMA"],
@@ -1572,8 +1497,7 @@
       "stats": [0, 0, 0, 0, 13, 13]
     },
     "KEEN_MIND": {
-      "actives": ["QUICK_STUDY"],
-      "passives": ["LORE_KNOWLEDGE"],
+      "traits": ["QUICK_STUDY", "LORE_KNOWLEDGE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE"],
@@ -1582,8 +1506,7 @@
       "stats": [0, 0, 0, 13, 0, 0]
     },
     "LIGHTLY_ARMORED": {
-      "actives": [],
-      "passives": ["ARMOR_TRAINING_LIGHT"],
+      "traits": ["ARMOR_TRAINING_LIGHT"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1592,8 +1515,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "MAGE_SLAYER": {
-      "actives": ["GUARDED_MIND"],
-      "passives": ["CONCENTRATION_BREAKER"],
+      "traits": ["GUARDED_MIND", "CONCENTRATION_BREAKER"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1602,8 +1524,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "MARTIAL_WEAPON_TRAINING": {
-      "actives": [],
-      "passives": ["WEAPON_PROFICIENCY_MARTIAL"],
+      "traits": ["WEAPON_PROFICIENCY_MARTIAL"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1612,8 +1533,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "MEDIUM_ARMOR_MASTER": {
-      "actives": ["DEXTEROUS_WEARER"],
-      "passives": [],
+      "traits": ["DEXTEROUS_WEARER"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1623,8 +1543,7 @@
       "armorProficiencies": ["MEDIUM_ARMORS"]
     },
     "MODERATELY_ARMORED": {
-      "actives": [],
-      "passives": ["ARMOR_TRAINING_MEDIUM"],
+      "traits": ["ARMOR_TRAINING_MEDIUM"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1634,8 +1553,7 @@
       "armorProficiencies": ["LIGHT_ARMORS"]
     },
     "MOUNTED_COMBATANT": {
-      "actives": ["VEER"],
-      "passives": ["MOUNTED_STRIKE", "LEAP_ASIDE"],
+      "traits": ["VEER", "MOUNTED_STRIKE", "LEAP_ASIDE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "WISDOM"],
@@ -1644,8 +1562,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "OBSERVANT": {
-      "actives": ["QUICK_SEARCH"],
-      "passives": ["KEEN_OBSERVER"],
+      "traits": ["QUICK_SEARCH", "KEEN_OBSERVER"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM"],
@@ -1654,8 +1571,7 @@
       "stats": [0, 0, 0, 13, 13, 0]
     },
     "PIERCER": {
-      "actives": ["PUNCTURE", "ENHANCED_CRITICAL_PIERCING"],
-      "passives": [],
+      "traits": ["PUNCTURE", "ENHANCED_CRITICAL_PIERCING"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1664,8 +1580,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "POISONER": {
-      "actives": ["BREW_POISON"],
-      "passives": ["POTENT_POISON"],
+      "traits": ["BREW_POISON", "POTENT_POISON"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY", "INTELLIGENCE"],
@@ -1674,8 +1589,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "POLEARM_MASTER": {
-      "actives": ["POLE_STRIKE", "REACTIVE_STRIKE"],
-      "passives": [],
+      "traits": ["POLE_STRIKE", "REACTIVE_STRIKE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1684,8 +1598,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "RESILIENT": {
-      "actives": [],
-      "passives": ["SAVING_THROW_PROFICIENCY"],
+      "traits": ["SAVING_THROW_PROFICIENCY"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": [],
@@ -1694,8 +1607,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "RITUAL_CASTER": {
-      "actives": ["QUICK_RITUAL"],
-      "passives": ["RITUAL_SPELLS"],
+      "traits": ["QUICK_RITUAL", "RITUAL_SPELLS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1704,8 +1616,7 @@
       "stats": [0, 0, 0, 13, 13, 13]
     },
     "SENTINEL": {
-      "actives": [],
-      "passives": ["GUARDIAN", "HALT"],
+      "traits": ["GUARDIAN", "HALT"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1714,8 +1625,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
     "SHADOW_TOUCHED": {
-      "actives": [],
-      "passives": ["SHADOW_MAGIC"],
+      "traits": ["SHADOW_MAGIC"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1724,8 +1634,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "SHARPSHOOTER": {
-      "actives": [],
-      "passives": ["BYPASS_COVER", "FIRING_IN_MELEE", "LONG_SHOTS"],
+      "traits": ["BYPASS_COVER", "FIRING_IN_MELEE", "LONG_SHOTS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY"],
@@ -1734,8 +1643,7 @@
       "stats": [0, 13, 0, 0, 0, 0]
     },
     "SHIELD_MASTER": {
-      "actives": ["SHIELD_BASH", "INTERPOSE_SHIELD"],
-      "passives": [],
+      "traits": ["SHIELD_BASH", "INTERPOSE_SHIELD"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH"],
@@ -1745,8 +1653,7 @@
       "armorProficiencies": ["SHIELDS"]
     },
     "SKILL_EXPERT": {
-      "actives": [],
-      "passives": ["SKILL_PROFICIENCY", "EXPERTISE"],
+      "traits": ["SKILL_PROFICIENCY", "EXPERTISE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1755,8 +1662,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "SKULKER": {
-      "actives": [],
-      "passives": ["BLINDSIGHT", "FOG_OF_WAR", "SNIPER"],
+      "traits": ["BLINDSIGHT", "FOG_OF_WAR", "SNIPER"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY"],
@@ -1765,8 +1671,7 @@
       "stats": [0, 13, 0, 0, 0, 0]
     },
     "SLASHER": {
-      "actives": ["HAMSTRING"],
-      "passives": ["ENHANCED_CRITICAL_SLASHING"],
+      "traits": ["HAMSTRING", "ENHANCED_CRITICAL_SLASHING"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1775,8 +1680,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "SPEEDY": {
-      "actives": [],
-      "passives": ["SPEED_INCREASE", "DASH_OVER_DIFFICULT_TERRAIN", "AGILE_MOVEMENT"],
+      "traits": ["SPEED_INCREASE", "DASH_OVER_DIFFICULT_TERRAIN", "AGILE_MOVEMENT"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["DEXTERITY", "CONSTITUTION"],
@@ -1785,8 +1689,7 @@
       "stats": [0, 13, 13, 0, 0, 0]
     },
     "SPELL_SNIPER": {
-      "actives": [],
-      "passives": ["BYPASS_COVER_SPELL", "CASTING_IN_MELEE", "INCREASED_RANGE"],
+      "traits": ["BYPASS_COVER_SPELL", "CASTING_IN_MELEE", "INCREASED_RANGE"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1796,8 +1699,7 @@
       "magic": true
     },
     "TELEKINETIC": {
-      "actives": ["TELEKINETIC_SHOVE"],
-      "passives": ["MINOR_TELEKINESIS"],
+      "traits": ["TELEKINETIC_SHOVE", "MINOR_TELEKINESIS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1807,8 +1709,7 @@
       "magic": true
     },
     "TELEPATHIC": {
-      "actives": ["TELEPATHIC_UTTERANCE"],
-      "passives": ["DETECT_THOUGHTS"],
+      "traits": ["TELEPATHIC_UTTERANCE", "DETECT_THOUGHTS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1817,8 +1718,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "WAR_CASTER": {
-      "actives": ["REACTIVE_SPELL"],
-      "passives": ["CONCENTRATION_ADVANTAGE", "SOMATIC_COMPONENTS"],
+      "traits": ["REACTIVE_SPELL", "CONCENTRATION_ADVANTAGE", "SOMATIC_COMPONENTS"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1828,8 +1728,7 @@
       "magic": true
     },
     "WEAPON_MASTER": {
-      "actives": ["MASTER_PROPERTY"],
-      "passives": [],
+      "traits": ["MASTER_PROPERTY"],
       "type": "GENERAL",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1838,8 +1737,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_COMBAT_PROWESS": {
-      "actives": ["PEERLESS_AIM"],
-      "passives": [],
+      "traits": ["PEERLESS_AIM"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1848,8 +1746,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_DIMENSIONAL_TRAVEL": {
-      "actives": ["BLINK_STEPS"],
-      "passives": [],
+      "traits": ["BLINK_STEPS"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1858,8 +1755,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_ENERGY_RESISTANCE": {
-      "actives": ["ENERGY_REDIRECTION"],
-      "passives": ["ENERGY_RESISTANCES"],
+      "traits": ["ENERGY_REDIRECTION", "ENERGY_RESISTANCES"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1868,8 +1764,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_FATE": {
-      "actives": ["IMPROVE_FATE"],
-      "passives": [],
+      "traits": ["IMPROVE_FATE"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1879,8 +1774,7 @@
     },
 
     "BOON_OF_FORTITUDE": {
-      "actives": [],
-      "passives": ["FORTIFIED_HEALTH"],
+      "traits": ["FORTIFIED_HEALTH"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1889,8 +1783,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_IRRESISTIBLE_OFFENSE": {
-      "actives": ["OVERWHELMING_STRIKE"],
-      "passives": ["OVERCOME_DEFENSES"],
+      "traits": ["OVERWHELMING_STRIKE", "OVERCOME_DEFENSES"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1899,8 +1792,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_RECOVERY": {
-      "actives": ["LAST_STAND", "RECOVER_VITALITY"],
-      "passives": [],
+      "traits": ["LAST_STAND", "RECOVER_VITALITY"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1910,8 +1802,7 @@
 
     },
     "BOON_OF_SKILL": {
-      "actives": [],
-      "passives": ["ALL_AROUND_ADEPT", "EXPERTISE"],
+      "traits": ["ALL_AROUND_ADEPT", "EXPERTISE"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1920,7 +1811,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_SPEED": {
-      "actives": ["ESCAPE_ARTIST", "QUICKNESS"],
+      "traits": ["ESCAPE_ARTIST", "QUICKNESS"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1929,8 +1820,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_SPELL_RECALL": {
-      "actives": [],
-      "passives": ["FREE_CASTING"],
+      "traits": ["FREE_CASTING"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1940,8 +1830,7 @@
       "magic": true
     },
     "BOON_OF_THE_NIGHT_SPIRIT": {
-      "actives": ["MERGE_WITH_SHADOWS"],
-      "passives": ["SHADOWY_FORM"],
+      "traits": ["MERGE_WITH_SHADOWS", "SHADOWY_FORM"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1950,8 +1839,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_TRUESIGHT": {
-      "actives": [],
-      "passives": ["TRUESIGHT"],
+      "traits": ["TRUESIGHT"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],

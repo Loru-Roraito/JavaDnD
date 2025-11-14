@@ -144,39 +144,25 @@ public class ProficienciesPane extends GridPane {
 
         add(proficienciesBox, 0, 5);
 
-        TextFlow activesFlow = new TextFlow();
-        updateBox(activesFlow, character.getActives());
+        TextFlow traitsFlow = new TextFlow();
+        updateBox(traitsFlow, character.getTraits());
 
-        character.getActives().addListener((ListChangeListener<StringProperty>) _
-                -> updateBox(activesFlow, character.getActives())
+        character.getTraits().addListener((ListChangeListener<StringProperty>) _
+                -> updateBox(traitsFlow, character.getTraits())
         );
 
-        TooltipTitledPane activesPane = new TooltipTitledPane(getTranslation("ACTIVE_ABILITIES"), activesFlow);
-        add(activesPane, 0, 6);
+        TooltipTitledPane traitsPane = new TooltipTitledPane(getTranslation("TRAITS"), traitsFlow);
+        add(traitsPane, 0, 6);
 
-        TextFlow passivesFlow = new TextFlow();
-        updateBox(passivesFlow, character.getPassives());
-
-        character.getPassives().addListener((ListChangeListener<StringProperty>) _ -> {
-            updateBox(passivesFlow, character.getPassives());
-        });
-
-
-        TooltipTitledPane passivesPane = new TooltipTitledPane(getTranslation("PASSIVE_ABILITIES"), passivesFlow);
-        add(passivesPane, 0, 7);
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
-        activesPane.maxWidthProperty().bind(paneWidthBinding);
-        passivesPane.maxWidthProperty().bind(paneWidthBinding);
+        traitsPane.maxWidthProperty().bind(paneWidthBinding);
 
         // TODO: flow grows too much
         proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
         proficienciesPane.setMaxHeight(Double.MAX_VALUE);
-        activesFlow.setMaxHeight(Double.MAX_VALUE);
-        activesPane.setMaxHeight(Double.MAX_VALUE);
-        passivesFlow.setMaxHeight(Double.MAX_VALUE);
-        passivesPane.setMaxHeight(Double.MAX_VALUE);
-    
+        traitsFlow.setMaxHeight(Double.MAX_VALUE);
+        traitsPane.setMaxHeight(Double.MAX_VALUE);    
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
