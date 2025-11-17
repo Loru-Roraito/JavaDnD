@@ -141,7 +141,7 @@ public class DefinitionManager {
             
             String[] tags = item.getTags();
             if (Arrays.asList(tags).contains("RANGED")) {
-                tooltip += ", " + getTranslation("RANGE") + ": " + item.getShortRange() * Constants.LENGTH_MULTIPLIER + "/" + item.getLongRange() * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
+                tooltip += ", " + getTranslation("RANGE") + ": " + (int) (item.getShortRange() * Constants.LENGTH_MULTIPLIER) + "/" + (int) (item.getLongRange() * Constants.LENGTH_MULTIPLIER) + " " + getTranslation("LENGTH_UNIT");
             }
 
             if (Arrays.asList(properties).contains("AMMUNITION")) {

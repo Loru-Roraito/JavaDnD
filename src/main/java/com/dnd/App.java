@@ -11,6 +11,7 @@ import com.dnd.frontend.language.DefinitionManager;
 import com.dnd.frontend.language.MiscsManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.tabs.CharacterTab;
+import com.dnd.frontend.language.Constants;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,11 +32,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        String language = "it";
+        String language = showLanguageDialog();
         
         TranslationManager.initialize(language); // Change the language (relevant files need to be present in resources)
         DefinitionManager.initialize(language);
         MiscsManager.initialize(language);
+        Constants.initialize(language);
         BorderPane root = new BorderPane();
 
         // Initialize the TabPane
@@ -148,5 +150,23 @@ public class App extends Application {
 
     private String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
+    }
+    
+    private String showLanguageDialog() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Language / Lingua");
+        alert.setHeaderText("Select your language / Seleziona la lingua");
+        
+        ButtonType englishButton = new ButtonType("English");
+        ButtonType italianButton = new ButtonType("Italiano");
+        
+        alert.getButtonTypes().setAll(englishButton, italianButton);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        if (result.isPresent() && result.get() == italianButton) {
+            return "it";
+        }
+        return "en"; // Default to English
     }
 }
