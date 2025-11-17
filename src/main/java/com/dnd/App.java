@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.dnd.characters.GameCharacter;
-import com.dnd.ui.tabs.CharacterTab;
+import com.dnd.backend.GameCharacter;
+import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.language.DefinitionManager;
+import com.dnd.frontend.language.MiscsManager;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.tabs.CharacterTab;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,7 +31,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        TranslationManager.language = "it"; // Change the language (relevant files need to be present in resources)
+        String language = "it";
+        
+        TranslationManager.initialize(language); // Change the language (relevant files need to be present in resources)
+        DefinitionManager.initialize(language);
+        MiscsManager.initialize(language);
         BorderPane root = new BorderPane();
 
         // Initialize the TabPane
@@ -120,7 +128,7 @@ public class App extends Application {
 
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-        stage.setTitle(TranslationManager.getInstance().getTranslation("MAIN_TITLE"));
+        stage.setTitle(TranslationManager.getTranslation("MAIN_TITLE"));
         stage.setScene(scene);
 
         // Get screen dimensions
@@ -139,6 +147,6 @@ public class App extends Application {
     }
 
     private String getTranslation(String key) {
-        return TranslationManager.getInstance().getTranslation(key);
+        return TranslationManager.getTranslation(key);
     }
 }
