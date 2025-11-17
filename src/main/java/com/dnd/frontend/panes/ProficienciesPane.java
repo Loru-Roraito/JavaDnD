@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -161,7 +162,24 @@ public class ProficienciesPane extends GridPane {
         // TODO: flow grows too much
         proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
         proficienciesPane.setMaxHeight(Double.MAX_VALUE);
-        traitsFlow.setMaxHeight(Double.MAX_VALUE);  
+        traitsFlow.setMaxHeight(Double.MAX_VALUE);
+
+        // Add user notes TextArea
+        TextArea notesArea = new TextArea();
+        notesArea.setWrapText(true);
+        notesArea.setPrefRowCount(5);
+        notesArea.getStyleClass().add("notes-area");
+        
+        // Bind to character notes property (you'll need to add this to ViewModel)
+        notesArea.textProperty().bindBidirectional(character.getUserDescription());
+        
+        TooltipTitledPane notesPane = new TooltipTitledPane(getTranslation("NOTES"), notesArea);
+        add(notesPane, 0, 6);
+        
+        proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
+        traitsFlow.maxWidthProperty().bind(paneWidthBinding);
+        notesPane.maxWidthProperty().bind(paneWidthBinding);
+        notesPane.setMaxHeight(Double.MAX_VALUE);
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
