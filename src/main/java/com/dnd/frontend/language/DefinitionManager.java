@@ -294,7 +294,7 @@ public class DefinitionManager {
         }
 
         if (spell.getConcentration()) {
-            tooltip += ", " + getTranslation("CONCENTRAZIONE");
+            tooltip += ", " + getTranslation("CONCENTRATION");
         }
 
         int time = spell.getTime();

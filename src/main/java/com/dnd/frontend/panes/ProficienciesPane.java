@@ -167,19 +167,15 @@ public class ProficienciesPane extends GridPane {
         // Add user notes TextArea
         TextArea notesArea = new TextArea();
         notesArea.setWrapText(true);
-        notesArea.setPrefRowCount(5);
-        notesArea.getStyleClass().add("notes-area");
-        
+        notesArea.setScrollTop(0);
+                
         // Bind to character notes property (you'll need to add this to ViewModel)
         notesArea.textProperty().bindBidirectional(character.getUserDescription());
         
-        TooltipTitledPane notesPane = new TooltipTitledPane(getTranslation("NOTES"), notesArea);
-        add(notesPane, 0, 6);
+        add(notesArea, 0, 6);
         
-        proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
-        traitsFlow.maxWidthProperty().bind(paneWidthBinding);
-        notesPane.maxWidthProperty().bind(paneWidthBinding);
-        notesPane.setMaxHeight(Double.MAX_VALUE);
+        notesArea.maxWidthProperty().bind(paneWidthBinding);
+        notesArea.setMaxHeight(Double.MAX_VALUE);
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
