@@ -51,6 +51,7 @@ public class GameCharacter {
     private final ObservableString background = new ObservableString("RANDOM");
     private final ObservableString size = new ObservableString("");
     private final ObservableString originFeat = new ObservableString("");
+    private final ObservableString currentHealthShown = new ObservableString("1");
     private final ObservableString[] spellcastingAbilities;
     private final ObservableString[] moneysShown = new ObservableString[5];
     private final ObservableString[] classes;
@@ -96,6 +97,7 @@ public class GameCharacter {
     private final ObservableInteger darkvision = new ObservableInteger(60);
     private final ObservableInteger armorClass = new ObservableInteger(10);
     private final ObservableInteger health = new ObservableInteger(1);
+    private final ObservableInteger currentHealth = new ObservableInteger(1);
     private final ObservableInteger fixedHealth = new ObservableInteger(0);
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
     private final ObservableInteger givenSkills = new ObservableInteger(0);
@@ -119,6 +121,8 @@ public class GameCharacter {
     private final ObservableInteger[] moneys = new ObservableInteger[5];
     private final ObservableInteger[] spellSlots = new ObservableInteger[9];
     private final ObservableInteger[] availableSpellSlots = new ObservableInteger[9];
+    private final ObservableInteger[] maximumHitDies = new ObservableInteger[4];
+    private final ObservableInteger[] availableHitDies = new ObservableInteger[4];
 
     private final ObservableBoolean blinded = new ObservableBoolean(false);
     private final ObservableBoolean charmed = new ObservableBoolean(false);
@@ -219,6 +223,11 @@ public class GameCharacter {
             spellcastingAbilityModifiers[i] = new ObservableInteger(0);
             spellcastingAttackModifiers[i] = new ObservableInteger(0);
             spellcastingSaveDCs[i] = new ObservableInteger(0);
+        }
+
+        for (int i = 0; i < maximumHitDies.length; i++) {
+            maximumHitDies[i] = new ObservableInteger(0);
+            availableHitDies[i] = new ObservableInteger(0);
         }
 
         bindLevel();
@@ -471,6 +480,10 @@ public class GameCharacter {
         return levelsShown[index];
     }
 
+    public ObservableString getCurrentHealthShown() {
+        return currentHealthShown;
+    }
+
     public ObservableInteger getLevel(int index) {
         return levels[index];
     }
@@ -631,12 +644,36 @@ public class GameCharacter {
         return health;
     }
 
+    public ObservableInteger getCurrentHealth() {
+        return currentHealth;
+    }
+
     public ObservableInteger getFixedHealth() {
         return fixedHealth;
     }
 
     public ObservableInteger getHitDie(int index) {
         return hitDies[index];
+    }
+
+    public ObservableInteger[] getHitDies() {
+        return hitDies;
+    }
+
+    public ObservableInteger getAvailableHitDie(int index) {
+        return availableHitDies[index];
+    }
+
+    public ObservableInteger[] getAvailableHitDies() {
+        return availableHitDies;
+    }
+
+    public ObservableInteger getMaximumHitDie(int index) {
+        return maximumHitDies[index];
+    }
+
+    public ObservableInteger[] getMaximumHitDies() {
+        return maximumHitDies;
     }
 
     public ObservableInteger getAbility(int index) {
@@ -823,12 +860,12 @@ public class GameCharacter {
         return selectableFeats.getList().get(index);
     }
 
-    public CustomObservableList<Spell> getAvailableCantrips(int index) {
-        return availableCantrips.getList().get(index);
+    public CustomObservableList<CustomObservableList<Spell>> getAvailableCantrips() {
+        return availableCantrips;
     }
 
-    public CustomObservableList<Spell> getAvailableSpells(int index) {
-        return availableSpells.getList().get(index);
+    public CustomObservableList<CustomObservableList<Spell>> getAvailableSpells() {
+        return availableSpells;
     }
 
     public CustomObservableList<Spell> getSpells() {
@@ -1456,25 +1493,87 @@ public class GameCharacter {
 
     private void bindHealth() {
         Runnable updateHealth = () -> {
+            int oldHealth = health.get();
             int fix = hitDies[0].get() + abilityModifiers[2].get();
             int var = 0;
+            int[] newMaximumHitDies = {0, 0, 0, 0};
+
             for (int i = 0; i < classes.length; i++) {
-                fix += Math.max((levels[i].get() - 1) * abilityModifiers[2].get(), 0);
+                int isFirstClass = 0;
+                if (i == 0) {
+                    isFirstClass = 1;
+                }
+                fix += Math.max((levels[i].get() - isFirstClass) * abilityModifiers[2].get(), 0);
                 if (healthMethod.get().equals("MEDIUM_HP")) {
-                    var += Math.max((levels[i].get() - 1) * (hitDies[i].get() / 2 + 1), 0);
+                    var += Math.max((levels[i].get() - isFirstClass) * (hitDies[i].get() / 2 + 1), 0);
                 } else if (healthMethod.get().equals("RANDOM")) {
                     var += 0;
                 }
+
+                switch (hitDies[i].get()) {
+                    case 6 -> newMaximumHitDies[0] += levels[i].get();
+                    case 8 -> newMaximumHitDies[1] += levels[i].get();
+                    case 10 -> newMaximumHitDies[2] += levels[i].get();
+                    case 12 -> newMaximumHitDies[3] += levels[i].get();
+                }
             }
+
+            for (int i = 0; i < 4; i++) {
+                if (newMaximumHitDies[i] > maximumHitDies[i].get()) {
+                    availableHitDies[i].set(
+                        availableHitDies[i].get() + (newMaximumHitDies[i] - maximumHitDies[i].get())
+                    );
+                } else if (availableHitDies[i].get() > newMaximumHitDies[i]) {
+                    availableHitDies[i].set(newMaximumHitDies[i]);
+                }
+
+                maximumHitDies[i].set(newMaximumHitDies[i]);
+            }
+
             fixedHealth.set(Math.max(fix, 1));
             health.set(Math.max(fixedHealth.get() + var, 1));
+
+            if (health.get() > oldHealth) {
+                currentHealth.set(currentHealth.get() + (health.get() - oldHealth));
+            }
         };
+
         for (int i = 0; i < classes.length; i++) {
             levels[i].addListener(_ -> updateHealth.run());
             hitDies[i].addListener(_ -> updateHealth.run());
         }
         healthMethod.addListener(_ -> updateHealth.run());
         abilityModifiers[2].addListener(_ -> updateHealth.run());
+
+        Runnable maxHealth = () -> {
+            if (currentHealth.get() > health.get()) {
+                currentHealth.set(health.get());
+            }
+        };
+        health.addListener(_ -> maxHealth.run());
+        currentHealth.addListener(_ -> maxHealth.run());
+
+        currentHealthShown.addListener((newValue) -> {
+            if (newValue != null) {
+                try {
+                    // Attempt to parse the new value as an integer
+                    int parsedValue = Integer.parseInt(newValue);
+                    currentHealth.set(parsedValue); // Update property
+                } catch (NumberFormatException e) {
+                    // Handle the case where the value is not a valid integer
+                    System.err.println("Warning: Invalid health value: " + newValue);
+                    currentHealth.set(health.get()); // Set a default value
+                }
+            } else {
+                currentHealth.set(health.get()); // Set a default value
+            }
+        });
+
+        currentHealth.addListener((newValue) -> {
+            if (newValue != null) {
+                currentHealthShown.set(String.valueOf(newValue));
+            }
+        });
     }
 
     private void bindHitDie() {
@@ -1970,7 +2069,7 @@ public class GameCharacter {
                             if (spellLevel > 0) {
                                 availableSpells.getList().get(index).add(new Spell(spell, getString(new String[]{"classes", classes[index].get(), "change"}), new String[0], getAbilityIndex(spellcastingAbilities[index].get()), getBoolean(new String[]{"classes", classes[index].get(), "limited"})));
                             } else if (levels[index].get() >= 1) {
-                                availableCantrips.getList().get(index).add(new Spell(spell, "LEVEL", new String[0], getAbilityIndex(spellcastingAbilities[index].get()), true));
+                                availableCantrips.getList().get(index).add(new Spell(spell, "LEVEL_UP", new String[0], getAbilityIndex(spellcastingAbilities[index].get()), true));
                             }
                         }
                     }
@@ -2192,10 +2291,10 @@ public class GameCharacter {
             copy.classEquipment[i].set(this.classEquipment[i].get());
             copy.backgroundEquipment[i].set(this.backgroundEquipment[i].get());
         }
-        copy.choiceToolProficiencies.setAll(choiceToolProficiencies.asList());
-        copy.spells.setAll(spells.asList());
-        copy.cantrips.setAll(cantrips.asList());
-        copy.items.setAll(items.asList());
+        copy.choiceToolProficiencies.setAll(choiceToolProficiencies.getList());
+        copy.spells.setAll(spells.getList());
+        copy.cantrips.setAll(cantrips.getList());
+        copy.items.setAll(items.getList());
         copy.healthMethod.set(this.healthMethod.get());
         copy.health.set(this.health.get());
         copy.generationMethod.set(this.generationMethod.get());
@@ -2219,6 +2318,7 @@ public class GameCharacter {
         copy.shield.set(shield.get());
         copy.finesseAbility.set(finesseAbility.get());
         copy.userDescription.set(userDescription.get());
+        copy.currentHealth.set(currentHealth.get());
 
         return copy;
     }
@@ -2535,10 +2635,10 @@ public class GameCharacter {
         }
 
         for (int classIndex = 0; classIndex < classes.length; classIndex++) {
-            if (!availableSpells.asList().get(classIndex).isEmpty() && maxSpells[classIndex].get() > spells.size()) {
+            if (!availableSpells.getList().get(classIndex).isEmpty() && maxSpells[classIndex].get() > spells.size()) {
                 int n = maxSpells[classIndex].get() - spells.size();
-                n = Math.min(n, availableSpells.size());
-                List<Spell> possibleSpells = new ArrayList<>(availableSpells.asList().get(classIndex).asList());
+                n = Math.min(n, availableSpells.getList().get(classIndex).size());
+                List<Spell> possibleSpells = availableSpells.getList().get(classIndex).asList();
 
                 for (int i = 0; i < n; i++) {
                     int randomIndex = (int) (Math.random() * possibleSpells.size());

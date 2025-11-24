@@ -8,8 +8,8 @@ import com.dnd.utils.items.Item;
 
 public class ItemManager extends Manager{
     private static final ItemManager instance = new ItemManager();
-    private final List<String> sets = Arrays.asList(getStrings(new String[] {"sets"})); // choose one element
-    private final List<String> packages = Arrays.asList(getStrings(new String[] {"packages"})); // take all elements
+    private final List<String> sets = Arrays.asList(getNormalStrings(new String[] {"sets"})); // choose one element
+    private final List<String> packages = Arrays.asList(getNormalStrings(new String[] {"packages"})); // take all elements
     
     private ItemManager() {
         initialize();
@@ -96,5 +96,9 @@ public class ItemManager extends Manager{
             Item item = new Item(itemName);
             character.getItems().add(item);
         }
+    }
+
+    private String[] getNormalStrings(String[] key) {
+        return GroupManager.getInstance().getStrings(key);
     }
 }

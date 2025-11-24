@@ -2,6 +2,8 @@ package com.dnd.frontend.tabs;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
@@ -11,6 +13,7 @@ import com.dnd.backend.GameCharacter;
 import com.dnd.backend.SpellManager;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipComboBox;
+import com.dnd.utils.observables.CustomObservableList;
 
 import javafx.scene.control.Tab;
 import javafx.scene.Scene;
@@ -27,7 +30,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TabPane;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Region;
 import javafx.beans.property.StringProperty;
 
@@ -35,11 +37,30 @@ public class MagicTab extends Tab {
     private final ViewModel character;
     private final TabPane mainTabPane; // Reference to the main TabPane
     private final Map<String, Integer> spellcasting = new HashMap<>();
+    private boolean hasChangedSpell = false;
+    private boolean changingOptionalSpell = false;
+    private final int[] addableSpells;
+    private Spell changingSpell;
+    private Spell originalSpell = null;
+    private boolean hasChangedCantrip = false;
+    private boolean changingOptionalCantrip = false;
+    private final int[] addableCantrips;
+    private Spell changingCantrip;
+    private Spell originalCantrip = null;
 
     public MagicTab(ViewModel character, TabPane mainTabPane, InfoTab infoTab) {
         this.character = character;
         this.mainTabPane = mainTabPane;
         setText(getTranslation("MAGIC"));
+
+        addableSpells = new int[12];
+        for (int index = 0; index < addableSpells.length; index++) {
+            addableSpells[index] = 0;
+        }
+        addableCantrips = new int[12];
+        for (int index = 0; index < addableSpells.length; index++) {
+            addableCantrips[index] = 0;
+        }
 
         GridPane gridPane = new GridPane();
         gridPane.getStyleClass().add("grid-pane");
@@ -102,8 +123,8 @@ public class MagicTab extends Tab {
         };
         ability.valueProperty().addListener((_, _, _) -> updateValues.run());
         for (int i = 0; i < spellcastingAbilities.length; i++) {
-            character.getSpellcastingAttackModifier(i).addListener((_, _, _) -> updateValues.run());
-            character.getSpellcastingSaveDC(i).addListener((_, _, _) -> updateValues.run());
+            character.getSpellcastingAttackModifier(i).addListener(_ -> updateValues.run());
+            character.getSpellcastingSaveDC(i).addListener(_ -> updateValues.run());
         }
         updateValues.run();
 
@@ -140,7 +161,7 @@ public class MagicTab extends Tab {
                             spellLevel.setSelected(false);
                         }
                     };
-                    character.getAvailableSpellSlot(index).addListener((_, _, _) -> {
+                    character.getAvailableSpellSlot(index).addListener(_ -> {
                         updateAvailableSlots.run();
                     });
                     updateAvailableSlots.run();
@@ -154,7 +175,7 @@ public class MagicTab extends Tab {
                     });
                 }
             };
-            character.getSpellSlot(index).addListener((_, _, _) -> {
+            character.getSpellSlot(index).addListener(_ -> {
                 updateSpellSlots.run();
             });
             updateSpellSlots.run();
@@ -170,22 +191,22 @@ public class MagicTab extends Tab {
 
         Runnable updateCantrips = () -> {
             cantripsBox.getChildren().clear();
-            ObservableList<Spell> cantrips = character.getCantrips();
-            for (Spell cantrip : cantrips) {
+            CustomObservableList<Spell> cantrips = character.getCantrips();
+            for (Spell cantrip : cantrips.getList()) {
                 TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
                 cantripsBox.getChildren().add(cantripLabel);
             }
         };
-        character.getCantrips().addListener((ListChangeListener<Spell>) _ -> {
+        character.getCantrips().addListener( _ -> {
             updateCantrips.run();
         });
 
         Runnable updateSpells = () -> {
-            ObservableList<Spell> spells = character.getSpells();
+            CustomObservableList<Spell> spells = character.getSpells();
             for (int i = 0; i < 9; i++) {
                 levelBoxes[i].getChildren().clear();
             }
-            for (Spell spell : spells) {
+            for (Spell spell : spells.getList()) {
                 int spellLevel = getSpellInt(new String[]{getOriginal(spell.getName()), "level"});
                 VBox levelBox = levelBoxes[spellLevel - 1];
 
@@ -193,12 +214,40 @@ public class MagicTab extends Tab {
                 levelBox.getChildren().add(spellLabel);
             }
         };
-        character.getSpells().addListener((ListChangeListener<Spell>) _ -> {
+        character.getSpells().addListener(_ -> {
             updateSpells.run();
         });
 
         updateCantrips.run();
         updateSpells.run();
+
+        character.isLevelingUp().addListener((_, _, _) -> {
+            hasChangedSpell = false;
+            for (int index = 0; index < addableSpells.length; index++) {
+                addableSpells[index] = character.getMaxSpells(index).get() - character.getSpells().size();
+            }
+            originalSpell = null;
+
+            hasChangedCantrip = false;
+            for (int index = 0; index < addableCantrips.length; index++) {
+                addableCantrips[index] = character.getMaxCantrips(index).get() - character.getCantrips().size();
+            }
+            originalCantrip = null;
+        });
+
+        character.isLongResting().addListener((_, _, _) -> {
+            hasChangedSpell = false;
+            for (int index = 0; index < addableSpells.length; index++) {
+                addableSpells[index] = 0;
+            }
+            originalSpell = null;
+
+            hasChangedCantrip = false;
+            for (int index = 0; index < addableCantrips.length; index++) {
+                addableCantrips[index] = 0;
+            }
+            originalCantrip = null;
+        });
     }
 
     private void openSpellSelectionWindow() {
@@ -213,9 +262,9 @@ public class MagicTab extends Tab {
         spellStage.initOwner(parentStage);
 
         VBox spellLayout = new VBox(10);
-        ScrollPane SpellScroll = new ScrollPane(spellLayout);
-        SpellScroll.setFitToWidth(true);
-        Scene spellScene = new Scene(SpellScroll, 400, 600);
+        ScrollPane spellScroll = new ScrollPane(spellLayout);
+        spellScroll.setFitToWidth(true);
+        Scene spellScene = new Scene(spellScroll, 400, 600);
         spellScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         spellStage.setScene(spellScene);
 
@@ -231,19 +280,23 @@ public class MagicTab extends Tab {
             spellLayout.getChildren().add(levelPane);
         }
 
-        ObservableList<ObservableList<Spell>> availablesCantrips = character.getAvailableCantrips();
-        ObservableList<ObservableList<Spell>> availablesSpells = character.getAvailableSpells();
+        CustomObservableList<CustomObservableList<Spell>> availablesCantrips = character.getAvailableCantrips();
+        CustomObservableList<CustomObservableList<Spell>> availablesSpells = character.getAvailableSpells();
 
         for (int index = 0; index < availablesCantrips.size(); index++) {
-            ObservableList<Spell> availableCantrips = availablesCantrips.get(index);
-            ObservableList<Spell> cantrips = character.getCantrips();
+            CustomObservableList<Spell> cantrips = character.getCantrips();
+            CustomObservableList<Spell> spells = character.getSpells();
+            int finalIndex = index;
+
+            CustomObservableList<Spell> availableCantrips = availablesCantrips.getList().get(index);
+            List<Spell> newCantrips = new ArrayList<>();
             for (int i = 0; i < availableCantrips.size(); i++) {
-                Spell cantrip = availableCantrips.get(i);
+                Spell cantrip = availableCantrips.getList().get(i);
                 CheckBox cantripCheckBox = new CheckBox();
                 TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
                 for (int j = 0; j < availablesCantrips.size(); j++) {
                     if (j != index) {
-                        for (Spell availableCantrip : availablesCantrips.get(j)) {
+                        for (Spell availableCantrip : availablesCantrips.getList().get(j).getList()) {
                             if (availableCantrip.getNominative().equals(cantrip.getNominative())) {
                                 cantripLabel.setText(cantrip.getName() + " (" + character.getClasse(index).get() + ")");
                                 break;
@@ -251,7 +304,7 @@ public class MagicTab extends Tab {
                         }
                     }
                 }
-                for (Spell myCantrip : cantrips) {
+                for (Spell myCantrip : cantrips.getList()) {
                     if (myCantrip.equals(cantrip)) {
                         cantripCheckBox.setSelected(true);
                         break;
@@ -259,16 +312,67 @@ public class MagicTab extends Tab {
                 }
                 cantripCheckBox.setOnAction(_ -> {
                     if (cantripCheckBox.isSelected()) {
+                        addableCantrips[finalIndex] --;
+                        if (cantrip.getLimited() && addableCantrips[finalIndex] <= 0 && originalCantrip != null && !changingOptionalCantrip) {
+                            if (cantrip != changingCantrip) {
+                                changingCantrip = cantrip;
+                            }
+                            if (cantrip == originalCantrip) {
+                                hasChangedCantrip = false;
+                                originalCantrip = null;
+                            }
+                        } else if (cantrip == originalCantrip) {
+                            newCantrips.add(originalCantrip);
+                            changingOptionalCantrip = false;
+                            originalCantrip = null;
+                            hasChangedCantrip = false;
+                        } else {
+                            newCantrips.add(cantrip);
+                            changingOptionalCantrip = false;
+                        }
                         cantrips.add(cantrip);
                     } else {
-                        cantrips.remove(cantrip);
+                        addableCantrips[finalIndex] ++;
+                        if (cantrip.getLimited() && !newCantrips.contains(cantrip)) {
+                            if (originalCantrip == null) {
+                                originalCantrip = cantrip;
+                            }
+                            hasChangedCantrip = true;
+                        } else {
+                            changingOptionalCantrip = true;
+                        }
+                        if (newCantrips.contains(cantrip)) {
+                            newCantrips.remove(cantrip);
+                        }
+                        for (Spell myCantrip : cantrips.getList()) {
+                            if (myCantrip.equals(cantrip)) {
+                                cantrips.remove(myCantrip);
+                                break;
+                            }
+                        }
                     }
                 });
-                cantripCheckBox.disableProperty().bind(
-                    character.getMaxCantrips(index).lessThanOrEqualTo(
-                            Bindings.size(cantrips)
-                    ).and(cantripCheckBox.selectedProperty().not())
-                );
+
+                Runnable updateCantripDisable = () -> {
+                    if (character.getMaxCantrips(finalIndex).get() <= cantrips.size() && !cantripCheckBox.isSelected()) {
+                        cantripCheckBox.setDisable(true);
+                    } else if (addableCantrips[finalIndex] > 0 && !cantripCheckBox.isSelected()) {
+                        cantripCheckBox.setDisable(false);
+                    } else if (character.isEditing().get() || (newCantrips.contains(cantrip) && cantripCheckBox.isSelected())) {
+                        cantripCheckBox.setDisable(false);
+                    } else if (cantrip.getPrepare().equals("LONG_REST") && character.isLongResting().get()
+                        && (!cantrip.getLimited() || !hasChangedCantrip || cantrip == changingCantrip)) {
+                        cantripCheckBox.setDisable(false);
+                    } else if (cantrip.getPrepare().equals("LEVEL_UP") && character.areLevelingUp(finalIndex).get()
+                        && (!cantrip.getLimited() || !hasChangedCantrip || cantrip == changingCantrip)) {
+                        cantripCheckBox.setDisable(false);
+                    } else {
+                        cantripCheckBox.setDisable(true);
+                    }
+                };
+                updateCantripDisable.run();
+                character.getMaxCantrips(index).addListener(_ -> updateCantripDisable.run());
+                character.getCantrips().addListener(_ -> updateCantripDisable.run());
 
                 HBox cantripHBox = new HBox();
                 cantripHBox.getChildren().addAll(cantripCheckBox, cantripLabel);
@@ -276,10 +380,10 @@ public class MagicTab extends Tab {
                 cantripsGrid.getChildren().add(cantripHBox);
             }
 
-            ObservableList<Spell> availableSpells = availablesSpells.get(index);
-            ObservableList<Spell> spells = character.getSpells();
+            CustomObservableList<Spell> availableSpells = availablesSpells.getList().get(index);
+            List<Spell> newSpells = new ArrayList<>();
             for (int i = 0; i < availableSpells.size(); i++) {
-                Spell spell = availableSpells.get(i);
+                Spell spell = availableSpells.getList().get(i);
                 int spellLevel = spell.getLevel();
                 VBox levelGrid = levelGrids[spellLevel - 1];
 
@@ -287,7 +391,7 @@ public class MagicTab extends Tab {
                 TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
                 for (int j = 0; j < availablesSpells.size(); j++) {
                     if (j != index) {
-                        for (Spell availableSpell : availablesSpells.get(j)) {
+                        for (Spell availableSpell : availablesSpells.getList().get(j).getList()) {
                             if (availableSpell.getNominative().equals(spell.getNominative())) {
                                 spellLabel.setText(spell.getName() + " (" + character.getClasse(index).get() + ")");
                                 break;
@@ -295,7 +399,7 @@ public class MagicTab extends Tab {
                         }
                     }
                 }
-                for (Spell mySpell : spells) {
+                for (Spell mySpell : spells.getList()) {
                     if (mySpell.equals(spell)) {
                         spellCheckBox.setSelected(true);
                         break;
@@ -303,16 +407,67 @@ public class MagicTab extends Tab {
                 }
                 spellCheckBox.setOnAction(_ -> {
                     if (spellCheckBox.isSelected()) {
+                        addableSpells[finalIndex]--;
+                        if (spell.getLimited() && addableSpells[finalIndex] <= 0 && originalSpell != null && !changingOptionalSpell) {
+                            if (spell != changingSpell) {
+                                changingSpell = spell;
+                            }
+                            if (spell == originalSpell) {
+                                originalSpell = null;
+                                hasChangedSpell = false;
+                            }
+                        } else if (spell == originalSpell) {
+                            newSpells.add(changingSpell);
+                            changingOptionalSpell = false;
+                            originalSpell = null;
+                            hasChangedSpell = false;
+                        } else {
+                            newSpells.add(spell);
+                            changingOptionalSpell = false;
+                        }
                         spells.add(spell);
                     } else {
-                        spells.remove(spell);
+                        addableSpells[finalIndex]++;
+                        if (spell.getLimited() && !newSpells.contains(spell)) {
+                            if (originalSpell == null) {
+                                originalSpell = spell;
+                            }
+                            hasChangedSpell = true;
+                        } else {
+                            changingOptionalSpell = true;
+                        }
+                        if (newSpells.contains(spell)) {
+                            newSpells.remove(spell);
+                        }
+                        for (Spell mySpell : spells.getList()) {
+                            if (mySpell.equals(spell)) {
+                                spells.remove(mySpell);
+                                break;
+                            }
+                        }
                     }
                 });
-                spellCheckBox.disableProperty().bind(
-                    character.getMaxSpells(index).lessThanOrEqualTo(
-                            Bindings.size(spells)
-                    ).and(spellCheckBox.selectedProperty().not())
-                );
+
+                Runnable updateSpellDisable = () -> {
+                    if (character.getMaxSpells(finalIndex).get() <= spells.size() && !spellCheckBox.isSelected()) {
+                        spellCheckBox.setDisable(true);
+                    } else if (addableSpells[finalIndex] > 0 && !spellCheckBox.isSelected()) {
+                        spellCheckBox.setDisable(false);
+                    } else if (character.isEditing().get() || (newSpells.contains(spell) && spellCheckBox.isSelected())) {
+                        spellCheckBox.setDisable(false);
+                    } else if (spell.getPrepare().equals("LONG_REST") && character.isLongResting().get()
+                        && (!spell.getLimited() || !hasChangedSpell || spell == changingSpell)) {
+                        spellCheckBox.setDisable(false);
+                    } else if (spell.getPrepare().equals("LEVEL_UP") && character.areLevelingUp(finalIndex).get()
+                        && (!spell.getLimited() || !hasChangedSpell || spell == changingSpell)) {
+                        spellCheckBox.setDisable(false);
+                    } else {
+                        spellCheckBox.setDisable(true);
+                    }
+                };
+                updateSpellDisable.run();
+                character.getMaxSpells(index).addListener(_ -> updateSpellDisable.run());
+                character.getSpells().addListener(_ -> updateSpellDisable.run());
 
                 HBox spellHBox = new HBox();
                 spellHBox.getChildren().addAll(spellCheckBox, spellLabel);

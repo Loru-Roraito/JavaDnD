@@ -18,6 +18,26 @@
       true
     ]
   },
+  "SPELL_ACID_SPLASH": {
+    "level": 0,
+    "range": 60,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_AID": {
     "level": 2,
     "range": 30,
@@ -45,7 +65,7 @@
     "level": 1,
     "range": 30,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 8,
     "durationSpan": "HOUR",
     "school": "ABJURATION",
@@ -146,7 +166,7 @@
     "level": 3,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
@@ -267,7 +287,7 @@
     "time": 1,
     "timeSpan": "ACTION",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
       "WIZARD"
@@ -323,9 +343,9 @@
     "level": 9,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "NECROMANCY",
     "lists": [
       "CLERIC",
@@ -344,7 +364,7 @@
     "level": 2,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
@@ -384,8 +404,8 @@
   "SPELL_AWAKEN": {
     "level": 5,
     "range": 0,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 8,
+    "timeSpan": "HOUR",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
@@ -774,6 +794,27 @@
       false
     ]
   },
+  "SPELL_CHILL_TOUCH": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "NECROMANCY",
+    "lists": [
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_CHROMATIC_ORB": {
     "level": 1,
     "range": 90,
@@ -818,8 +859,8 @@
   "SPELL_CLAIRVOYANCE": {
     "level": 3,
     "range": 1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 10,
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
@@ -903,7 +944,7 @@
     "level": 5,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
@@ -922,7 +963,7 @@
     "level": 5,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
@@ -1144,7 +1185,7 @@
     "level": 5,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
@@ -1183,8 +1224,8 @@
   "SPELL_CONTINGENCY": {
     "level": 6,
     "range": -1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
@@ -1205,7 +1246,7 @@
     "time": 1,
     "timeSpan": "ACTION",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "EVOCATION",
     "lists": [
       "CLERIC",
@@ -1285,7 +1326,7 @@
     "level": 6,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
@@ -1306,7 +1347,7 @@
     "level": 5,
     "range": 30,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
@@ -1343,6 +1384,27 @@
       true,
       true,
       false
+    ]
+  },
+  "SPELL_DANCING_LIGHTS": {
+    "level": 0,
+    "range": 120,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "ILLUSION",
+    "lists": [
+      "BARD",
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": true,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      true
     ]
   },
   "SPELL_DARKNESS": {
@@ -1855,7 +1917,7 @@
     "level": 5,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 8,
     "durationSpan": "HOUR",
     "school": "ILLUSION",
@@ -1870,6 +1932,25 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_DRUIDCRAFT": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "DRUID"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
     ]
   },
   "SPELL_EARTHQUAKE": {
@@ -1891,6 +1972,46 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_ELDRITCH_BLAST": {
+    "level": 0,
+    "range": 120,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "WARLOCK"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
+  "SPELL_ELEMENTALISM": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "DRUID",
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
     ]
   },
   "SPELL_ENHANCE_ABILITY": {
@@ -2067,8 +2188,8 @@
   "SPELL_FABRICATE": {
     "level": 4,
     "range": 120,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
@@ -2169,7 +2290,7 @@
     "level": 1,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
@@ -2207,7 +2328,7 @@
     "level": 6,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
@@ -2284,6 +2405,26 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_FIRE_BOLT": {
+    "level": 0,
+    "range": 120,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
     ]
   },
   "SPELL_FIRE_SHIELD": {
@@ -2474,8 +2615,8 @@
   "SPELL_FORBIDDANCE": {
     "level": 6,
     "range": 0,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
@@ -2515,7 +2656,7 @@
     "level": 9,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 8,
     "durationSpan": "HOUR",
     "school": "DIVINATION",
@@ -2622,7 +2763,7 @@
     "level": 5,
     "range": 60,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
@@ -2706,9 +2847,9 @@
     "level": 3,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
       "BARD",
@@ -2788,7 +2929,7 @@
     "level": 6,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 24,
     "durationSpan": "HOUR",
     "school": "ABJURATION",
@@ -2802,6 +2943,26 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_GUIDANCE": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "DIVINATION",
+    "lists": [
+      "CLERIC",
+      "DRUID"
+    ],
+    "concentration": true,
+    "ritual": false,
+    "components": [
+      false,
+      false,
+      false
     ]
   },
   "SPELL_GUIDING_BOLT": {
@@ -2848,10 +3009,10 @@
   "SPELL_HALLOW": {
     "level": 5,
     "range": 0,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 24,
+    "timeSpan": "HOUR",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
       "CLERIC"
@@ -2867,8 +3028,8 @@
   "SPELL_HALLUCINATORY_TERRAIN": {
     "level": 4,
     "range": 300,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 24,
     "durationSpan": "HOUR",
     "school": "ILLUSION",
@@ -3008,8 +3169,8 @@
   "SPELL_HEROES’_FEAST": {
     "level": 6,
     "range": -1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
@@ -3214,7 +3375,7 @@
     "level": 1,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
@@ -3234,7 +3395,7 @@
     "level": 1,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
@@ -3316,9 +3477,9 @@
     "level": 6,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "CONJURATION",
     "lists": [
       "WIZARD"
@@ -3419,8 +3580,8 @@
   "SPELL_LEGEND_LORE": {
     "level": 5,
     "range": -1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
@@ -3473,6 +3634,28 @@
       "WIZARD"
     ],
     "concentration": true,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      true
+    ]
+  },
+  "SPELL_LIGHT": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "HOUR",
+    "school": "EVOCATION",
+    "lists": [
+      "BARD",
+      "CLERIC",
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
     "ritual": false,
     "components": [
       true,
@@ -3611,11 +3794,33 @@
       true
     ]
   },
+  "SPELL_MAGE_HAND": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "CONJURATION",
+    "lists": [
+      "BARD",
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_MAGIC_CIRCLE": {
     "level": 3,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "HOUR",
     "school": "ABJURATION",
@@ -3637,9 +3842,9 @@
     "level": 6,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "NECROMANCY",
     "lists": [
       "WIZARD"
@@ -3676,9 +3881,9 @@
     "level": 2,
     "range": 30,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
       "BARD",
@@ -3718,7 +3923,7 @@
     "level": 7,
     "range": 300,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 24,
     "durationSpan": "HOUR",
     "school": "CONJURATION",
@@ -3857,6 +4062,51 @@
       false
     ]
   },
+  "SPELL_MENDING": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "MINUTE",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "BARD",
+      "CLERIC",
+      "DRUID",
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      true
+    ]
+  },
+  "SPELL_MESSAGE": {
+    "level": 0,
+    "range": 120,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "ROUND",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "BARD",
+      "DRUID",
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      false,
+      true,
+      true
+    ]
+  },
   "SPELL_METEOR_SWARM": {
     "level": 9,
     "range": 1,
@@ -3918,11 +4168,33 @@
       false
     ]
   },
+  "SPELL_MINOR_ILLUSION": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "ILLUSION",
+    "lists": [
+      "BARD",
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      false,
+      true,
+      true
+    ]
+  },
   "SPELL_MIRAGE_ARCANE": {
     "level": 7,
     "range": -1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
@@ -4168,7 +4440,7 @@
     "level": 3,
     "range": 30,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "HOUR",
     "school": "ILLUSION",
@@ -4186,8 +4458,8 @@
   "SPELL_PLANAR_ALLY": {
     "level": 6,
     "range": 60,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
@@ -4206,7 +4478,7 @@
     "level": 5,
     "range": 60,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 24,
     "durationSpan": "HOUR",
     "school": "ABJURATION",
@@ -4260,6 +4532,28 @@
       "BARD",
       "DRUID",
       "RANGER"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
+  "SPELL_POISON_SPRAY": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "NECROMANCY",
+    "lists": [
+      "DRUID",
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4338,8 +4632,8 @@
   "SPELL_PRAYER_OF_HEALING": {
     "level": 2,
     "range": 30,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
@@ -4352,6 +4646,28 @@
     "components": [
       true,
       false,
+      false
+    ]
+  },
+  "SPELL_PRESTIDIGITATION": {
+    "level": 0,
+    "range": 10,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "HOUR",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "BARD",
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
       false
     ]
   },
@@ -4399,8 +4715,8 @@
   "SPELL_PRIVATE_SANCTUM": {
     "level": 4,
     "range": 120,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 24,
     "durationSpan": "HOUR",
     "school": "ABJURATION",
@@ -4415,13 +4731,32 @@
       true
     ]
   },
+  "SPELL_PRODUCE_FLAME": {
+    "level": 0,
+    "range": -1,
+    "time": 1,
+    "timeSpan": "BONUS_ACTION",
+    "duration": 10,
+    "durationSpan": "MINUTE",
+    "school": "CONJURATION",
+    "lists": [
+      "DRUID"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_PROGRAMMED_ILLUSION": {
     "level": 6,
     "range": 120,
     "time": 1,
     "timeSpan": "ACTION",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
       "BARD",
@@ -4548,7 +4883,7 @@
     "level": 5,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
@@ -4585,11 +4920,31 @@
       false
     ]
   },
+  "SPELL_RAY_OF_FROST": {
+    "level": 0,
+    "range": 60,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_REGENERATE": {
     "level": 7,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
@@ -4667,11 +5022,31 @@
       true
     ]
   },
+  "SPELL_RESISTANCE": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "ABJURATION",
+    "lists": [
+      "CLERIC",
+      "DRUID"
+    ],
+    "concentration": true,
+    "ritual": false,
+    "components": [
+      false,
+      false,
+      false
+    ]
+  },
   "SPELL_RESURRECTION": {
     "level": 7,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
@@ -4749,6 +5124,25 @@
       true
     ]
   },
+  "SPELL_SACRED_FLAME": {
+    "level": 0,
+    "range": 60,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "CLERIC"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
   "SPELL_SANCTUARY": {
     "level": 1,
     "range": 30,
@@ -4791,8 +5185,8 @@
   "SPELL_SCRYING": {
     "level": 5,
     "range": -1,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 10,
+    "timeSpan": "MINUTE",
     "duration": 10,
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
@@ -4836,7 +5230,7 @@
     "time": 1,
     "timeSpan": "ACTION",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "CONJURATION",
     "lists": [
       "WIZARD"
@@ -4918,7 +5312,7 @@
     "time": 1,
     "timeSpan": "ACTION",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "TRANSMUTATION",
     "lists": [
       "WIZARD"
@@ -5012,6 +5406,25 @@
       true
     ]
   },
+  "SPELL_SHILLELAGH": {
+    "level": 0,
+    "range": -1,
+    "time": 1,
+    "timeSpan": "BONUS_ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "DRUID"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      true
+    ]
+  },
   "SPELL_SHINING_SMITE": {
     "level": 2,
     "range": -1,
@@ -5028,6 +5441,26 @@
     "components": [
       false,
       false,
+      false
+    ]
+  },
+  "SPELL_SHOCKING_GRASP": {
+    "level": 0,
+    "range": 0,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "SORCERER",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
       false
     ]
   },
@@ -5076,10 +5509,10 @@
   "SPELL_SIMULACRUM": {
     "level": 7,
     "range": 0,
-    "time": 1,
-    "timeSpan": "ACTION",
+    "time": 12,
+    "timeSpan": "HOUR",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
       "WIZARD"
@@ -5153,6 +5586,45 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_SORCEROUS_BURST": {
+    "level": 0,
+    "range": 120,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "SORCERER"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      false,
+      false,
+      false
+    ]
+  },
+  "SPELL_SPARE_THE_DYING": {
+    "level": 0,
+    "range": 15,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "NECROMANCY",
+    "lists": [
+      "CLERIC",
+      "DRUID"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
     ]
   },
   "SPELL_SPEAK_WITH_ANIMALS": {
@@ -5291,6 +5763,26 @@
       "CLERIC"
     ],
     "concentration": true,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      false
+    ]
+  },
+  "SPELL_STARRY_WISP": {
+    "level": 0,
+    "range": 60,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "EVOCATION",
+    "lists": [
+      "BARD",
+      "DRUID"
+    ],
+    "concentration": false,
     "ritual": false,
     "components": [
       true,
@@ -5470,9 +5962,9 @@
     "level": 7,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 0,
-    "durationSpan": "INSTANTANEOUS",
+    "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
       "BARD",
@@ -5553,7 +6045,7 @@
     "level": 5,
     "range": 10,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 1,
     "durationSpan": "ROUND",
     "school": "CONJURATION",
@@ -5569,6 +6061,25 @@
       true,
       true,
       true
+    ]
+  },
+  "SPELL_THAUMATURGY": {
+    "level": 0,
+    "range": 30,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 1,
+    "durationSpan": "MINUTE",
+    "school": "TRANSMUTATION",
+    "lists": [
+      "CLERIC"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      false,
+      false
     ]
   },
   "SPELL_THUNDERWAVE": {
@@ -5617,7 +6128,7 @@
     "level": 3,
     "range": -1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 8,
     "durationSpan": "HOUR",
     "school": "EVOCATION",
@@ -5720,7 +6231,7 @@
     "level": 9,
     "range": 0,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "HOUR",
     "duration": 0,
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
@@ -5759,11 +6270,33 @@
       true
     ]
   },
+  "SPELL_TRUE_STRIKE": {
+    "level": 0,
+    "range": -1,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "DIVINATION",
+    "lists": [
+      "BARD",
+      "SORCERER",
+      "WARLOCK",
+      "WIZARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      true,
+      true
+    ]
+  },
   "SPELL_TSUNAMI": {
     "level": 8,
     "range": 1,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 6,
     "durationSpan": "ROUND",
     "school": "CONJURATION",
@@ -5817,6 +6350,25 @@
     "components": [
       true,
       true,
+      false
+    ]
+  },
+  "SPELL_VICIOUS_MOCKERY": {
+    "level": 0,
+    "range": 60,
+    "time": 1,
+    "timeSpan": "ACTION",
+    "duration": 0,
+    "durationSpan": "INSTANTANEOUS",
+    "school": "ENCHANTMENT",
+    "lists": [
+      "BARD"
+    ],
+    "concentration": false,
+    "ritual": false,
+    "components": [
+      true,
+      false,
       false
     ]
   },
@@ -6047,7 +6599,7 @@
     "level": 6,
     "range": 30,
     "time": 1,
-    "timeSpan": "ACTION",
+    "timeSpan": "MINUTE",
     "duration": 8,
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",

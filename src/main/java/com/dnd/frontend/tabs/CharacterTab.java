@@ -7,6 +7,7 @@ import com.dnd.frontend.ViewModel;
 
 import javafx.geometry.Side;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -65,14 +66,14 @@ public class CharacterTab extends Tab{
         setOnCloseRequest(event -> {
             if (!isSaved) {
                 // Show confirmation dialog
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setTitle(getTranslation("UNSAVED_CHANGES"));
                 alert.setHeaderText(getTranslation("WARNING_UNSAVED"));
                 alert.setContentText(getTranslation("SAVE_BEFORE_CLOSING"));
                 
                 ButtonType saveButton = new ButtonType(getTranslation("SAVE"));
                 ButtonType dontSaveButton = new ButtonType(getTranslation("DONT_SAVE"));
-                ButtonType cancelButton = new ButtonType(getTranslation("CANCEL"));
+                ButtonType cancelButton = new ButtonType(getTranslation("CANCEL"), ButtonBar.ButtonData.CANCEL_CLOSE);
                 
                 // Apply CSS to the alert dialog
                 alert.getDialogPane().getStylesheets().add(

@@ -33,6 +33,7 @@ public class CharacterSerializer {
         public String finesseAbility;
         public String userDescription;
         public int health;
+        public int currentHealth;
         public int exhaustion;
         
         public int[] abilityBases;
@@ -164,6 +165,7 @@ public class CharacterSerializer {
             data.finesseAbility = character.getFinesseAbility().get();
             data.userDescription = character.getUserDescription().get();
             data.health = character.getHealth().get();
+            data.currentHealth = character.getCurrentHealth().get();
             data.exhaustion = character.getExhaustion().get();
             
             // Abilities
@@ -305,6 +307,7 @@ public class CharacterSerializer {
                 character.getFinesseAbility().set(data.finesseAbility);
                 character.getUserDescription().set(data.userDescription);
                 character.getHealth().set(data.health);
+                character.getCurrentHealth().set(data.currentHealth);
                 character.getExhaustion().set(data.exhaustion);
                 
                 // Load abilities

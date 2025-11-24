@@ -12,7 +12,6 @@ import com.dnd.frontend.ComboBoxUtils;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 
-import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -129,6 +128,12 @@ public class ClassPane extends GridPane {
         // Using a List instead of an array for type security (reminder for me: it means that arrays lose the info about <String>)
         int maxFeats = character.getMaxFeats();
         List<TooltipComboBox> feats = new ArrayList<>(maxFeats);
+        List<TooltipComboBox> featOnes = new ArrayList<>(maxFeats);
+        List<TooltipComboBox> featTwos = new ArrayList<>(maxFeats);
+        boolean[] newFeat = new boolean[maxFeats];
+        for (int i = 0; i < maxFeats; i++) {
+            newFeat[i] = false;
+        }
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel(classIndex).get() >= 4 || (classIndex == 0 && !character.getBackground().get().equals(getTranslation("RANDOM")))) {
@@ -140,7 +145,7 @@ public class ClassPane extends GridPane {
             }
         };
 
-        character.getLevel(classIndex).addListener((_, _, _) -> updateFeatsLabel.run());
+        character.getLevel(classIndex).addListener(_ -> updateFeatsLabel.run());
         character.getBackground().addListener((_, _, _) -> updateFeatsLabel.run());
         updateFeatsLabel.run();
 
@@ -148,12 +153,9 @@ public class ClassPane extends GridPane {
             String classValue = character.getClasses()[classIndex].get();
 
             if (classValue != null && !classValue.equals(getTranslation("RANDOM")) && !classValue.equals(getTranslation("NONE_F"))) {
-                String currentLevel = character.getLevelShown(classIndex).get();
-                
                 List<String> newLevels = new ArrayList<>();
                 
                 newLevels.add(getTranslation("RANDOM"));
-                levelComboBox.valueProperty().set(getTranslation("RANDOM"));
 
                 int requiredLevels = 0; // minimum levels required by other classes
                 for (int i = 0; i < character.getClasses().length; i++) {
@@ -167,23 +169,16 @@ public class ClassPane extends GridPane {
                 }
 
                 levels.setAll(newLevels);
-
-                if (currentLevel != null && levels.contains(currentLevel)) {
-                    levelComboBox.setValue(currentLevel);
-                } else {
-                    levelComboBox.setValue(getTranslation("RANDOM"));
-                }
             } else {
                 levels.setAll(new ArrayList<>(List.of(getTranslation("RANDOM"))));
-                levelComboBox.valueProperty().set(getTranslation("RANDOM"));
             }
                 
             updateSubclasses.run();
         };
 
         character.getClasses()[classIndex].addListener((_, _, _) -> updateLevels.run());
-        character.getTotalLevel().addListener((_, _, _) -> updateLevels.run());
-        character.getLevel(classIndex).addListener((_, _, _) -> updateLevels.run());
+        character.getTotalLevel().addListener(_ -> updateLevels.run());
+        character.getLevel(classIndex).addListener(_ -> updateLevels.run());
         updateLevels.run();
 
         levelComboBox.valueProperty().bindBidirectional(character.getLevelShown(classIndex));
@@ -212,93 +207,34 @@ public class ClassPane extends GridPane {
             updateOriginFeat.run(); // Run during build
         }
 
-        Runnable updateAvailableFeats = () -> {
-            int newVal = character.getAvailableFeats(classIndex).get();
-            for (int i = 0; i < maxFeats; i++) {
-                if (i < newVal && !getChildren().contains(feats.get(i))) {
-                    add(feats.get(i), 0, 8 + i);
-                    add(feats.get(i).getLabel(), 0, 8 + i);
-                } else if (i >= newVal) {
-                    getChildren().remove(feats.get(i));
-                    getChildren().remove(feats.get(i).getLabel());
-                }
-            }
-        };
-
-        character.getAvailableFeats(classIndex).addListener((_, _, _) -> updateAvailableFeats.run());
-
-        Runnable updateFeats = () -> {
-            int counter = 0;
-            for (TooltipComboBox feat : feats) {
-                ChangeListener<String> listener = featListeners.remove(feat);
-                if (listener != null) {
-                    feat.valueProperty().removeListener(listener);
-                }
-                if (getChildren().contains(feat)) {
-                    counter ++;
-                    getChildren().remove(feat);
-                    getChildren().remove(feat.getLabel());
-                }
-            }
-            featListeners.clear();
-            baseValuesList.clear();
-            feats.clear();
-
-            String[] repeatableFeats = getTranslations(getRepeatableFeats());
-            String[] repeatableFeatsWithRandom = new String[repeatableFeats.length + 1];
-            repeatableFeatsWithRandom[0] = getTranslation("RANDOM");
-            System.arraycopy(repeatableFeats, 0, repeatableFeatsWithRandom, 1, repeatableFeats.length);
-
-            ObservableList<StringProperty> baseValues = character.getSelectableFeats(classIndex);
-            String[] baseArray = new String[baseValues.size()];
-            for (int i = 0; i < baseValues.size(); i++) {
-                baseArray[i] = baseValues.get(i).get();
-            }
-
-            for (int i = 0; i < maxFeats; i++) {
-                ObservableList<String> observableArrayList = FXCollections.observableArrayList(baseArray);
-
-                TooltipComboBox comboBox = new TooltipComboBox(observableArrayList, mainTabPane);
-                comboBox.disableProperty().bind(character.isEditing().not());
-                baseValuesList.add(observableArrayList);
-                feats.add(comboBox);
-
-                comboBox.setPromptText(getTranslation("RANDOM"));
-                comboBox.valueProperty().bindBidirectional(character.getFeat(classIndex, i));
-
-                ChangeListener<String> featListener = (_, _, _) -> {
-                    for (int j = 0; j < feats.size(); j++) {
-                        ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
-                    }
-                };
-                comboBox.valueProperty().addListener(featListener);
-                
-                featListeners.put(comboBox, featListener);
-            }
-            
-            for (int j = 0; j < feats.size(); j++) {
-                ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
-            }
-
-            for (int i = 0; i < counter; i++) {
-                add(feats.get(i), 0, 8 + i);
-                add(feats.get(i).getLabel(), 0, 8 + i);
-            }
-
-            updateAvailableFeats.run();
-        };
-
-        character.getSelectableFeats(classIndex).addListener((ListChangeListener<StringProperty>) _ -> {
-            Platform.runLater(updateFeats);
-        });
-        updateFeats.run();
-
         for (int i = 0; i < maxFeats; i++) {
             ObservableList<String> observableArrayListOne = FXCollections.observableArrayList();
             ObservableList<String> observableArrayListTwo = FXCollections.observableArrayList();
 
             TooltipComboBox one = new TooltipComboBox(observableArrayListOne, mainTabPane);
             TooltipComboBox two = new TooltipComboBox(observableArrayListTwo, mainTabPane);
+            
+            featOnes.add(one);
+            featTwos.add(two);
+
+            Runnable disableFeats = () -> {
+                if (!character.isLevelingUp().get()) {
+                    if (character.isEditing().get()) {
+                        one.setDisable(false);
+                        two.setDisable(false);
+                    } else {
+                        one.setDisable(true);
+                        two.setDisable(true);
+                        for (int j = 0; j < newFeat.length; j++) {
+                            newFeat[j] = false;
+                        }
+                    }
+                }
+            };
+            character.isEditing().addListener(_ -> disableFeats.run());
+            character.isLevelingUp().addListener(_ -> disableFeats.run());
+            disableFeats.run();
+
             int index = i;
 
             Runnable updateFeatOne = () -> {
@@ -325,10 +261,9 @@ public class ClassPane extends GridPane {
                 }
                 if (observableArrayListOne.size() > 1 && !observableArrayListOne.contains(getTranslation("RANDOM"))) {
                     observableArrayListOne.add(0, getTranslation("RANDOM"));
-                    one.disableProperty().bind(character.isEditing().not());
+                    one.setDisable(false);
                 } else if (observableArrayListOne.size() <= 1) {
                     observableArrayListOne.remove(getTranslation("RANDOM"));
-                    one.disableProperty().unbind();
                     one.setDisable(true);
                 }
             };
@@ -362,10 +297,9 @@ public class ClassPane extends GridPane {
                 }
                 if (observableArrayListTwo.size() != 1 && !observableArrayListTwo.contains(getTranslation("RANDOM"))) {
                     observableArrayListTwo.add(0, getTranslation("RANDOM"));
-                    two.disableProperty().bind(character.isEditing().not());
+                    two.setDisable(false);
                 } else if (observableArrayListTwo.size() <= 1) {
                     observableArrayListTwo.remove(getTranslation("RANDOM"));
-                    two.disableProperty().unbind();
                     two.setDisable(true);
                 }
             };
@@ -378,6 +312,105 @@ public class ClassPane extends GridPane {
             one.valueProperty().bindBidirectional(character.getFeatOne(classIndex, index));
             two.valueProperty().bindBidirectional(character.getFeatTwo(classIndex, index));
         }
+
+        Runnable updateAvailableFeats = () -> {
+            int newVal = character.getAvailableFeats(classIndex).get();
+            for (int i = 0; i < maxFeats; i++) {
+                if (feats.get(i).getValue().equals(getTranslation("RANDOM"))) {
+                    newFeat[i] = true;
+                    feats.get(i).setDisable(false);
+                    featOnes.get(i).setDisable(false);
+                    featTwos.get(i).setDisable(false);
+                }
+                if (i < newVal && !getChildren().contains(feats.get(i))) {
+                    add(feats.get(i), 0, 8 + i);
+                    add(feats.get(i).getLabel(), 0, 8 + i);
+                } else if (i >= newVal) {
+                    getChildren().remove(feats.get(i));
+                    getChildren().remove(feats.get(i).getLabel());
+                }
+            }
+        };
+
+        character.getAvailableFeats(classIndex).addListener(_ -> updateAvailableFeats.run());
+
+        Runnable updateFeats = () -> {
+            int counter = 0;
+            for (TooltipComboBox feat : feats) {
+                ChangeListener<String> listener = featListeners.remove(feat);
+                if (listener != null) {
+                    feat.valueProperty().removeListener(listener);
+                }
+                if (getChildren().contains(feat)) {
+                    counter ++;
+                    getChildren().remove(feat);
+                    getChildren().remove(feat.getLabel());
+                }
+            }
+            featListeners.clear();
+            baseValuesList.clear();
+            feats.clear();
+
+            String[] repeatableFeats = getTranslations(getRepeatableFeats());
+            String[] repeatableFeatsWithRandom = new String[repeatableFeats.length + 1];
+            repeatableFeatsWithRandom[0] = getTranslation("RANDOM");
+            System.arraycopy(repeatableFeats, 0, repeatableFeatsWithRandom, 1, repeatableFeats.length);
+
+            ObservableList<StringProperty> baseValues = character.getSelectableFeats(classIndex);
+            String[] baseArray = new String[baseValues.size()];
+            for (int i = 0; i < baseValues.size(); i++) {
+                baseArray[i] = baseValues.get(i).get();
+            }
+
+            for (int i = 0; i < maxFeats; i++) {
+                ObservableList<String> observableArrayList = FXCollections.observableArrayList(baseArray);
+
+                TooltipComboBox comboBox = new TooltipComboBox(observableArrayList, mainTabPane);
+                baseValuesList.add(observableArrayList);
+                feats.add(comboBox);
+
+                Runnable disableFeats = () -> {
+                    if (!character.isLevelingUp().get()) {
+                        if (character.isEditing().get()) {
+                            comboBox.setDisable(false);
+                        } else {
+                            comboBox.setDisable(true);
+                        }
+                    }
+                };
+                character.isEditing().addListener(_ -> disableFeats.run());
+                character.isLevelingUp().addListener(_ -> disableFeats.run());
+                disableFeats.run();
+
+                comboBox.setPromptText(getTranslation("RANDOM"));
+                comboBox.valueProperty().bindBidirectional(character.getFeat(classIndex, i));
+
+                ChangeListener<String> featListener = (_, _, _) -> {
+                    for (int j = 0; j < feats.size(); j++) {
+                        ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
+                    }
+                };
+                comboBox.valueProperty().addListener(featListener);
+                
+                featListeners.put(comboBox, featListener);
+            }
+            
+            for (int j = 0; j < feats.size(); j++) {
+                ComboBoxUtils.updateItems(feats.get(j), feats, baseValuesList.get(j), baseArray, repeatableFeatsWithRandom);
+            }
+
+            for (int i = 0; i < counter; i++) {
+                add(feats.get(i), 0, 8 + i);
+                add(feats.get(i).getLabel(), 0, 8 + i);
+            }
+
+            updateAvailableFeats.run();
+        };
+
+        character.getSelectableFeats(classIndex).addListener((ListChangeListener<StringProperty>) _ -> {
+            updateFeats.run();
+        });
+        updateFeats.run();
     }
 
     // Helper method to get translations

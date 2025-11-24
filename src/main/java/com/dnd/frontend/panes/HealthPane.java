@@ -4,14 +4,14 @@ import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.tabs.InfoTab;
 import com.dnd.frontend.tooltip.TooltipLabel;
+import com.dnd.utils.observables.ObservableInteger;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 public class HealthPane extends GridPane {
     ViewModel character;
@@ -22,44 +22,118 @@ public class HealthPane extends GridPane {
         this.character = character;
         getStyleClass().add("grid-pane");
 
+        HBox healthBox = new HBox();
         TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS") + ":", mainTabPane);
-        add(hpLabel, 0, 0); // Add the label to the GridPane (Column 0, Row 0)
+        healthBox.getChildren().add(hpLabel);
+        add(healthBox, 0, 0, 4, 1);
+
+        TextField currentHp = new TextField();
+        healthBox.getChildren().add(currentHp);
+        currentHp.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                currentHp.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+        });
+
+        currentHp.textProperty().addListener((_, _, newVal) -> {
+            if (!newVal.isEmpty()) {
+                character.getCurrentHealthShown().set(newVal);
+            }
+        });
+        currentHp.setOnAction(_ -> {
+            if (currentHp.getText().isEmpty()) {
+                character.getCurrentHealthShown().set("0");
+            }
+        });
+
+        character.getCurrentHealthShown().addListener(_ -> {
+            currentHp.setText(character.getCurrentHealthShown().get());
+        });
+        currentHp.setText(character.getCurrentHealthShown().get());
+
+        // TODO: dynamic
+        currentHp.setMaxWidth(60);
+
+        Label slash = new Label("/");
+        healthBox.getChildren().add(slash);
+        healthBox.getChildren().add(hpCustom);
+        healthBox.getChildren().add(hpMedium);
+        healthBox.getChildren().add(hpRandom);
+
+        int[] hitDies = {6, 8, 10, 12};
+        HBox hitDieBox = new HBox();
+        for (int i = 0; i < 4; i++) {
+            int index = i;
+            Button button = new Button();
+
+            Runnable updateButtonText = () -> {
+                String text = character.getAvailableHitDie(index).get() + "/" + character.getMaximumHitDie(index).get() + " d" + hitDies[index];
+                button.setText(text);
+                if (character.getMaximumHitDie(index).get() == 0) {
+                    button.setVisible(false);
+                    button.setManaged(false);
+                } else {
+                    button.setVisible(true);
+                    button.setManaged(true);
+                }
+            };
+
+            button.disableProperty().bind(character.isShortResting().not());
+
+            button.setOnAction(_ -> {
+                if (character.getAvailableHitDie(index).get() <= 0) {
+                    return;
+                }
+                character.getAvailableHitDie(index).set(character.getAvailableHitDie(index).get() - 1);
+                int result = Math.max(1, infoTab.throwDie(1, hitDies[index], character.getAbilityModifier(2).get(), false, false, 2));
+                character.getCurrentHealth().set(character.getCurrentHealth().get() + result);
+            });
+
+            updateButtonText.run();
+            character.getAvailableHitDie(i).addListener(_ -> updateButtonText.run());
+            character.getMaximumHitDie(i).addListener(_ -> updateButtonText.run());
+
+            hitDieBox.getChildren().add(button);
+        }
+        add(hitDieBox, 0, 1, 4, 1); // Span across 4 columns
         
         TooltipLabel initiativeLabel = new TooltipLabel(getTranslation("INITIATIVE_BONUS") + ":", getTranslation("INITIATIVE_BONUS"), mainTabPane);
-        add(initiativeLabel, 0, 1); // Add the label to the GridPane (Column 0, Row 0)
+        add(initiativeLabel, 0, 2); // Add the label to the GridPane (Column 0, Row 0)
         GridPane.setColumnSpan(initiativeLabel, 3);
 
-        Button initiativeButton = new Button(getTranslation("0"));
-        initiativeButton.textProperty().bind(
-            character.getInitiativeBonus().asString()
-        );
+        Button initiativeButton = new Button(String.valueOf(character.getInitiativeBonus().get()));
+        character.getInitiativeBonus().addListener(_ -> {
+            initiativeButton.setText(String.valueOf(character.getInitiativeBonus().get()));
+        });
         
         // Add a listener to the button to roll
         initiativeButton.setOnAction(_ -> {
             infoTab.throwDie(1, 20, character.getInitiativeBonus().get(), character.getInvisible().get(), !character.getIncapacitated().get(), -1);
         });
-        add(initiativeButton, 3, 1);
+        add(initiativeButton, 3, 2);
             
         TooltipLabel armorClass = new TooltipLabel("", getTranslation("ARMOR_CLASS"), mainTabPane);
-        armorClass.textProperty().bind(
-            Bindings.concat(
-                getTranslation("ARMOR_CLASS"),
-                ": ",
-                character.getArmorClass().asString()
-            )
-        );
-        add(armorClass, 0, 2); // Add the label to the GridPane
+        Runnable updateArmorClass = () -> {
+            armorClass.textProperty().set(
+                getTranslation("ARMOR_CLASS") + ": " + character.getArmorClass().get()
+            );
+        };
+        updateArmorClass.run();
+        character.getArmorClass().addListener(_ -> updateArmorClass.run());
+
+        add(armorClass, 0, 3); // Add the label to the GridPane
         GridPane.setColumnSpan(armorClass, 4);
 
         TooltipLabel proficiencyBonus = new TooltipLabel("", getTranslation("PROFICIENCY_BONUS"), mainTabPane);
-        proficiencyBonus.textProperty().bind(
-            Bindings.concat(
-                getTranslation("PROFICIENCY_BONUS"),
-                ": ",
-                character.getProficiencyBonus().asString()
-            )
-        );
-        add(proficiencyBonus, 0, 3); // Add the label to the GridPane
+        Runnable updateProficiencyBonus = () -> {
+            proficiencyBonus.textProperty().set(
+                getTranslation("PROFICIENCY_BONUS") + ": " + character.getProficiencyBonus().get()
+            );
+        };
+        updateProficiencyBonus.run();
+        character.getProficiencyBonus().addListener(_ -> updateProficiencyBonus.run());
+        
+        add(proficiencyBonus, 0, 4); // Add the label to the GridPane
         GridPane.setColumnSpan(proficiencyBonus, 4);
 
         generateHealthUI();
@@ -78,22 +152,23 @@ public class HealthPane extends GridPane {
             }
         });
 
-        character.getHealth().addListener((_, _, newVal) -> {
+        character.getHealth().addListener(newVal -> {
             hpCustom.setText(String.valueOf(newVal));
         });
         hpCustom.setText(String.valueOf(character.getHealth().get()));
         hpCustom.disableProperty().bind(character.isEditing().not());
 
-        hpMedium.textProperty().bind(
-            character.getHealth().asString()
-        );
+        hpMedium.setText(String.valueOf(character.getHealth().get()));
+        character.getHealth().addListener(newVal -> {
+            hpMedium.setText(String.valueOf(newVal));
+        });
 
         Runnable updateRandomText = () -> {
             int level = character.getTotalLevel().get();
-            String fixed = character.getFixedHealth().asString().get();
+            String fixed = String.valueOf(character.getFixedHealth().get());
             if (level > 1) {
-                for (IntegerProperty hitDie : character.getHitDies()) {
-                    fixed += " + " + (level - 1) + "d" + hitDie.asString();
+                for (ObservableInteger hitDie : character.getHitDies()) {
+                    fixed += " + " + (level - 1) + "d" + hitDie.get();
                 }
             }
             hpRandom.textProperty().set(
@@ -101,10 +176,10 @@ public class HealthPane extends GridPane {
             );
         };
         updateRandomText.run();
-        character.getTotalLevel().addListener((_, _, _) -> updateRandomText.run());
-        character.getFixedHealth().addListener((_, _, _) -> updateRandomText.run());
-        for (IntegerProperty hitDie : character.getHitDies()) {
-            hitDie.addListener((_, _, _) -> updateRandomText.run());
+        character.getTotalLevel().addListener(_ -> updateRandomText.run());
+        character.getFixedHealth().addListener(_ -> updateRandomText.run());
+        for (ObservableInteger hitDie : character.getHitDies()) {
+            hitDie.addListener(_ -> updateRandomText.run());
         }
 
         chooseHealthUI();
@@ -113,22 +188,28 @@ public class HealthPane extends GridPane {
     public void chooseHealthUI() {
         String healthType = character.getHealthMethod().get();
         
-        if (healthType.equals(getTranslation("MEDIUM_HP")) && !getChildren().contains(hpMedium)) {
-            add(hpMedium, 2, 0);
-        } else if (getChildren().contains(hpMedium)) {
-            getChildren().remove(hpMedium);
+        if (healthType.equals(getTranslation("MEDIUM_HP"))) {
+            hpMedium.setVisible(true);
+            hpMedium.setManaged(true);
+        } else {
+            hpMedium.setVisible(false);
+            hpMedium.setManaged(false);
         }
 
-        if (healthType.equals(getTranslation("RANDOM")) && !getChildren().contains(hpRandom)) {
-            add(hpRandom, 2, 0);
-        } else if (getChildren().contains(hpRandom)) {
-            getChildren().remove(hpRandom);
+        if (healthType.equals(getTranslation("RANDOM"))) {
+            hpRandom.setVisible(true);
+            hpRandom.setManaged(true);
+        } else {
+            hpRandom.setVisible(false);
+            hpRandom.setManaged(false);
         }
 
-        if (healthType.equals(getTranslation("CUSTOM_M")) && !getChildren().contains(hpCustom)) {
-            add(hpCustom, 2, 0);
-        } else if (getChildren().contains(hpCustom)) {
-            getChildren().remove(hpCustom);
+        if (healthType.equals(getTranslation("CUSTOM_M"))) {
+            hpCustom.setVisible(true);
+            hpCustom.setManaged(true);
+        } else {
+            hpCustom.setVisible(false);
+            hpCustom.setManaged(false);
         }
     }
 

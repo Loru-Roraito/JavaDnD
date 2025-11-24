@@ -116,9 +116,14 @@ public class AbilitiesPane extends GridPane {
             // Final value display
             Label finalValue = new Label();
             // Bind the text of the label to the ability value and modifier
-            finalValue.textProperty().bind(
-                character.getAbility(index).asString().concat(" (").concat(character.getAbilityModifier(index).asString()).concat(")")
-            );
+            Runnable updateFinalValue = () -> {
+                finalValue.textProperty().set(
+                    character.getAbility(index).get() + " (" + character.getAbilityModifier(index).get() + ")"
+                );
+            };
+            updateFinalValue.run();
+            character.getAbility(index).addListener(_ -> updateFinalValue.run());
+            character.getAbilityModifier(index).addListener(_ -> updateFinalValue.run());
             abilitiesSection.add(finalValue, 6, i);
         }
 
@@ -260,7 +265,7 @@ public class AbilitiesPane extends GridPane {
         if (generationType.equals(getTranslation("POINT_BUY"))) {
             abilitiesSection.add(points, 0, 6);
             points.textProperty().bind(
-                Bindings.concat(getTranslation("POINTS"), ": ", character.getGenerationPoints().asString())
+                Bindings.concat(getTranslation("POINTS"), ": ", character.getGenerationPoints().get())
             );
         } else {
             abilitiesSection.getChildren().remove(points);
@@ -288,10 +293,10 @@ public class AbilitiesPane extends GridPane {
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
             
             // Button to roll a D20
-            Button rollButton = new Button("0");
-            rollButton.textProperty().bind(
-                character.getSkillModifier(index).asString()
-            );
+            Button rollButton = new Button(String.valueOf(character.getSkillModifier(index).get()));
+            character.getSkillModifier(index).addListener(_ -> {
+                rollButton.setText(String.valueOf(character.getSkillModifier(index).get()));
+            });
 
             // Add a listener to the button to roll
             boolean isStealth = skill.equals(getTranslation("STEALTH"));
@@ -322,10 +327,10 @@ public class AbilitiesPane extends GridPane {
             proficiency.setDisable(true);
     
             // Button to roll a D20
-            Button rollButton = new Button("0");
-            rollButton.textProperty().bind(
-                character.getSavingThrowModifier(index).asString()
-            );
+            Button rollButton = new Button(String.valueOf(character.getSavingThrowModifier(index).get()));
+            character.getSavingThrowModifier(index).addListener(_ -> {
+                rollButton.setText(String.valueOf(character.getSavingThrowModifier(index).get()));
+            });
 
             // Add a listener to the button to roll
             switch (index) {

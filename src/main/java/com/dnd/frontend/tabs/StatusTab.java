@@ -123,8 +123,8 @@ public class StatusTab extends Tab{
                 character.getExhaustion().set(newVal);
             }
         });
-        character.getExhaustion().addListener((_, _, newValue) -> {
-            exhaustionCheckBox.setValue(newValue.intValue());
+        character.getExhaustion().addListener(newVal -> {
+            exhaustionCheckBox.setValue(newVal);
         });
         exhaustionCheckBox.setValue(character.getExhaustion().get());
         gridPane.add(exhaustion, 0, 14);

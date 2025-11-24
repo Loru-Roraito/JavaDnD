@@ -51,8 +51,8 @@ public class InfoTab extends Tab {
         addTitledPane("PARAMETERS", new ParametersPane(character, mainTabPane), 0, 2, 2, 1);
         EquipmentPane equipmentPane = new EquipmentPane(character, mainTabPane);
         addTitledPane("EQUIPMENT", equipmentPane , 3, 3, 2, 2);
-        addClass(character, mainTabPane, 2, 1, 3, 2);
-        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, character, stage);
+        TabPane classTabs = addClass(character, mainTabPane, 2, 1, 3, 2);
+        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, classTabs, character, stage);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
         addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
         addTitledPane("COMBAT", new CombatPane(mainTabPane, character, this), 1, 1, 1, 1);
@@ -77,7 +77,7 @@ public class InfoTab extends Tab {
         GridPane.setColumnSpan(titledPane, columnSpan);
     }
     
-    private void addClass(ViewModel character, TabPane mainTabPane, int row, int column, int rowSpan, int columnSpan) {
+    private TabPane addClass(ViewModel character, TabPane mainTabPane, int row, int column, int rowSpan, int columnSpan) {
         int maxClasses = character.getMaxClasses();
         Tab[] tabs = new Tab[maxClasses - 1];
         List<TooltipComboBox> classes = new ArrayList<>(maxClasses);
@@ -207,6 +207,8 @@ public class InfoTab extends Tab {
                 tabPane.getTabs().add(Math.min(i + 1, tabPane.getTabs().size()), t);
             }
         }
+
+        return tabPane;
     }
 
     // Helper method to get translations

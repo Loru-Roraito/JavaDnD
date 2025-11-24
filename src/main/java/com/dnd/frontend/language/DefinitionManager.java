@@ -172,6 +172,7 @@ public class DefinitionManager {
         String itemName = item.getName();
 
         definition.append(itemName);
+        definition.append("\n\n");
         definition.append(fetchItemTooltip(item));
 
         displayDefinitionTab(itemName, definition.toString(), mainTabPane);

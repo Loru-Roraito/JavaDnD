@@ -17,7 +17,8 @@ import javafx.stage.Stage;
 public class SystemPane extends GridPane {
     private String advantage = getTranslation("DISABLED_M");
     private final ViewModel character;
-    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, ViewModel character, Stage stage) {
+
+    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, TabPane classTabs, ViewModel character, Stage stage) {
         getStyleClass().add("grid-pane");
         this.character = character;
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
@@ -155,6 +156,75 @@ public class SystemPane extends GridPane {
         });
         load.visibleProperty().bind(character.isGenerator());
         load.managedProperty().bind(character.isGenerator());
+
+        TooltipButton shortRest = new TooltipButton(getTranslation("SHORT_REST"), mainTabPane);
+        add(shortRest, 2, 2);
+        shortRest.visibleProperty().bind(character.isEditing().not().and(character.isLongResting().not()).and(character.isLevelingUp().not()));
+        shortRest.setOnAction(_ -> {
+            if (!character.isShortResting().get()) {
+                character.isShortResting().set(true);
+                shortRest.setText(getTranslation("FINISH"));
+            } else {
+                character.isShortResting().set(false);
+                shortRest.setText(getTranslation("SHORT_REST"));
+            }
+        });
+
+        TooltipButton longRest = new TooltipButton(getTranslation("LONG_REST"), mainTabPane);
+        add(longRest, 2, 3);
+        longRest.visibleProperty().bind(character.isEditing().not().and(character.isShortResting().not()).and(character.isLevelingUp().not()));
+        longRest.setOnAction(_ -> {
+            if (!character.isLongResting().get()) {
+                if (character.getCurrentHealth().get() > 0) {
+                    character.isLongResting().set(true);
+                    character.getUnconscious().set(true);
+                    character.getCurrentHealth().set(character.getHealth().get());
+                    for (int i = 0; i < 4; i++) {
+                        character.getAvailableHitDie(i).set(character.getMaximumHitDie(i).get());
+                    }
+                    if (character.getExhaustion().get() > 0) {
+                        character.getExhaustion().set(character.getExhaustion().get() - 1);
+                    }
+
+                    longRest.setText(getTranslation("FINISH"));
+                }
+            } else {
+                character.isLongResting().set(false);
+                character.getUnconscious().set(false);
+                longRest.setText(getTranslation("LONG_REST"));
+            }
+        });
+
+        TooltipButton levelUp = new TooltipButton(getTranslation("LEVEL_UP"), mainTabPane);
+        add(levelUp, 2, 4);
+        levelUp.setOnAction(_ -> {
+            if (!character.isLevelingUp().get()) {
+                int classIndex = classTabs.getSelectionModel().getSelectedIndex();
+                character.areLevelingUp(classIndex).set(true);
+                character.getLevel(classIndex).set(character.getLevel(classIndex).get() + 1);
+                levelUp.setText(getTranslation("FINISH"));
+                character.isLevelingUp().set(true);
+            } else {
+                character.isLevelingUp().set(false);
+                character.fill(false);
+                levelUp.setText(getTranslation("LEVEL_UP"));
+            }
+        });
+
+        Runnable showLevelUp = () -> {
+            if (!character.isEditing().get() && !character.isShortResting().get() && !character.isLongResting().get() && character.getTotalLevel().get() < 20) {
+                levelUp.setVisible(true);
+                levelUp.setManaged(true);
+            } else {
+                levelUp.setVisible(false);
+                levelUp.setManaged(false);
+            }
+        };
+        showLevelUp.run();
+        character.isEditing().addListener(_ -> showLevelUp.run());
+        character.isShortResting().addListener(_ -> showLevelUp.run());
+        character.isLongResting().addListener(_ -> showLevelUp.run());
+        character.getTotalLevel().addListener(_ -> showLevelUp.run());
     }
 
     public ViewModel getCharacter() {
