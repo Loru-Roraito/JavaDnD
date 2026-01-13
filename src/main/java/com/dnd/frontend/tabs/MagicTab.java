@@ -405,6 +405,8 @@ public class MagicTab extends Tab {
                         break;
                     }
                 }
+
+                // Done to manage spell change/adding. Is a bit complex as it mixes the change of spells and the addition of new ones. I may rewrite it in the future
                 spellCheckBox.setOnAction(_ -> {
                     if (spellCheckBox.isSelected()) {
                         addableSpells[finalIndex]--;

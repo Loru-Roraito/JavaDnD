@@ -205,8 +205,8 @@ public class SystemPane extends GridPane {
                 levelUp.setText(getTranslation("FINISH"));
                 character.isLevelingUp().set(true);
             } else {
-                character.isLevelingUp().set(false);
                 character.fill(false);
+                character.isLevelingUp().set(false);
                 levelUp.setText(getTranslation("LEVEL_UP"));
             }
         });
