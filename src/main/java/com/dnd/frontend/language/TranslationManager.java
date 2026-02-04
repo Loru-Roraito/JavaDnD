@@ -12,11 +12,27 @@ public class TranslationManager {
     private static final Map<String, String> translationToKey = new HashMap<>();
 
     public static void initialize(String language) {
-        try (var inputStream = TranslationManager.class.getClassLoader().getResourceAsStream("translations_" + language + ".properties")) {
+        try (var inputStream = TranslationManager.class.getResourceAsStream("/translations_" + language + ".properties")) {
             if (inputStream == null) {
                 throw new IOException("Resource not found: translations_" + language + ".properties");
             }
             languageProperties.load(new java.io.InputStreamReader(inputStream, StandardCharsets.UTF_8));
+
+            // Try to load and merge custom version if it exists
+            String customFileName = "/custom/translations_" + language + ".properties";
+            var customStream = TranslationManager.class.getResourceAsStream(customFileName);
+            if (customStream != null) {
+                try (customStream;
+                    var customReader = new java.io.InputStreamReader(customStream, StandardCharsets.UTF_8)) {
+                    Properties customProperties = new Properties();
+                    customProperties.load(customReader);
+                    // Merge: custom properties overwrite base properties
+                    languageProperties.putAll(customProperties);
+                } catch (IOException e) {
+                    System.err.println("Error: Failed to load custom translations from " + customFileName);
+                }
+            }
+
             // Populate the maps
             for (String key : languageProperties.stringPropertyNames()) {
                 String value = languageProperties.getProperty(key);

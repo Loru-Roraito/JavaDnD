@@ -1,14 +1,14 @@
 package com.dnd.frontend.language;
 
-import com.dnd.utils.items.Item;
-import com.dnd.utils.items.Spell;
-import com.dnd.backend.GameCharacter;
-import com.dnd.backend.GroupManager;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Properties;
+
+import com.dnd.backend.GameCharacter;
+import com.dnd.backend.GroupManager;
+import com.dnd.utils.items.Item;
+import com.dnd.utils.items.Spell;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,7 +26,7 @@ public class DefinitionManager {
     private static final Properties tooltips = new Properties();
 
     public static void initialize(String language) {
-        try (var inputStream = DefinitionManager.class.getClassLoader().getResourceAsStream("definitions_" + language + ".properties")) {
+        try (var inputStream = DefinitionManager.class.getResourceAsStream("/definitions_" + language + ".properties")) {
             if (inputStream == null) {
                 throw new IOException("Resource not found: definitions_" + language + ".properties");
             }
@@ -35,7 +35,7 @@ public class DefinitionManager {
             System.err.println("Error: Failed to load definitions file: definitions_" + language + ".properties");
         }
 
-        try (var inputStream = DefinitionManager.class.getClassLoader().getResourceAsStream("tooltips_" + language + ".properties")) {
+        try (var inputStream = DefinitionManager.class.getResourceAsStream("/tooltips_" + language + ".properties")) {
             if (inputStream == null) {
                 throw new IOException("Resource not found: tooltips_" + language + ".properties");
             }

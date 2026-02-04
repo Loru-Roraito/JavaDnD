@@ -1,9 +1,12 @@
 package com.dnd.frontend.tooltip;
 
 import com.dnd.frontend.language.DefinitionManager;
+import com.dnd.frontend.language.TranslationManager;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Bounds;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -23,8 +26,28 @@ public class TooltipComboBox extends ComboBox<String> {
     private TooltipLabel replacementLabel; // Label to show when disabled
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
-        super(items);
+        super(FXCollections.observableArrayList());
         this.mainTabPane = mainTabPane;
+    
+        // Create a sorted view of the items
+        SortedList<String> sortedItems = new SortedList<>(items);
+        sortedItems.setComparator((s1, s2) -> {
+            // RANDOM always first
+            if (s1.equals(getTranslation("RANDOM"))) return -1;
+            if (s2.equals(getTranslation("RANDOM"))) return 1;
+            
+            // NONE_M and NONE_F second
+            boolean s1IsNone = s1.equals(getTranslation("NONE_M")) || s1.equals(getTranslation("NONE_F"));
+            boolean s2IsNone = s2.equals(getTranslation("NONE_M")) || s2.equals(getTranslation("NONE_F"));
+            
+            if (s1IsNone && !s2IsNone) return -1;
+            if (s2IsNone && !s1IsNone) return 1;
+            
+            // Both are special or both are regular - alphabetical
+            return s1.compareTo(s2);
+        });
+        setItems(sortedItems);
+
         createPopup();
         assignTooltip();
         setupKeyListener();
@@ -279,5 +302,9 @@ public class TooltipComboBox extends ComboBox<String> {
 
     private String fetchTooltip(String key) {
         return DefinitionManager.fetchTooltip(key);
+    }
+
+    private String getTranslation(String key) {
+        return TranslationManager.getTranslation(key);
     }
 }

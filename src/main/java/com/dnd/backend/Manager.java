@@ -18,14 +18,48 @@ public abstract class Manager {
 
     public void initialize() {
         String fileName = getJsonFileName();
-        try (var inputStream = Manager.class.getClassLoader().getResourceAsStream(fileName);
-             var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+        try (var inputStream = Manager.class.getResourceAsStream("/" + fileName);
+            var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             if (inputStream == null) {
                 throw new IOException("Resource not found: " + fileName);
             }
             rootNode = JsonParser.parseReader(reader).getAsJsonObject();
+
+            // Try to load and merge custom version
+            String customFileName = "/custom/" + fileName;
+            var customStream = Manager.class.getResourceAsStream(customFileName);
+            if (customStream != null) {
+                try (customStream;
+                    var customReader = new InputStreamReader(customStream, StandardCharsets.UTF_8)) {
+                    JsonObject customNode = JsonParser.parseReader(customReader).getAsJsonObject();
+                    mergeJsonObjects(rootNode, customNode);
+                } catch (IOException e) {
+                    System.err.println("Error: Failed to load custom content from " + customFileName);
+                }
+            }
         } catch (IOException e) {
             System.err.println("Error: Failed to load " + fileName);
+        }
+    }
+
+    private void mergeJsonObjects(JsonObject base, JsonObject custom) {
+        for (String key : custom.keySet()) {
+            JsonElement customElement = custom.get(key);
+            
+            if (!base.has(key)) {
+                // Key doesn't exist in base, add it
+                base.add(key, customElement);
+            } else {
+                JsonElement baseElement = base.get(key);
+                
+                // If both are objects, merge recursively
+                if (baseElement.isJsonObject() && customElement.isJsonObject()) {
+                    mergeJsonObjects(baseElement.getAsJsonObject(), customElement.getAsJsonObject());
+                } else {
+                    // For arrays, primitives, or type mismatches, replace with custom version
+                    base.add(key, customElement);
+                }
+            }
         }
     }
 
