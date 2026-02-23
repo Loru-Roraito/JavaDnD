@@ -88,8 +88,7 @@
         "BARBARIAN_DANGER_SENSE": 2,
         "BARBARIAN_RECKLESS_ATTACK": 2,
         "BARBARIAN_PRIMAL_KNOWLEDGE": 3,
-        "BARBARIAN_ABILITY_SCORE_IMPROVEMENT": 4,
-        "BARBARIAN_EXTRA_ATTACK": 5,
+        "EXTRA_ATTACK": 5,
         "BARBARIAN_FAST_MOVEMENT": 5,
         "BARBARIAN_FERAL_INSTINCT": 7,
         "BARBARIAN_INSTINCTIVE_POUNCE": 7,
@@ -98,7 +97,6 @@
         "BARBARIAN_IMPROVED_BRUTAL_STRIKE": 17,
         "BARBARIAN_PERSISTENT_RAGE": 15,
         "BARBARIAN_INDOMITABLE_MIGHT": 18,
-        "BARBARIAN_EPIC_BOON": 19,
         "BARBARIAN_PRIMAL_CHAMPION": 20
       },
       "abilities": ["STRENGTH", "CONSTITUTION"],
@@ -113,12 +111,12 @@
       "damage": [2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
       "masteries": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "subclasses": {
-        "PATH_OF_THE_BERSERKER": {
+        "BARBARIAN_PATH_OF_THE_BERSERKER": {
           "traits": {
-            "BARBARIAN_FRENZY": 3,
-            "BARBARIAN_MINDLESS_RAGE": 6,
-            "BARBARIAN_RETALIATION": 10,
-            "BARBARIAN_INTIMIDATING_PRESENCE": 14
+            "BARBARIAN_PATH_OF_THE_BERSERKER_FRENZY": 3,
+            "BARBARIAN_PATH_OF_THE_BERSERKER_MINDLESS_RAGE": 6,
+            "BARBARIAN_PATH_OF_THE_BERSERKER_RETALIATION": 10,
+            "BARBARIAN_PATH_OF_THE_BERSERKER_INTIMIDATING_PRESENCE": 14
           }
         }
       }
@@ -142,24 +140,21 @@
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "traits": {
         "BARD_BARDIC_INSPIRATION": 1,
-        "BARD_SPELLCASTING": 1,
         "BARD_EXPERTISE": 2,
         "BARD_JACK_OF_ALL_TRADES": 2,
-        "BARD_ABILITY_SCORE_IMPROVEMENT": 4,
         "BARD_FONT_OF_INSPIRATION": 5,
         "BARD_COUNTERCHARM": 7,
         "BARD_MAGICAL_SECRETS": 10,
         "BARD_SUPERIOR_INSPIRATION": 18,
-        "BARD_EPIC_BOON": 19,
         "BARD_WORDS_OF_CREATION": 20
       },
       "subclasses": {
-        "COLLEGE_OF_LORE": {
+        "BARD_COLLEGE_OF_LORE": {
           "traits": {
-            "BARD_BONUS_PROFICIENCIES": 3,
-            "BARD_CUTTING_WORDS": 3,
-            "BARD_MAGICAL_DISCOVERIES": 6,
-            "BARD_PEERLESS_SKILL": 14
+            "BARD_COLLEGE_OF_LORE_BONUS_PROFICIENCIES": 3,
+            "BARD_COLLEGE_OF_LORE_CUTTING_WORDS": 3,
+            "BARD_COLLEGE_OF_LORE_MAGICAL_DISCOVERIES": 6,
+            "BARD_COLLEGE_OF_LORE_PEERLESS_SKILL": 14
           }
         }
       }
@@ -181,25 +176,22 @@
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "traits": {
-        "CLERIC_SPELLCASTING": 1,
         "CLERIC_DIVINE_ORDER": 1,
         "CLERIC_CHANNEL_DIVINITY": 2,
-        "CLERIC_ABILITY_SCORE_IMPROVEMENT": 4,
         "CLERIC_SEAR_UNDEAD": 5,
         "CLERIC_BLESSED_STRIKES": 7,
         "CLERIC_DIVINE_INTERVENTION": 10,
         "CLERIC_IMPROVED_BLESSED_STRIKES": 14,
-        "CLERIC_EPIC_BOON": 19,
         "CLERIC_GREATER_DIVINE_INTERVENTION": 20
       },
       "subclasses": {
-        "LIFE_DOMAIN": {
+        "CLERIC_LIFE_DOMAIN": {
           "traits": {
-            "CLERIC_DISCIPLE_OF_LIFE": 3,
-            "CLERIC_LIFE_DOMAIN_SPELLS": 3,
-            "CLERIC_PRESERVE_LIFE": 3,
-
-            "CLERIC_SUPREME_HEALING": 17
+            "CLERIC_LIFE_DOMAIN_DISCIPLE_OF_LIFE": 3,
+            "CLERIC_LIFE_DOMAIN_LIFE_DOMAIN_SPELLS": 3,
+            "CLERIC_LIFE_DOMAIN_PRESERVE_LIFE": 3,
+            "CLERIC_LIFE_DOMAIN_BLESSED_HEALER": 6,
+            "CLERIC_LIFE_DOMAIN_SUPREME_HEALING": 17
           }
         }
       }
@@ -222,27 +214,24 @@
       "cantrips": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "traits": {
-        "DRUID_SPELLCASTING": 1,
         "DRUID_DRUIDIC": 1,
         "DRUID_PRIMAL_ORDER": 1,
         "DRUID_WILD_SHAPE": 2,
         "DRUID_WILD_COMPANION": 2,
-        "DRUID_ABILITY_SCORE_IMPROVEMENT": 4,
         "DRUID_WILD_RESURGENCE": 5,
         "DRUID_ELEMENTAL_FURY": 7,
         "DRUID_IMPROVED_ELEMENTAL_FURY": 15,
         "DRUID_BEAST_SPELLS": 18,
-        "DRUID_EPIC_BOON": 19,
         "DRUID_ARCHDRUID": 20
       },
       "subclasses": {
-        "CIRCLE_OF_THE_LAND": {
+        "DRUID_CIRCLE_OF_THE_LAND": {
           "traits": {
-            "DRUID_CIRCLE_OF_THE_LAND_SPELLS": 3,
-            "DRUID_LAND_S_AID": 3,
-            "DRUID_NATURAL_RECOVERY": 6,
-            "DRUID_NATURE_S_WARD": 10,
-            "DRUID_NATURE_S_SANCTUARY": 14
+            "DRUID_CIRCLE_OF_THE_LAND_CIRCLE_OF_THE_LAND_SPELLS": 3,
+            "DRUID_CIRCLE_OF_THE_LAND_LAND_S_AID": 3,
+            "DRUID_CIRCLE_OF_THE_LAND_NATURAL_RECOVERY": 6,
+            "DRUID_CIRCLE_OF_THE_LAND_NATURE_S_WARD": 10,
+            "DRUID_CIRCLE_OF_THE_LAND_NATURE_S_SANCTUARY": 14
           }
         }
       }
@@ -264,25 +253,23 @@
         "FIGHTER_SECOND_WIND": 1,
         "FIGHTER_ACTION_SURGE": 2,
         "FIGHTER_TACTICAL_MIND": 2,
-        "FIGHTER_ABILITY_SCORE_IMPROVEMENT": 4,
-        "FIGHTER_EXTRA_ATTACK": 5,
+        "EXTRA_ATTACK": 5,
         "FIGHTER_TACTICAL_SHIFT": 5,
         "FIGHTER_INDOMITABLE": 9,
         "FIGHTER_TACTICAL_MASTER": 9,
         "FIGHTER_TWO_EXTRA_ATTACKS": 11,
         "FIGHTER_STUDIED_ATTACKS": 13,
-        "FIGHTER_EPIC_BOON": 19,
         "FIGHTER_THREE_EXTRA_ATTACKS": 20
       },
       "subclasses": {
-        "CHAMPION": {
+        "FIGHTER_CHAMPION": {
           "traits": {
-            "FIGHTER_IMPROVED_CRITICAL": 3,
-
-            "FIGHTER_ADDITIONAL_FIGHTING_STYLE": 7,
-            "FIGHTER_HEROIC_WARRIOR": 10,
-            "FIGHTER_SUPERIOR_CRITICAL": 15,
-            "FIGHTER_SURVIVOR": 18
+            "FIGHTER_CHAMPION_IMPROVED_CRITICAL": 3,
+            "FIGHTER_CHAMPION_REMARKABLE_ATHLETE": 3,
+            "FIGHTER_CHAMPION_ADDITIONAL_FIGHTING_STYLE": 7,
+            "FIGHTER_CHAMPION_HEROIC_WARRIOR": 10,
+            "FIGHTER_CHAMPION_SUPERIOR_CRITICAL": 15,
+            "FIGHTER_CHAMPION_SURVIVOR": 18
           }
         }
       }
@@ -308,9 +295,8 @@
         "MONK_UNARMORED_MOVEMENT": 2,
         "MONK_UNCANNY_METABOLISM": 2,
         "MONK_DEFLECT_ATTACKS": 3,
-        "MONK_ABILITY_SCORE_IMPROVEMENT": 4,
         "MONK_SLOW_FALL": 4,
-        "MONK_EXTRA_ATTACK": 5,
+        "EXTRA_ATTACK": 5,
         "MONK_STUNNING_STRIKE": 5,
         "MONK_EMPOWERED_STRIKES": 6,
         "MONK_EVASION": 7,
@@ -321,16 +307,15 @@
         "MONK_DISCIPLINED_SURVIVOR": 14,
         "MONK_PERFECT_FOCUS": 15,
         "MONK_SUPERIOR_DEFENSE": 18,
-        "MONK_EPIC_BOON": 19,
         "MONK_BODY_AND_MIND": 20
       },
       "subclasses": {
-        "WARRIOR_OF_THE_OPEN_HAND": {
+        "MONK_WARRIOR_OF_THE_OPEN_HAND": {
           "traits": {
-            "MONK_OPEN_HAND_TECHNIQUE": 3,
-            "MONK_WHOLENESS_OF_BODY": 6,
-            "MONK_FLEET_STEP": 11,
-            "MONK_QUIVERING_PALM": 17
+            "MONK_WARRIOR_OF_THE_OPEN_HAND_OPEN_HAND_TECHNIQUE": 3,
+            "MONK_WARRIOR_OF_THE_OPEN_HAND_WHOLENESS_OF_BODY": 6,
+            "MONK_WARRIOR_OF_THE_OPEN_HAND_FLEET_STEP": 11,
+            "MONK_WARRIOR_OF_THE_OPEN_HAND_QUIVERING_PALM": 17
           }
         }
       }
@@ -352,29 +337,26 @@
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
       "traits": {
         "PALADIN_LAY_ON_HANDS": 1,
-        "PALADIN_SPELLCASTING": 1,
         "PALADIN_FIGHTING_STYLE": 2,
         "PALADIN_PALADIN_S_SMITE": 2,
         "PALADIN_CHANNEL_DIVINITY": 3,
-        "PALADIN_ABILITY_SCORE_IMPROVEMENT": 4,
-        "PALADIN_EXTRA_ATTACK": 5,
+        "EXTRA_ATTACK": 5,
         "PALADIN_FAITHFUL_STEED": 5,
         "PALADIN_AURA_OF_PROTECTION": 6,
         "PALADIN_ABJURE_FOES": 9,
         "PALADIN_AURA_OF_COURAGE": 10,
         "PALADIN_RADIANT_STRIKES": 11,
         "PALADIN_RESTORING_TOUCH": 14,
-        "PALADIN_AURA_EXPANSION": 18,
-        "PALADIN_EPIC_BOON": 19
+        "PALADIN_AURA_EXPANSION": 18
       },
       "subclasses": {
-        "OATH_OF_DEVOTION": {
+        "PALADIN_OATH_OF_DEVOTION": {
           "traits": {
-            "PALADIN_OATH_OF_DEVOTION_SPELLS": 3,
-            "PALADIN_SACRED_WEAPON": 3,
-            "PALADIN_AURA_OF_DEVOTION": 7,
-            "PALADIN_SMITE_OF_PROTECTION": 15,
-            "PALADIN_HOLY_NIMBUS": 20
+            "PALADIN_OATH_OF_DEVOTION_OATH_OF_DEVOTION_SPELLS": 3,
+            "PALADIN_OATH_OF_DEVOTION_SACRED_WEAPON": 3,
+            "PALADIN_OATH_OF_DEVOTION_AURA_OF_DEVOTION": 7,
+            "PALADIN_OATH_OF_DEVOTION_SMITE_OF_PROTECTION": 15,
+            "PALADIN_OATH_OF_DEVOTION_HOLY_NIMBUS": 20
           }
         }
       }
@@ -395,12 +377,10 @@
       "charges": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
       "traits": {
-        "RANGER_SPELLCASTING": 1,
         "RANGER_FAVORED_ENEMY": 1,
         "RANGER_DEFT_EXPLORER": 2,
         "RANGER_FIGHTING_STYLE": 2,
-        "RANGER_ABILITY_SCORE_IMPROVEMENT": 4,
-        "RANGER_EXTRA_ATTACK": 5,
+        "EXTRA_ATTACK": 5,
         "RANGER_ROVING": 6,
         "RANGER_EXPERTISE": 9,
         "RANGER_TIRELESS": 10,
@@ -408,17 +388,16 @@
         "RANGER_NATURE_S_VEIL": 14,
         "RANGER_PRECISE_HUNTER": 17,
         "RANGER_FERAL_SENSES": 18,
-        "RANGER_EPIC_BOON": 19,
         "RANGER_FOE_SLAYER": 20
       },
       "subclasses": {
-        "HUNTER": {
+        "RANGER_HUNTER": {
           "traits": {
-            "RANGER_HUNTER_S_LORE": 3,
-            "RANGER_HUNTER_S_PREY": 3,
-            "RANGER_DEFENSIVE_TACTICS": 7,
-            "RANGER_SUPERIOR_HUNTER_S_PREY": 11,
-            "RANGER_SUPERIOR_HUNTER_S_DEFENSE": 15
+            "RANGER_HUNTER_HUNTER_S_LORE": 3,
+            "RANGER_HUNTER_HUNTER_S_PREY": 3,
+            "RANGER_HUNTER_DEFENSIVE_TACTICS": 7,
+            "RANGER_HUNTER_SUPERIOR_HUNTER_S_PREY": 11,
+            "RANGER_HUNTER_SUPERIOR_HUNTER_S_DEFENSE": 15
           }
         }
       }
@@ -441,7 +420,6 @@
         "ROGUE_THIEVES_CANT": 1,
         "ROGUE_CUNNING_ACTION": 2,
         "ROGUE_STEADY_AIM": 3,
-        "ROGUE_ABILITY_SCORE_IMPROVEMENT": 4,
         "ROGUE_CUNNING_STRIKE": 5,
         "ROGUE_UNCANNY_DODGE": 5,
         "ROGUE_EVASION": 7,
@@ -450,17 +428,16 @@
         "ROGUE_DEVIOUS_STRIKES": 14,
         "ROGUE_SLIPPERY_MIND": 15,
         "ROGUE_ELUSIVE": 18,
-        "ROGUE_EPIC_BOON": 19,
         "ROGUE_STROKE_OF_LUCK": 20
       },
       "subclasses": {
-        "THIEF": {
+        "ROGUE_THIEF": {
           "traits": {
-            "ROGUE_FAST_HANDS": 3,
-            "ROGUE_SECOND_STORY_WORK": 3,
-            "ROGUE_SUPREME_SNEAK": 9,
-            "ROGUE_USE_MAGIC_DEVICE": 13,
-            "ROGUE_THIEF_S_REFLEXES": 17
+            "ROGUE_THIEF_FAST_HANDS": 3,
+            "ROGUE_THIEF_SECOND_STORY_WORK": 3,
+            "ROGUE_THIEF_SUPREME_SNEAK": 9,
+            "ROGUE_THIEF_USE_MAGIC_DEVICE": 13,
+            "ROGUE_THIEF_THIEF_S_REFLEXES": 17
           }
         }
       }
@@ -481,24 +458,21 @@
       "cantrips": [4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
       "prepared": [2, 4, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 17, 18, 18, 19, 20, 21, 22],
       "traits": {
-        "SORCERER_SPELLCASTING": 1,
         "SORCERER_INNATE_SORCERY": 1,
         "SORCERER_FONT_OF_MAGIC": 2,
         "SORCERER_METAMAGIC": 2,
-        "SORCERER_ABILITY_SCORE_IMPROVEMENT": 4,
         "SORCERER_SORCEROUS_RESTORATION": 5,
         "SORCERER_SORCERY_INCARNATE": 7,
-        "SORCERER_EPIC_BOON": 19,
         "SORCERER_ARCANE_APOTHEOSIS": 20
       },
       "subclasses": {
-        "DRACONIC_SORCERY": {
+        "SORCERER_DRACONIC_SORCERY": {
           "traits": {
-            "SORCERER_DRACONIC_RESILIENCE": 3,
-            "SORCERER_DRACONIC_SPELLS": 3,
-            "SORCERER_ELEMENTAL_AFFINITY": 6,
-            "SORCERER_DRAGON_WINGS": 14,
-            "SORCERER_DRAGON_COMPANION": 18
+            "SORCERER_DRACONIC_SORCERY_DRACONIC_RESILIENCE": 3,
+            "SORCERER_DRACONIC_SORCERY_DRACONIC_SPELLS": 3,
+            "SORCERER_DRACONIC_SORCERY_ELEMENTAL_AFFINITY": 6,
+            "SORCERER_DRACONIC_SORCERY_DRAGON_WINGS": 14,
+            "SORCERER_DRACONIC_SORCERY_DRAGON_COMPANION": 18
           }
         }
       }
@@ -524,20 +498,18 @@
         "WARLOCK_ELDRITCH_INVOCATIONS": 1,
         "WARLOCK_PACT_MAGIC": 1,
         "WARLOCK_MAGICAL_CUNNING": 2,
-        "WARLOCK_ABILITY_SCORE_IMPROVEMENT": 4,
         "WARLOCK_CONTACT_PATRON": 9,
         "WARLOCK_MYSTIC_ARCANUM": 11,
-        "WARLOCK_EPIC_BOON": 19,
         "WARLOCK_ELDRITCH_MASTER": 20
       },
       "subclasses": {
-        "FIEND_PATRON": {
+        "WARLOCK_FIEND_PATRON": {
           "traits": {
-            "WARLOCK_DARK_ONE_S_BLESSING": 3,
-            "WARLOCK_FIEND_SPELLS": 3,
-            "WARLOCK_DARK_ONE_S_OWN_LUCK": 6,
-            "WARLOCK_FIENDISH_RESILIENCE": 10,
-            "WARLOCK_HURL_THROUGH_HELL": 14
+            "WARLOCK_FIEND_PATRON_DARK_ONE_S_BLESSING": 3,
+            "WARLOCK_FIEND_PATRON_FIEND_SPELLS": 3,
+            "WARLOCK_FIEND_PATRON_DARK_ONE_S_OWN_LUCK": 6,
+            "WARLOCK_FIEND_PATRON_FIENDISH_RESILIENCE": 10,
+            "WARLOCK_FIEND_PATRON_HURL_THROUGH_HELL": 14
           }
         }
       }
@@ -557,24 +529,21 @@
       "cantrips": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
       "prepared": [4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 16, 17, 18, 19, 21, 22, 23, 24, 25],
       "traits": {
-        "WIZARD_SPELLCASTING": 1,
         "WIZARD_RITUAL_ADEPT": 1,
         "WIZARD_ARCANE_RECOVERY": 1,
         "WIZARD_SCHOLAR": 2,
-        "WIZARD_ABILITY_SCORE_IMPROVEMENT": 4,
         "WIZARD_MEMORIZE_SPELL": 5,
         "WIZARD_SPELL_MASTERY": 18,
-        "WIZARD_EPIC_BOON": 19,
         "WIZARD_SIGNATURE_SPELLS": 20
       },
       "subclasses": {
-        "EVOKER": {
+        "WIZARD_EVOKER": {
           "traits": {
-            "WIZARD_EVOCATION_SAVANT": 3,
-            "WIZARD_POTENT_CANTRIP": 3,
-            "WIZARD_SCULPT_SPELLS": 6,
-            "WIZARD_EMPOWERED_EVOCATION": 10,
-            "WIZARD_OVERCHANNEL": 14
+            "WIZARD_EVOKER_EVOCATION_SAVANT": 3,
+            "WIZARD_EVOKER_POTENT_CANTRIP": 3,
+            "WIZARD_EVOKER_SCULPT_SPELLS": 6,
+            "WIZARD_EVOKER_EMPOWERED_EVOCATION": 10,
+            "WIZARD_EVOKER_OVERCHANNEL": 14
           }
         }
       }
@@ -610,69 +579,66 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Adrex", "Arjhan", "Azzakh", "Balasar", "Baradad", "Bharash", "Bidreked", "Dadalan", "Dazzazn", "Direcris", "Donaar", "Fax", "Gargax", "Ghesh", "Gorbundus", "Greethen", "Heskan", "Hirrathak", "Ildrex", "Kaladan", "Kerkad", "Kiirith", "Kriv", "Maagog", "Medrash", "Mehen", "Mozikth", "Mreksh", "Mugrunden", "Nadarr", "Nithther", "Norkruuth", "Nykkan", "Pandjed", "Patrin", "Pijjirik", "Quarethon", "Rathkran", "Rhogar", "Rivaan", "Sethrekar", "Shamash", "Shedinn", "Srorthen", "Tarhun", "Torinn", "Trynnicus", "Valorean", "Vrondiss", "Zedaar"],
-      "females": ["Akra", "Aasathra", "Antrara", "Arava", "Biri", "Blendaeth", "Burana", "Chassath", "Daar", "Dentratha", "Doudra", "Driindar", "Eggren", "Farideh", "Findex", "Furrele", "Gesrethe", "Gilkass", "Harann", "Havilar", "Hethress", "Hillanot", "Jaxi", "Jezean", "Jheri", "Kadana", "Kava", "Korinn", "Megren", "Mijira", "Mishann", "Nala", "Nuthra", "Perra", "Pogranix", "Pyxrin", "Quespa", "Raiann", "Rezena", "Ruloth", "Saphara", "Savaran", "Sora", "Surina", "Synthrin", "Tatyan", "Thava", "Uadjit", "Vezera", "Zykroff"],
-      "lasts": ["Akambherylliax", "Argenthrixus", "Baharoosh", "Beryntolthropal", "Bhenkumbyrznaax", "Caavylteradyn", "Chumbyxirinnish", "Clethtinthiallor", "Daardendrian", "Delmirev", "Dhyrktelonis", "Ebynichtomonis", "Esstyrlynn", "Fharngnarthnost", "Ghaallixirn", "Grrrmmballhyst", "Gygazzylyshrift", "Hashphronyxadyn", "Hshhsstoroth", "Imbixtellrhyst", "Jerynomonis", "Jharthraxyn", "Kerrhylon", "Kimbatuul", "Lhamboldennish", "Linxakasendalor", "Mohradyllion", "Mystan", "Nemmonis", "Norixius", "Ophinshtalajiir", "Orexijandilin", "Pfaphnyrennish", "Phrahdrandon", "Pyraxtallinost", "Qyxpahrgh", "Raghthroknaar", "Shestendeliath", "Skaarzborroosh", "Sumnarghthrysh", "Tiammanthyllish", "Turnuroth", "Umbyrphrael", "Vangdondalor", "Verthisathurgiesh", "Wivvyrholdalphiax", "Wystongjiir", "Xephyrbahnor", "Yarjerit", "Zzzxaaxthroth"],
       "traits": {
         "DRAGONBORN_DRACONIC_FLIGHT": 5,
         "DRAGONBORN_DRACONIC_ANCESTRY": 0
       },
       "lineages": {
-        "SILVER_DRAGONBORN": {
+        "DRAGONBORN_SILVER": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_SILVER": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_SILVER": 0
           }
         },
-        "WHITE_DRAGONBORN": {
+        "DRAGONBORN_WHITE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_WHITE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_WHITE": 0
           }
         },
-        "BLUE_DRAGONBORN": {
+        "DRAGONBORN_BLUE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BLUE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BLUE": 0
           }
         },
-        "BRONZE_DRAGONBORN": {
+        "DRAGONBORN_BRONZE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BRONZE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BRONZE": 0
           }
         },
-        "BLACK_DRAGONBORN": {
+        "DRAGONBORN_BLACK": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BLACK": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BLACK": 0
           }
         },
-        "GOLD_DRAGONBORN": {
+        "DRAGONBORN_GOLD": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_GOLD": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_GOLD": 0
           }
         },
-        "BRASS_DRAGONBORN": {
+        "DRAGONBORN_BRASS": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BRASS": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BRASS": 0
           }
         },
-        "COPPER_DRAGONBORN": {
+        "DRAGONBORN_COPPER": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_COPPER": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_COPPER": 0
           }
         },
-        "RED_DRAGONBORN": {
+        "DRAGONBORN_RED": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_RED": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_RED": 0
           }
         },
-        "GREEN_DRAGONBORN": {
+        "DRAGONBORN_GREEN": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_GREEN": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_GREEN": 0
@@ -684,28 +650,16 @@
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Adrik", "Alberich", "Baern", "Barendd", "Beloril", "Brottor", "Dain", "Dalgal", "Darrak", "Delg", "Duergath", "Dworic", "Eberk", "Einkil", "Elaim", "Erias", "Fallond", "Fargrim", "Gardain", "Gilthur", "Gimgen", "Gimurt", "Harbek", "Kildrak", "Kilvar", "Morgran", "Morkral", "Nalral", "Nordak", "Nuraval", "Oloric", "Olunt", "Orsik", "Oskar", "Rangrim", "Reirak", "Rurik", "Taklinn", "Thoradin", "Thorin", "Thradal", "Tordek", "Traubon", "Travok", "Ulfgar", "Uraim", "Veit", "Vonbin", "Vondal", "Whurbin"],
-      "females": ["Anbera", "Artin", "Audhild", "Balifra", "Barbena", "Bardryn", "Bolhild", "Dagnal", "Dariff", "Delre", "Diesa", "Eldeth", "Eridred", "Falkrunn", "Fallthra", "Finellen", "Gillydd", "Gunnloda", "Gurdis", "Helgret", "Helja", "Hlin", "Ilde", "Jarana", "Kathra", "Kilia", "Kristryd", "Liftrasa", "Marastyr", "Mardred", "Morana", "Nalaed", "Nora", "Nurkara", "Oriff", "Ovina", "Riswynn", "Sannl", "Therlin", "Thodris", "Torbera", "Tordrid", "Torgga", "Urshar", "Valida", "Vistra", "Vonana", "Werydd", "Whurdred", "Yurgunn"],
-      "lasts": ["Aranore", "Balderk", "Battlehammer", "Bigtoe", "Bloodkith", "Bofdann", "Brawnanvil", "Brazzik", "Broodfist", "Burrowfound", "Caebrek", "Daerdahk", "Dankil", "Daraln", "Deepdelver", "Durthane", "Eversharp", "Fallack", "Fireforge", "Foamtankard", "Frostbeard", "Glanhig", "Goblinbane", "Goldfinder", "Gorunn", "Graybeard", "Hammerstone", "Helcral", "Holderhek", "Ironfist", "Loderr", "Lutgehr", "Morigak", "Orcfoe", "Rakankrak", "Ruby-Eye", "Rumnaheim", "Silveraxe", "Silverstone", "Steelfist", "Stoutale", "Strakeln", "Strongheart", "Thrahak", "Torevir", "Torunn", "Trollbleeder", "Trueanvil", "Trueblood", "Ungart"],
       "traits": {
         "DWARF_DWARVEN_RESILIENCE": 0,
-
+        "DWARF_DWARVEN_TOUGHNESS": 0,
         "DWARF_STONECUTTING": 0
-      },
-      "lineages": {
-        "MOUNTAIN_DWARF": {
-        },
-        "HILL_DWARF": {
-        }
       }
     },
     "ELF": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Adran", "Aelar", "Aramil", "Arannis", "Aust", "Azaki", "Beiro", "Berrian", "Caeldrim", "Carric", "Dayereth", "Dreali", "Efferil", "Eiravel", "Enialis", "Erdan", "Erevan", "Fivin", "Galinndan", "Gennal", "Hadarai", "Halimath", "Heian", "Himo", "Immeral", "Ivellios", "Korfel", "Lamlis", "Laucian", "Lucan", "Mindartis", "Naal", "Nutae", "Paelias", "Peren", "Quarion", "Riardon", "Rolen", "Soveliss", "Suhnae", "Thamior", "Tharivol", "Theren", "Theriatis", "Thervan", "Uthemar", "Vanuath", "Varis"],
-      "females": ["Adrie", "Ahinar", "Althaea", "Anastrianna", "Andraste", "Antinua", "Arara", "Baelitae", "Bethrynna", "Birel", "Caelynn", "Chaedi", "Claira", "Dara", "Drusilia", "Elama", "Enna", "Faral", "Felosial", "Hatae", "Ielenia", "Ilanis", "Irann", "Jarsali", "Jelenneth", "Keyleth", "Leshanna", "Lia", "Maiathah", "Malquis", "Meriele", "Mialee", "Myathethil", "Naivara", "Quelenna", "Quillathe", "Ridaro", "Sariel", "Shanairla", "Shava", "Silaqui", "Sumnes", "Theirastra", "Thiala", "Tiaathque", "Traulam", "Vadania", "Valanthe", "Valna", "Xanaphia"],
-      "lasts": ["Aloro", "Amakiir", "Amastacia", "Ariessus", "Arnuanna", "Berevan", "Caerdonel", "Caphaxath", "Casilltenirra", "Cithreth", "Dalanthan", "Eathalena", "Erenaeth", "Ethanasath", "Fasharash", "Firahel", "Floshem", "Galanodel", "Goltorah", "Hanali", "Holimion", "Horineth", "Iathrana", "Ilphelkiir", "Iranapha", "Koehlanna", "Lathalas", "Liadon", "Meliamne", "Mellerelel", "Mystralath", "Naïlo", "Netyoive", "Ofandrus", "Ostoroth", "Othronus", "Qualanthri", "Raethran", "Rothenel", "Selevarun", "Siannodel", "Suithrasas", "Sylvaranth", "Teinithra", "Tiltathana", "Wasanthi", "Withrethin", "Xiloscient", "Xistsrith", "Yaeldrin"],
       "traits":{
         "ELF_TRANCE": 0,
         "ELF_FEY_ANCESTRY": 0,
@@ -713,21 +667,21 @@
         "ELF_ELVEN_LINEAGE": 0
       },
       "lineages": {
-        "HIGH_ELF": {
+        "ELF_HIGH": {
           "traits": {
-            "ELF_HIGH_ELF_1": 1,
-            "ELF_HIGH_ELF_3": 3,
-            "ELF_HIGH_ELF_5": 5
+            "ELF_HIGH_1": 1,
+            "ELF_HIGH_3": 3,
+            "ELF_HIGH_5": 5
           }
         },
-        "WOOD_ELF":{
+        "ELF_WOOD":{
           "traits": {
-            "ELF_WOOD_ELF_1": 1,
-            "ELF_WOOD_ELF_3": 3,
-            "ELF_WOOD_ELF_5": 5
+            "ELF_WOOD_1": 1,
+            "ELF_WOOD_3": 3,
+            "ELF_WOOD_5": 5
           }
         },
-        "DROW": {
+        "ELF_DROW": {
           "traits": {
             "ELF_DROW_1": 1,
             "ELF_DROW_3": 3,
@@ -740,22 +694,19 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["SMALL"],
-      "males": ["Alston", "Alvyn", "Anverth", "Arumawann", "Bilbron", "Boddynock", "Brocc", "Burgell", "Cockaby", "Crampernap", "Dabbledob", "Delebean", "Dimble", "Eberdeb", "Eldon", "Erky", "Fablen", "Fibblestib", "Fonkin", "Frouse", "Frug", "Gerbo", "Gimble", "Glim", "Igden", "Jabble", "Jebeddo", "Kellen", "Kipper", "Namfoodle", "Oppleby", "Orryn", "Paggen", "Pallabar", "Pog", "Qualen", "Ribbles", "Rimple", "Roondar", "Sapply", "Seebo", "Senteq", "Sindri", "Umpen", "Warryn", "Wiggens", "Wobbles", "Wrenn", "Zaffrab", "Zook"],
-      "females": ["Abalaba", "Bimpnottin", "Breena", "Buvvie", "Callybon", "Caramip", "Carlin", "Cumpen", "Dalaba", "Donella", "Duvamil", "Ella", "Ellyjoybell", "Ellywick", "Enidda", "Lilli", "Loopmottin", "Lorilla", "Luthra", "Mardnab", "Meena", "Menny", "Mumpena", "Nissa", "Numba", "Nyx", "Oda", "Oppah", "Orla", "Panana", "Pyntle", "Quilla", "Ranala", "Reddlepop", "Roywyn", "Salanop", "Shamil", "Siffress", "Symma", "Tana", "Tenena", "Tervaround", "Tippletoe", "Ulla", "Unvera", "Velptima", "Virra", "Waywocket", "Yebe", "Zanna"],
-      "lasts": ["Albaratie", "Bafflestone", "Beren", "Boondiggles", "Cobblelob", "Daergel", "Dunben", "Fabblestabble", "Fapplestamp", "Fiddlefen", "Folkor", "Garrick", "Gimlen", "Glittergem", "Gobblefirn", "Gummen", "Horcusporcus", "Humplebumple", "Ironhide", "Leffery", "Lingenhall", "Loofollue", "Maekkelferce", "Miggledy", "Munggen", "Murnig", "Musgraben", "Nackle", "Ningel", "Nopenstallen", "Nucklestamp", "Offund", "Oomtrowl", "Pilwicken", "Pingun", "Quillsharpener", "Raulnor", "Reese", "Rofferton", "Scheppen", "Shadowcloak", "Silverthread", "Sympony", "Tarkelby", "Timbers", "Turen", "Umbodoben", "Waggletop", "Welber", "Wildwander"],
       "traits":{
         "GNOME_GNOMISH_CUNNING": 0,
         "GNOME_GNOMISH_LINEAGE": 0
       },
       "lineages": {
-        "FOREST_GNOME": {
+        "GNOME_FOREST": {
           "traits": {
-            "GNOME_FOREST_GNOME": 0
+            "GNOME_FOREST": 0
           }
         },
-        "ROCK_GNOME": {
+        "GNOME_ROCK": {
           "traits": {
-            "GNOME_ROCK_GNOME": 0
+            "GNOME_ROCK": 0
           }
         }
       }
@@ -764,41 +715,38 @@
       "speed": 35,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
-      "females": ["Aukan", "Eglath", "Gae-Al", "Gauthak", "Ilikan", "Keothi", "Kuori", "Lo-Kag", "Manneo", "Maveith", "Nalla", "Orilo", "Paavu", "Pethani", "Thalai", "Thotham", "Uthal", "Vaunea", "Vimak"],
-      "lasts": ["Anakalathai", "Elanithino", "Gathakanathi", "Kalagiano", "Katho-Olavi", "Kolae-Gileana", "Ogolakanu", "Thuliaga", "Thunukalathi", "Vaimei-Laga"],
       "traits": {
         "GOLIATH_LARGE_FORM": 5,
         "GOLIATH_POWERFUL_BUILD": 0,
         "GOLIATH_GIANT_ANCESTRY": 0
       },
       "lineages": {
-        "CLOUD_GIANT": {
+        "GOLIATH_CLOUD_GIANT": {
           "traits": {
             "GOLIATH_CLOUDS_JAUNT": 0
           }
         },
-        "FIRE_GIANT": {
+        "GOLIATH_FIRE_GIANT": {
           "traits": {
             "GOLIATH_FIRES_BURN": 0
           }
         },
-        "FROST_GIANT": {
+        "GOLIATH_FROST_GIANT": {
           "traits": {
             "GOLIATH_FROSTS_CHILL": 0
           }
         },
-        "HILL_GIANT": {
+        "GOLIATH_HILL_GIANT": {
           "traits": {
             "GOLIATH_HILLS_TUMBLE": 0
           }
         },
-        "STONE_GIANT": {
+        "GOLIATH_STONE_GIANT": {
           "traits": {
             "GOLIATH_STONES_ENDURANCE": 0
           }
         },
-        "STORM_GIANT": {
+        "GOLIATH_STORM_GIANT": {
           "traits": {
             "GOLIATH_STORMS_THUNDER": 0
           }
@@ -808,20 +756,11 @@
     "HALFLING": {
       "type": "HUMANOID",
       "size": ["SMALL"],
-      "males": ["Alton", "Ander", "Bernie", "Bobbin", "Cade", "Callus", "Corrin", "Dannad", "Danniel", "Eddie", "Egart", "Eldon", "Errich", "Fildo", "Finnan", "Franklin", "Garret", "Garth", "Gilbert", "Gob", "Harol", "Igor", "Jasper", "Keith", "Kevin", "Lazam", "Lerry", "Lindal", "Lyle", "Merric", "Mican", "Milo", "Morrin", "Nebin", "Nevil", "Osborn", "Ostran", "Oswalt", "Perrin", "Poppy", "Reed", "Roscoe", "Sam", "Shardon", "Tye", "Ulmo", "Wellby", "Wendel", "Wenner", "Wes"],
-      "females": ["Alain", "Andry", "Anne", "Bella", "Blossom", "Bree", "Callie", "Chenna", "Cora", "Dee", "Dell", "Eida", "Eran", "Euphemia", "Georgina", "Gynnie", "Harriet", "Jasmine", "Jillian", "Jo", "Kithri", "Lavinia", "Lidda", "Maegan", "Marigold", "Merla", "Myria", "Nedda", "Nikki", "Nora", "Olivia", "Paela", "Pearl", "Pennie", "Philomena", "Portia", "Robbie", "Rose", "Saral", "Seraphina", "Shaena", "Stacee", "Tawna", "Thea", "Trym", "Tyna", "Vani", "Verna", "Wella", "Willow"],
-      "lasts": ["Appleblossom", "Bigheart", "Brightmoon", "Brushgather", "Cherrycheeks", "Copperkettle", "Deephollow", "Elderberry", "Fastfoot", "Fatrabbit", "Glenfellow", "Goldfound", "Tallbarrel", "Tallearth", "Greenbottle", "Greenleaf", "High-hill", "Hilltopple", "Hogcollar", "Honeypot", "Jamjar", "Kettlewhistle", "Leagallow", "Littlefoot", "Nimblefingers", "Porridgepot", "Quickstep", "Reedfellow", "Shadowquick", "Silvereyes", "Smoothhands", "Stonebridge", "Stoutbridge", "Stoutman", "Strongbones", "Sunmeadow", "Swiftwhistle", "Tallfellow", "Tealeaf", "Tenpenny", "Thistletop", "Thorngage", "Tosscobble", "Underbough", "Underfoot", "Warmwater", "Whispermouse", "Wildcloak", "Wildheart", "Wiseacre"],
       "traits": {
         "HALFLING_BRAVE": 0,
         "HALFLING_HALFLING_NIMBLENESS": 0,
         "HALFLING_NATURALLY_STEALTHY": 0,
         "HALFLING_LUCK": 0
-      },
-      "lineages": {
-        "HALFLING_LIGHTFOOT_HALFLING": {
-        },
-        "HALFLING_STOUT_HALFLING": {
-        }
       }
     },
     "HUMAN": {
@@ -831,62 +770,12 @@
         "HUMAN_RESOURCEFUL": 0,
         "HUMAN_SKILLFUL": 0,
         "HUMAN_VERSATILE_PASSIVE": 0
-      },
-      "lineages": {
-        "CALISHITA": {
-          "males": ["Aseir", "Bardeid", "Haseid", "Khemed", "Mehmen", "Sudeiman", "Zasheir"],
-          "females": ["Atala", "Ceidil", "Hama", "Jasmal", "Meilil", "Seipora", "Yasheira", "Zasheida"],
-          "lasts": ["Basha", "Dumein", "Jassan", "Khalid", "Mostana", "Pashar", "Rein"]
-        },
-        "CHONDATHAN": {
-          "males": ["Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Hel", "Malark", "Morn", "Randal", "Stedd"],
-          "females": ["Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Miri", "Rowan", "Shandri", "Tessele"],
-          "lasts": ["Amblecrown", "Buckman", "Dundragon", "Evenwood", "Greycastle", "Tallstag"]
-        },
-        "DAMARAN": {
-          "males": ["Bor", "Fodel", "Glar", "Grigor", "Igan", "Ivor", "Kosef", "Mival", "Orel", "Pavel", "Sergor"],
-          "females": ["Alethra", "Kara", "Katernin", "Mara", "Natali", "Olma", "Tana", "Zora"],
-          "lasts": ["Bersk", "Chernin", "Dotsk", "Kulenov", "Marsk", "Nemetsk", "Shemov", "Starag"]
-        },
-        "ILLUSKAN": {
-          "males": ["Ander", "Blath", "Bran", "Frath", "Geth", "Lander", "Luth", "Malcer", "Stor", "Taman", "Urth"],
-          "females": ["Amafrey", "Betha", "Cefrey", "Kethra", "Mara", "Olga", "Silifrey", "Westra"],
-          "lasts": ["Brightwood", "Helder", "Hornraven", "Lackmen", "Stormwind", "Windrivver"]
-        },
-        "MULAN": {
-          "males": ["Aoth", "Bareris", "Ehput-Ki", "Kethoth", "Mumed", "Ramas", "So-Kehur", "Thazar-De", "Urhur"],
-          "females": ["Arizima", "Charhi", "Nephis", "Nulara", "Murithi", "Sefris", "Thola", "Umara", "Zolis"],
-          "lasts": ["Ankhalab", "Anskuld", "Fezim", "Hahpet", "Nathandem", "Sepret", "Uuthrakt"]
-        },
-        "RASHEMI": {
-          "males": ["Borivik", "Faurgar", "Jandar", "Kanithar", "Madislak", "Ralmevik", "Shaumar", "Vladislak"],
-          "females": ["Fyevarra", "Hulmarra", "Immith", "Imzel", "Navarra", "Shevarra", "Tammith", "Yuldra"],
-          "lasts": ["Chergoba", "Dyernina", "Iltazyara", "Murneyethara", "Stayanoga", "Ulmokina"]
-        },
-        "SHOU": {
-          "males": ["An", "Chen", "Chi", "Fai", "Jiang", "Jun", "Lian", "Long", "Meng", "On", "Shan", "Shui", "Wen"],
-          "females": ["Bai", "Chao", "Jia", "Lei", "Mei", "Qiao", "Shui", "Tai"],
-          "lasts": ["Chien", "Huang", "Kao", "Kung", "Lao", "Ling", "Mei", "Pin", "Shin", "Sum", "Tan", "Wan"]
-        },
-        "TETHYRIAN": {
-          "males": ["Darvin", "Dorn", "Evendur", "Gorstag", "Grim", "Hel", "Malark", "Morn", "Randal", "Stedd"],
-          "females": ["Arveene", "Esvele", "Jhessail", "Kerri", "Lureene", "Miri", "Rowan", "Shandri", "Tessele"],
-          "lasts": ["Amblecrown", "Buckman", "Dundragon", "Evenwood", "Greycastle", "Tallstag"]
-        },
-        "TURAMI": {
-          "males": ["Anton", "Diero", "Marcon", "Pieron", "Rimardo", "Romero", "Salazar", "Umbero"],
-          "females": ["Balama", "Dona", "Faila", "Jalana", "Luisa", "Marta", "Quara", "Selise", "Vonda"],
-          "lasts": ["Agosto", "Astorio", "Calabra", "Domine", "Falone", "Marivaldi", "Pisacar", "Ramondo"]
-        }
       }
     },
     "ORC": {
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Argran", "Braak", "Brug", "Cagak", "Dench", "Dorn", "Dren", "Druuk", "Feng", "Gell", "Gnarsh", "Grumbar", "Gubrash", "Hagren", "Henk", "Hogar", "Holg", "Imsh", "Karash", "Karg", "Keth", "Korag", "Krusk", "Lubash", "Megged", "Mhurren", "Mord", "Morg", "Nil", "Nybarg", "Odorr", "Ohr", "Rendar", "Resh", "Ront", "Rrath", "Sark", "Scrag", "Sheggen", "Shump", "Tanglar", "Tarak", "Thar", "Thokk", "Trag", "Ugarth", "Varg", "Vilberg", "Yurk", "Zed"],
-      "females": ["Arha", "Baggi", "Bendoo", "Bilga", "Brakka", "Creega", "Drenna", "Ekk", "Emen", "Engong", "Fistula", "Gaaki", "Gorga", "Grai", "Greeba", "Grigi", "Gynk", "Hrathy", "Huru", "Ilga", "Kabbarg", "Kansif", "Lagazi", "Lezre", "Murgen", "Murook", "Myev", "Nagrette", "Neega", "Nella", "Nogu", "Oolah", "Ootah", "Ovak", "Ownka", "Puyet", "Reeza", "Shautha", "Silgre", "Sutha", "Tagga", "Tawar", "Tomph", "Ubada", "Vanchu", "Vola", "Volen", "Vorka", "Yevelda", "Zagga"],
-      "lasts": [],
       "traits": {
         "ORC_ADRENALINE_RUSH": 0,
         "ORC_RELENTLESS_ENDURANCE": 0
@@ -896,33 +785,30 @@
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
-      "males": ["Abad", "Ahrim", "Akmen", "Amnon", "Andram", "Astar", "Balam", "Barakas", "Bathin", "Caim", "Chem", "Cimer", "Cressel", "Damakos", "Ekemon", "Euron", "Fenriz", "Forcas", "Habor", "Iados", "Kairon", "Leucis", "Mamnen", "Mantus", "Marbas", "Melech", "Merihim", "Modean", "Mordai", "Mormo", "Morthos", "Nicor", "Nirgel", "Oriax", "Paymon", "Pelaios", "Purson", "Qemuel", "Raam", "Rimmon", "Sammal", "Skamos", "Tethren", "Thamuz", "Therai", "Valafar", "Vassago", "Xappan", "Zepar", "Zephan"],
-      "females": ["Akta", "Anakis", "Armara", "Astaro", "Aym", "Azza", "Beleth", "Bryseis", "Bune", "Criella", "Damaia", "Decarabia", "Ea", "Gadreel", "Gomory", "Hecat", "Ishte", "Jezebeth", "Kali", "Kallista", "Kasdeya", "Lerissa", "Lilith", "Makaria", "Manea", "Markosian", "Mastema", "Naamah", "Nemeia", "Nija", "Orianna", "Osah", "Phelaia", "Prosperine", "Purah", "Pyra", "Rieta", "Ronobe", "Ronwe", "Seddit", "Seere", "Sekhmet", "Semyaza", "Shava", "Shax", "Sorath", "Uzza", "Vapula", "Vepar", "Verin"],
-      "lasts": [],
       "traits": {
         "TIEFLING_FIENDISH_LEGACY": 0,
         "TIEFLING_OTHERWORLDLY_PRESENCE": 0
       },
       "lineages": {
-        "ABYSSAL_TIEFLING": {
+        "TIEFLING_ABYSSAL": {
           "traits": {
-            "TIEFLING_ABYSSAL_TIEFLING_1": 1,
-            "TIEFLING_ABYSSAL_TIEFLING_3": 3,
-            "TIEFLING_ABYSSAL_TIEFLING_5": 5
+            "TIEFLING_ABYSSAL_1": 1,
+            "TIEFLING_ABYSSAL_3": 3,
+            "TIEFLING_ABYSSAL_5": 5
           }
         },
-        "CHTONIC_TIEFLING": {
+        "TIEFLING_CHTONIC": {
           "traits": {
-            "TIEFLING_CHTONIC_TIEFLING_1": 1,
-            "TIEFLING_CHTONIC_TIEFLING_3": 3,
-            "TIEFLING_CHTONIC_TIEFLING_5": 5
+            "TIEFLING_CHTONIC_1": 1,
+            "TIEFLING_CHTONIC_3": 3,
+            "TIEFLING_CHTONIC_5": 5
           }
         },
-        "INFERNAL_TIEFLING": {
+        "TIEFLING_INFERNAL": {
           "traits": {
-            "TIEFLING_INFERNAL_TIEFLING_1": 1,
-            "TIEFLING_INFERNAL_TIEFLING_3": 3,
-            "TIEFLING_INFERNAL_TIEFLING_5": 5
+            "TIEFLING_INFERNAL_1": 1,
+            "TIEFLING_INFERNAL_3": 3,
+            "TIEFLING_INFERNAL_5": 5
           }
         }
       }
@@ -1028,7 +914,7 @@
     },
 
     "BOON_OF_COMBAT_PROWESS": {
-      "traits": ["COMBAT_PROWESS_PEERLESS_AIM"],
+      "traits": ["BOON_OF_COMBAT_PROWESS_PEERLESS_AIM"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1037,7 +923,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_DIMENSIONAL_TRAVEL": {
-      "traits": ["DIMENSIONAL_TRAVEL_BLINK_STEPS"],
+      "traits": ["BOON_OF_DIMENSIONAL_TRAVEL_BLINK_STEPS"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1046,7 +932,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_FATE": {
-      "traits": ["FATE_IMPROVE_FATE"],
+      "traits": ["BOON_OF_FATE_IMPROVE_FATE"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1055,7 +941,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_IRRESISTIBLE_OFFENSE": {
-      "traits": ["IRRESISTIBLE_OFFENSE_OVERWHELMING_STRIKE", "IRRESISTIBLE_OFFENSE_OVERCOME_DEFENSES"],
+      "traits": ["BOON_OF_IRRESISTIBLE_OFFENSE_OVERWHELMING_STRIKE", "BOON_OF_IRRESISTIBLE_OFFENSE_OVERCOME_DEFENSES"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY"],
@@ -1064,7 +950,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_SPELL_RECALL": {
-      "traits": ["SPELL_RECALL_FREE_CASTING"],
+      "traits": ["BOON_OF_SPELL_RECALL_FREE_CASTING"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1074,7 +960,7 @@
       "magic": true
     },
     "BOON_OF_THE_NIGHT_SPIRIT": {
-      "traits": ["NIGHT_SPIRIT_MERGE_WITH_SHADOWS", "NIGHT_SPIRIT_SHADOWY_FORM"],
+      "traits": ["BOON_OF_THE_NIGHT_SPIRIT_MERGE_WITH_SHADOWS", "BOON_OF_THE_NIGHT_SPIRIT_SHADOWY_FORM"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],
@@ -1083,7 +969,7 @@
       "stats": [0, 0, 0, 0, 0, 0]
     },
     "BOON_OF_TRUESIGHT": {
-      "traits": ["TRUESIGHT"],
+      "traits": ["BOON_OF_TRUESIGHT_TRUESIGHT"],
       "type": "EPIC_BOON",
       "repeatable": false,
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION", "INTELLIGENCE", "WISDOM", "CHARISMA"],

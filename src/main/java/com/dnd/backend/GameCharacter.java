@@ -2527,6 +2527,7 @@ public class GameCharacter {
                 lastName = availableLasts[(int) (Math.random() * availableLasts.length)];
             }
 
+
             if (!firstName.isEmpty() && !lastName.isEmpty()) {
                 name.set(firstName + " " + lastName);
             } else if (!firstName.isEmpty()) {

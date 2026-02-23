@@ -63,7 +63,7 @@
                 </executions>
                 <configuration>
                     <mainClass>com.dnd.App</mainClass>
-                    <launcher>javadnd</launcher>
+                    <launcher>JavaDnD</launcher>
                     <addModules>javafx.controls,javafx.fxml</addModules>
                 </configuration>
             </plugin>

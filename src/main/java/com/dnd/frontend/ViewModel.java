@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dnd.backend.GameCharacter;
+import com.dnd.frontend.language.Constants;
+import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.tabs.CharacterTab;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.MyItems;
 import com.dnd.utils.items.Proficiency;
@@ -13,9 +16,6 @@ import com.dnd.utils.observables.ObservableBoolean;
 import com.dnd.utils.observables.ObservableInteger;
 import com.dnd.utils.observables.ObservableItem;
 import com.dnd.utils.observables.ObservableString;
-import com.dnd.frontend.tabs.CharacterTab;
-import com.dnd.frontend.language.Constants;
-import com.dnd.frontend.language.TranslationManager;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -485,6 +485,9 @@ public class ViewModel {
                 item.setName(getTranslation(item.getName()));
             }
         });
+        for (T item : list.getList()) {
+            item.setName(getTranslation(item.getName()));
+        }
     }
 
     private <T extends MyItems<T>> void updateCustomListNoEdits(ObservableList<T> front, CustomObservableList<T> back) {

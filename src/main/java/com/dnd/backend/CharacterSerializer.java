@@ -1,13 +1,21 @@
 package com.dnd.backend;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+
 import com.dnd.frontend.language.TranslationManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Proficiency;
 import com.dnd.utils.items.Spell;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.*;
 
 // TODO: give a look at the class as a whole. I have done the important parts, but I filled the rest with AI, so I need to check
 public class CharacterSerializer {

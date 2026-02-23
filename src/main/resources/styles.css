@@ -437,6 +437,11 @@
     -fx-font-weight: bold;
 }
 
+.bold-text {
+    font-weight: bold;
+    -fx-font-weight: bold;
+}
+
 /* Styling the CheckBox box */
 .check-box > .box {
     border-color: #b19c6d; /* Border color for the box */

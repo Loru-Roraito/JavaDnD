@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
 import com.dnd.frontend.ComboBoxUtils;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 
@@ -16,11 +16,11 @@ import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-import javafx.collections.ListChangeListener;
 
 public class ClassPane extends GridPane {
     private final List<ObservableList<String>> baseValuesList = new ArrayList<>();
@@ -369,6 +369,9 @@ public class ClassPane extends GridPane {
                 TooltipComboBox comboBox = new TooltipComboBox(observableArrayList, mainTabPane);
                 baseValuesList.add(observableArrayList);
                 feats.add(comboBox);
+                if(character.isLevelingUp().get()) {
+                    comboBox.setDisable(true);
+                }
 
                 Runnable disableFeats = () -> {
                     if (!character.isLevelingUp().get()) {

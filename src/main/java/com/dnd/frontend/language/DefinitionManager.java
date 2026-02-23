@@ -31,6 +31,21 @@ public class DefinitionManager {
                 throw new IOException("Resource not found: definitions_" + language + ".properties");
             }
             definitions.load(new java.io.InputStreamReader(inputStream, StandardCharsets.UTF_8));
+
+            // Try to load and merge custom version if it exists
+            String customFileName = "/custom/definitions_" + language + ".properties";
+            var customStream = DefinitionManager.class.getResourceAsStream(customFileName);
+            if (customStream != null) {
+                try (customStream;
+                    var customReader = new java.io.InputStreamReader(customStream, StandardCharsets.UTF_8)) {
+                    Properties customProperties = new Properties();
+                    customProperties.load(customReader);
+                    // Merge: custom properties overwrite base properties
+                    definitions.putAll(customProperties);
+                } catch (IOException e) {
+                    System.err.println("Error: Failed to load custom translations from " + customFileName);
+                }
+            }
         } catch (IOException e) {
             System.err.println("Error: Failed to load definitions file: definitions_" + language + ".properties");
         }

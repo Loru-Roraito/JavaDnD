@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dnd.backend.GameCharacter;
-import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.Constants;
 import com.dnd.frontend.language.DefinitionManager;
 import com.dnd.frontend.language.MiscsManager;
-import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tabs.CharacterTab;
-import com.dnd.frontend.language.Constants;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -33,6 +34,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         String language = showLanguageDialog();
+        if (language == null) {
+            Platform.exit();
+            return;
+        }
         
         TranslationManager.initialize(language); // Change the language (relevant files need to be present in resources)
         DefinitionManager.initialize(language);
@@ -159,14 +164,22 @@ public class App extends Application {
         
         ButtonType englishButton = new ButtonType("English");
         ButtonType italianButton = new ButtonType("Italiano");
+        ButtonType cancelButton = new ButtonType("", ButtonBar.ButtonData.CANCEL_CLOSE);
         
-        alert.getButtonTypes().setAll(englishButton, italianButton);
+        alert.getButtonTypes().setAll(englishButton, italianButton, cancelButton);
+    
+        // Hide the cancel button so only the X on the title bar works
+        alert.getDialogPane().lookupButton(cancelButton).setVisible(false);
+        alert.getDialogPane().lookupButton(cancelButton).setManaged(false);
         
         Optional<ButtonType> result = alert.showAndWait();
-        
-        if (result.isPresent() && result.get() == italianButton) {
+    
+        if (result.isEmpty() || result.get() == cancelButton) {
+            return null;
+        }
+        if (result.get() == italianButton) {
             return "it";
         }
-        return "en"; // Default to English
+        return "en";
     }
 }

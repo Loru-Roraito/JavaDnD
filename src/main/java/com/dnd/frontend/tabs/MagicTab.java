@@ -1,37 +1,37 @@
 package com.dnd.frontend.tabs;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.tooltip.TooltipTitledPane;
-import com.dnd.utils.items.Spell;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GameCharacter;
 import com.dnd.backend.SpellManager;
-import com.dnd.frontend.tooltip.TooltipLabel;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
+import com.dnd.frontend.tooltip.TooltipLabel;
+import com.dnd.frontend.tooltip.TooltipTitledPane;
+import com.dnd.utils.items.Spell;
 import com.dnd.utils.observables.CustomObservableList;
 
-import javafx.scene.control.Tab;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TabPane;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.scene.layout.Region;
-import javafx.beans.property.StringProperty;
 
 public class MagicTab extends Tab {
     private final ViewModel character;

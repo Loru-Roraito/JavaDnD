@@ -2,34 +2,34 @@ package com.dnd.frontend.panes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
-import com.dnd.frontend.language.TranslationManager;
+import com.dnd.backend.GroupManager;
+import com.dnd.backend.ItemManager;
 import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.items.Item;
-import com.dnd.backend.GroupManager;
-import com.dnd.backend.ItemManager;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.stage.Popup;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 
 
 public class EquipmentPane extends GridPane {
@@ -146,7 +146,7 @@ public class EquipmentPane extends GridPane {
                     backgroundEquipments.clear();
                     backgroundEquipments.add(getTranslation("RANDOM"));
                 }
-                textBackground = getTranslation("EQUIPMENT_OF") + currentBackground;
+                textBackground = getTranslation("EQUIPMENT_OF") + " " + currentBackground;
                 goldBackground = String.valueOf(getInt(new String[] {"backgrounds", getOriginal(currentBackground), "gold"})) + " " + getTranslation("GOLD");
                 backgroundEquipments.add(textBackground);
                 backgroundEquipments.add(goldBackground);
@@ -172,7 +172,7 @@ public class EquipmentPane extends GridPane {
             if (newVal != null) {
                 if (newVal.equals(getTranslation("RANDOM"))) {
                     character.getBackgroundEquipment(0).set(newVal);
-                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + character.getBackground().get())) {
+                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + " " + character.getBackground().get())) {
                     String background = character.getBackground().get();
                     character.getBackgroundEquipment(0).set(background);
                     
@@ -237,7 +237,7 @@ public class EquipmentPane extends GridPane {
                     classEquipments.clear();
                     classEquipments.add(getTranslation("RANDOM"));
                 }
-                textClass = getTranslation("EQUIPMENT_OF") + getTranslation(currentClass);
+                textClass = getTranslation("EQUIPMENT_OF") + " " + getTranslation(currentClass);
                 goldClass = String.valueOf(getInt(new String[] {"classes", getOriginal(currentClass), "gold"})) + " " + getTranslation("GOLD");
                 classEquipments.add(textClass);
                 classEquipments.add(goldClass);
@@ -263,7 +263,7 @@ public class EquipmentPane extends GridPane {
             if (newVal != null) {
                 if (newVal.equals(getTranslation("RANDOM"))) {
                     character.getClassEquipment(0).set(newVal);
-                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + character.getClasse(0).get())) {
+                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + " " + character.getClasse(0).get())) {
                     String classe = character.getClasse(0).get();
                     character.getClassEquipment(0).set(character.getClasse(0).get());
 

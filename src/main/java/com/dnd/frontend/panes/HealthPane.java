@@ -1,7 +1,7 @@
 package com.dnd.frontend.panes;
 
-import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tabs.InfoTab;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.observables.ObservableInteger;
@@ -78,8 +78,17 @@ public class HealthPane extends GridPane {
                 }
             };
 
-            button.disableProperty().bind(character.isShortResting().not());
-
+            Runnable updateButton = () -> {
+                if (character.isShortResting().get() && character.getAvailableHitDie(index).get() > 0) {
+                    button.setDisable(false);
+                } else {
+                    button.setDisable(true);
+                }
+            };
+            character.isShortResting().addListener(_ -> updateButton.run());
+            character.getAvailableHitDie(index).addListener(_ -> updateButton.run());
+            updateButton.run();
+            
             button.setOnAction(_ -> {
                 if (character.getAvailableHitDie(index).get() <= 0) {
                     return;

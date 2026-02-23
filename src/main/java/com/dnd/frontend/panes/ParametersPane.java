@@ -1,8 +1,8 @@
 package com.dnd.frontend.panes;
 
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 
@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ParametersPane extends GridPane {
     public ParametersPane(ViewModel character, TabPane mainTabPane) {
@@ -171,7 +173,6 @@ public class ParametersPane extends GridPane {
         add(alignmentComboBox.getLabel(), 0, 11);
         alignmentComboBox.disableProperty().bind(character.isEditing().not());
 
-        TooltipLabel sizeLabel = new TooltipLabel("", getTranslation("SIZE"), mainTabPane);
 
         ObservableList<String> sizes = FXCollections.observableArrayList();
         sizes.add(getTranslation("RANDOM"));
@@ -190,40 +191,49 @@ public class ParametersPane extends GridPane {
         }
 
         TooltipComboBox  sizeComboBox = new TooltipComboBox(sizes, mainTabPane);
-
         sizeComboBox.valueProperty().bindBidirectional(character.getSize());
+        sizeComboBox.disableProperty().bind(character.isEditing().not());
 
-        sizeLabel.textProperty().bind(
+        Text sizeBoldPart = new Text(getTranslation("SIZE"));
+        sizeBoldPart.getStyleClass().add("bold-text");
+
+        Text sizeValuePart = new Text();
+        sizeValuePart.textProperty().bind(
             Bindings.createStringBinding(
                 () -> {
                     StringProperty[] availableSizes = character.getAvailableSizes();
-                    String text = (availableSizes[1].get().equals(""))
-                        ? getTranslation("SIZE") + ": " + availableSizes[0].get()
-                        : getTranslation("SIZE");
-                    return text;
+                    return (availableSizes[1].get().equals(""))
+                        ? ": " + availableSizes[0].get()
+                        : "";
                 },
                 character.getSpecies()
             )
         );
 
-        character.getSpecies().addListener((_, _, _) -> {
+        TextFlow sizeTextFlow = new TextFlow(sizeBoldPart, sizeValuePart);
+
+        Runnable updateSize = () -> {
             if (character.getAvailableSizes()[0].get().equals("")) {
-                getChildren().removeAll(sizeLabel, sizeComboBox, sizeComboBox.getLabel());
+                getChildren().removeAll(sizeTextFlow, sizeComboBox, sizeComboBox.getLabel());
             } else if (character.getAvailableSizes()[1].get().equals("")) {
-                getChildren().remove(sizeComboBox);
-                if (!getChildren().contains(sizeLabel)) {
-                    add(sizeLabel, 0, 12);
+                getChildren().removeAll(sizeComboBox, sizeComboBox.getLabel());
+                if (!getChildren().contains(sizeTextFlow)) {
+                    add(sizeTextFlow, 0, 12);
                 }
             } else {
-                if (!getChildren().contains(sizeLabel)) {
-                    add(sizeLabel, 0, 12);
+                if (!getChildren().contains(sizeTextFlow)) {
+                    add(sizeTextFlow, 0, 12);
                 }
                 if (!getChildren().contains(sizeComboBox)) {
                     add(sizeComboBox, 0, 13);
                     add(sizeComboBox.getLabel(), 0, 13);
                 }
             }
+        };
+        character.getSpecies().addListener((_, _, _) -> {
+            updateSize.run();
         });
+        updateSize.run();
 
         TooltipLabel speed = new TooltipLabel("", getTranslation("SPEED"), mainTabPane);
         speed.textProperty().bind(

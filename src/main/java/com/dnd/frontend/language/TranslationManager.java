@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class TranslationManager {
     private static final Properties languageProperties = new Properties();
-    private static final Map<String, String> keyToTranslation = new HashMap<>();
     private static final Map<String, String> translationToKey = new HashMap<>();
 
     public static void initialize(String language) {
@@ -36,7 +35,6 @@ public class TranslationManager {
             // Populate the maps
             for (String key : languageProperties.stringPropertyNames()) {
                 String value = languageProperties.getProperty(key);
-                keyToTranslation.put(key, value);
                 translationToKey.put(value, key);
             }
         } catch (IOException e) {
@@ -45,7 +43,7 @@ public class TranslationManager {
     }
 
     public static String getTranslation(String key) {
-        return keyToTranslation.getOrDefault(key, key);
+        return languageProperties.getProperty(key, key);
     }
 
     public static String getOriginal(String translation) {

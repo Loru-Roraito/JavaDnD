@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.dnd.frontend.language.DefinitionManager;
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
 import com.dnd.frontend.ComboBoxUtils;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.DefinitionManager;
 import com.dnd.frontend.language.MiscsManager;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
@@ -17,15 +17,16 @@ import com.dnd.frontend.tooltip.TooltipTitledPane;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.collections.ListChangeListener;
-import javafx.scene.layout.VBox;
 
 public class ProficienciesPane extends GridPane {
 
@@ -146,6 +147,9 @@ public class ProficienciesPane extends GridPane {
 
         proficienciesGridPane.add(proficienciesBox, 0, 1);
 
+        TitledPane traitsPane = new TitledPane();
+        
+        traitsPane.setText(getTranslation("TRAITS"));
         TextFlow traitsFlow = new TextFlow();
         updateBox(traitsFlow, character.getTraits());
 
@@ -153,11 +157,12 @@ public class ProficienciesPane extends GridPane {
                 -> updateBox(traitsFlow, character.getTraits())
         );
 
-        add(traitsFlow, 0, 5);
+        traitsPane.setContent(traitsFlow);
+        add(traitsPane, 0, 5);
 
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
-        traitsFlow.maxWidthProperty().bind(paneWidthBinding);
+        traitsPane.maxWidthProperty().bind(paneWidthBinding);
 
         // TODO: flow grows too much
         proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
@@ -245,8 +250,9 @@ public class ProficienciesPane extends GridPane {
             String name = property.get();
             String text = getMisc(getOriginal(name));
             Text wordText = new Text(name + ": ");
-            wordText.setStyle("-fx-font-weight: bold;");
+            wordText.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
             textFlow.getChildren().add(wordText);
+            textFlow.getChildren().add(new Text("\n"));
             DefinitionManager.fillTextFlow(textFlow, text, mainTabPane, "");
         }
     }
