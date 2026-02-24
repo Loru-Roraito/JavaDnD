@@ -75,7 +75,7 @@ public class SystemPane extends GridPane {
         add(advantageLabel, 2, 0);
        
         ObservableList<String> advantages = FXCollections.observableArrayList(); 
-        advantages.addAll(getTranslation("DISABLED_M"), getTranslation("NONE_M"), getTranslation("ADVANTAGE"), getTranslation("DISADVANTAGE"));
+        advantages.addAll(getTranslation("DISABLED_M"), getTranslation("NONE"), getTranslation("ADVANTAGE"), getTranslation("DISADVANTAGE"));
 
         TooltipComboBox advantageComboBox = new TooltipComboBox(advantages, mainTabPane);
         add(advantageComboBox, 2, 1); // Add the ComboBox to the GridPane

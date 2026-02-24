@@ -1,11 +1,9 @@
 package com.dnd.frontend.panes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.dnd.backend.GroupManager;
-import com.dnd.frontend.ComboBoxUtils;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.DefinitionManager;
 import com.dnd.frontend.language.MiscsManager;
@@ -15,7 +13,6 @@ import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -33,8 +30,6 @@ public class ProficienciesPane extends GridPane {
     private final TabPane mainTabPane;
     private final String[] choiceArrays;
     private final List<TooltipComboBox> choiceComboBoxes;
-    private final List<String[]> startingValues;
-    private final List<ObservableList<String>> groupItemsList;
     private final ViewModel character;
     private final VBox proficienciesBox = new VBox();
 
@@ -46,8 +41,6 @@ public class ProficienciesPane extends GridPane {
 
         this.character = character;
         this.choiceComboBoxes = new java.util.ArrayList<>();
-        this.startingValues = new ArrayList<>();
-        this.groupItemsList = new ArrayList<>();
         this.mainTabPane = mainTabPane;
 
         choiceArrays = getStrings(new String[]{"sets"});
@@ -60,42 +53,19 @@ public class ProficienciesPane extends GridPane {
         TooltipLabel common = new TooltipLabel("   " + getTranslation("COMMON_LANGUAGE"), getTranslation("COMMON_LANGUAGE"), mainTabPane);
         add(common, 0, 1);
 
-        List<ObservableList<String>> languageValuesList = new ArrayList<>(2);
-        List<TooltipComboBox> languageComboBoxes = new ArrayList<>(2);
-
-        // In the future more languages should be available. Take the abilities ComboBoxes as an example for the available values update
-        // Populate the class list and translation map
-        ObservableList<String> commonLanguages = FXCollections.observableArrayList();
-        String[] languageKeys = getTranslations(getStrings(new String[]{"common_languages"}));
-        commonLanguages.addAll(Arrays.asList(languageKeys));
-        commonLanguages.add(0, getTranslation("RANDOM"));
-        languageValuesList.add(commonLanguages);
-        languageValuesList.add(FXCollections.observableArrayList(commonLanguages));
-
-        TooltipComboBox languageOne = new TooltipComboBox(languageValuesList.get(0), mainTabPane);
+        TooltipComboBox languageOne = new TooltipComboBox(character.getSelectableLanguages(), mainTabPane);
         languageOne.setPromptText(getTranslation("RANDOM"));
         add(languageOne, 0, 2);
         add(languageOne.getLabel(), 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
         languageOne.disableProperty().bind(character.isEditing().not());
 
-        TooltipComboBox languageTwo = new TooltipComboBox(languageValuesList.get(1), mainTabPane);
+        TooltipComboBox languageTwo = new TooltipComboBox(character.getSelectableLanguages(), mainTabPane);
         languageTwo.setPromptText(getTranslation("RANDOM"));
         add(languageTwo, 0, 3);
         add(languageTwo.getLabel(), 0, 3);
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
         languageTwo.disableProperty().bind(character.isEditing().not());
-
-        languageComboBoxes.add(languageOne);
-        languageComboBoxes.add(languageTwo);
-
-        for (TooltipComboBox comboBox : languageComboBoxes) {
-            comboBox.valueProperty().addListener((_, _, _) -> {
-                for (int j = 0; j < languageComboBoxes.size(); j++) {
-                    ComboBoxUtils.updateItems(languageComboBoxes.get(j), languageComboBoxes, languageValuesList.get(j), languageKeys, new String[]{getTranslation("RANDOM")});
-                }
-            });
-        }
 
         TextFlow proficienciesFlow = new TextFlow();
 
@@ -104,7 +74,7 @@ public class ProficienciesPane extends GridPane {
             proficienciesBox.getChildren().clear();
             updateProficienciesBox(proficienciesFlow, character.getWeaponProficiencies());
 
-            ObservableList<StringProperty> armorProficiencies = character.getArmorProficiencies();
+            ObservableList<String> armorProficiencies = character.getArmorProficiencies();
             if (!armorProficiencies.isEmpty()) {
                 if (!proficienciesFlow.getChildren().isEmpty()) {
                     proficienciesFlow.getChildren().add(new Text("\n\n"));
@@ -112,11 +82,10 @@ public class ProficienciesPane extends GridPane {
                 updateProficienciesBox(proficienciesFlow, armorProficiencies);
             }
 
-            ObservableList<StringProperty> toolProficiencies = character.getToolProficiencies();
+            ObservableList<String> toolProficiencies = character.getToolProficiencies();
             if (!toolProficiencies.isEmpty()) {
                 // Check if there is at least one proficiency that is NOT a group/set name
                 Boolean hasNonArray = toolProficiencies.stream()
-                        .map(StringProperty::get)
                         .anyMatch(name -> !Arrays.asList(choiceArrays).contains(name));
                 if (hasNonArray) {
                     if (!proficienciesFlow.getChildren().isEmpty()) {
@@ -127,13 +96,13 @@ public class ProficienciesPane extends GridPane {
             }
         };
 
-        character.getWeaponProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
+        character.getWeaponProficiencies().addListener((ListChangeListener<String>) _ -> {
             updateProficiencies.run();
         });
-        character.getArmorProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
+        character.getArmorProficiencies().addListener((ListChangeListener<String>) _ -> {
             updateProficiencies.run();
         });
-        character.getToolProficiencies().addListener((ListChangeListener<StringProperty>) _ -> {
+        character.getToolProficiencies().addListener((ListChangeListener<String>) _ -> {
             updateProficiencies.run();
         });
         updateProficiencies.run();
@@ -153,7 +122,7 @@ public class ProficienciesPane extends GridPane {
         TextFlow traitsFlow = new TextFlow();
         updateBox(traitsFlow, character.getTraits());
 
-        character.getTraits().addListener((ListChangeListener<StringProperty>) _
+        character.getTraits().addListener((ListChangeListener<String>) _
                 -> updateBox(traitsFlow, character.getTraits())
         );
 
@@ -183,38 +152,27 @@ public class ProficienciesPane extends GridPane {
         notesArea.setMaxHeight(Double.MAX_VALUE);
     }
 
-    private void updateProficienciesBox(TextFlow textFlow, List<StringProperty> properties) {
+    private void updateProficienciesBox(TextFlow textFlow, List<String> properties) {
         for (TooltipComboBox comboBox : choiceComboBoxes) {
             getChildren().remove(comboBox);
             getChildren().remove(comboBox.getLabel());
         }
         choiceComboBoxes.clear();
-        startingValues.clear();
-        groupItemsList.clear();
 
         Boolean isFirstLine = true;
-        for (StringProperty proficiency : properties) {
-            String name = proficiency.get();
-            if (Arrays.asList(choiceArrays).contains(name)) {
-                String[] items = getTranslations(getStrings(new String[]{"sets", name}));
+        for (String proficiency : properties) {
+            if (Arrays.asList(choiceArrays).contains(proficiency)) {
+                String[] items = getTranslations(getStrings(new String[]{"sets", proficiency}));
                 ObservableList<String> groupItems = FXCollections.observableArrayList(items);
                 groupItems.add(0, getTranslation("RANDOM"));
                 TooltipComboBox comboBox = new TooltipComboBox(groupItems, mainTabPane);
                 choiceComboBoxes.add(comboBox);
-                startingValues.add(items);
-                groupItemsList.add(groupItems);
 
                 comboBox.disableProperty().bind(character.isEditing().not());
 
                 int index = choiceComboBoxes.size();
                 proficienciesBox.getChildren().add(comboBox);
                 proficienciesBox.getChildren().add(comboBox.getLabel());
-
-                comboBox.valueProperty().addListener((_, _, _) -> {
-                    for (int j = 0; j < choiceComboBoxes.size(); j++) {
-                        ComboBoxUtils.updateItems(choiceComboBoxes.get(j), choiceComboBoxes, groupItemsList.get(j), startingValues.get(j), new String[]{getTranslation("RANDOM")});
-                    }
-                });
 
                 comboBox.valueProperty().addListener((_, _, newVal) -> {
                     character.getChoiceToolProficiency(index - 1).setName(newVal);
@@ -232,22 +190,22 @@ public class ProficienciesPane extends GridPane {
                 } else {
                     textFlow.getChildren().add(new Text("\n"));
                 }
-                Text wordText = new Text(name);
+                Text wordText = new Text(proficiency);
                 textFlow.getChildren().add(wordText);
             }
         }
     }
 
-    private void updateBox(TextFlow textFlow, Iterable<StringProperty> properties) {
+    private void updateBox(TextFlow textFlow, Iterable<String> properties) {
         textFlow.getChildren().clear();
         Boolean isFirstLine = true;
-        for (StringProperty property : properties) {
+        for (String property : properties) {
             if (isFirstLine) {
                 isFirstLine = false;
             } else {
                 textFlow.getChildren().add(new Text("\n\n"));
             }
-            String name = property.get();
+            String name = property;
             String text = getMisc(getOriginal(name));
             Text wordText = new Text(name + ": ");
             wordText.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");

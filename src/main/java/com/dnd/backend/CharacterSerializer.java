@@ -75,8 +75,8 @@ public class CharacterSerializer {
         public boolean unconscious;
         
         public ProficiencyData[] choiceToolProficiencies;
-        public SpellData[] spells;
-        public SpellData[] cantrips;
+        public SpellData[][] spells;
+        public SpellData[][] cantrips;
         public ItemData[] items;
 
         public ItemData mainHand;
@@ -227,7 +227,7 @@ public class CharacterSerializer {
             // Spell slots
             data.availableSpellSlots = new int[9];
             for (int i = 0; i < 9; i++) {
-                data.availableSpellSlots[i] = character.getAvailableSpellSlot(i).get();
+                data.availableSpellSlots[i] = character.getSelectableSpellslot(i).get();
             }
             
             // Conditions
@@ -257,13 +257,17 @@ public class CharacterSerializer {
                 .toArray(ItemData[]::new);
 
             // Spells
-            data.spells = character.getSpells().asList().stream()
-                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
-                .toArray(SpellData[]::new);
+            data.spells = character.getSpells().getList().stream()
+                .map(spellList -> spellList.asList().stream()
+                    .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
+                    .toArray(SpellData[]::new))
+                .toArray(SpellData[][]::new);
             
-            data.cantrips = character.getCantrips().asList().stream()
-                .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
-                .toArray(SpellData[]::new);
+            data.cantrips = character.getCantrips().getList().stream()
+                .map(cantripList -> cantripList.asList().stream()
+                    .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
+                    .toArray(SpellData[]::new))
+                .toArray(SpellData[][]::new);
 
             data.mainHand = new ItemData(character.getMainHand().get().getNominative());
             data.offHand = new ItemData(character.getOffHand().get().getNominative());
@@ -355,7 +359,7 @@ public class CharacterSerializer {
                 
                 // Load spell slots
                 for (int i = 0; i < 9; i++) {
-                    character.getAvailableSpellSlot(i).set(data.availableSpellSlots[i]);
+                    character.getSelectableSpellslot(i).set(data.availableSpellSlots[i]);
                 }
                 
                 // Load conditions
@@ -386,13 +390,19 @@ public class CharacterSerializer {
                 }
 
                 character.getSpells().getList().clear();
-                for (SpellData spell : data.spells) {
-                    character.getSpells().add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.limited));
+                for (int i = 0; i < data.spells.length; i++) {
+                    character.getSpells().getList().get(i).getList().clear();
+                    for (SpellData spell : data.spells[i]) {
+                        character.getSpells().getList().get(i).add(new Spell(spell.nominative, spell.prepare, spell.focus, spell.ability, spell.limited));
+                    }
                 }
                 
                 character.getCantrips().getList().clear();
-                for (SpellData cantrip : data.cantrips) {
-                    character.getCantrips().add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.limited));
+                for (int i = 0; i < data.cantrips.length; i++) {
+                    character.getCantrips().getList().get(i).getList().clear();
+                    for (SpellData cantrip : data.cantrips[i]) {
+                        character.getCantrips().getList().get(i).add(new Spell(cantrip.nominative, cantrip.prepare, cantrip.focus, cantrip.ability, cantrip.limited));
+                    }
                 }
 
                 character.getMainHand().set(new Item(data.mainHand.nominative));

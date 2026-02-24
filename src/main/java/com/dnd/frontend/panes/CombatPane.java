@@ -56,7 +56,7 @@ public class CombatPane extends GridPane {
                 bonusAttack.setText(getTranslation("TWO_HANDED_ATTACK"));
                 bonusDamage.setVisible(false);
                 versatileDamage.setVisible(true);
-            } else if (!offHand.getNominative().equals("NONE_F") && !Arrays.asList(offHand.getProperties()).contains("TWO_HANDED")) {
+            } else if (!offHand.getNominative().equals("NONE") && !Arrays.asList(offHand.getProperties()).contains("TWO_HANDED")) {
                 bonusAttack.setVisible(true);
                 bonusAttack.setText(getTranslation("BONUS_ATTACK"));
                 bonusDamage.setVisible(true);

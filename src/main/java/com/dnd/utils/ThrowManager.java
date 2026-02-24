@@ -23,7 +23,7 @@ public class ThrowManager {
         Boolean disadv;
         
         switch (systemPane.getAdvantage()) {
-            case "NONE_M" -> {
+            case "NONE" -> {
                 adv = false;
                 disadv = false;
             }

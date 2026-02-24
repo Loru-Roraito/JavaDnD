@@ -72,14 +72,6 @@
   "max_classes": 12,
 
   "classes": {
-    "NONE_F": {
-      "hit_die": 1,
-      "abilities": [],
-      "skills": [],
-      "skills_number": 0,
-      "subclasses": {
-      }
-    },
     "BARBARIAN": {
       "hit_die": 12,
       "traits": {
@@ -998,7 +990,7 @@
   ],
 
   "alignments": [
-    "NONE_M",
+    "NONE",
     "LAWFUL_GOOD",
     "LAWFUL_NEUTRAL",
     "LAWFUL_EVIL",

@@ -97,7 +97,7 @@ public class ParametersPane extends GridPane {
 
         lineages.add(getTranslation("RANDOM"));
 
-        for (StringProperty prop : character.getAvailableLineages()) {
+        for (StringProperty prop : character.getSelectableLineages()) {
             if (prop != null) {
                 prop.addListener((_, oldVal, newVal) -> {
                     if (!oldVal.isEmpty()) {
@@ -177,7 +177,7 @@ public class ParametersPane extends GridPane {
         ObservableList<String> sizes = FXCollections.observableArrayList();
         sizes.add(getTranslation("RANDOM"));
 
-        for (StringProperty prop : character.getAvailableSizes()) {
+        for (StringProperty prop : character.getSelectableSizes()) {
             if (prop != null) {
                 prop.addListener((_, oldVal, newVal) -> {
                     if (!oldVal.isEmpty()) {
@@ -201,9 +201,9 @@ public class ParametersPane extends GridPane {
         sizeValuePart.textProperty().bind(
             Bindings.createStringBinding(
                 () -> {
-                    StringProperty[] availableSizes = character.getAvailableSizes();
-                    return (availableSizes[1].get().equals(""))
-                        ? ": " + availableSizes[0].get()
+                    StringProperty[] selectableSizes = character.getSelectableSizes();
+                    return (selectableSizes[1].get().equals(""))
+                        ? ": " + selectableSizes[0].get()
                         : "";
                 },
                 character.getSpecies()
@@ -213,9 +213,9 @@ public class ParametersPane extends GridPane {
         TextFlow sizeTextFlow = new TextFlow(sizeBoldPart, sizeValuePart);
 
         Runnable updateSize = () -> {
-            if (character.getAvailableSizes()[0].get().equals("")) {
+            if (character.getSelectableSizes()[0].get().equals("")) {
                 getChildren().removeAll(sizeTextFlow, sizeComboBox, sizeComboBox.getLabel());
-            } else if (character.getAvailableSizes()[1].get().equals("")) {
+            } else if (character.getSelectableSizes()[1].get().equals("")) {
                 getChildren().removeAll(sizeComboBox, sizeComboBox.getLabel());
                 if (!getChildren().contains(sizeTextFlow)) {
                     add(sizeTextFlow, 0, 12);

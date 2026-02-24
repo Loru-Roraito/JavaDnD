@@ -89,7 +89,7 @@ public class MagicTab extends Tab {
             spellcasting.clear();
             abilities.clear();
             for (int i = 0; i < spellcastingAbilities.length; i++) {
-                if (!spellcastingAbilities[i].get().equals(getTranslation("NONE_F")) && !spellcastingAbilities[i].get().equals(getTranslation("")) && !spellcasting.containsKey(spellcastingAbilities[i].get())) {
+                if (!spellcastingAbilities[i].get().equals(getTranslation("NONE")) && !spellcastingAbilities[i].get().equals(getTranslation("")) && !spellcasting.containsKey(spellcastingAbilities[i].get())) {
                     spellcasting.put(spellcastingAbilities[i].get(), i);
                     abilities.add(spellcastingAbilities[i].get());
                 }
@@ -155,22 +155,22 @@ public class MagicTab extends Tab {
 
                     int newIndex = j;
                     Runnable updateAvailableSlots = () -> {
-                        if (character.getAvailableSpellSlot(index).get() > newIndex) {
+                        if (character.getSelectableSpellslot(index).get() > newIndex) {
                             spellLevel.setSelected(true);
                         } else {
                             spellLevel.setSelected(false);
                         }
                     };
-                    character.getAvailableSpellSlot(index).addListener(_ -> {
+                    character.getSelectableSpellslot(index).addListener(_ -> {
                         updateAvailableSlots.run();
                     });
                     updateAvailableSlots.run();
 
                     spellLevel.setOnAction(_ -> {
                         if (spellLevel.isSelected()) {
-                            character.getAvailableSpellSlot(index).set(character.getAvailableSpellSlot(index).get() + 1);
+                            character.getSelectableSpellslot(index).set(character.getSelectableSpellslot(index).get() + 1);
                         } else {
-                            character.getAvailableSpellSlot(index).set(character.getAvailableSpellSlot(index).get() - 1);
+                            character.getSelectableSpellslot(index).set(character.getSelectableSpellslot(index).get() - 1);
                         }
                     });
                 }
@@ -191,32 +191,40 @@ public class MagicTab extends Tab {
 
         Runnable updateCantrips = () -> {
             cantripsBox.getChildren().clear();
-            CustomObservableList<Spell> cantrips = character.getCantrips();
-            for (Spell cantrip : cantrips.getList()) {
-                TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
-                cantripsBox.getChildren().add(cantripLabel);
+            for (int i = 0; i < character.getSelectableCantrips().size(); i++) {
+                CustomObservableList<Spell> cantrips = character.getCantrips(i);
+                for (Spell cantrip : cantrips.getList()) {
+                    TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
+                    cantripsBox.getChildren().add(cantripLabel);
+                }
             }
         };
-        character.getCantrips().addListener( _ -> {
-            updateCantrips.run();
-        });
+        for (int i = 0; i < character.getSelectableCantrips().size(); i++) {
+            character.getCantrips(i).addListener(_ -> {
+                updateCantrips.run();
+            });
+        }
 
         Runnable updateSpells = () -> {
-            CustomObservableList<Spell> spells = character.getSpells();
             for (int i = 0; i < 9; i++) {
                 levelBoxes[i].getChildren().clear();
             }
-            for (Spell spell : spells.getList()) {
-                int spellLevel = getSpellInt(new String[]{getOriginal(spell.getName()), "level"});
-                VBox levelBox = levelBoxes[spellLevel - 1];
+            for (int i = 0; i < character.getSelectableSpells().size(); i++) {
+                CustomObservableList<Spell> spells = character.getSpells(i);
+                for (Spell spell : spells.getList()) {
+                    int spellLevel = getSpellInt(new String[]{getOriginal(spell.getName()), "level"});
+                    VBox levelBox = levelBoxes[spellLevel - 1];
 
-                TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
-                levelBox.getChildren().add(spellLabel);
+                    TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
+                    levelBox.getChildren().add(spellLabel);
+                }
             }
         };
-        character.getSpells().addListener(_ -> {
-            updateSpells.run();
-        });
+        for (int i = 0; i < character.getSelectableSpells().size(); i++) {
+            character.getSpells(i).addListener(_ -> {
+                updateSpells.run();
+            });
+        }
 
         updateCantrips.run();
         updateSpells.run();
@@ -224,13 +232,13 @@ public class MagicTab extends Tab {
         character.isLevelingUp().addListener((_, _, _) -> {
             hasChangedSpell = false;
             for (int index = 0; index < addableSpells.length; index++) {
-                addableSpells[index] = character.getMaxSpells(index).get() - character.getSpells().size();
+                addableSpells[index] = character.getMaxSpells(index).get() - character.getSpells(index).size();
             }
             originalSpell = null;
 
             hasChangedCantrip = false;
             for (int index = 0; index < addableCantrips.length; index++) {
-                addableCantrips[index] = character.getMaxCantrips(index).get() - character.getCantrips().size();
+                addableCantrips[index] = character.getMaxCantrips(index).get() - character.getCantrips(index).size();
             }
             originalCantrip = null;
         });
@@ -280,18 +288,18 @@ public class MagicTab extends Tab {
             spellLayout.getChildren().add(levelPane);
         }
 
-        CustomObservableList<CustomObservableList<Spell>> availablesCantrips = character.getAvailableCantrips();
-        CustomObservableList<CustomObservableList<Spell>> availablesSpells = character.getAvailableSpells();
+        CustomObservableList<CustomObservableList<Spell>> availablesCantrips = character.getSelectableCantrips();
+        CustomObservableList<CustomObservableList<Spell>> availablesSpells = character.getSelectableSpells();
 
         for (int index = 0; index < availablesCantrips.size(); index++) {
-            CustomObservableList<Spell> cantrips = character.getCantrips();
-            CustomObservableList<Spell> spells = character.getSpells();
+            CustomObservableList<Spell> cantrips = character.getCantrips(index);
+            CustomObservableList<Spell> spells = character.getSpells(index);
             int finalIndex = index;
 
-            CustomObservableList<Spell> availableCantrips = availablesCantrips.getList().get(index);
+            CustomObservableList<Spell> selectableCantrips = availablesCantrips.getList().get(index);
             List<Spell> newCantrips = new ArrayList<>();
-            for (int i = 0; i < availableCantrips.size(); i++) {
-                Spell cantrip = availableCantrips.getList().get(i);
+            for (int i = 0; i < selectableCantrips.size(); i++) {
+                Spell cantrip = selectableCantrips.getList().get(i);
                 CheckBox cantripCheckBox = new CheckBox();
                 TooltipLabel cantripLabel = new TooltipLabel(cantrip, mainTabPane);
                 for (int j = 0; j < availablesCantrips.size(); j++) {
@@ -372,7 +380,7 @@ public class MagicTab extends Tab {
                 };
                 updateCantripDisable.run();
                 character.getMaxCantrips(index).addListener(_ -> updateCantripDisable.run());
-                character.getCantrips().addListener(_ -> updateCantripDisable.run());
+                character.getCantrips(index).addListener(_ -> updateCantripDisable.run());
 
                 HBox cantripHBox = new HBox();
                 cantripHBox.getChildren().addAll(cantripCheckBox, cantripLabel);
@@ -380,10 +388,10 @@ public class MagicTab extends Tab {
                 cantripsGrid.getChildren().add(cantripHBox);
             }
 
-            CustomObservableList<Spell> availableSpells = availablesSpells.getList().get(index);
+            CustomObservableList<Spell> selectableSpells = availablesSpells.getList().get(index);
             List<Spell> newSpells = new ArrayList<>();
-            for (int i = 0; i < availableSpells.size(); i++) {
-                Spell spell = availableSpells.getList().get(i);
+            for (int i = 0; i < selectableSpells.size(); i++) {
+                Spell spell = selectableSpells.getList().get(i);
                 int spellLevel = spell.getLevel();
                 VBox levelGrid = levelGrids[spellLevel - 1];
 
@@ -469,7 +477,7 @@ public class MagicTab extends Tab {
                 };
                 updateSpellDisable.run();
                 character.getMaxSpells(index).addListener(_ -> updateSpellDisable.run());
-                character.getSpells().addListener(_ -> updateSpellDisable.run());
+                character.getSpells(index).addListener(_ -> updateSpellDisable.run());
 
                 HBox spellHBox = new HBox();
                 spellHBox.getChildren().addAll(spellCheckBox, spellLabel);

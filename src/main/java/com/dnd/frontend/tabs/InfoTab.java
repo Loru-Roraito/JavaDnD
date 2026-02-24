@@ -18,7 +18,6 @@ import com.dnd.frontend.panes.ProficienciesPane;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -81,9 +80,8 @@ public class InfoTab extends Tab {
         int maxClasses = character.getMaxClasses();
         Tab[] tabs = new Tab[maxClasses - 1];
         List<TooltipComboBox> classes = new ArrayList<>(maxClasses);
-        List<ObservableList<String>> classesValues = new ArrayList<>(maxClasses);
 
-        ClassPane pane = new ClassPane(character, mainTabPane, 0, classes, classesValues);
+        ClassPane pane = new ClassPane(character, mainTabPane, 0, classes);
         // Wrap the pane in a ScrollPane
         ScrollPane scrollPane = new ScrollPane(pane);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -114,10 +112,10 @@ public class InfoTab extends Tab {
         }
 
         classes.get(0).valueProperty().addListener((_, _, newVal) -> {
-            if (newVal.equals(getTranslation("NONE_F"))) {
+            if (newVal.equals(getTranslation("NONE"))) {
                 int size = tabPane.getTabs().size();
                 for (int i = 1; i < maxClasses; i++) {
-                    character.getClasse(i).set(getTranslation("NONE_F"));
+                    character.getClasse(i).set(getTranslation("NONE"));
                 }
                 if (size + 1 == character.getMaxClasses() && !tabPane.getTabs().contains(addTab) && character.isEditing().get()) {
                     tabPane.getTabs().add(addTab);
@@ -127,7 +125,7 @@ public class InfoTab extends Tab {
 
         for (int i = 1; i < maxClasses; i++) {
             int index = i;
-            ClassPane newPane = new ClassPane(character, mainTabPane, index, classes, classesValues);
+            ClassPane newPane = new ClassPane(character, mainTabPane, index, classes);
             // Wrap the pane in a ScrollPane
             ScrollPane newScrollPane = new ScrollPane(newPane);
             newScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -142,7 +140,7 @@ public class InfoTab extends Tab {
             tabs[index - 1] = newTab;
 
             classes.get(index).valueProperty().addListener((_, _, newVal) -> {
-                if (newVal.equals(getTranslation("NONE_F"))) {
+                if (newVal.equals(getTranslation("NONE"))) {
                     tabPane.getTabs().remove(newTab);
                     int size = tabPane.getTabs().size();
                     if (size + 1 == character.getMaxClasses() && !tabPane.getTabs().contains(addTab) && character.isEditing().get()) {
@@ -152,7 +150,7 @@ public class InfoTab extends Tab {
             });
 
             newTab.setOnClosed(_ -> {
-                character.getClasse(index).set(getTranslation("NONE_F"));
+                character.getClasse(index).set(getTranslation("NONE"));
                 int size = tabPane.getTabs().size();
                 if (size + 1 == character.getMaxClasses() && !tabPane.getTabs().contains(addTab) && character.isEditing().get()) {
                     tabPane.getTabs().add(addTab);
@@ -174,15 +172,12 @@ public class InfoTab extends Tab {
                 }
             }
             if (newVal.equals(addTab) && character.getTotalLevel().get() + requiredLevels < 20) {
-                if (character.getClasse(0).get().equals(getTranslation("NONE_F"))) {
-                    character.getClasse(0).set(getTranslation("RANDOM"));
-                }
-                int  i;
+                int i;
                 for (i = 0; i < tabs.length; i++) {
                     Tab t = tabs[i];
                     if (!tabPane.getTabs().contains(t)) {
                         tabPane.getTabs().add(i + 1, t);
-                        if (character.getClasse(i + 1).get().equals(getTranslation("NONE_F"))) {
+                        if (character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
                             character.getClasse(i + 1).set(getTranslation("RANDOM"));
                         }
                         break;
@@ -203,7 +198,7 @@ public class InfoTab extends Tab {
 
         for (int i = 0; i < tabs.length; i++) {
             Tab t = tabs[i];
-            if (!tabPane.getTabs().contains(t) && !character.getClasse(i + 1).get().equals(getTranslation("NONE_F"))) {
+            if (!tabPane.getTabs().contains(t) && !character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
                 tabPane.getTabs().add(Math.min(i + 1, tabPane.getTabs().size()), t);
             }
         }

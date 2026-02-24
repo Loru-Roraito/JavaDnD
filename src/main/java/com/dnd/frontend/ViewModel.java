@@ -53,12 +53,12 @@ public class ViewModel {
     private final StringProperty[] levelsShown;
     private final StringProperty[] spellcastingAbilities;
     private final StringProperty[] moneysShown;
-    private final StringProperty[] availableSizes;
-    private final StringProperty[] availableLineages;
+    private final StringProperty[] selectableSizes;
+    private final StringProperty[] selectableLineages;
     private final StringProperty[] abilityBasesShown;
     private final StringProperty[] classEquipment;
     private final StringProperty[] backgroundEquipment;
-    private final StringProperty[][] availableSubclasses;
+    private final StringProperty[][] selectableSubclasses;
     private final StringProperty[][] feats;
     private final StringProperty[][] featOnes;
     private final StringProperty[][] featTwos;
@@ -106,11 +106,14 @@ public class ViewModel {
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
     
-    private final ObservableList<StringProperty> traits;
-    private final ObservableList<StringProperty> weaponProficiencies;
-    private final ObservableList<StringProperty> armorProficiencies;
-    private final ObservableList<StringProperty> toolProficiencies;
-    private final ObservableList<ObservableList<StringProperty>> selectableFeats;
+    private final ObservableList<String> selectableLanguages;
+    private final ObservableList<String> selectableAbilities; 
+    private final ObservableList<String> selectableClasses;
+    private final ObservableList<String> traits;
+    private final ObservableList<String> weaponProficiencies;
+    private final ObservableList<String> armorProficiencies;
+    private final ObservableList<String> toolProficiencies;
+    private final ObservableList<ObservableList<String>> selectableFeats;
     private final ObservableList<Proficiency> choiceToolProficiencies;
     private final ObservableList<Item> items;
 
@@ -323,28 +326,28 @@ public class ViewModel {
             bindObservableString(moneysShown[i], backend.getMoneyShown(i));
         }
 
-        availableSizes = new StringProperty[2];
+        selectableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
-            availableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
-            bindObservableString(availableSizes[i], backend.getAvailableSize(i));
+            selectableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
+            bindObservableString(selectableSizes[i], backend.getAvailableSize(i));
         }
 
         int maxSubclasses = backend.getMaxSubclasses();
         int maxLineages = backend.getMaxLineages();
         int maxSets = backend.getMaxSets();
 
-        availableSubclasses = new StringProperty[maxClasses][maxSubclasses];
+        selectableSubclasses = new StringProperty[maxClasses][maxSubclasses];
         for (int i = 0; i < maxClasses; i++) {
             for (int j = 0; j < maxSubclasses; j++) {
-                availableSubclasses[i][j] = new SimpleStringProperty(getTranslation(backend.getAvailableSubclass(i, j).get()));
-                bindObservableString(availableSubclasses[i][j], backend.getAvailableSubclass(i, j));
+                selectableSubclasses[i][j] = new SimpleStringProperty(getTranslation(backend.getSelectableSubclass(i, j).get()));
+                bindObservableString(selectableSubclasses[i][j], backend.getSelectableSubclass(i, j));
             }
         }
 
-        availableLineages = new StringProperty[maxLineages];
+        selectableLineages = new StringProperty[maxLineages];
         for (int i = 0; i < maxLineages; i++) {
-            availableLineages[i] = new SimpleStringProperty(getTranslation(backend.getAvailableLineage(i).get()));
-            bindObservableString(availableLineages[i], backend.getAvailableLineage(i));
+            selectableLineages[i] = new SimpleStringProperty(getTranslation(backend.getSelectableLineage(i).get()));
+            bindObservableString(selectableLineages[i], backend.getSelectableLineage(i));
         }
 
         classEquipment = new StringProperty[maxSets];
@@ -361,7 +364,7 @@ public class ViewModel {
 
         for (int i = 0; i < 9; i ++) {
             bindObservableInteger(backend.getSpellSlot(i));
-            bindObservableInteger(backend.getAvailableSpellSlot(i));
+            bindObservableInteger(backend.getSelectableSpellslot(i));
         }
 
         int skillCount = backend.getSkillNames().length;
@@ -421,6 +424,15 @@ public class ViewModel {
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
         }
 
+        selectableLanguages = FXCollections.observableArrayList();
+        updateList(selectableLanguages, backend.getSelectableLanguages());
+
+        selectableAbilities = FXCollections.observableArrayList();
+        updateList(selectableAbilities, backend.getSelectableAbilities());
+
+        selectableClasses = FXCollections.observableArrayList();
+        updateList(selectableClasses, backend.getSelectableClasses());
+
         traits = FXCollections.observableArrayList();
         updateList(traits, backend.getTraits());
 
@@ -438,16 +450,18 @@ public class ViewModel {
 
         selectableFeats = FXCollections.observableArrayList();
         for (int i = 0; i < maxClasses; i++) {
-            ObservableList<StringProperty> selectableFeat = FXCollections.observableArrayList();
+            ObservableList<String> selectableFeat = FXCollections.observableArrayList();
             selectableFeats.add(selectableFeat);
             updateList(selectableFeat, backend.getNewSelectableFeats(i));
 
-            updateCustomListNoEdits(backend.getAvailableCantrips().getList().get(i));
-            updateCustomListNoEdits(backend.getAvailableSpells().getList().get(i));
+            updateCustomListNoEdits(backend.getSelectableCantrips().getList().get(i));
+            updateCustomListNoEdits(backend.getSelectableSpells().getList().get(i));
         }
 
-        updateCustomListNoEdits(backend.getCantrips());
-        updateCustomListNoEdits(backend.getSpells());
+        for (int i = 0; i < maxClasses; i++) {
+            updateCustomListNoEdits(backend.getCantrips().getList().get(i));
+            updateCustomListNoEdits(backend.getSpells().getList().get(i));
+        }
 
         items = FXCollections.observableArrayList();
         updateCustomListNoEdits(items, backend.getItems());
@@ -587,16 +601,16 @@ public class ViewModel {
         updateFtB.accept(front);
     }
 
-    private void updateList(ObservableList<StringProperty> front, CustomObservableList<ObservableString> back) {
+    private void updateList(ObservableList<String> front, CustomObservableList<String> back) {
         AtomicBoolean updating = new AtomicBoolean(false);
         
         Runnable updateFtB = () -> {
             characterTab.newEdit();
             if (!updating.compareAndSet(false, true)) return;
             try {
-                List<ObservableString> original = new java.util.ArrayList<>();
-                for (StringProperty key : front) {
-                    original.add(new ObservableString(getOriginal(key.get())));
+                List<String> original = new java.util.ArrayList<>();
+                for (String key : front) {
+                    original.add(getOriginal(key));
                 }
                 back.setAll(original);
             } finally {
@@ -604,14 +618,14 @@ public class ViewModel {
             }
         };
 
-        front.addListener((ListChangeListener<StringProperty>) _ -> updateFtB.run());
+        front.addListener((ListChangeListener<String>) _ -> updateFtB.run());
         
         Runnable updateBtF = () -> {
             if (!updating.compareAndSet(false, true)) return;
             try {
-                List<StringProperty> translated = new java.util.ArrayList<>();
-                for (ObservableString key : back.asList()) {
-                    translated.add(new SimpleStringProperty(getTranslation(key.get())));
+                List<String> translated = new java.util.ArrayList<>();
+                for (String key : back.asList()) {
+                    translated.add(getTranslation(key));
                 }
                 front.setAll(translated);
             } finally {
@@ -706,35 +720,35 @@ public class ViewModel {
         return shield;
     }
 
-    public CustomObservableList<Spell> getCantrips() {
-        return backend.getCantrips();
+    public CustomObservableList<Spell> getCantrips(int index) {
+        return backend.getCantrips().getList().get(index);
     }
 
-    public CustomObservableList<Spell> getSpells() {
-        return backend.getSpells();
+    public CustomObservableList<Spell> getSpells(int index) {
+        return backend.getSpells().getList().get(index);
     }
 
     public ObservableList<Item> getItems() {
         return items;
     }
 
-    public ObservableList<StringProperty> getTraits() {
+    public ObservableList<String> getTraits() {
         return traits;
     }
 
-    public ObservableList<StringProperty> getWeaponProficiencies() {
+    public ObservableList<String> getWeaponProficiencies() {
         return weaponProficiencies;
     }
 
-    public ObservableList<StringProperty> getArmorProficiencies() {
+    public ObservableList<String> getArmorProficiencies() {
         return armorProficiencies;
     }
 
-    public ObservableList<StringProperty> getToolProficiencies() {
+    public ObservableList<String> getToolProficiencies() {
         return toolProficiencies;
     }
 
-    public ObservableList<StringProperty> getSelectableFeats(int index) {
+    public ObservableList<String> getSelectableFeats(int index) {
         return selectableFeats.get(index);
     }
 
@@ -754,12 +768,20 @@ public class ViewModel {
         return choiceToolProficiencies.get(index);
     }
 
-    public CustomObservableList<CustomObservableList<Spell>> getAvailableCantrips() {
-        return backend.getAvailableCantrips();
+    public ObservableList<String> getSelectableLanguages() {
+        return selectableLanguages;
     }
 
-    public CustomObservableList<CustomObservableList<Spell>> getAvailableSpells() {
-        return backend.getAvailableSpells();
+    public ObservableList<String> getSelectableAbilities() {
+        return selectableAbilities;
+    }
+
+    public CustomObservableList<CustomObservableList<Spell>> getSelectableCantrips() {
+        return backend.getSelectableCantrips();
+    }
+
+    public CustomObservableList<CustomObservableList<Spell>> getSelectableSpells() {
+        return backend.getSelectableSpells();
     }
 
     public StringProperty getCreatureType() {
@@ -833,8 +855,13 @@ public class ViewModel {
     public StringProperty getClasse(int index) {
         return classes[index];
     }
+
     public StringProperty[] getClasses() {
         return classes;
+    }
+
+    public ObservableList<String> getselectableClasses() {
+        return selectableClasses;
     }
 
     public StringProperty getSpecies() {
@@ -881,17 +908,17 @@ public class ViewModel {
         return featAbilities[classIndex][index];
     }
 
-    public StringProperty[] getAvailableSizes() {
-        return availableSizes;
+    public StringProperty[] getSelectableSizes() {
+        return selectableSizes;
     }
 
 
-    public StringProperty[] getAvailableSubclasses(int index) {
-        return availableSubclasses[index];
+    public StringProperty[] getSelectableSubclasses(int index) {
+        return selectableSubclasses[index];
     }
 
-    public StringProperty[] getAvailableLineages() {
-        return availableLineages;
+    public StringProperty[] getSelectableLineages() {
+        return selectableLineages;
     }
 
     public int getMaxFeats() {
@@ -918,8 +945,8 @@ public class ViewModel {
         return backend.getSpellSlot(index);
     }
 
-    public ObservableInteger getAvailableSpellSlot(int index) {
-        return backend.getAvailableSpellSlot(index);
+    public ObservableInteger getSelectableSpellslot(int index) {
+        return backend.getSelectableSpellslot(index);
     }
 
     public ObservableInteger getMaxCantrips(int index) {

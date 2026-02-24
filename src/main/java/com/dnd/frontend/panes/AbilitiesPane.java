@@ -7,15 +7,12 @@ import com.dnd.utils.ThrowManager;
 import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
-import com.dnd.frontend.ComboBoxUtils;
 import com.dnd.frontend.tabs.InfoTab;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
 
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -36,7 +33,6 @@ public class AbilitiesPane extends GridPane {
     private final List<Button> pluses = new ArrayList<>();
     private final List<Button> buttons = new ArrayList<>();
     private final List<TextField> customs= new ArrayList<>();
-    private final List<ObservableList<String>> groupItemsList;
 
     private final Label points = new Label();
 
@@ -45,7 +41,6 @@ public class AbilitiesPane extends GridPane {
         this.character = character;
         this.mainTabPane = mainTabPane;
         this.infoTab = infoTab;
-        this.groupItemsList = new ArrayList<>();
         // Create sections for abilities, skills, and saving throws
         abilitiesSection.getStyleClass().add("grid-pane");
         GridPane skillsSection = new GridPane();
@@ -132,31 +127,16 @@ public class AbilitiesPane extends GridPane {
     }
 
     private void generateAbilitiesUI() {
-        // Define the starting values (8, 10, 12, 13, 14, 15)
-        String[] startingValues = {getTranslation("RANDOM"), "8", "10", "12", "13", "14", "15"};
-
         // Loop through abilities and add them to the GridPane
         for (int i = 0; i < abilityNames.length; i++) {
             int index = i; // Capture the index for use in the lambda
 
             // ComboBox for selecting the starting value
-            ObservableList<String> baseValues = FXCollections.observableArrayList(startingValues);
-            TooltipComboBox comboBox = new TooltipComboBox(baseValues, mainTabPane);
+            TooltipComboBox comboBox = new TooltipComboBox(character.getSelectableAbilities(), mainTabPane);
 
             // Add the ComboBox to the list
             comboBoxes.add(comboBox);
-            groupItemsList.add(baseValues);
             comboBox.setPromptText(getTranslation("RANDOM"));
-
-            // Bind the selected value of the ComboBox to the corresponding ability in the Character class
-            comboBox.valueProperty().addListener((_, _, _) -> {
-                if (character.getGenerationMethod().get().equals(getTranslation("STANDARD_ARRAY"))) {
-                    // When any comboBox changes, refresh all lists
-                    for (int j = 0; j < comboBoxes.size(); j++) {
-                        ComboBoxUtils.updateItems(comboBoxes.get(j), comboBoxes, groupItemsList.get(j), startingValues, new String[] {getTranslation("RANDOM")});
-                    }
-                }
-            });
 
             Button minus = new Button("-");
             minuses.add(minus);

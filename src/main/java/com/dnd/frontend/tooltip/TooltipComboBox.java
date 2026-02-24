@@ -24,29 +24,32 @@ public class TooltipComboBox extends ComboBox<String> {
     private ListView<String> listView;
     private PopupControl popup;
     private TooltipLabel replacementLabel; // Label to show when disabled
+    private final ObservableList<String> combinedItems; // Combined list with current selection
+    private final ObservableList<String> sourceItems; // Reference to original items
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
         super(FXCollections.observableArrayList());
         this.mainTabPane = mainTabPane;
-    
+        sourceItems = items;
+        combinedItems = FXCollections.observableArrayList(items);
+
         // Create a sorted view of the items
-        SortedList<String> sortedItems = new SortedList<>(items);
+        SortedList<String> sortedItems = new SortedList<>(combinedItems);
+        setItems(sortedItems);
+        
         sortedItems.setComparator((s1, s2) -> {
             // RANDOM always first
             if (s1.equals(getTranslation("RANDOM"))) return -1;
             if (s2.equals(getTranslation("RANDOM"))) return 1;
             
-            // NONE_M and NONE_F second
-            boolean s1IsNone = s1.equals(getTranslation("NONE_M")) || s1.equals(getTranslation("NONE_F"));
-            boolean s2IsNone = s2.equals(getTranslation("NONE_M")) || s2.equals(getTranslation("NONE_F"));
-            
-            if (s1IsNone && !s2IsNone) return -1;
-            if (s2IsNone && !s1IsNone) return 1;
-            
             // Both are special or both are regular - alphabetical
+            if (s1.matches("-?\\d+(\\.\\d+)?") && s2.matches("-?\\d+(\\.\\d+)?")) {
+                double num1 = Double.parseDouble(s1);
+                double num2 = Double.parseDouble(s2);
+                return Double.compare(num1, num2);
+            }
             return s1.compareTo(s2);
         });
-        setItems(sortedItems);
 
         createPopup();
         assignTooltip();
@@ -56,17 +59,17 @@ public class TooltipComboBox extends ComboBox<String> {
         setupDisabledListener();
         updateLabel();
     }
-
-    public TooltipComboBox(TabPane mainTabPane) {
-        super();
-        this.mainTabPane = mainTabPane;
-        createPopup();
-        assignTooltip();
-        setupKeyListener();
-        setupComboBoxScrolling();
-        setupClickHandling();
-        setupDisabledListener();
-        updateLabel();
+    
+    private void updateCombinedItems() {
+        String currentValue = getValue();
+        ObservableList<String> newItems = FXCollections.observableArrayList(sourceItems);
+        
+        // Add current selection if not already in the list
+        if (currentValue != null && !newItems.contains(currentValue)) {
+            newItems.add(currentValue);
+        }
+        
+        combinedItems.setAll(newItems);
     }
 
     public TooltipLabel getLabel() {
@@ -206,6 +209,7 @@ public class TooltipComboBox extends ComboBox<String> {
 
     @Override
     public void show() {
+        updateCombinedItems();
         updateListViewSize(); // Ensure size is updated before showing
         if (!popup.isShowing()) {
             Platform.runLater(() -> {
