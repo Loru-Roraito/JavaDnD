@@ -26,11 +26,47 @@ public class TooltipComboBox extends ComboBox<String> {
     private TooltipLabel replacementLabel; // Label to show when disabled
     private final ObservableList<String> combinedItems; // Combined list with current selection
     private final ObservableList<String> sourceItems; // Reference to original items
+    private final ObservableList<String> forbiddenItems;
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
         super(FXCollections.observableArrayList());
         this.mainTabPane = mainTabPane;
         sourceItems = items;
+        combinedItems = FXCollections.observableArrayList(items);
+        forbiddenItems = FXCollections.observableArrayList();
+
+        // Create a sorted view of the items
+        SortedList<String> sortedItems = new SortedList<>(combinedItems);
+        setItems(sortedItems);
+        
+        sortedItems.setComparator((s1, s2) -> {
+            // RANDOM always first
+            if (s1.equals(getTranslation("RANDOM"))) return -1;
+            if (s2.equals(getTranslation("RANDOM"))) return 1;
+            
+            // Both are special or both are regular - alphabetical
+            if (s1.matches("-?\\d+(\\.\\d+)?") && s2.matches("-?\\d+(\\.\\d+)?")) {
+                double num1 = Double.parseDouble(s1);
+                double num2 = Double.parseDouble(s2);
+                return Double.compare(num1, num2);
+            }
+            return s1.compareTo(s2);
+        });
+
+        createPopup();
+        assignTooltip();
+        setupKeyListener();
+        setupComboBoxScrolling();
+        setupClickHandling();
+        setupDisabledListener();
+        updateLabel();
+    }
+
+    public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane, ObservableList<String> forbiddenItems) {
+        super(FXCollections.observableArrayList());
+        this.mainTabPane = mainTabPane;
+        sourceItems = items;
+        this.forbiddenItems = forbiddenItems;
         combinedItems = FXCollections.observableArrayList(items);
 
         // Create a sorted view of the items
@@ -63,13 +99,23 @@ public class TooltipComboBox extends ComboBox<String> {
     private void updateCombinedItems() {
         String currentValue = getValue();
         ObservableList<String> newItems = FXCollections.observableArrayList(sourceItems);
+
+        newItems.removeAll(forbiddenItems);
         
         // Add current selection if not already in the list
         if (currentValue != null && !newItems.contains(currentValue)) {
             newItems.add(currentValue);
         }
         
+        // Temporarily clear value before updating the list so that the
+        // selection model doesn't shift to a wrong index during setAll.
+        // Then restore it afterward to force the display cell to refresh.
         combinedItems.setAll(newItems);
+
+        // TODO: fix
+        // If I don't do this, it has a visual bug for which the displayed value is wrong
+        setValue("");
+        setValue(currentValue);
     }
 
     public TooltipLabel getLabel() {

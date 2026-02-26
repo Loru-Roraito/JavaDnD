@@ -165,7 +165,7 @@ public class ProficienciesPane extends GridPane {
                 String[] items = getTranslations(getStrings(new String[]{"sets", proficiency}));
                 ObservableList<String> groupItems = FXCollections.observableArrayList(items);
                 groupItems.add(0, getTranslation("RANDOM"));
-                TooltipComboBox comboBox = new TooltipComboBox(groupItems, mainTabPane);
+                TooltipComboBox comboBox = new TooltipComboBox(groupItems, mainTabPane, character.getTotalToolProficiencies());
                 choiceComboBoxes.add(comboBox);
 
                 comboBox.disableProperty().bind(character.isEditing().not());

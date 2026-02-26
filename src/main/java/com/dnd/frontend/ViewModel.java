@@ -113,6 +113,7 @@ public class ViewModel {
     private final ObservableList<String> weaponProficiencies;
     private final ObservableList<String> armorProficiencies;
     private final ObservableList<String> toolProficiencies;
+    private final ObservableList<String> totalToolProficiencies;
     private final ObservableList<ObservableList<String>> selectableFeats;
     private final ObservableList<Proficiency> choiceToolProficiencies;
     private final ObservableList<Item> items;
@@ -445,6 +446,9 @@ public class ViewModel {
         toolProficiencies = FXCollections.observableArrayList();
         updateList(toolProficiencies, backend.getToolProficiencies());
 
+        totalToolProficiencies = FXCollections.observableArrayList();
+        updateList(totalToolProficiencies, backend.getTotalToolProficiencies());
+
         choiceToolProficiencies = FXCollections.observableArrayList();
         updateCustomList(choiceToolProficiencies, backend.getChoiceToolProficiencies());
 
@@ -746,6 +750,10 @@ public class ViewModel {
 
     public ObservableList<String> getToolProficiencies() {
         return toolProficiencies;
+    }
+
+    public ObservableList<String> getTotalToolProficiencies() {
+        return totalToolProficiencies;
     }
 
     public ObservableList<String> getSelectableFeats(int index) {

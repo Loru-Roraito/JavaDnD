@@ -74,6 +74,7 @@ public class GameCharacter {
     private final CustomObservableList<String> weaponProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> armorProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> toolProficiencies = new CustomObservableList<>();
+    private final CustomObservableList<String> totalToolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> selectableLanguages = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> possibleFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> selectableFeats = new CustomObservableList<>();
@@ -866,6 +867,10 @@ public class GameCharacter {
 
     public CustomObservableList<String> getToolProficiencies() {
         return toolProficiencies;
+    }
+
+    public CustomObservableList<String> getTotalToolProficiencies() {
+        return totalToolProficiencies;
     }
 
     public ObservableString getClassEquipment(int index) {
@@ -1912,23 +1917,27 @@ public class GameCharacter {
             List<String> newTools = new ArrayList<>();
             // in the 2024 rules only one tool proficiency is given for each background.
             // Done like this for future compatibility
-            String[] tools = getStrings(new String[] { "backgrounds", background.get(), "tools" });
+            String[] tools = getStrings(new String[] {"backgrounds", background.get(), "tools"});
             if (tools != null) {
                 for (String tool : tools) {
                     if (tool != null && !takenTools.contains(tool)) {
                         newTools.add(tool);
                         takenTools.add(tool);
+                    } else if (tool != null && Arrays.asList(sets).contains(tool)) {
+                        newTools.add(tool);
                     }
                 }
             }
 
             for (ObservableString classe : classes) {
-                tools = getStrings(new String[] { "classes", classe.get(), "tools" });
+                tools = getStrings(new String[] {"classes", classe.get(), "tools"});
                 if (tools != null) {
                     for (String tool : tools) {
                         if (tool != null && !takenTools.contains(tool)) {
                             newTools.add(tool);
                             takenTools.add(tool);
+                        } else if (tool != null && Arrays.asList(sets).contains(tool)) {
+                            newTools.add(tool);
                         }
                     }
                 }
@@ -2107,24 +2116,59 @@ public class GameCharacter {
     }
 
     private void bindChoiceToolProficiencies() {
-        toolProficiencies.addListener((newVal) -> {
+        Runnable updateProficiencies = () -> {
+            List<String> newTools = new ArrayList<>();
+            for (String equipment : toolProficiencies.asList()) {
+                if (!Arrays.asList(sets).contains(equipment)) {
+                    newTools.add(equipment);
+                }
+            }
+            for (Proficiency choice : choiceToolProficiencies.asList()) {
+                if (!choice.getName().equals("RANDOM")) {
+                    newTools.add(choice.getName());
+                }
+            }
+            totalToolProficiencies.setAll(newTools);
+        };
+
+        Runnable bindChoiceProficiencies = () -> {
+            for (Proficiency choice : choiceToolProficiencies.asList()) {
+                choice.getNameProperty().addListener((_) -> {
+                    updateProficiencies.run();
+                });
+            }
+        };
+
+        Runnable bindProficiencies = () -> {
             List<Proficiency> newChoices = new ArrayList<>();
-            for (String equipment : newVal.asList()) {
+            List<String> newTools = new ArrayList<>();
+            for (String equipment : toolProficiencies.asList()) {
                 if (Arrays.asList(sets).contains(equipment)) {
                     newChoices.add(new Proficiency("RANDOM", equipment));
+                } else {
+                    newTools.add(equipment);
                 }
             }
 
+            bindChoiceProficiencies.run();
+
             for (Proficiency choice : choiceToolProficiencies.asList()) {
                 for (Proficiency newChoice : newChoices) {
-                    if (newChoice.getStrings().equals(choice.getStrings()) && newChoice.getName().equals("RANDOM")) {
+                    if (newChoice.getStrings().equals(choice.getStrings()) && !choice.getName().equals("RANDOM")) {
                         newChoice.setName(choice.getName());
+                        newTools.add(choice.getName());
                     }
                 }
             }
 
             choiceToolProficiencies.setAll(newChoices);
-        });
+
+            totalToolProficiencies.setAll(newTools);
+        };
+
+        toolProficiencies.addListener((_) -> bindProficiencies.run());
+        choiceToolProficiencies.addListener((_) -> bindChoiceProficiencies.run());
+        bindProficiencies.run();
     }
 
     private void bindSpells() {
