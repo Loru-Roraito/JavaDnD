@@ -371,8 +371,6 @@ public class GameCharacter {
 
         bindOriginFeat();
 
-        bindTraits();
-
         bindChoiceToolProficiencies();
 
         bindWeaponProficiencies();
@@ -385,6 +383,8 @@ public class GameCharacter {
         bindSelectableFeats();
         bindIncapacitated();
         bindProne();
+
+        bindTraits();
 
         for (int i = 0; i < 5; i++) {
             moneys[i] = new ObservableInteger(0);
@@ -2139,20 +2139,41 @@ public class GameCharacter {
             Runnable updateSpells = () -> {
                 // TODO: redundant, turn into a property (maximum level too)
                 float magicLevels = 0;
+                int[] classSlots = new int[9];
+                int[] subclassSlots = new int[9];
+                for (int j = 0; j < classSlots.length; j++) {
+                    classSlots[j] = 0;
+                    subclassSlots[j] = 0;
+                }
+
                 for (int j = 0; j < classes.length; j++) {
-                    if (Arrays.asList(getMagicClasses()).contains(classes[j].get())
-                            && getBoolean(new String[] { "magic_classes", classes[j].get() })) {
-                        magicLevels += levels[j].get();
+                    if (Arrays.asList(getMagicClasses()).contains(classes[j].get()) && getBoolean(new String[] {"magic_classes", classes[j].get()})) {
+                        magicLevels += levels[j].get(); // Full magic class
                     } else if (Arrays.asList(getMagicClasses()).contains(classes[j].get())) {
-                        magicLevels += levels[j].get() / 2.0;
+                        magicLevels += levels[j].get() / 2.0; // Only get half the spell levels
+                    }
+
+                    int[] classSlot = getInts(new String[] {"classes", classes[j].get(), "spell_slots", String.valueOf(levels[j].get())});
+                    int[] subclassSlot = getInts(new String[] {"classes", classes[j].get(), "subclasses", subclasses[j].get(), "spell_slots", String.valueOf(levels[j].get())});
+                    
+                    for (int si = 0; si < classSlot.length && si < classSlots.length; si++) {
+                        classSlots[si] += classSlot[si];
+                    }
+                    for (int si = 0; si < subclassSlot.length && si < subclassSlots.length; si++) {
+                        subclassSlots[si] += subclassSlot[si];
                     }
                 }
+
                 int magicLevel = (int) Math.ceil(magicLevels);
+                int[] slots = getInts(new String[] {"spell_slots", String.valueOf(magicLevel)});
+                for (int si = 0; si < slots.length; si++) {
+                    slots[si] += classSlots[si];
+                    slots[si] += subclassSlots[si];
+                }
 
                 selectableSpells.getList().get(index).clear();
                 selectableCantrips.getList().get(index).clear();
 
-                int[] slots = getInts(new String[] { "spell_slots", String.valueOf(magicLevel) });
                 int maximumLevel = 0;
                 for (int j = 0; j < spellSlots.length; j++) {
                     int oldSlots = spellSlots[j].get();
@@ -2165,31 +2186,45 @@ public class GameCharacter {
                     }
                 }
 
-                if ((Arrays.asList(getMagicClasses()).contains(classes[index].get())) && levels[index].get() > 0) {
-                    String[] spellsList = getAllSpells();
-                    for (String spell : spellsList) {
-                        int spellLevel = getSpellInt(new String[] { spell, "level" });
-                        String[] acceptedClasses = getSpellGroup(new String[] { spell, "lists" });
+                String[] spellsList = getAllSpells();
+                for (String spell : spellsList) {
+                    int spellLevel = getSpellInt(new String[] {spell, "level"});
+                    String[] acceptedClasses = getSpellGroup(new String[] {spell, "lists"});
 
-                        if (spellLevel <= maximumLevel
-                                && Arrays.asList(acceptedClasses).contains(classes[index].get())) {
-                            if (spellLevel > 0) {
-                                selectableSpells.getList().get(index).add(new Spell(spell,
-                                        getString(new String[] { "classes", classes[index].get(), "change" }),
-                                        new String[0], getAbilityIndex(spellcastingAbilities[index].get()),
-                                        getBoolean(new String[] { "classes", classes[index].get(), "limited" })));
-                            } else if (levels[index].get() >= 1) {
-                                selectableCantrips.getList().get(index).add(new Spell(spell, "LEVEL_UP", new String[0],
-                                        getAbilityIndex(spellcastingAbilities[index].get()), true));
-                            }
+                    String magicClass = classes[index].get();
+                    String classClass = getString(new String[] {"classes", classes[index].get(), "spell_class"});
+                    if (classClass != null && !classClass.equals("")) {
+                        magicClass = classClass;
+                    }
+                    Boolean hasSubclass = false;
+                    String subclassClass = getString(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "spell_class"});
+                    if (subclassClass != null && !subclassClass.equals("")) {
+                        magicClass = subclassClass;
+                        hasSubclass = true;
+                    }
+
+                    if (spellLevel <= maximumLevel
+                            && Arrays.asList(acceptedClasses).contains(magicClass)) {
+                        if (spellLevel > 0 && !hasSubclass) {
+                            selectableSpells.getList().get(index).add(new Spell(spell,
+                                    getString(new String[] {"classes", classes[index].get(), "change"}),
+                                    new String[0], getAbilityIndex(spellcastingAbilities[index].get()),
+                                    getBoolean(new String[] {"classes", classes[index].get(), "limited"})));
+                        } else if (spellLevel > 0) {
+                            selectableSpells.getList().get(index).add(new Spell(spell,
+                                    getString(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "change"}),
+                                    new String[0], getAbilityIndex(spellcastingAbilities[index].get()),
+                                    getBoolean(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "limited"})));
+                        }else if (levels[index].get() >= 1) {
+                            selectableCantrips.getList().get(index).add(new Spell(spell, "LEVEL_UP", new String[0],
+                                    getAbilityIndex(spellcastingAbilities[index].get()), true));
                         }
                     }
                 }
             };
-            for (int j = 0; j < classes.length; j++) {
-                classes[j].addListener(_ -> updateSpells.run());
-                levels[j].addListener(_ -> updateSpells.run());
-            }
+            classes[index].addListener(_ -> updateSpells.run());
+            subclasses[index].addListener(_ -> updateSpells.run());
+            levels[index].addListener(_ -> updateSpells.run());
         }
     }
 
@@ -2197,8 +2232,15 @@ public class GameCharacter {
         for (int i = 0; i < classes.length; i++) {
             int index = i;
             Runnable updateMaxSpells = () -> {
-                int[] spellsPerLevel = (getInts(new String[] { "classes", classes[index].get(), "prepared" }));
-                int[] cantripsPerLevel = (getInts(new String[] { "classes", classes[index].get(), "cantrips" }));
+                int[] spellsPerLevel = (getInts(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "prepared"}));
+                int[] cantripsPerLevel = (getInts(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "cantrips"}));
+
+                if (spellsPerLevel.length == 0) {
+                    spellsPerLevel = (getInts(new String[] {"classes", classes[index].get(), "prepared"}));
+                }
+                if (cantripsPerLevel.length == 0) {
+                    cantripsPerLevel = (getInts(new String[] {"classes", classes[index].get(), "cantrips"}));
+                }
                 if (levels[index].get() > 0) {
                     if (spellsPerLevel.length > 0) {
                         maxSpells[index].set(spellsPerLevel[levels[index].get() - 1]);
@@ -2216,6 +2258,7 @@ public class GameCharacter {
                 }
             };
             classes[index].addListener(_ -> updateMaxSpells.run());
+            subclasses[index].addListener(_ -> updateMaxSpells.run());
             levels[index].addListener(_ -> updateMaxSpells.run());
         }
     }
