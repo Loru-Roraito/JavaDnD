@@ -19,8 +19,10 @@ import com.dnd.utils.observables.ObservableString;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -58,7 +60,6 @@ public class ViewModel {
     private final StringProperty[] abilityBasesShown;
     private final StringProperty[] classEquipment;
     private final StringProperty[] backgroundEquipment;
-    private final StringProperty[][] selectableSubclasses;
     private final StringProperty[][] feats;
     private final StringProperty[][] featOnes;
     private final StringProperty[][] featTwos;
@@ -77,7 +78,7 @@ public class ViewModel {
     private final BooleanProperty isShortResting = new SimpleBooleanProperty(false);
     private final BooleanProperty isLongResting = new SimpleBooleanProperty(false);
     private final BooleanProperty isLevelingUp = new SimpleBooleanProperty(false);
-    private final BooleanProperty[] areLevelingUp;
+    private final IntegerProperty areLevelingUp = new SimpleIntegerProperty(-1);
 
     private final BooleanProperty blinded;
     private final BooleanProperty charmed;
@@ -115,6 +116,7 @@ public class ViewModel {
     private final ObservableList<String> armorProficiencies;
     private final ObservableList<String> toolProficiencies;
     private final ObservableList<String> totalToolProficiencies;
+    private final ObservableList<ObservableList<String>> selectableSubclasses;
     private final ObservableList<ObservableList<String>> selectableFeats;
     private final ObservableList<Proficiency> choiceToolProficiencies;
     private final ObservableList<Item> items;
@@ -285,11 +287,8 @@ public class ViewModel {
         classes = new SimpleStringProperty[maxClasses];
         subclasses = new SimpleStringProperty[maxClasses];
         spellcastingAbilities = new SimpleStringProperty[maxClasses];
-        areLevelingUp = new BooleanProperty[maxClasses];
 
         for (int i = 0; i < maxClasses; i++) {
-            areLevelingUp[i] = new SimpleBooleanProperty(false);
-
             levelsShown[i] = new SimpleStringProperty(getTranslation(backend.getLevelShown(i).get()));
             bindObservableString(levelsShown[i], backend.getLevelShown(i));
 
@@ -334,17 +333,8 @@ public class ViewModel {
             bindObservableString(selectableSizes[i], backend.getAvailableSize(i));
         }
 
-        int maxSubclasses = backend.getMaxSubclasses();
         int maxLineages = backend.getMaxLineages();
         int maxSets = backend.getMaxSets();
-
-        selectableSubclasses = new StringProperty[maxClasses][maxSubclasses];
-        for (int i = 0; i < maxClasses; i++) {
-            for (int j = 0; j < maxSubclasses; j++) {
-                selectableSubclasses[i][j] = new SimpleStringProperty(getTranslation(backend.getSelectableSubclass(i, j).get()));
-                bindObservableString(selectableSubclasses[i][j], backend.getSelectableSubclass(i, j));
-            }
-        }
 
         selectableLineages = new StringProperty[maxLineages];
         for (int i = 0; i < maxLineages; i++) {
@@ -457,10 +447,15 @@ public class ViewModel {
         updateCustomList(choiceToolProficiencies, backend.getChoiceToolProficiencies());
 
         selectableFeats = FXCollections.observableArrayList();
+        selectableSubclasses = FXCollections.observableArrayList();
         for (int i = 0; i < maxClasses; i++) {
             ObservableList<String> selectableFeat = FXCollections.observableArrayList();
             selectableFeats.add(selectableFeat);
             updateList(selectableFeat, backend.getNewSelectableFeats(i));
+
+            ObservableList<String> selectableSubclass = FXCollections.observableArrayList();
+            selectableSubclasses.add(selectableSubclass);
+            updateList(selectableSubclass, backend.getSelectableSubclasses(i));
 
             updateCustomListNoEdits(backend.getSelectableCantrips().getList().get(i));
             updateCustomListNoEdits(backend.getSelectableSpells().getList().get(i));
@@ -876,7 +871,11 @@ public class ViewModel {
         return mainClasses;
     }
 
-    public ObservableList<String> getselectableClasses() {
+    public ObservableList<String> getSelectableSubclasses(int index) {
+        return selectableSubclasses.get(index);
+    }
+
+    public ObservableList<String> getSelectableClasses() {
         return selectableClasses;
     }
 
@@ -928,10 +927,6 @@ public class ViewModel {
         return selectableSizes;
     }
 
-
-    public StringProperty[] getSelectableSubclasses(int index) {
-        return selectableSubclasses[index];
-    }
 
     public StringProperty[] getSelectableLineages() {
         return selectableLineages;
@@ -1111,8 +1106,8 @@ public class ViewModel {
         return isLevelingUp;
     }
 
-    public BooleanProperty areLevelingUp(int index) {
-        return areLevelingUp[index];
+    public IntegerProperty areLevelingUp() {
+        return areLevelingUp;
     }
 
     public BooleanProperty getBlinded() {

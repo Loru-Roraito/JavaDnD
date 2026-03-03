@@ -75,6 +75,7 @@ public class CharacterSerializer {
         public boolean unconscious;
         
         public ProficiencyData[] choiceToolProficiencies;
+        public ProficiencyData[] skillSources;
         public SpellData[][] spells;
         public SpellData[][] cantrips;
         public ItemData[] items;
@@ -187,6 +188,10 @@ public class CharacterSerializer {
             }
             
             // Skills
+            data.skillSources = character.getSkillSources().asList().stream()
+                .map(p -> new ProficiencyData(p.getName(), p.getStrings()))
+                .toArray(ProficiencyData[]::new);
+
             data.skillProficiencies = new boolean[character.getSkillNames().length];
             for (int i = 0; i < character.getSkillNames().length; i++) {
                 data.skillProficiencies[i] = character.getSkillProficiency(i).get();
@@ -330,6 +335,11 @@ public class CharacterSerializer {
                 }
                 
                 // Load skills
+                character.getSkillSources().getList().clear();
+                for (ProficiencyData prof : data.skillSources) {
+                    character.getSkillSources().add(new Proficiency(prof.nominative, prof.group));
+                }
+
                 for (int i = 0; i < data.skillProficiencies.length; i++) {
                     character.getSkillProficiency(i).set(data.skillProficiencies[i]);
                 }
@@ -389,7 +399,6 @@ public class CharacterSerializer {
                     character.getItems().add(new Item(item.nominative));
                 }
 
-                character.getSpells().getList().clear();
                 for (int i = 0; i < data.spells.length; i++) {
                     character.getSpells().getList().get(i).getList().clear();
                     for (SpellData spell : data.spells[i]) {
@@ -397,7 +406,6 @@ public class CharacterSerializer {
                     }
                 }
                 
-                character.getCantrips().getList().clear();
                 for (int i = 0; i < data.cantrips.length; i++) {
                     character.getCantrips().getList().get(i).getList().clear();
                     for (SpellData cantrip : data.cantrips[i]) {

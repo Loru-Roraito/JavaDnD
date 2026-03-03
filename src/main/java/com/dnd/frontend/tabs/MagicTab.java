@@ -373,7 +373,7 @@ public class MagicTab extends Tab {
                     } else if (cantrip.getPrepare().equals("LONG_REST") && character.isLongResting().get()
                         && (!cantrip.getLimited() || !hasChangedCantrip || cantrip == changingCantrip)) {
                         cantripCheckBox.setDisable(false);
-                    } else if (cantrip.getPrepare().equals("LEVEL_UP") && character.areLevelingUp(finalIndex).get()
+                    } else if (cantrip.getPrepare().equals("LEVEL_UP") && character.areLevelingUp().get() == finalIndex
                         && (!cantrip.getLimited() || !hasChangedCantrip || cantrip == changingCantrip)) {
                         cantripCheckBox.setDisable(false);
                     } else {
@@ -470,7 +470,7 @@ public class MagicTab extends Tab {
                     } else if (spell.getPrepare().equals("LONG_REST") && character.isLongResting().get()
                         && (!spell.getLimited() || !hasChangedSpell || spell == changingSpell)) {
                         spellCheckBox.setDisable(false);
-                    } else if (spell.getPrepare().equals("LEVEL_UP") && character.areLevelingUp(finalIndex).get()
+                    } else if (spell.getPrepare().equals("LEVEL_UP") && character.areLevelingUp().get() == finalIndex
                         && (!spell.getLimited() || !hasChangedSpell || spell == changingSpell)) {
                         spellCheckBox.setDisable(false);
                     } else {

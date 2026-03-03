@@ -113,9 +113,7 @@ public class TooltipComboBox extends ComboBox<String> {
         combinedItems.setAll(newItems);
 
         // TODO: fix
-        // If I don't do this, it has a visual bug for which the displayed value is wrong
-        setValue("");
-        setValue(currentValue);
+        // If I don't reset the value, it has a visual bug for which the displayed value is wrong
     }
 
     public TooltipLabel getLabel() {
@@ -230,27 +228,36 @@ public class TooltipComboBox extends ComboBox<String> {
         return fontSize * 1.5 + 13; // 1.5x font size + 13px padding TODO: need to remove this part somehow
     }
 
-    private void updateListViewSize() {
-        Platform.runLater(() -> {
-            try {
-                int itemCount = getItems().size();
-                int maxRows = Math.min(itemCount, 10);
-
-                double cellHeight = calculateCellHeight();
-                double padding = 2;
-                double totalHeight = (maxRows * cellHeight) + padding;
-                
-                listView.setPrefHeight(totalHeight);
-                listView.setMinHeight(totalHeight);
-                listView.setMaxHeight(totalHeight);
-                listView.setPrefWidth(this.getWidth());
-                listView.setMinWidth(this.getWidth());
-                listView.setMaxWidth(this.getWidth());
-                listView.refresh(); // Force refresh after size change
-            } catch (Exception e) {
-                System.err.println("Error updating ListView size: " + e.getMessage());
+    private double calculateMaxItemWidth() {
+        double maxWidth = this.getWidth(); // at minimum, match the ComboBox width
+        javafx.scene.text.Font font = javafx.scene.text.Font.getDefault();
+        for (String item : getItems()) {
+            javafx.scene.text.Text text = new javafx.scene.text.Text(item);
+            text.setFont(font);
+            double textWidth = text.getLayoutBounds().getWidth() + 30; // padding + scrollbar
+            if (textWidth > maxWidth) {
+                maxWidth = textWidth;
             }
-        });
+        }
+        return maxWidth;
+    }
+
+    private void updateListViewSize() {
+        int itemCount = getItems().size();
+        int maxRows = Math.min(itemCount, 10);
+
+        double cellHeight = calculateCellHeight();
+        double padding = 2;
+        double totalHeight = (maxRows * cellHeight) + padding;
+        
+        listView.setPrefHeight(totalHeight);
+        listView.setMinHeight(totalHeight);
+        listView.setMaxHeight(totalHeight);
+        double width = calculateMaxItemWidth();
+        listView.setPrefWidth(width);
+        listView.setMinWidth(width);
+        listView.setMaxWidth(width);
+        listView.refresh(); // Force refresh after size change
     }
 
     @Override

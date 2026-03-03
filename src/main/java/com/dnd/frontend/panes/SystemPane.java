@@ -1,12 +1,13 @@
 package com.dnd.frontend.panes;
 
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.tabs.CharacterTab;
+import com.dnd.frontend.tabs.InfoTab;
+import com.dnd.frontend.tooltip.TooltipButton;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
-import com.dnd.frontend.tabs.CharacterTab;
-import com.dnd.frontend.tooltip.TooltipButton;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,7 @@ public class SystemPane extends GridPane {
     private String advantage = getTranslation("DISABLED_M");
     private final ViewModel character;
 
-    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, TabPane classTabs, ViewModel character, Stage stage) {
+    public SystemPane(TabPane mainTabPane, AbilitiesPane abilitiesPane, HealthPane healthPane, TabPane classTabs, ViewModel character, Stage stage, InfoTab infoTab) {
         getStyleClass().add("grid-pane");
         this.character = character;
         TooltipLabel generationLabel = new TooltipLabel(getTranslation("GENERATION_METHOD"), mainTabPane);
@@ -196,18 +197,47 @@ public class SystemPane extends GridPane {
         });
 
         TooltipButton levelUp = new TooltipButton(getTranslation("LEVEL_UP"), mainTabPane);
+        TooltipButton addClass = new TooltipButton(getTranslation("ADD_CLASS"), mainTabPane);
+        
         add(levelUp, 2, 4);
         levelUp.setOnAction(_ -> {
             if (!character.isLevelingUp().get()) {
                 int classIndex = classTabs.getSelectionModel().getSelectedIndex();
-                character.areLevelingUp(classIndex).set(true);
+                character.areLevelingUp().set(classIndex);
                 character.getLevel(classIndex).set(character.getLevel(classIndex).get() + 1);
                 levelUp.setText(getTranslation("FINISH"));
+                addClass.setText(getTranslation("FINISH"));
                 character.isLevelingUp().set(true);
             } else {
                 character.fill(false);
+                character.areLevelingUp().set(-1);
                 character.isLevelingUp().set(false);
                 levelUp.setText(getTranslation("LEVEL_UP"));
+                addClass.setText(getTranslation("ADD_CLASS"));
+            }
+        });
+
+        add(addClass, 2, 5);
+        addClass.setOnAction(_ -> {
+            if (!character.isLevelingUp().get()) {
+                int classIndex;
+                for (classIndex = 0; classIndex < character.getMaxClasses(); classIndex++) {
+                    if (character.getClasse(classIndex).get().equals(getTranslation("NONE"))) {
+                        break;
+                    }
+                }
+                character.areLevelingUp().set(classIndex);
+                character.getLevel(classIndex).set(character.getLevel(classIndex).get() + 1);
+                infoTab.newClass();
+                levelUp.setText(getTranslation("FINISH"));
+                addClass.setText(getTranslation("FINISH"));
+                character.isLevelingUp().set(true);
+            } else {
+                character.fill(false);
+                character.areLevelingUp().set(-1);
+                character.isLevelingUp().set(false);
+                levelUp.setText(getTranslation("LEVEL_UP"));
+                addClass.setText(getTranslation("ADD_CLASS"));
             }
         });
 
@@ -215,15 +245,30 @@ public class SystemPane extends GridPane {
             if (!character.isEditing().get() && !character.isShortResting().get() && !character.isLongResting().get() && character.getTotalLevel().get() < 20) {
                 levelUp.setVisible(true);
                 levelUp.setManaged(true);
+                if (!character.getSelectableClasses().isEmpty()) {
+                    addClass.setVisible(true);
+                    addClass.setManaged(true);
+                } else {
+                    addClass.setVisible(false);
+                    addClass.setManaged(false);
+                }
+            } else if (!character.isEditing().get() && !character.isShortResting().get() && !character.isLongResting().get() && character.getTotalLevel().get() >= 20 && character.isLevelingUp().get()) {
+                levelUp.setVisible(true);
+                levelUp.setManaged(true);
+                addClass.setVisible(true);
+                addClass.setManaged(true);
             } else {
                 levelUp.setVisible(false);
                 levelUp.setManaged(false);
+                addClass.setVisible(false);
+                addClass.setManaged(false);
             }
         };
         showLevelUp.run();
         character.isEditing().addListener(_ -> showLevelUp.run());
         character.isShortResting().addListener(_ -> showLevelUp.run());
         character.isLongResting().addListener(_ -> showLevelUp.run());
+        character.isLevelingUp().addListener(_ -> showLevelUp.run());
         character.getTotalLevel().addListener(_ -> showLevelUp.run());
     }
 

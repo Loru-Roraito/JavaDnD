@@ -65,19 +65,20 @@ public class GameCharacter {
     private final ObservableString[][] feats;
     private final ObservableString[][] featOnes;
     private final ObservableString[][] featTwos;
-    private final ObservableString[][] selectableSubclasses;
     private final ObservableString[][][] featsAbilities;
 
     private final CustomObservableList<Proficiency> choiceToolProficiencies = new CustomObservableList<>();
+    private final CustomObservableList<Proficiency> skillSources = new CustomObservableList<>();
     private final CustomObservableList<String> selectableAbilities = new CustomObservableList<>();
-    private final CustomObservableList<String> selectableClasses;
-    private final CustomObservableList<String> mainClasses;
+    private final CustomObservableList<String> selectableClasses = new CustomObservableList<>();
+    private final CustomObservableList<String> mainClasses = new CustomObservableList<>();
     private final CustomObservableList<String> traits = new CustomObservableList<>();
     private final CustomObservableList<String> weaponProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> armorProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> toolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> totalToolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> selectableLanguages = new CustomObservableList<>();
+    private final CustomObservableList<CustomObservableList<String>> selectableSubclasses = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> possibleFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> selectableFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> selectableCantrips = new CustomObservableList<>();
@@ -93,8 +94,6 @@ public class GameCharacter {
     private static int maxSets;
     private static int maxClasses;
 
-    private int maxSkills = 0;
-    private final int[] moreSkills;
     private final static int[] standardArray = new int[] {15, 14, 13, 12, 10, 8};
     private static int[] skillAbilities;
 
@@ -108,10 +107,8 @@ public class GameCharacter {
     private final ObservableInteger currentHealth = new ObservableInteger(1);
     private final ObservableInteger fixedHealth = new ObservableInteger(0);
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
-    private final ObservableInteger givenSkills = new ObservableInteger(0);
     private final ObservableInteger generationPoints = new ObservableInteger(0);
     private final ObservableInteger exhaustion = new ObservableInteger(0);
-    private final ObservableInteger[] moreGivenSkills;
     private final ObservableInteger[] spellcastingAbilityModifiers;
     private final ObservableInteger[] spellcastingAttackModifiers;
     private final ObservableInteger[] spellcastingSaveDCs;
@@ -166,9 +163,9 @@ public class GameCharacter {
     private final ObservableBoolean[] skillProficiencies;
 
     public GameCharacter() {
-        skillNames = getStrings(new String[] { "skills" });
-        abilityNames = getStrings(new String[] { "abilities" });
-        sets = getStrings(new String[] { "sets" });
+        skillNames = getStrings(new String[] {"skills"});
+        abilityNames = getStrings(new String[] {"abilities"});
+        sets = getStrings(new String[] {"sets"});
         int skillCount = skillNames.length;
         int abilityCount = abilityNames.length;
 
@@ -205,14 +202,11 @@ public class GameCharacter {
         spellcastingAbilityModifiers = new ObservableInteger[maxClasses];
         spellcastingAttackModifiers = new ObservableInteger[maxClasses];
         spellcastingSaveDCs = new ObservableInteger[maxClasses];
-        moreGivenSkills = new ObservableInteger[maxClasses];
 
-        moreSkills = new int[maxClasses];
 
         for (int i = 0; i < maxClasses; i++) {
             spells.add(new CustomObservableList<>());
             cantrips.add(new CustomObservableList<>());
-            moreSkills[i] = 0;
         }
 
         classes[0] = new ObservableString("RANDOM");
@@ -227,7 +221,6 @@ public class GameCharacter {
         spellcastingAbilityModifiers[0] = new ObservableInteger(0);
         spellcastingAttackModifiers[0] = new ObservableInteger(0);
         spellcastingSaveDCs[0] = new ObservableInteger(0);
-        moreGivenSkills[0] = new ObservableInteger(0);
 
         for (int i = 1; i < maxClasses; i++) {
             classes[i] = new ObservableString("NONE");
@@ -242,7 +235,6 @@ public class GameCharacter {
             spellcastingAbilityModifiers[i] = new ObservableInteger(0);
             spellcastingAttackModifiers[i] = new ObservableInteger(0);
             spellcastingSaveDCs[i] = new ObservableInteger(0);
-            moreGivenSkills[i] = new ObservableInteger(0);
         }
 
         for (int i = 0; i < maximumHitDies.length; i++) {
@@ -293,7 +285,7 @@ public class GameCharacter {
             bindAvailableMinuses(i);
         }
 
-        maxFeats = getInt(new String[] { "max_feats" });
+        maxFeats = getInt(new String[] {"max_feats"});
         feats = new ObservableString[maxClasses][maxFeats];
         featOnes = new ObservableString[maxClasses][maxFeats];
         featTwos = new ObservableString[maxClasses][maxFeats];
@@ -311,7 +303,7 @@ public class GameCharacter {
 
         bindFeatsAbilities();
 
-        maxSets = getInt(new String[] { "max_sets" });
+        maxSets = getInt(new String[] {"max_sets"});
         classEquipment = new ObservableString[maxSets + 1];
         backgroundEquipment = new ObservableString[maxSets + 1];
 
@@ -329,12 +321,9 @@ public class GameCharacter {
 
         bindFixedSkills();
 
-        maxSubclasses = getInt(new String[] { "max_subclasses" });
-        selectableSubclasses = new ObservableString[maxClasses][maxSubclasses];
-        bindselectableSubclasses();
+        maxSubclasses = getInt(new String[] {"max_subclasses"});
+        bindSelectableSubclasses();
 
-        selectableClasses = new CustomObservableList<>();
-        mainClasses = new CustomObservableList<>();
         bindselectableClasses();
 
         for (int i = 0; i < abilityBases.length; i++) {
@@ -345,7 +334,7 @@ public class GameCharacter {
         }
 
         for (int i = 0; i < skillBonuses.length; i++) {
-            skillAbilities[i] = getInt(new String[] { "skills", skillNames[i], "ability" });
+            skillAbilities[i] = getInt(new String[] {"skills", skillNames[i], "ability"});
             skillBonuses[i] = new ObservableInteger(0);
             skillModifiers[i] = new ObservableInteger(0);
             skillProficiencies[i] = new ObservableBoolean(false);
@@ -354,12 +343,10 @@ public class GameCharacter {
             bindSkillProficiency(i);
             bindSkillBonus(i);
             bindSkillModifier(i);
-            bindAvailableSkills(i);
         }
+        bindSkills();
 
-        bindGivenSkills();
-
-        maxLineages = getInt(new String[] { "max_lineages" });
+        maxLineages = getInt(new String[] {"max_lineages"});
         selectableLineages = new ObservableString[maxLineages];
         bindselectableLineages();
 
@@ -542,10 +529,6 @@ public class GameCharacter {
 
     public CustomObservableList<String> getMainClasses() {
         return mainClasses;
-    }
-
-    public ObservableString getSelectableSubclass(int classIndex, int subclassIndex) {
-        return selectableSubclasses[classIndex][subclassIndex];
     }
 
     public ObservableString getSelectableLineage(int index) {
@@ -900,12 +883,20 @@ public class GameCharacter {
         return choiceToolProficiencies;
     }
 
+    public CustomObservableList<Proficiency> getSkillSources() {
+        return skillSources;
+    }
+
     public CustomObservableList<String> getSelectableAbilities() {
         return selectableAbilities;
     }
 
     public CustomObservableList<String> getNewSelectableFeats(int index) {
         return selectableFeats.getList().get(index);
+    }
+
+    public CustomObservableList<String> getSelectableSubclasses(int index) {
+        return selectableSubclasses.getList().get(index);
     }
 
     public CustomObservableList<CustomObservableList<Spell>> getSelectableCantrips() {
@@ -929,37 +920,28 @@ public class GameCharacter {
     }
 
     // Binders
-    private void bindselectableSubclasses() {
+    private void bindSelectableSubclasses() {
         // Listen for changes to the 'classe' property and update selectableSubclasses
         // accordingly
 
         for (int classIndex = 0; classIndex < maxClasses; classIndex++) {
             int index = classIndex;
+
+            selectableSubclasses.getList().add(new CustomObservableList<>());
+
             Runnable updateSubclasses = () -> {
                 if (levels[index].get() >= 3) {
-                    String[] possibleSubclasses = getStrings(
-                            new String[] { "classes", classes[index].get(), "subclasses" });
-                    for (int i = 0; i < selectableSubclasses[index].length; i++) {
-                        if (possibleSubclasses != null && i < possibleSubclasses.length) {
-                            selectableSubclasses[index][i].set(possibleSubclasses[i]);
-                        } else {
-                            selectableSubclasses[index][i].set("");
-                        }
-                    }
+                    List<String> possibleSubclasses = new ArrayList<>(Arrays.asList(getStrings(new String[] {"classes", classes[index].get(), "subclasses"})));
+                    possibleSubclasses.add("RANDOM");
+                    selectableSubclasses.getList().get(index).setAll(possibleSubclasses);
                 } else {
                     // If level < 3, clear all subclasses
-                    for (ObservableString availableSubclass : selectableSubclasses[index]) {
-                        availableSubclass.set("");
-                    }
+                    selectableSubclasses.getList().get(index).clear();
                 }
             };
 
             classes[index].addListener(_ -> updateSubclasses.run());
             levels[index].addListener(_ -> updateSubclasses.run());
-
-            for (int i = 0; i < selectableSubclasses[index].length; i++) {
-                selectableSubclasses[index][i] = new ObservableString("");
-            }
 
             // Initial population
             updateSubclasses.run();
@@ -1028,6 +1010,9 @@ public class GameCharacter {
         for (ObservableString classe : classes) {
             classe.addListener(_ -> updateselectableClasses.run());
         }
+        for (ObservableInteger ability : abilities) {
+            ability.addListener(_ -> updateselectableClasses.run());
+        }
 
         updateselectableClasses.run();
     }
@@ -1035,7 +1020,7 @@ public class GameCharacter {
     private void bindOriginFeat() {
         background.addListener(
             (newVal) -> {
-                originFeat.set(getString(new String[] { "backgrounds", newVal, "feat" }));
+                originFeat.set(getString(new String[] {"backgrounds", newVal, "feat"}));
                 backgroundEquipment[0].set(newVal);
             });
     }
@@ -1043,7 +1028,7 @@ public class GameCharacter {
     private void bindselectableSizes() {
         species.addListener(
                 (newVal) -> {
-                    String[] sizes = getStrings(new String[] { "species", newVal, "size" });
+                    String[] sizes = getStrings(new String[] {"species", newVal, "size"});
                     for (int i = 0; i < selectableSizes.length; i++) {
                         if (sizes != null && i < sizes.length) {
                             selectableSizes[i].set(sizes[i]);
@@ -1068,7 +1053,7 @@ public class GameCharacter {
         for (int classIndex = 0; classIndex < feats.length; classIndex++) {
             int index = classIndex;
             Runnable updateAvailableFeats = () -> {
-                int[] newFeats = getInts(new String[] { "classes", classes[index].get(), "feats" });
+                int[] newFeats = getInts(new String[] {"classes", classes[index].get(), "feats"});
                 int i = 0;
                 if (newFeats != null) {
                     for (int possibleFeat : newFeats) {
@@ -1102,14 +1087,14 @@ public class GameCharacter {
                 int index = j;
                 feats[classIndex][index].addListener(
                         (newVal) -> {
-                            String[] abilitiesPossible = getStrings(new String[] { "feats", newVal, "abilities" });
+                            String[] abilitiesPossible = getStrings(new String[] {"feats", newVal, "abilities"});
                             String randomValue = "RANDOM";
                             if (abilitiesPossible.length == 1) {
                                 randomValue = abilitiesPossible[0];
                             } else if (abilitiesPossible.length == 0) {
                                 randomValue = "NONE";
                             }
-                            int n = getInt(new String[] { "feats", newVal, "max" });
+                            int n = getInt(new String[] {"feats", newVal, "max"});
                             switch (n) {
                                 case 2 -> {
                                     featTwos[classIndex][index].set(randomValue);
@@ -1132,7 +1117,7 @@ public class GameCharacter {
     private void bindselectableLineages() {
         species.addListener(
                 (newVal) -> {
-                    String[] lineages = getStrings(new String[] { "species", newVal, "lineages" });
+                    String[] lineages = getStrings(new String[] {"species", newVal, "lineages"});
                     for (int i = 0; i < selectableLineages.length; i++) {
                         if (lineages != null && i < lineages.length) {
                             selectableLineages[i].set(lineages[i]);
@@ -1171,65 +1156,17 @@ public class GameCharacter {
         }
     }
 
-    private void bindGivenSkills() {
-        // Bind givenSkills to track the total number of skill proficiencies given
-        Runnable updateGivenSkills = () -> {
-            int[] totals = new int[classes.length];
-            for (int i = 0; i < totals.length; i++) {
-                totals[i] = 0;
-            }
-            for (ObservableBoolean skillProficiency : skillProficiencies) {
-                if (skillProficiency.get()) {
-                    boolean fixed = false;
-                    for (ObservableBoolean fixedSkill : fixedSkills) {
-                        if (fixedSkill.get()) {
-                            fixed = true;
-                        }
-                    }
-
-                    if (!fixed) {
-                        int index = 0;
-                        for (int i = 1; i < classes.length; i++) {
-                            int newSkills = getInt(new String[] {"classes", classes[i].get(), "more_skills"});
-                            if (newSkills > 0) {
-                                if (Arrays.asList(getStrings(new String[] {"classes", classes[i].get(), "skills"})).contains(
-                                        skillNames[Arrays.asList(skillProficiencies).indexOf(skillProficiency)])
-                                        && newSkills > totals[i]) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                        }
-                        totals[index]++;
-                    }
-                }
-            }
-
-            givenSkills.set(totals[0]);
-            for (int i = 1; i < classes.length; i++) {
-                moreGivenSkills[i].set(totals[i]);
-            }
-        };
-
-        for (ObservableBoolean skillProficiency : skillProficiencies) {
-            skillProficiency.addListener(_ -> updateGivenSkills.run());
-        }
-        for (ObservableBoolean fixedSkill : fixedSkills) {
-            fixedSkill.addListener(_ -> updateGivenSkills.run());
-        }
-    }
-
     private void bindCreatureType() {
         species.addListener(
                 (newVal) -> {
-                    creatureType.set(getString(new String[] { "species", newVal, "type" }));
+                    creatureType.set(getString(new String[] {"species", newVal, "type"}));
                 });
     }
 
     private void bindAvailablePlusOne(int index) {
         Runnable updateAvailablePlusOne = () -> {
             Boolean bool = false;
-            String[] possibleAbilities = getStrings(new String[] { "backgrounds", background.get(), "abilities" });
+            String[] possibleAbilities = getStrings(new String[] {"backgrounds", background.get(), "abilities"});
             if (Arrays.asList(possibleAbilities).contains(abilityNames[index])
                     && !abilityPlusTwos[index].get()
                     && (givenBonuses.get() < 3 || abilityPlusOnes[index].get())) {
@@ -1256,7 +1193,7 @@ public class GameCharacter {
     private void bindAvailablePlusTwo(int index) {
         Runnable updateAvailablePlusTwo = () -> {
             Boolean bool = false;
-            String[] possibleAbilities = getStrings(new String[] { "backgrounds", background.get(), "abilities" });
+            String[] possibleAbilities = getStrings(new String[] {"backgrounds", background.get(), "abilities"});
             if (Arrays.asList(possibleAbilities).contains(abilityNames[index])
                     && !abilityPlusOnes[index].get()
                     && (givenBonuses.get() < 2 || abilityPlusTwos[index].get())) {
@@ -1314,57 +1251,135 @@ public class GameCharacter {
         abilityBases[index].addListener(_ -> updateAvailableMinuses.run());
     }
 
-    private void bindAvailableSkills(int index) {
-        Runnable updateAvailableSkills = () -> {
-            String[] possibleSkills = getStrings(new String[] {"classes", classes[0].get(), "skills"});
-            maxSkills = getInt(new String[] {"classes", classes[0].get(), "skills_number"});
-            for (int i = 1; i < classes.length; i++) {
-                moreSkills[i] = getInt(new String[] {"classes", classes[i].get(), "more_skills"});
+    private int tryAssign(int index, int iteration) {
+        if (fixedSkills[index].get()) {
+            return -1;
+        }
+        for (int i = 0; i < skillSources.size(); i++) {
+            Proficiency skillSource = skillSources.asList().get(i);
+            if ((skillSource.getName().equals("RANDOM")
+                    && Arrays.asList(getStrings(new String[] {"classes", skillSource.getStrings(), "skills"})).contains(skillNames[index]))
+                    || skillSource.getName().equals(skillNames[index])) {
+                return i;
+            }
+        }
+        if (iteration < skillSources.size()) {
+            Proficiency skillSource = skillSources.asList().get(iteration);
+            int newIndex;
+            if (!skillSource.getName().equals("RANDOM")) {
+                // Does it recurse infinetely? Who knows, I hope not
+                newIndex = tryAssign(getSkillIndex(skillSource.getName()), 0);
+            } else {
+                return tryAssign(index, iteration + 1);
+            }
+            if (newIndex >= 0 && newIndex != iteration) {
+                skillSources.asList().get(newIndex).setName(skillSource.getName());
+                skillSource.setName("RANDOM");
+                return tryAssign(index, iteration + 1);
+            } else {
+                return tryAssign(index, iteration + 1);
+            }
+        } else {
+            return -1;
+        }
+    }
+
+    private boolean isSelectable(int index) {
+        if (fixedSkills[index].get()) {
+            // Unselectable if it's a fixed skill
+            return false;
+        } else {
+            int selected = 0;
+            for (int i = 0; i < skillProficiencies.length; i++) {
+                if (skillProficiencies[i].get() && !fixedSkills[i].get()) {
+                    selected++;
+                }
+            }
+            if (skillProficiencies[index].get()) {
+                selected--; // Don't count the currently selected skill, when we are at the limit we can still deselect it
+            }
+            // Unavailable if more selections than available
+            if (selected >= skillSources.size()) {
+                return false;
             }
 
-            if (Arrays.asList(possibleSkills).contains(skillNames[index])
-                    && !fixedSkills[index].get()
-                    && (givenSkills.get() < maxSkills || skillProficiencies[index].get())) {
-                availableSkills[index].set(true);
-            } else {
-                boolean anotherClass = false;
-                for (int i = 1; i < classes.length; i++) {
-                    String[] morePossibleSkills = getStrings(new String[] {"classes", classes[i].get(), "skills"});
-                    if (Arrays.asList(morePossibleSkills).contains(skillNames[index])
-                            && !fixedSkills[index].get()
-                            && (moreGivenSkills[i].get() < moreSkills[i] || skillProficiencies[index].get())) {
-                        availableSkills[index].set(true);
-                        anotherClass = true;
-                        break;
-                    }
-                }
+            return tryAssign(index, 0) >= 0;
+        }
+    }
 
-                if (!anotherClass) {
-                    availableSkills[index].set(false);
+    private void bindSkills() {
+        Runnable updateSkills = () -> {
+            List<Proficiency> newSkills = new ArrayList<>();
+
+            int skillNumber = getInt(new String[] {"classes", classes[0].get(), "skills_number"});
+            for (int i = 0; i < skillNumber; i++) {
+                newSkills.add(new Proficiency("RANDOM", classes[0].get()));
+            }
+            for (int i = 1; i < classes.length; i++) {
+                skillNumber = getInt(new String[] {"classes", classes[i].get(), "more_skills"});
+                for (int j = 0; j < skillNumber; j++) {
+                    newSkills.add(new Proficiency("RANDOM", classes[i].get()));
+                }
+            }
+
+            skillSources.setAll(newSkills);
+        };
+        updateSkills.run();
+
+        for (ObservableString classe : classes) {
+            classe.addListener(_ -> updateSkills.run());
+        }
+
+        Runnable updateSkill = () -> {
+            for (int i = 0; i < skillProficiencies.length; i++) {
+                if (!fixedSkills[i].get()) {
+                    boolean selectable = isSelectable(i);
+                    availableSkills[i].set(selectable);
+                    if (!selectable) {
+                        skillProficiencies[i].set(false);
+                    }
                 }
             }
         };
-        for (ObservableString classe : classes) {
-            classe.addListener(_ -> updateAvailableSkills.run());
-        }
-        givenSkills.addListener(_ -> updateAvailableSkills.run());
-        for (ObservableInteger moreGivenSkill : moreGivenSkills) {
-            moreGivenSkill.addListener(_ -> updateAvailableSkills.run());
-        }
-        fixedSkills[index].addListener(_ -> updateAvailableSkills.run());
 
-        availableSkills[index].addListener(
-            (newVal) -> {
-                if (!newVal && skillProficiencies[index].get() && !fixedSkills[index].get()) {
-                    skillProficiencies[index].set(false);
+        for (int i = 0; i < skillProficiencies.length; i++) {
+            final int index = i;
+            skillProficiencies[index].addListener(_ -> {
+                if (!fixedSkills[index].get()) {
+                    if (skillProficiencies[index].get()) {
+                        boolean alreadyAdded = false;
+                        for (Proficiency skillSource : skillSources.getList()) {
+                            if (skillSource.getName().equals(skillNames[index])) {
+                                alreadyAdded = true;
+                                break;
+                            }
+                        }
+
+                        if (!alreadyAdded) {
+                            int newIndex = tryAssign(index, 0);
+                            if (newIndex >= 0) {
+                                skillSources.asList().get(newIndex).setName(skillNames[index]);
+                            }
+                        }
+                    } else {
+                        for (Proficiency skillSource : skillSources.getList()) {
+                            if (skillSource.getName().equals(skillNames[index])) {
+                                skillSource.setName("RANDOM");
+                                break;
+                            }
+                        }
+                    }
+                    updateSkill.run();
                 }
             });
+        }
+        skillSources.addListener(_ -> updateSkill.run());
     }
 
     private void bindFixedSkills() {
         background.addListener(
             (newVal) -> {
-                String[] possibleSkills = getStrings(new String[] { "backgrounds", newVal, "skills" });
+                String[] possibleSkills = getStrings(new String[] {"backgrounds", newVal, "skills"});
                 for (int i = 0; i < fixedSkills.length; i++) {
                     fixedSkills[i].set(java.util.Arrays.asList(possibleSkills).contains(skillNames[i]));
                 }
@@ -1391,7 +1406,7 @@ public class GameCharacter {
                 for (int j = 0; j < feats[i].length; j++) {
                     String featName = featOnes[i][j].get();
                     if (featName != null && featName.equals(abilityNames[index])) {
-                        if (getString(new String[] { "feats", feats[i][j].get(), "type" }).equals("EPIC_BOON")) {
+                        if (getString(new String[] {"feats", feats[i][j].get(), "type"}).equals("EPIC_BOON")) {
                             boonOne++;
                         } else {
                             featOne++;
@@ -1400,7 +1415,7 @@ public class GameCharacter {
 
                     featName = featTwos[i][j].get();
                     if (featName != null && featName.equals(abilityNames[index])) {
-                        if (getString(new String[] { "feats", feats[i][j].get(), "type" }).equals("EPIC_BOON")) {
+                        if (getString(new String[] {"feats", feats[i][j].get(), "type"}).equals("EPIC_BOON")) {
                             boonTwo++;
                         } else {
                             featTwo++;
@@ -1437,7 +1452,7 @@ public class GameCharacter {
     private void bindSavingThrowProficiencies(int index) {
         // Bind the savingThrowProficiencies to the corresponding ability
         Runnable updateSavingThrowProficiencies = () -> {
-            String[] possibleSaves = getStrings(new String[] { "classes", classes[0].get(), "abilities" });
+            String[] possibleSaves = getStrings(new String[] {"classes", classes[0].get(), "abilities"});
             savingThrowProficiencies[index].set(Arrays.asList(possibleSaves).contains(abilityNames[index]));
         };
         classes[0].addListener(_ -> updateSavingThrowProficiencies.run());
@@ -1557,7 +1572,7 @@ public class GameCharacter {
 
     private void bindSpeed() {
         Runnable updateSpeed = () -> {
-            int baseSpeed = getInt(new String[] { "species", species.get(), "speed" });
+            int baseSpeed = getInt(new String[] {"species", species.get(), "speed"});
             if (baseSpeed > 0) {
                 speed.set(baseSpeed);
             } else {
@@ -1588,7 +1603,7 @@ public class GameCharacter {
 
     private void bindDarkvision() {
         Runnable updateDarkvision = () -> {
-            int baseDarkvision = getInt(new String[] { "species", species.get(), "darkvision" });
+            int baseDarkvision = getInt(new String[] {"species", species.get(), "darkvision"});
             darkvision.set(baseDarkvision);
         };
         species.addListener(_ -> updateDarkvision.run());
@@ -1724,15 +1739,8 @@ public class GameCharacter {
 
         currentHealthShown.addListener((newValue) -> {
             if (newValue != null) {
-                try {
-                    // Attempt to parse the new value as an integer
-                    int parsedValue = Integer.parseInt(newValue);
-                    currentHealth.set(parsedValue); // Update property
-                } catch (NumberFormatException e) {
-                    // Handle the case where the value is not a valid integer
-                    System.err.println("Warning: Invalid health value: " + newValue);
-                    currentHealth.set(health.get()); // Set a default value
-                }
+                int parsedValue = Integer.parseInt(newValue);
+                currentHealth.set(parsedValue); // Update property
             } else {
                 currentHealth.set(health.get()); // Set a default value
             }
@@ -1749,7 +1757,7 @@ public class GameCharacter {
         for (int i = 0; i < classes.length; i++) {
             int index = i;
             Runnable updateHitDie = () -> {
-                int baseHitDie = getInt(new String[] { "classes", classes[index].get(), "hit_die" });
+                int baseHitDie = getInt(new String[] {"classes", classes[index].get(), "hit_die"});
                 hitDies[index].set(baseHitDie > 0 ? baseHitDie : 4);
             };
             classes[index].addListener(_ -> updateHitDie.run());
@@ -1761,15 +1769,8 @@ public class GameCharacter {
             int index = i;
             moneysShown[index].addListener((newValue) -> {
                 if (newValue != null && !newValue.equals("")) {
-                    try {
-                        // Attempt to parse the new value as an integer
-                        int parsedValue = Integer.parseInt(newValue);
-                        moneys[index].set(parsedValue); // Update the money property
-                    } catch (NumberFormatException e) {
-                        // Handle the case where the value is not a valid integer
-                        System.err.println("Warning: Invalid money value: " + newValue);
-                        moneys[index].set(0); // Set a default value (e.g., 0)
-                    }
+                    int parsedValue = Integer.parseInt(newValue);
+                    moneys[index].set(parsedValue); // Update the money property
                 } else {
                     moneys[index].set(0); // Set a default value
                 }
@@ -1792,15 +1793,8 @@ public class GameCharacter {
                         // Handle the "RANDOM" case explicitly
                         levels[index].set(0); // Set level to 0 or any default value for "RANDOM"
                     } else {
-                        try {
-                            // Attempt to parse the new value as an integer
-                            int parsedValue = Integer.parseInt(newValue);
-                            levels[index].set(parsedValue); // Update the level property
-                        } catch (NumberFormatException e) {
-                            // Handle the case where the value is not a valid integer
-                            System.err.println("Warning: Invalid level value: " + newValue);
-                            levels[index].set(0); // Set a default value (e.g., 0)
-                        }
+                        int parsedValue = Integer.parseInt(newValue);
+                        levels[index].set(parsedValue); // Update the level property
                     }
                 } else {
                     levels[index].set(0); // Set a default value
@@ -1844,15 +1838,8 @@ public class GameCharacter {
                     // Handle the "RANDOM" case explicitly
                     abilityBases[index].set(0);
                 } else {
-                    try {
-                        // Attempt to parse the new value as an integer
-                        int parsedValue = Integer.parseInt(newValue);
-                        abilityBases[index].set(parsedValue);
-                    } catch (NumberFormatException e) {
-                        // Handle the case where the value is not a valid integer
-                        System.err.println("Warning: Invalid value: " + newValue);
-                        abilityBases[index].set(10); // Set a default value
-                    }
+                    int parsedValue = Integer.parseInt(newValue);
+                    abilityBases[index].set(parsedValue);
                 }
             } else {
                 abilityBases[index].set(0); // Set a default value
@@ -1875,21 +1862,21 @@ public class GameCharacter {
     private void bindTraits() {
         Runnable updateTraits = () -> {
             traits.clear(); // Keep the list in sync
-            String[] traitNames = getStrings(new String[] { "species", species.get(), "traits" });
+            String[] traitNames = getStrings(new String[] {"species", species.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
                     traits.add(trait);
                 }
             }
 
-            traitNames = getStrings(new String[] { "species", species.get(), "lineages", lineage.get(), "traits" });
+            traitNames = getStrings(new String[] {"species", species.get(), "lineages", lineage.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
                     traits.add(trait);
                 }
             }
 
-            traitNames = getStrings(new String[] { "feats", originFeat.get(), "traits" });
+            traitNames = getStrings(new String[] {"feats", originFeat.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
                     traits.add(trait);
@@ -1897,19 +1884,19 @@ public class GameCharacter {
             }
 
             for (int i = 0; i < classes.length; i++) {
-                traitNames = getStrings(new String[] { "classes", classes[i].get(), "traits" });
+                traitNames = getStrings(new String[] {"classes", classes[i].get(), "traits"});
                 if (traitNames != null) {
                     for (String trait : traitNames) {
-                        if (levels[i].get() >= getInt(new String[] { "classes", classes[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
+                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
                             traits.add(trait);
                         }
                     }
                 }
 
-                traitNames = getStrings(new String[] { "classes", classes[i].get(), "subclasses", subclasses[i].get(), "traits" });
+                traitNames = getStrings(new String[] {"classes", classes[i].get(), "subclasses", subclasses[i].get(), "traits"});
                 if (traitNames != null) {
                     for (String trait : traitNames) {
-                        if (levels[i].get() >= getInt(new String[] { "classes", classes[i].get(), "subclasses",subclasses[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
+                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "subclasses",subclasses[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
                             traits.add(trait);
                         }
                     }
@@ -1917,7 +1904,7 @@ public class GameCharacter {
 
                 for (ObservableString feat : feats[i]) {
                     if (possibleFeats.getList().get(i).getList().contains(feat.get())) {
-                        traitNames = getStrings(new String[] { "feats", feat.get(), "traits" });
+                        traitNames = getStrings(new String[] {"feats", feat.get(), "traits"});
                         if (traitNames != null) {
                             for (String trait : traitNames) {
                                 if (!traits.getList().contains(trait)) {
@@ -1951,7 +1938,7 @@ public class GameCharacter {
                 int index = j;
                 Runnable updateFeatAbilities = () -> {
                     String[] featAbilities = getStrings(
-                            new String[] { "feats", feats[classIndex][index].get(), "abilities" });
+                            new String[] {"feats", feats[classIndex][index].get(), "abilities"});
                     for (int k = 0; k < featsAbilities[classIndex][index].length; k++) {
                         if (k < featAbilities.length) {
                             featsAbilities[classIndex][index][k].set(featAbilities[k]);
@@ -2004,7 +1991,7 @@ public class GameCharacter {
                 if (i == 0) {
                     cathegory = "armors";
                 }
-                String[] armors = getStrings(new String[] { "classes", classes[i].get(), cathegory });
+                String[] armors = getStrings(new String[] {"classes", classes[i].get(), cathegory });
                 if (armors != null) {
                     for (String armorProficiency : armors) {
                         if (armorProficiency != null && !takenArmors.contains(armorProficiency)) {
@@ -2104,10 +2091,10 @@ public class GameCharacter {
 
                 String[] selectableFeatsTotal = getSelectableFeats();
                 for (String feat : selectableFeatsTotal) {
-                    int[] stats = getInts(new String[] { "feats", feat, "stats" });
-                    Boolean magic = getBoolean(new String[] { "feats", feat, "magic" });
-                    String[] proficienciesArmor = getStrings(new String[] { "feats", feat, "armorProficiencies" });
-                    String type = getString(new String[] { "feats", feat, "type" });
+                    int[] stats = getInts(new String[] {"feats", feat, "stats"});
+                    Boolean magic = getBoolean(new String[] {"feats", feat, "magic"});
+                    String[] proficienciesArmor = getStrings(new String[] {"feats", feat, "armorProficiencies"});
+                    String type = getString(new String[] {"feats", feat, "type"});
                     Boolean valid = true;
 
                     Boolean found;
@@ -2146,7 +2133,7 @@ public class GameCharacter {
 
                     Boolean epicBoon = false;
                     for (ObservableString actualFeat : feats[index]) {
-                        if (getString(new String[] { "feats", actualFeat.get(), "type" }).equals("EPIC_BOON")
+                        if (getString(new String[] {"feats", actualFeat.get(), "type"}).equals("EPIC_BOON")
                                 && !actualFeat.get().equals(feat)) {
                             epicBoon = true;
                             break;
@@ -2155,7 +2142,7 @@ public class GameCharacter {
 
                     if (!feat.equals(originFeat.get())
                             && (valid || type.equals("ORIGIN"))
-                            && levels[index].get() >= getInt(new String[] { "feats", feat, "level" })
+                            && levels[index].get() >= getInt(new String[] {"feats", feat, "level"})
                             && (!type.equals("EPIC_BOON") || !epicBoon)) {
                         newFeats.add(feat);
                     }
@@ -2168,14 +2155,14 @@ public class GameCharacter {
                     for (int i = 0; i < classes.length; i++) {
                         for (ObservableString feat : feats[i]) {
                             if (newFeat.equals(feat.get())
-                                    && !getBoolean(new String[] { "feats", feat.get(), "repeatable" })) {
+                                    && !getBoolean(new String[] {"feats", feat.get(), "repeatable"})) {
                                 removeFeats.add(newFeat);
                             }
                         }
                     }
 
                     if (originFeat.get().equals(newFeat)
-                            && !getBoolean(new String[] { "feats", newFeat, "repeatable" })) {
+                            && !getBoolean(new String[] {"feats", newFeat, "repeatable"})) {
                         removeFeats.add(newFeat);
                     }
                 }
@@ -2202,7 +2189,7 @@ public class GameCharacter {
         classes[0].addListener((newVal) -> {
             classEquipment[0].set(newVal);
 
-            String[] equipments = getStrings(new String[] { "classes", newVal, "equipment" });
+            String[] equipments = getStrings(new String[] {"classes", newVal, "equipment"});
 
             for (int i = 1; i < classEquipment.length; i++) {
                 if (i - 1 < equipments.length) {
@@ -2218,7 +2205,7 @@ public class GameCharacter {
         background.addListener((newVal) -> {
             backgroundEquipment[0].set(newVal);
 
-            String[] equipments = getStrings(new String[] { "backgrounds", newVal, "equipment" });
+            String[] equipments = getStrings(new String[] {"backgrounds", newVal, "equipment"});
 
             for (int i = 1; i < backgroundEquipment.length; i++) {
                 if (i - 1 < equipments.length) {
@@ -2382,7 +2369,7 @@ public class GameCharacter {
                                     getString(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "change"}),
                                     new String[0], getAbilityIndex(spellcastingAbilities[index].get()),
                                     getBoolean(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "limited"})));
-                        }else if (levels[index].get() >= 1) {
+                        } else if (levels[index].get() >= 1) {
                             selectableCantrips.getList().get(index).add(new Spell(spell, "LEVEL_UP", new String[0],
                                     getAbilityIndex(spellcastingAbilities[index].get()), true));
                         }
@@ -2513,8 +2500,8 @@ public class GameCharacter {
                 return;
             } else {
                 for (String prof : weaponProficiencies.asList()) {
-                    String tag = getString(new String[] { "weapon categories", prof, "tag" });
-                    String[] attributes = getStrings(new String[] { "weapon categories", prof, "attributes" });
+                    String tag = getString(new String[] {"weapon categories", prof, "tag"});
+                    String[] attributes = getStrings(new String[] {"weapon categories", prof, "attributes"});
                     if (Arrays.asList(mainHand.get().getTags()).contains(tag)) {
                         boolean hasAttributes = true;
                         for (String attribute : attributes) {
@@ -2537,8 +2524,8 @@ public class GameCharacter {
 
         Runnable updateOffHand = () -> {
             for (String prof : weaponProficiencies.asList()) {
-                String tag = getString(new String[] { "weapon categories", prof, "tag" });
-                String[] attributes = getStrings(new String[] { "weapon categories", prof, "attributes" });
+                String tag = getString(new String[] {"weapon categories", prof, "tag"});
+                String[] attributes = getStrings(new String[] {"weapon categories", prof, "attributes"});
                 if (Arrays.asList(offHand.get().getTags()).contains(tag)) {
                     boolean hasAttributes = true;
                     for (String attribute : attributes) {
@@ -2626,6 +2613,7 @@ public class GameCharacter {
             copy.backgroundEquipment[i].set(this.backgroundEquipment[i].get());
         }
         copy.choiceToolProficiencies.setAll(choiceToolProficiencies.getList());
+        copy.skillSources.setAll(skillSources.getList());
         copy.spells.setAll(spells.getList());
         copy.cantrips.setAll(cantrips.getList());
         copy.items.setAll(items.getList());
@@ -2659,12 +2647,12 @@ public class GameCharacter {
 
     public void fill(boolean firstTime) {
         if (gender.get().equals("RANDOM")) {
-            String[] availableGenders = getStrings(new String[] { "genders" });
+            String[] availableGenders = getStrings(new String[] {"genders"});
             gender.set(availableGenders[(int) (Math.random() * availableGenders.length)]);
         }
 
         if (languageOne.get().equals("RANDOM")) {
-            String[] availableLanguages = getStrings(new String[] { "common_languages" });
+            String[] availableLanguages = getStrings(new String[] {"common_languages"});
             List<String> langList = new ArrayList<>(Arrays.asList(availableLanguages));
             if (!languageTwo.get().equals("RANDOM")) {
                 langList.remove(languageTwo.get());
@@ -2673,7 +2661,7 @@ public class GameCharacter {
         }
 
         if (languageTwo.get().equals("RANDOM")) {
-            String[] availableLanguages = getStrings(new String[] { "common_languages" });
+            String[] availableLanguages = getStrings(new String[] {"common_languages"});
             List<String> langList = new ArrayList<>(Arrays.asList(availableLanguages));
             if (!languageOne.get().equals("RANDOM")) {
                 langList.remove(languageOne.get());
@@ -2681,24 +2669,22 @@ public class GameCharacter {
             languageTwo.set(langList.get((int) (Math.random() * langList.size())));
         }
 
-        for (ObservableString classe : classes) {
-            if (classe.get().equals("RANDOM")) {
-                classe.set(selectableClasses.getList().get((int) (Math.random() * selectableClasses.size())));
-            }
+        if (classes[0].get().equals("RANDOM")) {
+            classes[0].set(mainClasses.getList().get((int) (Math.random() * (mainClasses.size() - 1))));
         }
 
         if (species.get().equals("RANDOM")) {
-            String[] availableSpecies = getStrings(new String[] { "species" });
+            String[] availableSpecies = getStrings(new String[] {"species"});
             species.set(availableSpecies[(int) (Math.random() * availableSpecies.length)]);
         }
 
         if (background.get().equals("RANDOM")) {
-            String[] availableBackgrounds = getStrings(new String[] { "backgrounds" });
+            String[] availableBackgrounds = getStrings(new String[] {"backgrounds"});
             background.set(availableBackgrounds[(int) (Math.random() * availableBackgrounds.length)]);
         }
 
         if (alignment.get().equals("RANDOM")) {
-            String[] availableAlignments = getStrings(new String[] { "alignments" });
+            String[] availableAlignments = getStrings(new String[] {"alignments"});
             alignment.set(availableAlignments[(int) (Math.random() * availableAlignments.length)]);
         }
 
@@ -2706,304 +2692,11 @@ public class GameCharacter {
     }
 
     public void fillLater(boolean firstTime) {
-        int requiredLevels = 0;
-        for (int i = 0; i < classes.length; i++) {
-            if (!classes[i].get().equals("NONE") && levelsShown[i].get().equals("RANDOM")) {
-                requiredLevels++;
-            }
-        }
-        for (int i = 0; i < classes.length; i++) {
-            int index = i;
-            if (!classes[index].get().equals("NONE") && levelsShown[index].get().equals("RANDOM")) {
-                int randomLevel = (int) (Math.random() * (20 - totalLevel.get() - requiredLevels + 1)) + 1;
-                levelsShown[index].set(String.valueOf(randomLevel));
-                requiredLevels--;
-            }
-
-            if (subclasses[index].get().equals("RANDOM")) {
-                // Filter out empty subclasses
-                List<String> validSubclasses = new ArrayList<>();
-                for (ObservableString subclassOption : selectableSubclasses[index]) {
-                    if (!subclassOption.get().isEmpty()) {
-                        validSubclasses.add(subclassOption.get());
-                    }
-                }
-                if (!validSubclasses.isEmpty()) {
-                    subclasses[index].set(validSubclasses.get((int) (Math.random() * validSubclasses.size())));
-                }
-            }
-        }
-
-        if (lineage.get().equals("RANDOM")) {
-            // Filter out empty lineages
-            List<String> validLineages = new ArrayList<>();
-            for (ObservableString lineageOption : selectableLineages) {
-                if (!lineageOption.get().isEmpty()) {
-                    validLineages.add(lineageOption.get());
-                }
-            }
-            if (!validLineages.isEmpty()) {
-                lineage.set(validLineages.get((int) (Math.random() * validLineages.size())));
-            }
-        }
-
-        if (size.get().equals("RANDOM")) {
-            // Filter out empty sizes
-            List<String> validSizes = new ArrayList<>();
-            for (ObservableString sizeOption : selectableSizes) {
-                if (!sizeOption.get().isEmpty()) {
-                    validSizes.add(sizeOption.get());
-                }
-            }
-            if (!validSizes.isEmpty()) {
-                size.set(validSizes.get((int) (Math.random() * validSizes.size())));
-            }
-        }
-
-        // Remove selected non repeatable feats
-        for (int k = 0; k < classes.length; k++) {
-            int classIndex = k;
-            for (int i = 0; i < feats[classIndex].length; i++) {
-                List<String> newFeats = selectableFeats.asList().get(classIndex).asList();
-                for (int j = 0; j < feats[classIndex].length; j++) {
-                    int index = j;
-                    if (!feats[classIndex][j].get().equals("RANDOM") && availableFeats[classIndex].get() > j) {
-                        if (!getBoolean(new String[] { "feats", feats[classIndex][j].get(), "repeatable" })) {
-                            newFeats.removeIf(feat -> feat.equals(feats[classIndex][index].get()));
-                        }
-                    } else if (availableFeats[classIndex].get() <= j) {
-                        break;
-                    }
-                }
-
-                if (feats[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
-                    if (!newFeats.isEmpty()) {
-                        feats[classIndex][i].set(newFeats.get((int) (Math.random() * newFeats.size())));
-                    }
-                } else if (availableFeats[classIndex].get() <= i) {
-                    break;
-                }
-            }
-
-            for (int i = 0; i < feats[classIndex].length; i++) {
-                if (featOnes[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
-                    ObservableString[] featAbilities = featsAbilities[classIndex][i];
-                    // Filter out empty strings
-                    List<String> validAbilities = new ArrayList<>();
-                    for (ObservableString ability : featAbilities) {
-                        if (!ability.get().isEmpty()) {
-                            validAbilities.add(ability.get());
-                        }
-                    }
-                    if (!validAbilities.isEmpty()) {
-                        featOnes[classIndex][i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
-                    }
-                }
-
-                if (featTwos[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
-                    ObservableString[] featAbilities = featsAbilities[classIndex][i];
-                    // Filter out empty strings
-                    List<String> validAbilities = new ArrayList<>();
-                    for (ObservableString ability : featAbilities) {
-                        if (!ability.get().isEmpty()) {
-                            validAbilities.add(ability.get());
-                        }
-                    }
-                    if (!validAbilities.isEmpty()) {
-                        featTwos[classIndex][i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
-                    }
-                }
-            }
-        }
-
-        if (name.get().equals("")) {
-            String[] availableNames = switch (gender.get()) {
-                case "MALE" ->
-                    getStrings(new String[] { "species", species.get(), "lineages", lineage.get(), "males" });
-                case "FEMALE" ->
-                    getStrings(new String[] { "species", species.get(), "lineages", lineage.get(), "females" });
-                default -> new String[0];
-            };
-            String[] availableLasts = getStrings(
-                    new String[] { "species", species.get(), "lineages", lineage.get(), "lasts" });
-
-            if (availableNames == null || availableNames.length == 0) {
-                availableNames = switch (gender.get()) {
-                    case "MALE" -> getStrings(new String[] { "species", species.get(), "males" });
-                    case "FEMALE" -> getStrings(new String[] { "species", species.get(), "females" });
-                    default -> new String[0];
-                };
-            }
-            if (availableLasts == null || availableLasts.length == 0) {
-                availableLasts = getStrings(new String[] { "species", species.get(), "lasts" });
-            }
-
-            String firstName = "";
-            String lastName = "";
-            if (availableNames != null && availableNames.length > 0) {
-                firstName = availableNames[(int) (Math.random() * availableNames.length)];
-            }
-            if (availableLasts != null && availableLasts.length > 0) {
-                lastName = availableLasts[(int) (Math.random() * availableLasts.length)];
-            }
-
-            if (!firstName.isEmpty() && !lastName.isEmpty()) {
-                name.set(firstName + " " + lastName);
-            } else if (!firstName.isEmpty()) {
-                name.set(firstName);
-            } else if (!lastName.isEmpty()) {
-                name.set(lastName);
-            }
-        }
-
-        if (firstTime) {
-            if (classEquipment[0].get().equals("RANDOM")) {
-                String[] possibleEquipments = new String[] { classes[0].get(), "GOLD" };
-                classEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
-            }
-
-            if (classEquipment[0].get().equals(classes[0].get())) {
-                String[] equipments = getStrings(new String[] { "classes", classes[0].get(), "equipment" });
-                int index = 1;
-                for (String equipment : equipments) {
-                    if (Arrays.asList(sets).contains(equipment)) {
-                        String[] options = getStrings(new String[] { "sets", equipment });
-                        classEquipment[index].set(options[(int) (Math.random() * options.length)]);
-                        index++;
-                    }
-                }
-            }
-
-            if (backgroundEquipment[0].get().equals("RANDOM")) {
-                String[] possibleEquipments = new String[] { background.get(), "GOLD" };
-                backgroundEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
-            }
-
-            if (backgroundEquipment[0].get().equals(background.get())) {
-                String[] equipments = getStrings(new String[] { "backgrounds", background.get(), "equipment" });
-                int index = 1;
-                for (String equipment : equipments) {
-                    if (Arrays.asList(sets).contains(equipment)) {
-                        String[] options = getStrings(new String[] { "sets", equipment });
-                        backgroundEquipment[index].set(options[(int) (Math.random() * options.length)]);
-                        index++;
-                    }
-                }
-            }
-
-            switch (classEquipment[0].get()) {
-                case ("GOLD") -> {
-                    moneys[3].set(moneys[3].get() + getInt(new String[] { "classes", classes[0].get(), "gold" })); // Roll
-                                                                                                                   // 4d6
-                                                                                                                   // x10
-                                                                                                                   // gold
-                                                                                                                   // pieces
-                }
-                default -> {
-                    for (String item : getStrings(new String[] { "classes", classes[0].get(), "equipment" })) {
-                        addItem(item);
-                    }
-                    for (int i = 1; i < classEquipment.length; i++) {
-                        if (!classEquipment[i].get().equals("RANDOM")) {
-                            addItem(classEquipment[i].get());
-                        }
-                    }
-                }
-            }
-
-            switch (backgroundEquipment[0].get()) {
-                case ("GOLD") -> {
-                    moneys[3].set(moneys[3].get() + getInt(new String[] { "backgrounds", background.get(), "gold" })); // Roll
-                                                                                                                       // 4d6
-                                                                                                                       // x10
-                                                                                                                       // gold
-                                                                                                                       // pieces
-                }
-                default -> {
-                    for (String item : getStrings(new String[] { "backgrounds", background.get(), "equipment" })) {
-                        addItem(item);
-                    }
-                    for (int i = 1; i < backgroundEquipment.length; i++) {
-                        if (!backgroundEquipment[i].get().equals("RANDOM")) {
-                            addItem(backgroundEquipment[i].get());
-                        }
-                    }
-                }
-            }
-        }
-
-        List<String> usedProficiencies = new ArrayList<>();
-        for (String proficiency : toolProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (String proficiency : armorProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (String proficiency : weaponProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (Proficiency proficiency : choiceToolProficiencies.asList()) {
-            if (!proficiency.getName().equals("RANDOM")) {
-                usedProficiencies.add(proficiency.getName());
-            }
-        }
-        for (Proficiency choiceToolProficiency : choiceToolProficiencies.asList()) {
-            if (choiceToolProficiency.getName().equals("RANDOM")) {
-                String[] options = getStrings(new String[] { "sets", choiceToolProficiency.getStrings() });
-                // Remove used proficiencies
-                List<String> availableOptions = new ArrayList<>();
-                for (String option : options) {
-                    if (!usedProficiencies.contains(option)) {
-                        availableOptions.add(option);
-                    }
-                }
-                choiceToolProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
-                usedProficiencies.add(choiceToolProficiency.getName());
-            }
-        }
-
-        for (int classIndex = 0; classIndex < classes.length; classIndex++) {
-            if (!selectableSpells.getList().get(classIndex).isEmpty()
-                    && maxSpells[classIndex].get() > spells.getList().get(classIndex).size()) {
-                int n = maxSpells[classIndex].get() - spells.size();
-                n = Math.min(n, selectableSpells.getList().get(classIndex).size());
-                List<Spell> possibleSpells = selectableSpells.getList().get(classIndex).asList();
-
-                for (int i = 0; i < n; i++) {
-                    int randomIndex = (int) (Math.random() * possibleSpells.size());
-                    Spell selectedSpell = possibleSpells.remove(randomIndex);
-                    spells.getList().get(classIndex).add(selectedSpell);
-                }
-            }
-
-            if (!selectableCantrips.asList().get(classIndex).isEmpty()
-                    && maxCantrips[classIndex].get() > cantrips.getList().get(classIndex).size()) {
-                int n = maxCantrips[classIndex].get() - cantrips.size();
-                n = Math.min(n, selectableCantrips.size());
-                List<Spell> possibleCantrips = new ArrayList<>(selectableCantrips.asList().get(classIndex).asList());
-
-                for (int i = 0; i < n; i++) {
-                    int randomIndex = (int) (Math.random() * possibleCantrips.size());
-                    Spell selectedCantrip = possibleCantrips.remove(randomIndex);
-                    cantrips.getList().get(classIndex).add(selectedCantrip);
-                }
-            }
-        }
-
-        if (healthMethod.get().equals("RANDOM")) {
-            healthMethod.set("CUSTOM_M");
-            int hp = 0;
-            for (int i = 0; i < classes.length; i++) {
-                hp += Math.max((levels[i].get() - 1) * (int) (Math.random() * hitDies[i].get()), 0);
-            }
-            health.set(fixedHealth.get() + hp);
-        }
-
         switch (generationMethod.get()) {
             case "STANDARD_ARRAY" -> {
                 for (ObservableString abilityBaseShown : abilityBasesShown) {
                     if (abilityBaseShown.get().equals("RANDOM")) {
-                        int randomIndex = (int) (Math.random() * selectableAbilities.size());
+                        int randomIndex = (int) (Math.random() * (selectableAbilities.size() - 1));
                         String score = selectableAbilities.getList().get(randomIndex);
                         abilityBaseShown.set(score);
                     }
@@ -3053,12 +2746,320 @@ public class GameCharacter {
             }
         }
 
-        while (givenSkills.get() < maxSkills) {
-            int randomIndex = (int) (Math.random() * skillProficiencies.length);
-            ObservableBoolean skillProficiency = skillProficiencies[randomIndex];
-            ObservableBoolean availableSkill = availableSkills[randomIndex];
-            if (!skillProficiency.get() && availableSkill.get()) {
-                skillProficiency.set(true);
+        for (int i = 1; i < classes.length; i++) {
+            if (classes[i].get().equals("RANDOM") && selectableClasses.size() > 1) {
+                classes[i].set(selectableClasses.getList().get((int) (Math.random() * (selectableClasses.size() - 1)) + 1));
+            } else if (selectableClasses.size() == 0) {
+                classes[i].set("NONE");
+            }
+        }
+
+        int requiredLevels = 0;
+        for (int i = 0; i < classes.length; i++) {
+            if (!classes[i].get().equals("NONE") && levelsShown[i].get().equals("RANDOM")) {
+                requiredLevels++;
+            }
+        }
+        for (int i = 0; i < classes.length; i++) {
+            int index = i;
+            if (!classes[index].get().equals("NONE") && levelsShown[index].get().equals("RANDOM")) {
+                int randomLevel = (int) (Math.random() * (20 - totalLevel.get() - requiredLevels + 1)) + 1;
+                levelsShown[index].set(String.valueOf(randomLevel));
+                requiredLevels--;
+            }
+
+            if (subclasses[index].get().equals("RANDOM")) {
+                // Filter out empty subclasses
+                List<String> validSubclasses = new ArrayList<>();
+                for (String subclassOption : selectableSubclasses.getList().get(index).getList()) {
+                    if (!subclassOption.isEmpty()) {
+                        validSubclasses.add(subclassOption);
+                    }
+                }
+                if (!validSubclasses.isEmpty()) {
+                    subclasses[index].set(validSubclasses.get((int) (Math.random() * (validSubclasses.size() - 1))));
+                }
+            }
+        }
+
+        if (lineage.get().equals("RANDOM")) {
+            // Filter out empty lineages
+            List<String> validLineages = new ArrayList<>();
+            for (ObservableString lineageOption : selectableLineages) {
+                if (!lineageOption.get().isEmpty()) {
+                    validLineages.add(lineageOption.get());
+                }
+            }
+            if (!validLineages.isEmpty()) {
+                lineage.set(validLineages.get((int) (Math.random() * validLineages.size())));
+            }
+        }
+
+        if (size.get().equals("RANDOM")) {
+            // Filter out empty sizes
+            List<String> validSizes = new ArrayList<>();
+            for (ObservableString sizeOption : selectableSizes) {
+                if (!sizeOption.get().isEmpty()) {
+                    validSizes.add(sizeOption.get());
+                }
+            }
+            if (!validSizes.isEmpty()) {
+                size.set(validSizes.get((int) (Math.random() * validSizes.size())));
+            }
+        }
+
+        // Remove selected non repeatable feats
+        for (int k = 0; k < classes.length; k++) {
+            int classIndex = k;
+            for (int i = 0; i < feats[classIndex].length; i++) {
+                List<String> newFeats = selectableFeats.asList().get(classIndex).asList();
+                for (int j = 0; j < feats[classIndex].length; j++) {
+                    int index = j;
+                    if (!feats[classIndex][j].get().equals("RANDOM") && availableFeats[classIndex].get() > j) {
+                        if (!getBoolean(new String[] {"feats", feats[classIndex][j].get(), "repeatable"})) {
+                            newFeats.removeIf(feat -> feat.equals(feats[classIndex][index].get()));
+                        }
+                    } else if (availableFeats[classIndex].get() <= j) {
+                        break;
+                    }
+                }
+
+                if (feats[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
+                    if (!newFeats.isEmpty()) {
+                        feats[classIndex][i].set(newFeats.get((int) (Math.random() * (newFeats.size() - 1))));
+                    }
+                } else if (availableFeats[classIndex].get() <= i) {
+                    break;
+                }
+            }
+
+            for (int i = 0; i < feats[classIndex].length; i++) {
+                if (featOnes[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
+                    ObservableString[] featAbilities = featsAbilities[classIndex][i];
+                    // Filter out empty strings
+                    List<String> validAbilities = new ArrayList<>();
+                    for (ObservableString ability : featAbilities) {
+                        if (!ability.get().isEmpty()) {
+                            validAbilities.add(ability.get());
+                        }
+                    }
+                    if (!validAbilities.isEmpty()) {
+                        featOnes[classIndex][i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
+                    }
+                }
+
+                if (featTwos[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
+                    ObservableString[] featAbilities = featsAbilities[classIndex][i];
+                    // Filter out empty strings
+                    List<String> validAbilities = new ArrayList<>();
+                    for (ObservableString ability : featAbilities) {
+                        if (!ability.get().isEmpty()) {
+                            validAbilities.add(ability.get());
+                        }
+                    }
+                    if (!validAbilities.isEmpty()) {
+                        featTwos[classIndex][i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
+                    }
+                }
+            }
+        }
+
+        if (name.get().equals("")) {
+            String[] availableNames = switch (gender.get()) {
+                case "MALE" ->
+                    getStrings(new String[] {"species", species.get(), "lineages", lineage.get(), "males"});
+                case "FEMALE" ->
+                    getStrings(new String[] {"species", species.get(), "lineages", lineage.get(), "females"});
+                default -> new String[0];
+            };
+            String[] availableLasts = getStrings(
+                    new String[] {"species", species.get(), "lineages", lineage.get(), "lasts"});
+
+            if (availableNames == null || availableNames.length == 0) {
+                availableNames = switch (gender.get()) {
+                    case "MALE" -> getStrings(new String[] {"species", species.get(), "males"});
+                    case "FEMALE" -> getStrings(new String[] {"species", species.get(), "females"});
+                    default -> new String[0];
+                };
+            }
+            if (availableLasts == null || availableLasts.length == 0) {
+                availableLasts = getStrings(new String[] {"species", species.get(), "lasts"});
+            }
+
+            String firstName = "";
+            String lastName = "";
+            if (availableNames != null && availableNames.length > 0) {
+                firstName = availableNames[(int) (Math.random() * availableNames.length)];
+            }
+            if (availableLasts != null && availableLasts.length > 0) {
+                lastName = availableLasts[(int) (Math.random() * availableLasts.length)];
+            }
+
+            if (!firstName.isEmpty() && !lastName.isEmpty()) {
+                name.set(firstName + " " + lastName);
+            } else if (!firstName.isEmpty()) {
+                name.set(firstName);
+            } else if (!lastName.isEmpty()) {
+                name.set(lastName);
+            }
+        }
+
+        if (firstTime) {
+            if (classEquipment[0].get().equals("RANDOM")) {
+                String[] possibleEquipments = new String[] { classes[0].get(), "GOLD" };
+                classEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
+            }
+
+            if (classEquipment[0].get().equals(classes[0].get())) {
+                String[] equipments = getStrings(new String[] {"classes", classes[0].get(), "equipment"});
+                int index = 1;
+                for (String equipment : equipments) {
+                    if (Arrays.asList(sets).contains(equipment)) {
+                        String[] options = getStrings(new String[] {"sets", equipment });
+                        classEquipment[index].set(options[(int) (Math.random() * options.length)]);
+                        index++;
+                    }
+                }
+            }
+
+            if (backgroundEquipment[0].get().equals("RANDOM")) {
+                String[] possibleEquipments = new String[] { background.get(), "GOLD" };
+                backgroundEquipment[0].set(possibleEquipments[(int) (Math.random() * possibleEquipments.length)]);
+            }
+
+            if (backgroundEquipment[0].get().equals(background.get())) {
+                String[] equipments = getStrings(new String[] {"backgrounds", background.get(), "equipment"});
+                int index = 1;
+                for (String equipment : equipments) {
+                    if (Arrays.asList(sets).contains(equipment)) {
+                        String[] options = getStrings(new String[] {"sets", equipment });
+                        backgroundEquipment[index].set(options[(int) (Math.random() * options.length)]);
+                        index++;
+                    }
+                }
+            }
+
+            switch (classEquipment[0].get()) {
+                case ("GOLD") -> {
+                    moneys[3].set(moneys[3].get() + getInt(new String[] {"classes", classes[0].get(), "gold"}));
+                }
+                default -> {
+                    for (String item : getStrings(new String[] {"classes", classes[0].get(), "equipment"})) {
+                        addItem(item);
+                    }
+                    for (int i = 1; i < classEquipment.length; i++) {
+                        if (!classEquipment[i].get().equals("RANDOM")) {
+                            addItem(classEquipment[i].get());
+                        }
+                    }
+                }
+            }
+
+            switch (backgroundEquipment[0].get()) {
+                case ("GOLD") -> {
+                    moneys[3].set(moneys[3].get() + getInt(new String[] {"backgrounds", background.get(), "gold"}));
+                }
+                default -> {
+                    for (String item : getStrings(new String[] {"backgrounds", background.get(), "equipment"})) {
+                        addItem(item);
+                    }
+                    for (int i = 1; i < backgroundEquipment.length; i++) {
+                        if (!backgroundEquipment[i].get().equals("RANDOM")) {
+                            addItem(backgroundEquipment[i].get());
+                        }
+                    }
+                }
+            }
+        }
+
+        List<String> usedProficiencies = new ArrayList<>();
+        for (String proficiency : toolProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (String proficiency : armorProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (String proficiency : weaponProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (Proficiency proficiency : choiceToolProficiencies.asList()) {
+            if (!proficiency.getName().equals("RANDOM")) {
+                usedProficiencies.add(proficiency.getName());
+            }
+        }
+        for (Proficiency choiceToolProficiency : choiceToolProficiencies.asList()) {
+            if (choiceToolProficiency.getName().equals("RANDOM")) {
+                String[] options = getStrings(new String[] {"sets", choiceToolProficiency.getStrings() });
+                // Remove used proficiencies
+                List<String> availableOptions = new ArrayList<>();
+                for (String option : options) {
+                    if (!usedProficiencies.contains(option)) {
+                        availableOptions.add(option);
+                    }
+                }
+                choiceToolProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
+                usedProficiencies.add(choiceToolProficiency.getName());
+            }
+        }
+
+        for (int classIndex = 0; classIndex < classes.length; classIndex++) {
+            if (!selectableSpells.getList().get(classIndex).isEmpty()
+                    && maxSpells[classIndex].get() > spells.getList().get(classIndex).size()) {
+                int n = maxSpells[classIndex].get() - spells.size();
+                n = Math.min(n, selectableSpells.getList().get(classIndex).size());
+                List<Spell> possibleSpells = selectableSpells.getList().get(classIndex).asList();
+
+                for (int i = 0; i < n; i++) {
+                    int randomIndex = (int) (Math.random() * possibleSpells.size());
+                    Spell selectedSpell = possibleSpells.remove(randomIndex);
+                    spells.getList().get(classIndex).add(selectedSpell);
+                }
+            }
+
+            if (!selectableCantrips.asList().get(classIndex).isEmpty()
+                    && maxCantrips[classIndex].get() > cantrips.getList().get(classIndex).size()) {
+                int n = maxCantrips[classIndex].get() - cantrips.size();
+                n = Math.min(n, selectableCantrips.size());
+                List<Spell> possibleCantrips = new ArrayList<>(selectableCantrips.asList().get(classIndex).asList());
+
+                for (int i = 0; i < n; i++) {
+                    int randomIndex = (int) (Math.random() * possibleCantrips.size());
+                    Spell selectedCantrip = possibleCantrips.remove(randomIndex);
+                    cantrips.getList().get(classIndex).add(selectedCantrip);
+                }
+            }
+        }
+
+        if (healthMethod.get().equals("RANDOM")) {
+            healthMethod.set("CUSTOM_M");
+            int hp = 0;
+            for (int i = 0; i < classes.length; i++) {
+                hp += Math.max((levels[i].get() - 1) * (int) (Math.random() * hitDies[i].get()), 0);
+            }
+            health.set(fixedHealth.get() + hp);
+        }
+        
+        boolean hasRandomSkill = true;
+        while (hasRandomSkill) {
+            hasRandomSkill = false;
+            for (Proficiency skillSource : skillSources.asList()) {
+                if (skillSource.getName().equals("RANDOM")) {
+                    hasRandomSkill = true;
+                    // Collect indices of available, non-proficient skills
+                    List<Integer> available = new ArrayList<>();
+                    for (int i = 0; i < availableSkills.length; i++) {
+                        if (availableSkills[i].get() && !skillProficiencies[i].get()) {
+                            available.add(i);
+                        }
+                    }
+                    if (!available.isEmpty()) {
+                        int chosen = available.get((int) (Math.random() * available.size()));
+                        skillProficiencies[chosen].set(true);
+                    } else {
+                        hasRandomSkill = false;
+                    }
+                    break; // restart the loop to re-evaluate availability
+                }
             }
         }
     }
@@ -3070,6 +3071,15 @@ public class GameCharacter {
     public static GameCharacter load(Stage stage) {
         GameCharacter NC = CharacterSerializer.load(stage);
         return NC;
+    }
+
+    public static int getSkillIndex(String skill) {
+        for (int i = 0; i < skillNames.length; i++) {
+            if (skillNames[i].equals(skill)) {
+                return i;
+            }
+        }
+        return 0; // Default to first skill if not found
     }
 
     public static int getAbilityIndex(String ability) {

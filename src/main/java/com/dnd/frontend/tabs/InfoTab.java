@@ -3,28 +3,28 @@ package com.dnd.frontend.tabs;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dnd.utils.ThrowManager;
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.DieToast;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.panes.AbilitiesPane;
 import com.dnd.frontend.panes.ClassPane;
 import com.dnd.frontend.panes.CombatPane;
-import com.dnd.frontend.panes.SystemPane;
 import com.dnd.frontend.panes.EquipmentPane;
 import com.dnd.frontend.panes.HealthPane;
 import com.dnd.frontend.panes.ParametersPane;
 import com.dnd.frontend.panes.ProficienciesPane;
+import com.dnd.frontend.panes.SystemPane;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
+import com.dnd.utils.ThrowManager;
 
+import javafx.beans.property.StringProperty;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 
 public class InfoTab extends Tab {
@@ -33,11 +33,17 @@ public class InfoTab extends Tab {
     private final SystemPane systemPane;
     private final ViewModel character;
     private final Stage stage;
+    private final Tab[] tabs;
+    private final TabPane tabPane = new TabPane();
+    private final int maxClasses;
 
     public InfoTab(ViewModel character, TabPane mainTabPane, Stage stage) {
         this.character = character;
         this.stage = stage;
         setText(getTranslation("INFO"));
+
+        maxClasses = character.getMaxClasses();
+        tabs = new Tab[maxClasses - 1];
 
         // Add a style class to the GridPane
         gridPane.getStyleClass().add("grid-pane");
@@ -51,7 +57,7 @@ public class InfoTab extends Tab {
         EquipmentPane equipmentPane = new EquipmentPane(character, mainTabPane);
         addTitledPane("EQUIPMENT", equipmentPane , 3, 3, 2, 2);
         TabPane classTabs = addClass(character, mainTabPane, 2, 1, 3, 2);
-        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, classTabs, character, stage);
+        systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, classTabs, character, stage, this);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
         addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
         addTitledPane("COMBAT", new CombatPane(mainTabPane, character, this), 1, 1, 1, 1);
@@ -77,8 +83,6 @@ public class InfoTab extends Tab {
     }
     
     private TabPane addClass(ViewModel character, TabPane mainTabPane, int row, int column, int rowSpan, int columnSpan) {
-        int maxClasses = character.getMaxClasses();
-        Tab[] tabs = new Tab[maxClasses - 1];
         List<TooltipComboBox> classes = new ArrayList<>(maxClasses);
 
         ClassPane pane = new ClassPane(character, mainTabPane, 0, classes);
@@ -88,7 +92,6 @@ public class InfoTab extends Tab {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
 
-        TabPane tabPane = new TabPane();
         Tab tab = new Tab();
         tab.setClosable(false);
         tab.textProperty().bind(character.getClasse(0));
@@ -172,24 +175,7 @@ public class InfoTab extends Tab {
                 }
             }
             if (newVal.equals(addTab) && character.getTotalLevel().get() + requiredLevels < 20) {
-                int i;
-                for (i = 0; i < tabs.length; i++) {
-                    Tab t = tabs[i];
-                    if (!tabPane.getTabs().contains(t)) {
-                        tabPane.getTabs().add(i + 1, t);
-                        if (character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
-                            character.getClasse(i + 1).set(getTranslation("RANDOM"));
-                        }
-                        break;
-                    }
-                }
-                int size = tabPane.getTabs().size();
-
-                if (size - 1 == maxClasses) {
-                    tabPane.getTabs().remove(size - 1);
-                }
-
-                tabPane.getSelectionModel().select(i + 1);
+                newClass();
             } else if (newVal.equals(addTab)) {
                 tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
             }
@@ -204,6 +190,27 @@ public class InfoTab extends Tab {
         }
 
         return tabPane;
+    }
+
+    public void newClass() {
+        int i;
+        for (i = 0; i < tabs.length; i++) {
+            Tab t = tabs[i];
+            if (!tabPane.getTabs().contains(t)) {
+                tabPane.getTabs().add(i + 1, t);
+                if (character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
+                    character.getClasse(i + 1).set(getTranslation("RANDOM"));
+                }
+                break;
+            }
+        }
+        int size = tabPane.getTabs().size();
+
+        if (size - 1 == maxClasses) {
+            tabPane.getTabs().remove(size - 1);
+        }
+
+        tabPane.getSelectionModel().select(i + 1);
     }
 
     // Helper method to get translations

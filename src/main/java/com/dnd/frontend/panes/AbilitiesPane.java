@@ -3,14 +3,14 @@ package com.dnd.frontend.panes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dnd.utils.ThrowManager;
-import com.dnd.frontend.language.TranslationManager;
-import com.dnd.frontend.ViewModel;
 import com.dnd.backend.GroupManager;
+import com.dnd.frontend.ViewModel;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tabs.InfoTab;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
+import com.dnd.utils.ThrowManager;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Button;
@@ -269,7 +269,14 @@ public class AbilitiesPane extends GridPane {
             CheckBox proficiency = new CheckBox();
             skillsArea.add(proficiency, 1, i); // Column 1, Row i
 
-            proficiency.disableProperty().bind(character.getAvailableSkill(index).not().or(character.isEditing().not()));
+            Runnable enableProficiency = () -> {
+                proficiency.setDisable(!character.getAvailableSkill(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillProficiency(index).get())));
+            };
+            enableProficiency.run();
+            character.getAvailableSkill(index).addListener(_ -> enableProficiency.run());
+            character.isEditing().addListener(_ -> enableProficiency.run());
+            character.isLevelingUp().addListener(_ -> enableProficiency.run());
+
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
             
             // Button to roll a D20
