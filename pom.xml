@@ -64,7 +64,7 @@
                 <configuration>
                     <mainClass>com.dnd.App</mainClass>
                     <launcher>javadnd</launcher>
-                    <addModules>javafx.controls,javafx.fxml</addModules>
+                    <jlinkZipName>javadnd</jlinkZipName>
                 </configuration>
             </plugin>
         </plugins>
