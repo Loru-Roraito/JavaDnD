@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -111,7 +112,11 @@ public class ProficienciesPane extends GridPane {
         proficienciesGridPane.add(proficienciesFlow, 0, 0);
         proficienciesGridPane.setPadding(new Insets(0));
 
-        TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesGridPane);
+        ScrollPane proficienciesScroll = new ScrollPane(proficienciesGridPane);
+        proficienciesScroll.setFitToWidth(true);
+        proficienciesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        TooltipTitledPane proficienciesPane = new TooltipTitledPane(getTranslation("PROFICIENCIES"), proficienciesScroll);
         add(proficienciesPane, 0, 4);
 
         proficienciesGridPane.add(proficienciesBox, 0, 1);
@@ -126,17 +131,16 @@ public class ProficienciesPane extends GridPane {
                 -> updateBox(traitsFlow, character.getTraits())
         );
 
-        traitsPane.setContent(traitsFlow);
+        ScrollPane traitsScroll = new ScrollPane(traitsFlow);
+        traitsScroll.setFitToWidth(true);
+        traitsScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        traitsPane.setContent(traitsScroll);
         add(traitsPane, 0, 5);
 
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
         traitsPane.maxWidthProperty().bind(paneWidthBinding);
-
-        // TODO: flow grows too much
-        proficienciesFlow.setMaxHeight(Double.MAX_VALUE);
-        proficienciesPane.setMaxHeight(Double.MAX_VALUE);
-        traitsFlow.setMaxHeight(Double.MAX_VALUE);
 
         // Add user notes TextArea
         TextArea notesArea = new TextArea();
@@ -149,7 +153,6 @@ public class ProficienciesPane extends GridPane {
         add(notesArea, 0, 6);
         
         notesArea.maxWidthProperty().bind(paneWidthBinding);
-        notesArea.setMaxHeight(Double.MAX_VALUE);
     }
 
     private void updateProficienciesBox(TextFlow textFlow, List<String> properties) {
@@ -210,7 +213,7 @@ public class ProficienciesPane extends GridPane {
             Text wordText = new Text(name + ": ");
             wordText.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
             textFlow.getChildren().add(wordText);
-            textFlow.getChildren().add(new Text("\n"));
+            textFlow.getChildren().add(new Text("\n "));
             DefinitionManager.fillTextFlow(textFlow, text, mainTabPane, "");
         }
     }
