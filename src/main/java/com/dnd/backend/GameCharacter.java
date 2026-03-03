@@ -13,6 +13,7 @@ import com.dnd.utils.observables.ObservableBoolean;
 import com.dnd.utils.observables.ObservableInteger;
 import com.dnd.utils.observables.ObservableItem;
 import com.dnd.utils.observables.ObservableString;
+
 import javafx.stage.Stage;
 
 /*
@@ -70,6 +71,7 @@ public class GameCharacter {
     private final CustomObservableList<Proficiency> choiceToolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> selectableAbilities = new CustomObservableList<>();
     private final CustomObservableList<String> selectableClasses;
+    private final CustomObservableList<String> mainClasses;
     private final CustomObservableList<String> traits = new CustomObservableList<>();
     private final CustomObservableList<String> weaponProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> armorProficiencies = new CustomObservableList<>();
@@ -91,8 +93,9 @@ public class GameCharacter {
     private static int maxSets;
     private static int maxClasses;
 
-    private int maxSkills;
-    private static int[] standardArray = new int[] { 15, 14, 13, 12, 10, 8 };
+    private int maxSkills = 0;
+    private final int[] moreSkills;
+    private final static int[] standardArray = new int[] {15, 14, 13, 12, 10, 8};
     private static int[] skillAbilities;
 
     private final ObservableInteger totalLevel = new ObservableInteger(0);
@@ -108,6 +111,7 @@ public class GameCharacter {
     private final ObservableInteger givenSkills = new ObservableInteger(0);
     private final ObservableInteger generationPoints = new ObservableInteger(0);
     private final ObservableInteger exhaustion = new ObservableInteger(0);
+    private final ObservableInteger[] moreGivenSkills;
     private final ObservableInteger[] spellcastingAbilityModifiers;
     private final ObservableInteger[] spellcastingAttackModifiers;
     private final ObservableInteger[] spellcastingSaveDCs;
@@ -188,7 +192,7 @@ public class GameCharacter {
         availableSkills = new ObservableBoolean[skillCount];
         fixedSkills = new ObservableBoolean[skillCount];
 
-        maxClasses = getInt(new String[] { "max_classes" });
+        maxClasses = getInt(new String[] {"max_classes"});
         classes = new ObservableString[maxClasses];
         subclasses = new ObservableString[maxClasses];
         levelsShown = new ObservableString[maxClasses];
@@ -201,10 +205,14 @@ public class GameCharacter {
         spellcastingAbilityModifiers = new ObservableInteger[maxClasses];
         spellcastingAttackModifiers = new ObservableInteger[maxClasses];
         spellcastingSaveDCs = new ObservableInteger[maxClasses];
+        moreGivenSkills = new ObservableInteger[maxClasses];
+
+        moreSkills = new int[maxClasses];
 
         for (int i = 0; i < maxClasses; i++) {
             spells.add(new CustomObservableList<>());
             cantrips.add(new CustomObservableList<>());
+            moreSkills[i] = 0;
         }
 
         classes[0] = new ObservableString("RANDOM");
@@ -219,6 +227,7 @@ public class GameCharacter {
         spellcastingAbilityModifiers[0] = new ObservableInteger(0);
         spellcastingAttackModifiers[0] = new ObservableInteger(0);
         spellcastingSaveDCs[0] = new ObservableInteger(0);
+        moreGivenSkills[0] = new ObservableInteger(0);
 
         for (int i = 1; i < maxClasses; i++) {
             classes[i] = new ObservableString("NONE");
@@ -233,6 +242,7 @@ public class GameCharacter {
             spellcastingAbilityModifiers[i] = new ObservableInteger(0);
             spellcastingAttackModifiers[i] = new ObservableInteger(0);
             spellcastingSaveDCs[i] = new ObservableInteger(0);
+            moreGivenSkills[i] = new ObservableInteger(0);
         }
 
         for (int i = 0; i < maximumHitDies.length; i++) {
@@ -324,6 +334,7 @@ public class GameCharacter {
         bindselectableSubclasses();
 
         selectableClasses = new CustomObservableList<>();
+        mainClasses = new CustomObservableList<>();
         bindselectableClasses();
 
         for (int i = 0; i < abilityBases.length; i++) {
@@ -527,6 +538,10 @@ public class GameCharacter {
 
     public CustomObservableList<String> getSelectableClasses() {
         return selectableClasses;
+    }
+
+    public CustomObservableList<String> getMainClasses() {
+        return mainClasses;
     }
 
     public ObservableString getSelectableSubclass(int classIndex, int subclassIndex) {
@@ -951,19 +966,61 @@ public class GameCharacter {
         }
     }
 
+    private boolean isClassSelectable(String classe) {
+        // Check if the character meets the primary ability requirements for the class
+        String[] primaryAbilities = getStrings(new String[] {"classes", classe, "primary_ability"});
+
+        if (primaryAbilities.length > 1) {
+            // If the class has two primary abilities, check if the character needs to meet the requirements for both or either
+            boolean both = getBoolean(new String[] {"classes", classe, "both_abilities"});
+            if (both) {
+                for (String primaryAbility : primaryAbilities) {
+                    if (abilities[getAbilityIndex(primaryAbility)].get() < 13) {
+                        return false;
+                    }
+                }
+            } else {
+                for (String primaryAbility : primaryAbilities) {
+                    if (abilities[getAbilityIndex(primaryAbility)].get() >= 13) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        } else if (primaryAbilities.length == 1 && abilities[getAbilityIndex(primaryAbilities[0])].get() < 13) {
+            return false;
+        }
+        return true;
+    }
+
     private void bindselectableClasses() {
         Runnable updateselectableClasses = () -> {
-            String[] totalClasses = getStrings(new String[] { "classes" });
+            String[] totalClasses = getStrings(new String[] {"classes"});
             List<String> remainingClasses = new ArrayList<>();
             remainingClasses.add("RANDOM");
-            for (String totalClass : totalClasses) {
-                remainingClasses.add(totalClass);
-            }
+            remainingClasses.addAll(Arrays.asList(totalClasses));
 
             for (ObservableString classe : classes) {
                 if (!classe.get().equals("RANDOM")) {
                     remainingClasses.removeIf(c -> c.equals(classe.get()));
                 }
+            }
+            mainClasses.setAll(remainingClasses);
+
+            // Multiclassing can only be done if the first class meets the primary ability score requirements
+            if (isClassSelectable(classes[0].get())) {
+                List<String> removingClasses = new ArrayList<>();
+                for (String classe : remainingClasses) {
+                    if (!isClassSelectable(classe)) {
+                        removingClasses.add(classe);
+                    }
+                }
+                
+                for (String classe : removingClasses) {
+                    remainingClasses.removeIf(c -> c.equals(classe));
+                }
+            } else {
+                remainingClasses = new ArrayList<>();
             }
 
             selectableClasses.setAll(remainingClasses);
@@ -1117,18 +1174,41 @@ public class GameCharacter {
     private void bindGivenSkills() {
         // Bind givenSkills to track the total number of skill proficiencies given
         Runnable updateGivenSkills = () -> {
-            int total = 0;
+            int[] totals = new int[classes.length];
+            for (int i = 0; i < totals.length; i++) {
+                totals[i] = 0;
+            }
             for (ObservableBoolean skillProficiency : skillProficiencies) {
                 if (skillProficiency.get()) {
-                    total++;
+                    boolean fixed = false;
+                    for (ObservableBoolean fixedSkill : fixedSkills) {
+                        if (fixedSkill.get()) {
+                            fixed = true;
+                        }
+                    }
+
+                    if (!fixed) {
+                        int index = 0;
+                        for (int i = 1; i < classes.length; i++) {
+                            int newSkills = getInt(new String[] {"classes", classes[i].get(), "more_skills"});
+                            if (newSkills > 0) {
+                                if (Arrays.asList(getStrings(new String[] {"classes", classes[i].get(), "skills"})).contains(
+                                        skillNames[Arrays.asList(skillProficiencies).indexOf(skillProficiency)])
+                                        && newSkills > totals[i]) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                        }
+                        totals[index]++;
+                    }
                 }
             }
-            for (ObservableBoolean fixedSkill : fixedSkills) {
-                if (fixedSkill.get()) {
-                    total--;
-                }
+
+            givenSkills.set(totals[0]);
+            for (int i = 1; i < classes.length; i++) {
+                moreGivenSkills[i].set(totals[i]);
             }
-            givenSkills.set(total);
         };
 
         for (ObservableBoolean skillProficiency : skillProficiencies) {
@@ -1236,18 +1316,41 @@ public class GameCharacter {
 
     private void bindAvailableSkills(int index) {
         Runnable updateAvailableSkills = () -> {
-            String[] possibleSkills = getStrings(new String[] { "classes", classes[0].get(), "skills" });
-            maxSkills = getInt(new String[] { "classes", classes[0].get(), "skills_number" });
+            String[] possibleSkills = getStrings(new String[] {"classes", classes[0].get(), "skills"});
+            maxSkills = getInt(new String[] {"classes", classes[0].get(), "skills_number"});
+            for (int i = 1; i < classes.length; i++) {
+                moreSkills[i] = getInt(new String[] {"classes", classes[i].get(), "more_skills"});
+            }
+
             if (Arrays.asList(possibleSkills).contains(skillNames[index])
                     && !fixedSkills[index].get()
                     && (givenSkills.get() < maxSkills || skillProficiencies[index].get())) {
                 availableSkills[index].set(true);
             } else {
-                availableSkills[index].set(false);
+                boolean anotherClass = false;
+                for (int i = 1; i < classes.length; i++) {
+                    String[] morePossibleSkills = getStrings(new String[] {"classes", classes[i].get(), "skills"});
+                    if (Arrays.asList(morePossibleSkills).contains(skillNames[index])
+                            && !fixedSkills[index].get()
+                            && (moreGivenSkills[i].get() < moreSkills[i] || skillProficiencies[index].get())) {
+                        availableSkills[index].set(true);
+                        anotherClass = true;
+                        break;
+                    }
+                }
+
+                if (!anotherClass) {
+                    availableSkills[index].set(false);
+                }
             }
         };
-        classes[0].addListener(_ -> updateAvailableSkills.run());
+        for (ObservableString classe : classes) {
+            classe.addListener(_ -> updateAvailableSkills.run());
+        }
         givenSkills.addListener(_ -> updateAvailableSkills.run());
+        for (ObservableInteger moreGivenSkill : moreGivenSkills) {
+            moreGivenSkill.addListener(_ -> updateAvailableSkills.run());
+        }
         fixedSkills[index].addListener(_ -> updateAvailableSkills.run());
 
         availableSkills[index].addListener(
@@ -1868,8 +1971,12 @@ public class GameCharacter {
             weaponProficiencies.clear();
             List<String> takenWeapons = new ArrayList<>();
 
-            for (ObservableString classe : classes) {
-                String[] weapons = getStrings(new String[] { "classes", classe.get(), "weapons" });
+            for (int i = 0; i < classes.length; i++) {
+                String cathegory = "extra_weapons";
+                if (i == 0) {
+                    cathegory = "weapons";
+                }
+                String[] weapons = getStrings(new String[] {"classes", classes[i].get(), cathegory});
                 if (weapons != null) {
                     for (String weapon : weapons) {
                         if (weapon != null && !takenWeapons.contains(weapon)) {
@@ -1892,8 +1999,12 @@ public class GameCharacter {
             armorProficiencies.clear();
             List<String> takenArmors = new ArrayList<>();
 
-            for (ObservableString classe : classes) {
-                String[] armors = getStrings(new String[] { "classes", classe.get(), "armors" });
+            for (int i = 0; i < classes.length; i++) {
+                String cathegory = "extra_armors";
+                if (i == 0) {
+                    cathegory = "armors";
+                }
+                String[] armors = getStrings(new String[] { "classes", classes[i].get(), cathegory });
                 if (armors != null) {
                     for (String armorProficiency : armors) {
                         if (armorProficiency != null && !takenArmors.contains(armorProficiency)) {
@@ -1929,8 +2040,12 @@ public class GameCharacter {
                 }
             }
 
-            for (ObservableString classe : classes) {
-                tools = getStrings(new String[] {"classes", classe.get(), "tools"});
+            for (int i = 0; i < classes.length; i++) {
+                String cathegory = "extra_tools";
+                if (i == 0) {
+                    cathegory = "tools";
+                }
+                tools = getStrings(new String[] {"classes", classes[i].get(), cathegory});
                 if (tools != null) {
                     for (String tool : tools) {
                         if (tool != null && !takenTools.contains(tool)) {
@@ -2025,7 +2140,7 @@ public class GameCharacter {
                         valid = false;
                     }
 
-                    if (magic && !Arrays.asList(getMagicClasses()).contains(classes[index].get())) {
+                    if (magic && (getInt(new String[] {"classes", classes[index].get(), "spell_levels"}) == 0 || getInt(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "spell_levels"}) == 0)) {
                         valid = false;
                     }
 
@@ -2182,7 +2297,9 @@ public class GameCharacter {
 
             Runnable updateSpells = () -> {
                 // TODO: redundant, turn into a property (maximum level too)
-                float magicLevels = 0;
+                int magicLevels = 0;
+                float halfLevels = 0;
+                float thirdLevels = 0;
                 int[] classSlots = new int[9];
                 int[] subclassSlots = new int[9];
                 for (int j = 0; j < classSlots.length; j++) {
@@ -2191,10 +2308,16 @@ public class GameCharacter {
                 }
 
                 for (int j = 0; j < classes.length; j++) {
-                    if (Arrays.asList(getMagicClasses()).contains(classes[j].get()) && getBoolean(new String[] {"magic_classes", classes[j].get()})) {
-                        magicLevels += levels[j].get(); // Full magic class
-                    } else if (Arrays.asList(getMagicClasses()).contains(classes[j].get())) {
-                        magicLevels += levels[j].get() / 2.0; // Only get half the spell levels
+                    switch (getInt(new String[] {"classes", classes[index].get(), "spell_levels"})) {
+                        case 1 -> magicLevels += levels[j].get(); // Full magic class
+                        case 2 -> halfLevels += levels[j].get() / 2.0; // Only get half the spell levels
+                        case 3 -> thirdLevels += levels[j].get() / 3.0; // Only get third the spell levels
+                    }
+
+                    switch (getInt(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "spell_levels"})) {
+                        case 1 -> magicLevels += levels[j].get(); // Full magic class
+                        case 2 -> halfLevels += levels[j].get() / 2.0; // Only get half the spell levels
+                        case 3 -> thirdLevels += levels[j].get() / 3.0; // Only get third the spell levels
                     }
 
                     int[] classSlot = getInts(new String[] {"classes", classes[j].get(), "spell_slots", String.valueOf(levels[j].get())});
@@ -2208,7 +2331,7 @@ public class GameCharacter {
                     }
                 }
 
-                int magicLevel = (int) Math.ceil(magicLevels);
+                int magicLevel = magicLevels + (int) Math.ceil(halfLevels) + (int) Math.ceil(thirdLevels);
                 int[] slots = getInts(new String[] {"spell_slots", String.valueOf(magicLevel)});
                 for (int si = 0; si < slots.length; si++) {
                     slots[si] += classSlots[si];
@@ -2310,8 +2433,25 @@ public class GameCharacter {
     private void bindSpellcastingAbility() {
         for (int i = 0; i < classes.length; i++) {
             int index = i;
+
+            Runnable setSpellcastingAbility = () -> {
+                String spellcastingAbility = getString(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "spellcasting"});
+                if (spellcastingAbility.equals("")) {
+                    spellcastingAbility = getString(new String[] {"classes", classes[index].get(), "spellcasting"});
+                }
+
+                if (spellcastingAbility.equals("")) {
+                    spellcastingAbilities[index].set("");
+                } else {
+                    spellcastingAbilities[index].set(spellcastingAbility);
+                }
+            };
+
             classes[index].addListener((newVal) -> {
-                spellcastingAbilities[index].set(getString(new String[] { "classes", newVal, "spellcasting" }));
+                setSpellcastingAbility.run();
+            });
+            subclasses[index].addListener((newVal) -> {
+                setSpellcastingAbility.run();
             });
 
             Runnable updateSpellcastingAbility = () -> {
@@ -2442,10 +2582,6 @@ public class GameCharacter {
 
     private Boolean getBoolean(String[] group) {
         return GroupManager.getInstance().getBoolean(group);
-    }
-
-    private String[] getMagicClasses() {
-        return GroupManager.getInstance().getMagicClasses();
     }
 
     private String[] getAllSpells() {
@@ -2865,11 +3001,11 @@ public class GameCharacter {
 
         switch (generationMethod.get()) {
             case "STANDARD_ARRAY" -> {
-                for (int i = 0; i < abilityBasesShown.length; i++) {
-                    if (abilityBasesShown[i].get().equals("RANDOM")) {
+                for (ObservableString abilityBaseShown : abilityBasesShown) {
+                    if (abilityBaseShown.get().equals("RANDOM")) {
                         int randomIndex = (int) (Math.random() * selectableAbilities.size());
                         String score = selectableAbilities.getList().get(randomIndex);
-                        abilityBasesShown[i].set(score);
+                        abilityBaseShown.set(score);
                     }
                 }
             }

@@ -25,7 +25,12 @@ public class ClassPane extends GridPane {
         classeLabel.getStyleClass().add("bold-label"); // Add CSS class
 
         // Create the first ComboBox (class selection)
-        TooltipComboBox classComboBox = new TooltipComboBox(character.getselectableClasses(), mainTabPane);
+        TooltipComboBox classComboBox;
+        if (classIndex == 0) {
+            classComboBox = new TooltipComboBox(character.getMainClasses(), mainTabPane);
+        } else {
+            classComboBox = new TooltipComboBox(character.getselectableClasses(), mainTabPane);
+        }
         classComboBox.setPromptText(getTranslation("RANDOM"));
         add(classComboBox, 0, 1);
         add(classComboBox.getLabel(), 0, 1);

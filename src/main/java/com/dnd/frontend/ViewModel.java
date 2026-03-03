@@ -107,7 +107,8 @@ public class ViewModel {
     private final BooleanProperty[] skillProficiencies;
     
     private final ObservableList<String> selectableLanguages;
-    private final ObservableList<String> selectableAbilities; 
+    private final ObservableList<String> selectableAbilities;
+    private final ObservableList<String> mainClasses;
     private final ObservableList<String> selectableClasses;
     private final ObservableList<String> traits;
     private final ObservableList<String> weaponProficiencies;
@@ -430,6 +431,9 @@ public class ViewModel {
 
         selectableAbilities = FXCollections.observableArrayList();
         updateList(selectableAbilities, backend.getSelectableAbilities());
+
+        mainClasses = FXCollections.observableArrayList();
+        updateList(mainClasses, backend.getMainClasses());
 
         selectableClasses = FXCollections.observableArrayList();
         updateList(selectableClasses, backend.getSelectableClasses());
@@ -866,6 +870,10 @@ public class ViewModel {
 
     public StringProperty[] getClasses() {
         return classes;
+    }
+
+    public ObservableList<String> getMainClasses() {
+        return mainClasses;
     }
 
     public ObservableList<String> getselectableClasses() {

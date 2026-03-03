@@ -96,14 +96,14 @@ public class TooltipComboBox extends ComboBox<String> {
         updateLabel();
     }
     
-    private void updateCombinedItems() {
+    public void updateCombinedItems() {
         String currentValue = getValue();
         ObservableList<String> newItems = FXCollections.observableArrayList(sourceItems);
 
         newItems.removeAll(forbiddenItems);
         
         // Add current selection if not already in the list
-        if (currentValue != null && !newItems.contains(currentValue)) {
+        if (currentValue != null && !currentValue.equals("") && !newItems.contains(currentValue)) {
             newItems.add(currentValue);
         }
         

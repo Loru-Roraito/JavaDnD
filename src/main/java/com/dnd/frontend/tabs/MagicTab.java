@@ -94,10 +94,12 @@ public class MagicTab extends Tab {
                     abilities.add(spellcastingAbilities[i].get());
                 }
             }
+            ability.setValue("");
+            ability.updateCombinedItems();
             ability.getSelectionModel().select(0);
         };
         for (StringProperty spellcastingAbility : spellcastingAbilities) {
-            spellcastingAbility.addListener((_, _, _) -> {
+            spellcastingAbility.addListener((newVal, _, _) -> {
                 updateSpellcasting.run();
             });
         }

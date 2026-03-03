@@ -18,10 +18,6 @@ public class GroupManager extends Manager {
         return "groups.json";
     }
 
-    public String[] getMagicClasses() {
-        return getStrings(new String[] {"magic_classes"});
-    }
-
     public String[] getSelectableFeats() {
         String[] allFeats = getStrings(new String[] {"feats"});
         return Arrays.stream(allFeats)
