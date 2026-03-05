@@ -984,6 +984,10 @@ public class ViewModel {
         return backend.getProficiencyBonus();
     }
 
+    public ObservableInteger getPassivePerception() {
+        return backend.getPassivePerception();
+    }
+
     public DoubleProperty getSpeed() {
         return speed;
     }

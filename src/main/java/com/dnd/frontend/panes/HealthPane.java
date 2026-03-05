@@ -120,7 +120,17 @@ public class HealthPane extends GridPane {
             infoTab.throwDie(1, 20, character.getInitiativeBonus().get(), character.getInvisible().get(), !character.getIncapacitated().get(), -1);
         });
         add(initiativeButton, 3, 2);
-            
+
+        TooltipLabel passivePerception = new TooltipLabel("", getTranslation("PASSIVE_PERCEPTION"), mainTabPane);
+        Runnable updatePassivePerception = () -> {
+            passivePerception.textProperty().set(
+                getTranslation("PASSIVE_PERCEPTION") + ": " + character.getPassivePerception().get()
+            );
+        };
+        updatePassivePerception.run();
+        character.getPassivePerception().addListener(_ -> updatePassivePerception.run());
+        add(passivePerception, 0, 3); // Add the label to the GridPane
+
         TooltipLabel armorClass = new TooltipLabel("", getTranslation("ARMOR_CLASS"), mainTabPane);
         Runnable updateArmorClass = () -> {
             armorClass.textProperty().set(
@@ -130,7 +140,7 @@ public class HealthPane extends GridPane {
         updateArmorClass.run();
         character.getArmorClass().addListener(_ -> updateArmorClass.run());
 
-        add(armorClass, 0, 3); // Add the label to the GridPane
+        add(armorClass, 0, 4); // Add the label to the GridPane
         GridPane.setColumnSpan(armorClass, 4);
 
         TooltipLabel proficiencyBonus = new TooltipLabel("", getTranslation("PROFICIENCY_BONUS"), mainTabPane);
@@ -142,7 +152,7 @@ public class HealthPane extends GridPane {
         updateProficiencyBonus.run();
         character.getProficiencyBonus().addListener(_ -> updateProficiencyBonus.run());
         
-        add(proficiencyBonus, 0, 4); // Add the label to the GridPane
+        add(proficiencyBonus, 0, 5); // Add the label to the GridPane
         GridPane.setColumnSpan(proficiencyBonus, 4);
 
         generateHealthUI();

@@ -103,6 +103,7 @@ public class GameCharacter {
     private final ObservableInteger speed = new ObservableInteger(30);
     private final ObservableInteger darkvision = new ObservableInteger(60);
     private final ObservableInteger armorClass = new ObservableInteger(10);
+    private final ObservableInteger passivePerception = new ObservableInteger(10);
     private final ObservableInteger health = new ObservableInteger(1);
     private final ObservableInteger currentHealth = new ObservableInteger(1);
     private final ObservableInteger fixedHealth = new ObservableInteger(0);
@@ -357,6 +358,7 @@ public class GameCharacter {
         bindDarkvision();
         bindArmorClass();
         bindInitiativeBonus();
+        bindPassivePerception();
 
         bindHitDie();
         bindHealth();
@@ -661,6 +663,10 @@ public class GameCharacter {
 
     public ObservableInteger getArmorClass() {
         return armorClass;
+    }
+
+    public ObservableInteger getPassivePerception() {
+        return passivePerception;
     }
 
     public ObservableInteger getHealth() {
@@ -1631,6 +1637,13 @@ public class GameCharacter {
         armorProficiencies.addListener(_ -> updateArmorClass.run());
         armor.addListener(_ -> updateArmorClass.run());
         shield.addListener(_ -> updateArmorClass.run());
+    }
+
+    private void bindPassivePerception() {
+        Runnable updatePassivePerception = () -> {
+            passivePerception.set(10 + skillModifiers[getSkillIndex("PERCEPTION")].get());
+        };
+        skillModifiers[getSkillIndex("PERCEPTION")].addListener(_ -> updatePassivePerception.run());
     }
 
     private void bindLanguages() {
