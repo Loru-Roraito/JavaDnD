@@ -50,6 +50,7 @@ public class ViewModel {
     private final StringProperty size;
     private final StringProperty originFeat;
     private final StringProperty currentHealthShown;
+    private final StringProperty temporaryHPShown;
     private final StringProperty[] classes;
     private final StringProperty[] subclasses;
     private final StringProperty[] levelsShown;
@@ -283,6 +284,9 @@ public class ViewModel {
 
         currentHealthShown = new SimpleStringProperty(getTranslation(backend.getCurrentHealthShown().get()));
         bindObservableString(currentHealthShown, backend.getCurrentHealthShown());
+
+        temporaryHPShown = new SimpleStringProperty(getTranslation(backend.getTemporaryHPShown().get()));
+        bindObservableString(temporaryHPShown, backend.getTemporaryHPShown());
 
         maxClasses = backend.getMaxClasses();
         levelsShown = new SimpleStringProperty[maxClasses];
@@ -867,6 +871,10 @@ public class ViewModel {
 
     public StringProperty getCurrentHealthShown() {
         return currentHealthShown;
+    }
+
+    public StringProperty getTemporaryHPShown() {
+        return temporaryHPShown;
     }
 
     public StringProperty getClasse(int index) {

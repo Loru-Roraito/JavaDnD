@@ -52,6 +52,7 @@ public class GameCharacter {
     private final ObservableString size = new ObservableString("");
     private final ObservableString originFeat = new ObservableString("");
     private final ObservableString currentHealthShown = new ObservableString("1");
+    private final ObservableString temporaryHPShown = new ObservableString("0");
     private final ObservableString[] spellcastingAbilities;
     private final ObservableString[] moneysShown = new ObservableString[5];
     private final ObservableString[] classes;
@@ -105,6 +106,7 @@ public class GameCharacter {
     private final ObservableInteger armorClass = new ObservableInteger(10);
     private final ObservableInteger passivePerception = new ObservableInteger(10);
     private final ObservableInteger health = new ObservableInteger(1);
+    private final ObservableInteger temporaryHP = new ObservableInteger(0);
     private final ObservableInteger currentHealth = new ObservableInteger(1);
     private final ObservableInteger fixedHealth = new ObservableInteger(0);
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
@@ -507,6 +509,10 @@ public class GameCharacter {
         return currentHealthShown;
     }
 
+    public ObservableString getTemporaryHPShown() {
+        return temporaryHPShown;
+    }
+
     public ObservableInteger getLevel(int index) {
         return levels[index];
     }
@@ -677,6 +683,10 @@ public class GameCharacter {
 
     public ObservableInteger getHealth() {
         return health;
+    }
+
+    public ObservableInteger getTemporaryHP() {
+        return temporaryHP;
     }
 
     public ObservableInteger getCurrentHealth() {
@@ -1778,6 +1788,21 @@ public class GameCharacter {
                 currentHealthShown.set(String.valueOf(newValue));
             }
         });
+
+        temporaryHPShown.addListener((newValue) -> {
+            if (newValue != null) {
+                int parsedValue = Integer.parseInt(newValue);
+                temporaryHP.set(parsedValue); // Update property
+            } else {
+                temporaryHP.set(0); // Set a default value
+            }
+        });
+
+        temporaryHP.addListener((newValue) -> {
+            if (newValue != null) {
+                temporaryHPShown.set(String.valueOf(newValue));
+            }
+        });
     }
 
     private void bindHitDie() {
@@ -2646,6 +2671,7 @@ public class GameCharacter {
         copy.items.setAll(items.getList());
         copy.healthMethod.set(this.healthMethod.get());
         copy.health.set(this.health.get());
+        copy.temporaryHP.set(this.temporaryHP.get());
         copy.generationMethod.set(this.generationMethod.get());
         for (int i = 0; i < abilityBases.length; i++) {
             copy.abilityBases[i].set(this.abilityBases[i].get());
@@ -2654,6 +2680,7 @@ public class GameCharacter {
         }
         for (int i = 0; i < skillProficiencies.length; i++) {
             copy.skillProficiencies[i].set(this.skillProficiencies[i].get());
+            copy.skillExpertises[i].set(this.skillExpertises[i].get());
         }
         for (int i = 0; i < moneys.length; i++) {
             copy.moneys[i].set(this.moneys[i].get());

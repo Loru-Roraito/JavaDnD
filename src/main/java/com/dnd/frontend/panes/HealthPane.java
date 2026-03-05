@@ -23,7 +23,7 @@ public class HealthPane extends GridPane {
         getStyleClass().add("grid-pane");
 
         HBox healthBox = new HBox();
-        TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS") + ":", mainTabPane);
+        TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS") + ": ", getTranslation("HIT_POINTS"), mainTabPane);
         healthBox.getChildren().add(hpLabel);
         add(healthBox, 0, 0, 4, 1);
 
@@ -34,7 +34,6 @@ public class HealthPane extends GridPane {
                 currentHp.setText(oldValue); // Revert to the old value if invalid input is detected
             }
         });
-
         currentHp.textProperty().addListener((_, _, newVal) -> {
             if (!newVal.isEmpty()) {
                 character.getCurrentHealthShown().set(newVal);
@@ -45,12 +44,10 @@ public class HealthPane extends GridPane {
                 character.getCurrentHealthShown().set("0");
             }
         });
-
         character.getCurrentHealthShown().addListener(_ -> {
             currentHp.setText(character.getCurrentHealthShown().get());
         });
         currentHp.setText(character.getCurrentHealthShown().get());
-
         // TODO: dynamic
         currentHp.setMaxWidth(60);
 
@@ -59,6 +56,31 @@ public class HealthPane extends GridPane {
         healthBox.getChildren().add(hpCustom);
         healthBox.getChildren().add(hpMedium);
         healthBox.getChildren().add(hpRandom);
+
+        Label temporaryLabel = new TooltipLabel(getTranslation("TEMPORARY_HP") + ": ", getTranslation("TEMPORARY_HP"), mainTabPane);
+        TextField temporaryHP = new TextField();
+        temporaryHP.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                temporaryHP.setText(oldValue);
+            }
+        });
+        temporaryHP.textProperty().addListener((_, _, newVal) -> {
+            if (!newVal.isEmpty()) {
+                character.getTemporaryHPShown().set(newVal);
+            }
+        });
+        temporaryHP.setOnAction(_ -> {
+            if (temporaryHP.getText().isEmpty()) {
+                character.getTemporaryHPShown().set("0");
+            }
+        });
+        character.getTemporaryHPShown().addListener(_ -> {
+            temporaryHP.setText(character.getTemporaryHPShown().get());
+        });
+        temporaryHP.setText(character.getTemporaryHPShown().get());
+        temporaryHP.setMaxWidth(60);
+        HBox temporaryBox = new HBox(temporaryLabel, temporaryHP);
+        add(temporaryBox, 0, 1, 4, 1); // Span across 4 columns
 
         int[] hitDies = {6, 8, 10, 12};
         HBox hitDieBox = new HBox();
@@ -104,10 +126,10 @@ public class HealthPane extends GridPane {
 
             hitDieBox.getChildren().add(button);
         }
-        add(hitDieBox, 0, 1, 4, 1); // Span across 4 columns
+        add(hitDieBox, 0, 2, 4, 1); // Span across 4 columns
         
         TooltipLabel initiativeLabel = new TooltipLabel(getTranslation("INITIATIVE_BONUS") + ":", getTranslation("INITIATIVE_BONUS"), mainTabPane);
-        add(initiativeLabel, 0, 2); // Add the label to the GridPane (Column 0, Row 0)
+        add(initiativeLabel, 0, 3); // Add the label to the GridPane (Column 0, Row 0)
         GridPane.setColumnSpan(initiativeLabel, 3);
 
         Button initiativeButton = new Button(String.valueOf(character.getInitiativeBonus().get()));
@@ -119,7 +141,7 @@ public class HealthPane extends GridPane {
         initiativeButton.setOnAction(_ -> {
             infoTab.throwDie(1, 20, character.getInitiativeBonus().get(), character.getInvisible().get(), !character.getIncapacitated().get(), -1);
         });
-        add(initiativeButton, 3, 2);
+        add(initiativeButton, 1, 3);
 
         TooltipLabel passivePerception = new TooltipLabel("", getTranslation("PASSIVE_PERCEPTION"), mainTabPane);
         Runnable updatePassivePerception = () -> {
@@ -129,7 +151,7 @@ public class HealthPane extends GridPane {
         };
         updatePassivePerception.run();
         character.getPassivePerception().addListener(_ -> updatePassivePerception.run());
-        add(passivePerception, 0, 3); // Add the label to the GridPane
+        add(passivePerception, 0, 4); // Add the label to the GridPane
 
         TooltipLabel armorClass = new TooltipLabel("", getTranslation("ARMOR_CLASS"), mainTabPane);
         Runnable updateArmorClass = () -> {
@@ -140,7 +162,7 @@ public class HealthPane extends GridPane {
         updateArmorClass.run();
         character.getArmorClass().addListener(_ -> updateArmorClass.run());
 
-        add(armorClass, 0, 4); // Add the label to the GridPane
+        add(armorClass, 0, 5); // Add the label to the GridPane
         GridPane.setColumnSpan(armorClass, 4);
 
         TooltipLabel proficiencyBonus = new TooltipLabel("", getTranslation("PROFICIENCY_BONUS"), mainTabPane);
@@ -152,7 +174,7 @@ public class HealthPane extends GridPane {
         updateProficiencyBonus.run();
         character.getProficiencyBonus().addListener(_ -> updateProficiencyBonus.run());
         
-        add(proficiencyBonus, 0, 5); // Add the label to the GridPane
+        add(proficiencyBonus, 0, 6); // Add the label to the GridPane
         GridPane.setColumnSpan(proficiencyBonus, 4);
 
         generateHealthUI();
