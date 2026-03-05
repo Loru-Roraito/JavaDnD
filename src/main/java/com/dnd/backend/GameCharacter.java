@@ -153,6 +153,7 @@ public class GameCharacter {
     private final ObservableBoolean hasOffProficiency = new ObservableBoolean(false);
 
     private final ObservableBoolean[] availableSkills;
+    private final ObservableBoolean[] availableExpertises;
     private final ObservableBoolean[] abilityPlusOnes;
     private final ObservableBoolean[] abilityPlusTwos;
     private final ObservableBoolean[] fixedSkills;
@@ -162,6 +163,7 @@ public class GameCharacter {
     private final ObservableBoolean[] availablePlusOnes;
     private final ObservableBoolean[] availablePlusTwos;
     private final ObservableBoolean[] skillProficiencies;
+    private final ObservableBoolean[] skillExpertises;
 
     public GameCharacter() {
         skillNames = getStrings(new String[] {"skills"});
@@ -184,10 +186,12 @@ public class GameCharacter {
         abilityPlusTwos = new ObservableBoolean[abilityCount];
         savingThrowProficiencies = new ObservableBoolean[abilityCount];
         skillProficiencies = new ObservableBoolean[skillCount];
+        skillExpertises = new ObservableBoolean[skillCount];
 
         abilityBasesShown = new ObservableString[abilityCount];
 
         availableSkills = new ObservableBoolean[skillCount];
+        availableExpertises = new ObservableBoolean[skillCount];
         fixedSkills = new ObservableBoolean[skillCount];
 
         maxClasses = getInt(new String[] {"max_classes"});
@@ -339,7 +343,9 @@ public class GameCharacter {
             skillBonuses[i] = new ObservableInteger(0);
             skillModifiers[i] = new ObservableInteger(0);
             skillProficiencies[i] = new ObservableBoolean(false);
+            skillExpertises[i] = new ObservableBoolean(false);
             availableSkills[i] = new ObservableBoolean(false);
+            availableExpertises[i] = new ObservableBoolean(false);
 
             bindSkillProficiency(i);
             bindSkillBonus(i);
@@ -821,6 +827,10 @@ public class GameCharacter {
         return availableSkills[index];
     }
 
+    public ObservableBoolean getAvailableExpertise(int index) {
+        return availableExpertises[index];
+    }
+
     public ObservableBoolean getAbilityPlusOne(int index) {
         return abilityPlusOnes[index];
     }
@@ -835,6 +845,10 @@ public class GameCharacter {
 
     public ObservableBoolean getSkillProficiency(int index) {
         return skillProficiencies[index];
+    }
+
+    public ObservableBoolean getSkillExpertise(int index) {
+        return skillExpertises[index];
     }
 
     public ObservableBoolean hasShieldProficiency() {

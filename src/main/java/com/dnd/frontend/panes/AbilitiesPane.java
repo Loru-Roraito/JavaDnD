@@ -265,12 +265,16 @@ public class AbilitiesPane extends GridPane {
             TooltipLabel label = new TooltipLabel(skill, mainTabPane);
             skillsArea.add(label, 0, i); // Column 0, Row i
 
-            // Checkboxes for proficiency and specialty
+            // Checkboxes for proficiency and expertise
             CheckBox proficiency = new CheckBox();
-            skillsArea.add(proficiency, 1, i); // Column 1, Row i
+            skillsArea.add(proficiency, 1, i);
+
+            CheckBox expertise = new CheckBox();
+            skillsArea.add(expertise, 2, i);
 
             Runnable enableProficiency = () -> {
                 proficiency.setDisable(!character.getAvailableSkill(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillProficiency(index).get())));
+                expertise.setDisable(!character.getAvailableExpertise(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillExpertise(index).get())));
             };
             enableProficiency.run();
             character.getAvailableSkill(index).addListener(_ -> enableProficiency.run());
@@ -278,7 +282,7 @@ public class AbilitiesPane extends GridPane {
             character.isLevelingUp().addListener(_ -> enableProficiency.run());
 
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
-            
+            expertise.selectedProperty().bindBidirectional(character.getSkillExpertise(index));
             // Button to roll a D20
             Button rollButton = new Button(String.valueOf(character.getSkillModifier(index).get()));
             character.getSkillModifier(index).addListener(_ -> {

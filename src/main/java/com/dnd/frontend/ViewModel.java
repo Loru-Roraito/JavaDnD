@@ -102,10 +102,12 @@ public class ViewModel {
     private final BooleanProperty[] availablePluses;
     private final BooleanProperty[] availableMinuses;
     private final BooleanProperty[] availableSkills;
+    private final BooleanProperty[] availableExpertises;
     private final BooleanProperty[] abilityPlusOnes;
     private final BooleanProperty[] abilityPlusTwos;
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
+    private final BooleanProperty[] skillExpertises;
     
     private final ObservableList<String> selectableLanguages;
     private final ObservableList<String> selectableAbilities;
@@ -405,15 +407,23 @@ public class ViewModel {
         }
 
         availableSkills = new BooleanProperty[skillCount];
+        availableExpertises = new BooleanProperty[skillCount];
         skillProficiencies = new BooleanProperty[skillCount];
+        skillExpertises = new BooleanProperty[skillCount];
         for (int i = 0; i < skillCount; i++) {
             bindObservableInteger(backend.getSkillModifier(i));
             
             availableSkills[i] = new SimpleBooleanProperty(backend.getAvailableSkill(i).get());
             bindObservableBoolean(availableSkills[i], backend.getAvailableSkill(i));
+
+            availableExpertises[i] = new SimpleBooleanProperty(backend.getAvailableExpertise(i).get());
+            bindObservableBoolean(availableExpertises[i], backend.getAvailableExpertise(i));
             
             skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
+
+            skillExpertises[i] = new SimpleBooleanProperty(backend.getSkillExpertise(i).get());
+            bindObservableBoolean(skillExpertises[i], backend.getSkillExpertise(i));
         }
 
         selectableLanguages = FXCollections.observableArrayList();
@@ -1182,6 +1192,10 @@ public class ViewModel {
         return availableSkills[index];
     }
 
+    public BooleanProperty getAvailableExpertise(int index) {
+        return availableExpertises[index];
+    }
+
     public BooleanProperty getAvailablePlusOne(int index) {
         return availablePlusOnes[index];
     }
@@ -1211,6 +1225,10 @@ public class ViewModel {
 
     public BooleanProperty getSkillProficiency(int index) {
         return skillProficiencies[index];
+    }
+
+    public BooleanProperty getSkillExpertise(int index) {
+        return skillExpertises[index];
     }
 
 
