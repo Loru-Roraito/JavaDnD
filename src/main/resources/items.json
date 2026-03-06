@@ -34,7 +34,7 @@
         "damage": 4,
         "attributes": ["BLUDGEONING"],
         "properties": ["LIGHT"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "SLOW",
         "shortRange": 20,
         "longRange": 60
@@ -48,7 +48,7 @@
         "damage": 4,
         "attributes": ["PIERCING"],
         "properties": ["LIGHT", "FINESSE", "THROWN"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
     "GREATCLUB": {
@@ -72,7 +72,7 @@
         "damage": 6,
         "attributes": ["SLASHING"],
         "properties": ["LIGHT", "THROWN"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "VEX",
         "shortRange": 20,
         "longRange": 60
@@ -86,7 +86,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["THROWN"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "SLOW",
         "shortRange": 30,
         "longRange": 120
@@ -100,7 +100,7 @@
         "damage": 4,
         "attributes": ["BLUDGEONING"],
         "properties": ["LIGHT", "THROWN"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "NICK",
         "shortRange": 20,
         "longRange": 60
@@ -114,7 +114,7 @@
         "damage": 6,
         "attributes": ["BLUDGEONING"],
         "properties": [],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
     "QUARTERSTAFF": {
@@ -126,7 +126,7 @@
         "damage": 6,
         "attributes": ["BLUDGEONING"],
         "properties": ["VERSATILE"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "TOPPLE",
         "versatileHits": 1,
         "versatileDamage": 8
@@ -140,7 +140,7 @@
         "damage": 4,
         "attributes": ["SLASHING"],
         "properties": ["LIGHT"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
     "SPEAR": {
@@ -152,7 +152,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["THROWN", "VERSATILE"],
-        "tags": ["SIMPLE", "MELEE"],
+        "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "SAP",
         "shortRange": 20,
         "longRange": 60,
@@ -168,7 +168,7 @@
         "damage": 4,
         "attributes": ["PIERCING"],
         "properties": ["FINESSE", "THROWN"],
-        "tags": ["SIMPLE", "RANGED"],
+        "tags": ["SIMPLE_WEAPONS", "RANGED"],
         "mastery": "VEX",
         "shortRange": 20,
         "longRange": 60
@@ -182,7 +182,7 @@
         "damage": 8,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "LOADING", "TWO_HANDED"],
-        "tags": ["SIMPLE", "RANGED"],
+        "tags": ["SIMPLE_WEAPONS", "RANGED"],
         "mastery": "SLOW",
         "shortRange": 80,
         "longRange": 320,
@@ -197,7 +197,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "TWO_HANDED"],
-        "tags": ["SIMPLE", "RANGED"],
+        "tags": ["SIMPLE_WEAPONS", "RANGED"],
         "mastery": "VEX",
         "shortRange": 80,
         "longRange": 320,
@@ -212,7 +212,7 @@
         "damage": 4,
         "attributes": ["BLUDGEONING"],
         "properties": ["AMMUNITION"],
-        "tags": ["SIMPLE", "RANGED"],
+        "tags": ["SIMPLE_WEAPONS", "RANGED"],
         "mastery": "SLOW",
         "shortRange": 30,
         "longRange": 120,
@@ -227,7 +227,7 @@
         "damage": 8,
         "attributes": ["SLASHING"],
         "properties": ["VERSATILE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE",
         "versatileHits": 1,
         "versatileDamage": 10
@@ -241,7 +241,7 @@
         "damage": 8,
         "attributes": ["BLUDGEONING"],
         "properties": [],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
     "GLAIVE": {
@@ -253,7 +253,7 @@
         "damage": 10,
         "attributes": ["SLASHING"],
         "properties": ["HEAVY", "REACH", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "GRAZE"
     },
     "GREATAXE": {
@@ -265,7 +265,7 @@
         "damage": 12,
         "attributes": ["SLASHING"],
         "properties": ["HEAVY", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "CLEAVE"
     },
 
@@ -278,7 +278,7 @@
         "damage": 6,
         "attributes": ["SLASHING"],
         "properties": ["HEAVY", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "GRAZE"
     },
     "HALBERD": {
@@ -290,7 +290,7 @@
         "damage": 10,
         "attributes": ["SLASHING"],
         "properties": ["HEAVY", "REACH", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "CLEAVE"
     },
     "LANCE": {
@@ -302,7 +302,7 @@
         "damage": 12,
         "attributes": ["PIERCING"],
         "properties": ["REACH"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE"
     },
     "LONGSWORD": {
@@ -314,7 +314,7 @@
         "damage": 8,
         "attributes": ["SLASHING"],
         "properties": ["VERSATILE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP",
         "versatileHits": 1,
         "versatileDamage": 10
@@ -328,7 +328,7 @@
         "damage": 6,
         "attributes": ["BLUDGEONING"],
         "properties": ["HEAVY", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE"
     },
     "MORNINGSTAR": {
@@ -340,7 +340,7 @@
         "damage": 8,
         "attributes": ["PIERCING"],
         "properties": [],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
     "PIKE": {
@@ -352,7 +352,7 @@
         "damage": 10,
         "attributes": ["PIERCING"],
         "properties": ["HEAVY", "REACH", "TWO_HANDED"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "PUSH"
     },
     "RAPIER": {
@@ -364,7 +364,7 @@
         "damage": 8,
         "attributes": ["PIERCING"],
         "properties": ["FINESSE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "VEX"
     },
     "SCIMITAR": {
@@ -376,7 +376,7 @@
         "damage": 6,
         "attributes": ["SLASHING"],
         "properties": ["LIGHT", "FINESSE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
     "SHORTSWORD": {
@@ -388,7 +388,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["FINESSE", "LIGHT"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "VEX"
     },
     "TRIDENT": {
@@ -400,7 +400,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["THROWN", "VERSATILE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE",
         "shortRange": 20,
         "longRange": 60,
@@ -416,7 +416,7 @@
         "damage": 8,
         "attributes": ["BLUDGEONING"],
         "properties": ["VERSATILE"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "PUSH",
         "versatileHits": 1,
         "versatileDamage": 10
@@ -430,7 +430,7 @@
         "damage": 8,
         "attributes": ["PIERCING"],
         "properties": [],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
     "WHIP": {
@@ -442,7 +442,7 @@
         "damage": 4,
         "attributes": ["SLASHING"],
         "properties": ["REACH"],
-        "tags": ["MARTIAL", "MELEE"],
+        "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SLOW"
     },
     "BLOWGUN": {
@@ -454,7 +454,7 @@
         "damage": 1,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "LOADING"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "VEX",
         "shortRange": 25,
         "longRange": 100,
@@ -469,7 +469,7 @@
         "damage": 6,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "LOADING", "LIGHT"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "VEX",
         "shortRange": 30,
         "longRange": 120,
@@ -484,7 +484,7 @@
         "damage": 10,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "HEAVY", "LOADING", "TWO_HANDED"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "PUSH",
         "shortRange": 100,
         "longRange": 400,
@@ -499,7 +499,7 @@
         "damage": 8,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "HEAVY", "TWO_HANDED"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "SLOW",
         "shortRange": 150,
         "longRange": 600,
@@ -514,7 +514,7 @@
         "damage": 12,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "LOADING", "TWO_HANDED"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "SLOW",
         "shortRange": 40,
         "longRange": 120,
@@ -529,7 +529,7 @@
         "damage": 10,
         "attributes": ["PIERCING"],
         "properties": ["AMMUNITION", "LOADING"],
-        "tags": ["MARTIAL", "RANGED"],
+        "tags": ["MARTIAL_WEAPONS", "RANGED"],
         "mastery": "VEX",
         "shortRange": 30,
         "longRange": 90,

@@ -32,10 +32,20 @@ public class ItemManager extends Manager{
         return keys.toArray(String[]::new);
     }
 
+    public String[] getAllWeapons() {
+        List<String> keys = new ArrayList<>();
+        for (String itemName : rootNode.keySet()) {
+            if (getString(new String[] {itemName, "type"}).equals("WEAPON")) {
+                keys.add(itemName);
+            }
+        }
+        return keys.toArray(String[]::new);
+    }
+
     public void addItem(GameCharacter character, String itemName) {
         if (!itemName.equals("") && !sets.contains(itemName)) {
             if (packages.contains(itemName)) {
-                for (String item : getStrings(new String[] {"packages", itemName})) {
+                for (String item : getNormalStrings(new String[] {"packages", itemName})) {
                     addItem(character, item);
                 }
                 return;

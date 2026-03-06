@@ -123,19 +123,27 @@ public class TooltipComboBox extends ComboBox<String> {
     }
 
     private void setupDisabledListener() {
-        replacementLabel = new TooltipLabel("", mainTabPane);
+        replacementLabel = new TooltipLabel("", "", mainTabPane);
         replacementLabel.getStyleClass().add("combo-box-disabled-label");
         replacementLabel.setVisible(false);
+        replacementLabel.setManaged(false);
 
         // Listen for disabled state changes
         this.disabledProperty().addListener((_, _, isDisabled) -> {
             if (isDisabled) {
                 updateLabel();
-                replacementLabel.setVisible(true);
+                if (!replacementLabel.getText().equals("   " + getTranslation("RANDOM"))) { // TODO: a bit convoluted
+                    replacementLabel.setVisible(true);
+                    replacementLabel.setManaged(true);
+                } else {
+                    replacementLabel.setVisible(false);
+                    replacementLabel.setManaged(false);
+                }
                 this.setVisible(false);
                 this.setManaged(false);
             } else {
                 replacementLabel.setVisible(false);
+                replacementLabel.setManaged(false);
                 this.setVisible(true);
                 this.setManaged(true);
             }

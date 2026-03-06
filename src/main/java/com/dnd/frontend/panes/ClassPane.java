@@ -65,17 +65,13 @@ public class ClassPane extends GridPane {
         Runnable hideSublcasses = () -> {
             if (character.getSelectableSubclasses(classIndex).size() <= 1) {
                 subclassComboBox.setManaged(false);
-                subclassComboBox.getLabel().setManaged(false);
                 subclassLabel.setManaged(false);
                 subclassComboBox.setVisible(false);
-                subclassComboBox.getLabel().setVisible(false);
                 subclassLabel.setVisible(false);
             } else {
                 subclassComboBox.setManaged(true);
-                subclassComboBox.getLabel().setManaged(true);
                 subclassLabel.setManaged(true);
                 subclassComboBox.setVisible(true);
-                subclassComboBox.getLabel().setVisible(false);
                 subclassLabel.setVisible(true);
             }
         };
@@ -98,10 +94,14 @@ public class ClassPane extends GridPane {
         Runnable hideLevel = () -> {
             if (character.getClasse(classIndex).get().equals(getTranslation("RANDOM"))) {
                 levelComboBox.setManaged(false);
+                levelComboBox.setVisible(false);
                 levelLabel.setManaged(false);
+                levelLabel.setVisible(false);
             } else {
                 levelComboBox.setManaged(true);
+                levelComboBox.setVisible(true);
                 levelLabel.setManaged(true);
+                levelLabel.setVisible(true);
             }
         };
         hideLevel.run();

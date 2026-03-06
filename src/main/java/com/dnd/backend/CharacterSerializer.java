@@ -29,6 +29,7 @@ public class CharacterSerializer {
         public String species;
         public String lineage;
         public String[] classes;
+        public String[] weaponMasteries;
         public String[] subclasses;
         public String background;
         public String[] levelsShown;
@@ -224,6 +225,11 @@ public class CharacterSerializer {
                     data.fightingStyles[i][j] = character.getFightingStyle(i, j).get();
                 }
             }
+
+            data.weaponMasteries = new String[character.getMaxWeaponMasteries()];
+            for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+                data.weaponMasteries[i] = character.getWeaponMastery(i).get();
+            }
             
             // Equipment
             data.classEquipment = new String[character.getMaxSets() + 1];
@@ -369,6 +375,10 @@ public class CharacterSerializer {
                     for (int j = 0; j < data.fightingStyles[i].length; j++) {
                         character.getFightingStyle(i, j).set(data.fightingStyles[i][j]);
                     }
+                }
+
+                for (int i = 0; i < data.weaponMasteries.length; i++) {
+                    character.getWeaponMastery(i).set(data.weaponMasteries[i]);
                 }
                 
                 // Load equipment

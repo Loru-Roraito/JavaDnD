@@ -69,8 +69,20 @@
   "max_subclasses": 4,
   "max_feats": 7,
   "max_fighting_styles": 2,
+  "max_weapon_masteries": 13,
   "max_sets": 2,
   "max_classes": 12,
+
+  "weapon_masteries": [
+    "CLEAVE",
+    "GRAZE",
+    "NICK",
+    "PUSH",
+    "SAP",
+    "SLOW",
+    "TOPPLE",
+    "VEX"
+  ],
 
   "classes": {
     "BARBARIAN": {
@@ -354,6 +366,7 @@
       "limited": true,
       "charges": [0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
+      "masteries": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
       "traits": {
         "PALADIN_LAY_ON_HANDS": 1,
         "PALADIN_PALADIN_S_SMITE": 2,
@@ -401,6 +414,7 @@
       "limited": true,
       "charges": [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
+      "masteries": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
       "traits": {
         "RANGER_FAVORED_ENEMY": 1,
         "RANGER_DEFT_EXPLORER": 2,
@@ -436,12 +450,13 @@
       "feats": [4, 8, 10, 12, 16, 19],
       "equipment": ["LEATHER_ARMOR", "2 DAGGER", "SHORTSWORD", "SHORTBOW", "20 ARROW", "QUIVER", "THIEVES_TOOLS", "BURGLARS_PACK", "8 GOLD"],
       "gold": 100,
-      "weapons": ["SIMPLE_WEAPONS", "FINESSELIGHT_MARTIAL_WEAPONS"],
+      "weapons": ["SIMPLE_WEAPONS", "FINESSE_LIGHT_MARTIAL_WEAPONS"],
       "armors": ["LIGHT_ARMORS"],
       "extra_armors": ["LIGHT_ARMORS"],
       "tools": ["THIEVES_TOOLS"],
       "extra_tools": ["THIEVES_TOOLS"],
       "damage": [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10],
+      "masteries": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
       "traits": {
         "ROGUE_EXPERTISE": 1,
         "ROGUE_SNEAK_ATTACK": 1,
@@ -1127,19 +1142,19 @@
 
   "weapon categories": {
     "SIMPLE_WEAPONS": {
-      "tag": "SIMPLE",
+      "tag": "SIMPLE_WEAPONS",
       "attributes": []
     },
     "MARTIAL_WEAPONS":  {
-      "tag": "MARTIAL",
+      "tag": "MARTIAL_WEAPONS",
       "attributes": []
     },
     "LIGHT_MARTIAL_WEAPONS": {
-      "tag": "MARTIAL",
+      "tag": "MARTIAL_WEAPONS",
       "attributes": ["LIGHT"]
     },
-    "FINESSELIGHT_MARTIAL_WEAPONS": {
-      "tag": "MARTIAL",
+    "FINESSE_LIGHT_MARTIAL_WEAPONS": {
+      "tag": "MARTIAL_WEAPONS",
       "attributes": ["LIGHT", "FINESSE"]
     }
   }

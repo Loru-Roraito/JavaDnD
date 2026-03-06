@@ -48,21 +48,19 @@ public class ProficienciesPane extends GridPane {
 
         TooltipLabel languages = new TooltipLabel(getTranslation("LANGUAGES") + ":", getTranslation("LANGUAGES"), mainTabPane);
         add(languages, 0, 0);
-        languages.getStyleClass().add("bold-label"); // Add CSS class
+        languages.getStyleClass().add("bold-label");
 
         // TODO: spaces
         TooltipLabel common = new TooltipLabel("   " + getTranslation("COMMON_LANGUAGE"), getTranslation("COMMON_LANGUAGE"), mainTabPane);
         add(common, 0, 1);
 
         TooltipComboBox languageOne = new TooltipComboBox(character.getSelectableLanguages(), mainTabPane);
-        languageOne.setPromptText(getTranslation("RANDOM"));
         add(languageOne, 0, 2);
         add(languageOne.getLabel(), 0, 2);
         languageOne.valueProperty().bindBidirectional(character.getLanguageOne());
         languageOne.disableProperty().bind(character.isEditing().not());
 
         TooltipComboBox languageTwo = new TooltipComboBox(character.getSelectableLanguages(), mainTabPane);
-        languageTwo.setPromptText(getTranslation("RANDOM"));
         add(languageTwo, 0, 3);
         add(languageTwo.getLabel(), 0, 3);
         languageTwo.valueProperty().bindBidirectional(character.getLanguageTwo());
@@ -121,6 +119,44 @@ public class ProficienciesPane extends GridPane {
 
         proficienciesGridPane.add(proficienciesBox, 0, 1);
 
+        GridPane masteryGrid = new GridPane();
+        add (masteryGrid, 0, 5);
+        TooltipLabel masteryLabel = new TooltipLabel(getTranslation("WEAPON_MASTERY") + ":", getTranslation("WEAPON_MASTERY"), mainTabPane);
+        masteryLabel.getStyleClass().add("bold-label");
+        masteryGrid.add(masteryLabel, 0, 0);
+        Runnable showMasteries = () -> {
+            if (character.getAvailableWeaponMasteries().get() > 0) {
+                masteryLabel.setManaged(true);
+                masteryLabel.setVisible(true);
+            } else {
+                masteryLabel.setManaged(false);
+                masteryLabel.setVisible(false);
+            }
+        };
+        character.getAvailableWeaponMasteries().addListener((_) -> showMasteries.run());
+        showMasteries.run();
+
+        for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+            TooltipComboBox masteryComboBox = new TooltipComboBox(character.getSelectableWeaponMasteries(), mainTabPane);
+            masteryComboBox.valueProperty().bindBidirectional(character.getWeaponMastery(i));
+            masteryComboBox.disableProperty().bind(character.isEditing().not().and(character.isLongResting().not()));
+            masteryGrid.add(masteryComboBox, 0, i + 1);
+            masteryGrid.add(masteryComboBox.getLabel(), 0, i + 1);
+
+            int index = i;
+            Runnable showMastery = () -> {
+                if (index < character.getAvailableWeaponMasteries().get() && !masteryComboBox.isDisabled()) {
+                    masteryComboBox.setManaged(true);
+                    masteryComboBox.setVisible(true);
+                } else {
+                    masteryComboBox.setManaged(false);
+                    masteryComboBox.setVisible(false);
+                }
+            };
+            character.getAvailableWeaponMasteries().addListener((_) -> showMastery.run());
+            showMastery.run();
+        }
+
         TitledPane traitsPane = new TitledPane();
         
         traitsPane.setText(getTranslation("TRAITS"));
@@ -136,7 +172,7 @@ public class ProficienciesPane extends GridPane {
         traitsScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         traitsPane.setContent(traitsScroll);
-        add(traitsPane, 0, 5);
+        add(traitsPane, 0, 6);
 
         
         proficienciesPane.maxWidthProperty().bind(paneWidthBinding);
@@ -150,7 +186,7 @@ public class ProficienciesPane extends GridPane {
         // Bind to character notes property (you'll need to add this to ViewModel)
         notesArea.textProperty().bindBidirectional(character.getUserDescription());
         
-        add(notesArea, 0, 6);
+        add(notesArea, 0, 7);
         
         notesArea.maxWidthProperty().bind(paneWidthBinding);
     }

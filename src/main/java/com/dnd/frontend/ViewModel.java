@@ -52,6 +52,7 @@ public class ViewModel {
     private final StringProperty currentHealthShown;
     private final StringProperty temporaryHPShown;
     private final StringProperty[] classes;
+    private final StringProperty[] weaponMasteries;
     private final StringProperty[] subclasses;
     private final StringProperty[] levelsShown;
     private final StringProperty[] spellcastingAbilities;
@@ -70,6 +71,7 @@ public class ViewModel {
     private final int maxFeats;
     private final int maxFightingStyles;
     private final int maxClasses;
+    private final int maxWeaponMasteries;
     private final int[] skillAbilities;
     
     // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
@@ -113,6 +115,7 @@ public class ViewModel {
     private final BooleanProperty[] skillExpertises;
     
     private final ObservableList<String> selectableLanguages;
+    private final ObservableList<String> selectableWeaponMasteries;
     private final ObservableList<String> selectableAbilities;
     private final ObservableList<String> mainClasses;
     private final ObservableList<String> selectableClasses;
@@ -291,6 +294,13 @@ public class ViewModel {
         temporaryHPShown = new SimpleStringProperty(getTranslation(backend.getTemporaryHPShown().get()));
         bindObservableString(temporaryHPShown, backend.getTemporaryHPShown());
 
+        maxWeaponMasteries = backend.getMaxWeaponMasteries();
+        weaponMasteries = new SimpleStringProperty[maxWeaponMasteries];
+        for (int i = 0; i < maxWeaponMasteries; i++) {
+            weaponMasteries[i] = new SimpleStringProperty(getTranslation(backend.getWeaponMastery(i).get()));
+            bindObservableString(weaponMasteries[i], backend.getWeaponMastery(i));
+        }
+
         maxClasses = backend.getMaxClasses();
         levelsShown = new SimpleStringProperty[maxClasses];
         classes = new SimpleStringProperty[maxClasses];
@@ -435,6 +445,9 @@ public class ViewModel {
 
         selectableLanguages = FXCollections.observableArrayList();
         updateList(selectableLanguages, backend.getSelectableLanguages());
+
+        selectableWeaponMasteries = FXCollections.observableArrayList();
+        updateList(selectableWeaponMasteries, backend.getSelectableWeaponMasteries());
 
         selectableAbilities = FXCollections.observableArrayList();
         updateList(selectableAbilities, backend.getSelectableAbilities());
@@ -812,6 +825,10 @@ public class ViewModel {
         return selectableLanguages;
     }
 
+    public ObservableList<String> getSelectableWeaponMasteries() {
+        return selectableWeaponMasteries;
+    }
+
     public ObservableList<String> getSelectableAbilities() {
         return selectableAbilities;
     }
@@ -886,6 +903,10 @@ public class ViewModel {
 
     public StringProperty getLevelShown(int index) {
         return levelsShown[index];
+    }
+
+    public StringProperty getWeaponMastery(int index) {
+        return weaponMasteries[index];
     }
 
     public StringProperty getCurrentHealthShown() {
@@ -985,6 +1006,10 @@ public class ViewModel {
         return maxClasses;
     }
 
+    public int getMaxWeaponMasteries() {
+        return maxWeaponMasteries;
+    }
+
     public ObservableInteger getSpellcastingAbilityModifier(int index) {
         return backend.getSpellcastingAbilityModifier(index);
     }
@@ -1051,6 +1076,10 @@ public class ViewModel {
 
     public ObservableInteger getAvailableFeats(int index) {
         return backend.getAvailableFeats(index);
+    }
+
+    public ObservableInteger getAvailableWeaponMasteries() {
+        return backend.getAvailableWeaponMasteries();
     }
 
     public ObservableInteger getAvailableFightingStyles(int index) {

@@ -41,6 +41,10 @@ public class TooltipLabel extends Label {
             DefinitionManager.openDefinitionTab(text, mainTabPane);
         };
         setupKeyListener(openTab);
+
+        this.textProperty().addListener((_) -> {
+            update();
+        });
     }
 
     // Constructor that uses the custom text as the tooltip key
@@ -56,6 +60,11 @@ public class TooltipLabel extends Label {
 
     private void assignTooltip(String tooltipKey) {
         DefinitionManager.assignTooltip(this, tooltipKey);
+    }
+
+    public void update() {
+        changeTooltip(this.getText());
+        changeDefinition(this.getText());
     }
 
     public void changeTooltip(String tooltipKey) {

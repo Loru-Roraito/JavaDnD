@@ -20,7 +20,7 @@ public class Item implements MyItems<Item> {
     private final int versatileDamage;
     private final int shortRange;
     private final int longRange;
-    // private final String mastery;
+    private final String mastery;
     private final String ammo;
     private final String[] attributes;
     private final String[] properties;
@@ -72,7 +72,7 @@ public class Item implements MyItems<Item> {
         versatileDamage = getInt(new String[] {nominative, "versatileDamage"});
         shortRange = getInt(new String[] {nominative, "shortRange"});
         longRange = getInt(new String[] {nominative, "longRange"});
-        // mastery = getString(new String[] {nominative, "mastery"});
+        mastery = getString(new String[] {nominative, "mastery"});
         ammo = getString(new String[] {nominative, "ammo"});
 
         attributes = getStrings(new String[] {nominative, "attributes"});
@@ -96,6 +96,10 @@ public class Item implements MyItems<Item> {
 
     public String getAmmo() {
         return ammo;
+    }
+    
+    public String getMastery() {
+        return mastery;
     }
 
     public String[] getProperties() {

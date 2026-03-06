@@ -2,6 +2,7 @@ package com.dnd.frontend.panes;
 
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.TranslationManager;
@@ -48,6 +49,53 @@ public class CombatPane extends GridPane {
         finesse.valueProperty().bindBidirectional(character.getFinesseAbility());
         add(finesseLabel, 0, 3, 2, 1);
         add(finesse, 0, 4, 2, 1);
+
+        TooltipLabel mainMastery = new TooltipLabel("", mainTabPane);
+        add(mainMastery, 2, 1);
+        Runnable updateMainMastery = () -> {
+            Item mainHand = character.getMainHand().get();
+            String weaponMastery = mainHand.getMastery();
+            List<String> weaponMasteries = FXCollections.observableArrayList();
+            for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+                weaponMasteries.add(character.getWeaponMastery(i).get());
+            }
+            mainMastery.setText(getTranslation(weaponMastery));
+            if (weaponMasteries.contains(mainHand.getName())) {
+                mainMastery.setStyle("-fx-text-fill: green;");
+            } else {
+                mainMastery.setStyle("-fx-text-fill: red;");
+            }
+        };
+        updateMainMastery.run();
+        character.getMainHand().addListener(_ -> updateMainMastery.run());
+        for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+            character.getWeaponMastery(i).addListener(_ -> updateMainMastery.run());
+        }
+
+        TooltipLabel offMastery = new TooltipLabel("", mainTabPane);
+        add(offMastery, 2, 2);
+        Runnable updateOffMastery = () -> {
+            Item offHand = character.getOffHand().get();
+            String weaponMastery = offHand.getMastery();
+            List<String> weaponMasteries = FXCollections.observableArrayList();
+            for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+                weaponMasteries.add(character.getWeaponMastery(i).get());
+            }
+            if (Arrays.asList(offHand.getProperties()).contains("TWO_HANDED")) {
+                weaponMastery = "";
+            }
+            offMastery.setText(getTranslation(weaponMastery));
+            if (weaponMasteries.contains(offHand.getName())) {
+                offMastery.setStyle("-fx-text-fill: green;");
+            } else {
+                offMastery.setStyle("-fx-text-fill: red;");
+            }
+        };
+        updateOffMastery.run();
+        character.getOffHand().addListener(_ -> updateOffMastery.run());
+        for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+            character.getWeaponMastery(i).addListener(_ -> updateOffMastery.run());
+        }
 
         Runnable updateBonusDamage = () -> {
             Item offHand = character.getOffHand().get();

@@ -63,6 +63,7 @@ public class GameCharacter {
     private final ObservableString[] abilityBasesShown;
     private final ObservableString[] classEquipment;
     private final ObservableString[] backgroundEquipment;
+    private final ObservableString[] weaponMasteries;
     private final ObservableString[][] feats;
     private final ObservableString[][] fightingStyles;
     private final ObservableString[][] featOnes;
@@ -80,6 +81,7 @@ public class GameCharacter {
     private final CustomObservableList<String> toolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> totalToolProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> selectableLanguages = new CustomObservableList<>();
+    private final CustomObservableList<String> selectableWeaponMasteries = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> selectableSubclasses = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> possibleFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> selectableFeats = new CustomObservableList<>();
@@ -96,6 +98,7 @@ public class GameCharacter {
     private static int maxFightingStyles;
     private static int maxSets;
     private static int maxClasses;
+    private static int maxWeaponMasteries;
 
     private final static int[] standardArray = new int[] {15, 14, 13, 12, 10, 8};
     private static int[] skillAbilities;
@@ -114,6 +117,7 @@ public class GameCharacter {
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
     private final ObservableInteger generationPoints = new ObservableInteger(0);
     private final ObservableInteger exhaustion = new ObservableInteger(0);
+    private final ObservableInteger availableWeaponMasteries = new ObservableInteger(0);
     private final ObservableInteger[] spellcastingAbilityModifiers;
     private final ObservableInteger[] spellcastingAttackModifiers;
     private final ObservableInteger[] spellcastingSaveDCs;
@@ -214,7 +218,6 @@ public class GameCharacter {
         spellcastingAttackModifiers = new ObservableInteger[maxClasses];
         spellcastingSaveDCs = new ObservableInteger[maxClasses];
 
-
         for (int i = 0; i < maxClasses; i++) {
             spells.add(new CustomObservableList<>());
             cantrips.add(new CustomObservableList<>());
@@ -249,6 +252,13 @@ public class GameCharacter {
             spellcastingAttackModifiers[i] = new ObservableInteger(0);
             spellcastingSaveDCs[i] = new ObservableInteger(0);
         }
+
+        maxWeaponMasteries = getInt(new String[] {"max_weapon_masteries"});
+        weaponMasteries = new ObservableString[maxWeaponMasteries];
+        for (int i = 0; i < maxWeaponMasteries; i++) {
+            weaponMasteries[i] = new ObservableString("RANDOM");
+        }
+        bindWeaponMasteries();
 
         for (int i = 0; i < maximumHitDies.length; i++) {
             maximumHitDies[i] = new ObservableInteger(0);
@@ -550,6 +560,10 @@ public class GameCharacter {
         return selectableLanguages;
     }
 
+    public CustomObservableList<String> getSelectableWeaponMasteries() {
+        return selectableWeaponMasteries;
+    }
+
     public CustomObservableList<String> getSelectableClasses() {
         return selectableClasses;
     }
@@ -634,6 +648,10 @@ public class GameCharacter {
         return maxClasses;
     }
 
+    public int getMaxWeaponMasteries() {
+        return maxWeaponMasteries;
+    }
+
     public ObservableItem getMainHand() {
         return mainHand;
     }
@@ -672,6 +690,10 @@ public class GameCharacter {
 
     public ObservableInteger getExhaustion() {
         return exhaustion;
+    }
+
+    public ObservableInteger getAvailableWeaponMasteries() {
+        return availableWeaponMasteries;
     }
 
     public ObservableInteger getGenerationPoints() {
@@ -928,6 +950,10 @@ public class GameCharacter {
 
     public ObservableString getBackgroundEquipment(int index) {
         return backgroundEquipment[index];
+    }
+
+    public ObservableString getWeaponMastery(int index) {
+        return weaponMasteries[index];
     }
 
     public CustomObservableList<Proficiency> getChoiceToolProficiencies() {
@@ -1393,6 +1419,8 @@ public class GameCharacter {
                     if (!selectable) {
                         skillProficiencies[i].set(false);
                     }
+                } else {
+                    availableSkills[i].set(false);
                 }
             }
         };
@@ -1429,6 +1457,9 @@ public class GameCharacter {
             });
         }
         skillSources.addListener(_ -> updateSkill.run());
+        for (int i = 0; i < skillProficiencies.length; i++) {
+            fixedSkills[i].addListener(_ -> updateSkill.run());
+        }
     }
 
     private void bindFixedSkills() {
@@ -1859,6 +1890,75 @@ public class GameCharacter {
                 }
             });
         }
+    }
+
+    private void bindWeaponMasteries() {
+        Runnable updateAvailableWeaponMasteries = () -> {
+            int totalMasteries = 0;
+            for (int i = 0; i < classes.length; i++) {
+                int[] possibleWeaponMasteries = getInts(new String[] {"classes", classes[i].get(), "masteries"});
+                if (possibleWeaponMasteries.length > 0 && levels[i].get() > 0) {
+                    totalMasteries += possibleWeaponMasteries[levels[i].get() - 1];
+                }
+            }
+            totalMasteries = Math.min(totalMasteries, selectableWeaponMasteries.size() - 1);
+
+            availableWeaponMasteries.set(totalMasteries);
+        };
+        for (int i = 0; i < classes.length; i++) {
+            levels[i].addListener(_ -> updateAvailableWeaponMasteries.run());
+            classes[i].addListener(_ -> updateAvailableWeaponMasteries.run());
+        }
+        selectableWeaponMasteries.addListener(_ -> updateAvailableWeaponMasteries.run());
+
+        Runnable updateWeaponMasteries = () -> {
+            for (int i = 0; i < maxWeaponMasteries; i++) {
+                if (availableWeaponMasteries.get() <= i && !weaponMasteries[i].get().equals("RANDOM")) {
+                    weaponMasteries[i].set("RANDOM");
+                }
+            }
+        };
+        availableWeaponMasteries.addListener(_ -> updateWeaponMasteries.run());
+
+        Runnable updateSelectableWeaponMasteries = () -> {
+            String[] weapons = getAllWeapons();
+            List<String> newMasteries = new ArrayList<>();
+            for (String weapon : weapons) {
+                for (String prof : weaponProficiencies.asList()) {
+                    String tag = getString(new String[] {"weapon categories", prof, "tag"});
+                    String[] attributes = getStrings(new String[] {"weapon categories", prof, "attributes"});
+                    if (Arrays.asList(ItemManager.getInstance().getStrings(new String[] {weapon, "tags"})).contains(tag)) {
+                        boolean hasAttributes = true;
+                        for (String attribute : attributes) {
+                            hasAttributes = false;
+                            if (Arrays.asList(ItemManager.getInstance().getStrings(new String[] {weapon, "attributes"})).contains(attribute)) {
+                                hasAttributes = true;
+                                break;
+                            }
+                        }
+                        if (hasAttributes) {
+                            newMasteries.add(weapon);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            for (ObservableString weaponMastery : weaponMasteries) {
+                if (newMasteries.contains(weaponMastery.get())) {
+                    newMasteries.remove(weaponMastery.get());
+                }
+            }
+
+            newMasteries.add("RANDOM");
+            selectableWeaponMasteries.setAll(newMasteries);
+        };
+        for (ObservableString weaponMastery : weaponMasteries) {
+            weaponMastery.addListener(_ -> updateSelectableWeaponMasteries.run());
+        }
+        weaponProficiencies.addListener(_ -> updateSelectableWeaponMasteries.run());
+        updateSelectableWeaponMasteries.run();
     }
 
     private void bindLevel() {
@@ -2656,9 +2756,10 @@ public class GameCharacter {
                     if (Arrays.asList(mainHand.get().getTags()).contains(tag)) {
                         boolean hasAttributes = true;
                         for (String attribute : attributes) {
-                            if (!Arrays.asList(mainHand.get().getTags()).contains(attribute)) {
-                                hasAttributes = false;
-                                break;
+                            hasAttributes = false;
+                            if (Arrays.asList(mainHand.get().getAttributes()).contains(attribute)) {
+                                hasMainProficiency.set(true);
+                                return;
                             }
                         }
                         if (hasAttributes) {
@@ -2680,13 +2781,14 @@ public class GameCharacter {
                 if (Arrays.asList(offHand.get().getTags()).contains(tag)) {
                     boolean hasAttributes = true;
                     for (String attribute : attributes) {
-                        if (!Arrays.asList(offHand.get().getTags()).contains(attribute)) {
-                            hasAttributes = false;
-                            break;
+                        hasAttributes = false;
+                        if (Arrays.asList(mainHand.get().getAttributes()).contains(attribute)) {
+                            hasMainProficiency.set(true);
+                            return;
                         }
                     }
                     if (hasAttributes) {
-                        hasOffProficiency.set(true);
+                        hasMainProficiency.set(true);
                         return;
                     }
                 }
@@ -2732,6 +2834,10 @@ public class GameCharacter {
 
     private String[] getSpellGroup(String[] group) {
         return SpellManager.getInstance().getSpellGroup(group);
+    }
+
+    private String[] getAllWeapons() {
+        return ItemManager.getInstance().getAllWeapons();
     }
 
     public void addItem(String item) {
@@ -2790,6 +2896,9 @@ public class GameCharacter {
         for (int i = 0; i < 9; i++) {
             copy.availableSpellSlots[i].set(availableSpellSlots[i].get());
         }
+        for (int i = 0; i < maxWeaponMasteries; i++) {
+            copy.weaponMasteries[i].set(this.weaponMasteries[i].get());
+        }
         copy.mainHand.set(mainHand.get());
         copy.offHand.set(offHand.get());
         copy.armor.set(armor.get());
@@ -2826,7 +2935,7 @@ public class GameCharacter {
         }
 
         if (classes[0].get().equals("RANDOM")) {
-            classes[0].set(mainClasses.getList().get((int) (Math.random() * (mainClasses.size() - 1))));
+            classes[0].set(mainClasses.getList().get((int) (Math.random() * (mainClasses.size() - 1) + 1)));
         }
 
         if (species.get().equals("RANDOM")) {
@@ -2964,6 +3073,12 @@ public class GameCharacter {
             }
         }
 
+        for (int i = 0; i < availableWeaponMasteries.get(); i++) {
+            if (weaponMasteries[i].get().equals("RANDOM") && selectableWeaponMasteries.size() > 1) {
+                weaponMasteries[i].set(selectableWeaponMasteries.getList().get((int) (Math.random() * (selectableWeaponMasteries.size() - 1))));
+            }
+        }
+
         for (int k = 0; k < classes.length; k++) {
             int classIndex = k;
             for (int i = 0; i < feats[classIndex].length; i++) {
@@ -3057,6 +3172,36 @@ public class GameCharacter {
             }
         }
 
+        List<String> usedProficiencies = new ArrayList<>();
+        for (String proficiency : toolProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (String proficiency : armorProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (String proficiency : weaponProficiencies.asList()) {
+            usedProficiencies.add(proficiency);
+        }
+        for (Proficiency proficiency : choiceToolProficiencies.asList()) {
+            if (!proficiency.getName().equals("RANDOM")) {
+                usedProficiencies.add(proficiency.getName());
+            }
+        }
+        for (Proficiency choiceToolProficiency : choiceToolProficiencies.asList()) {
+            if (choiceToolProficiency.getName().equals("RANDOM")) {
+                String[] options = getStrings(new String[] {"sets", choiceToolProficiency.getStrings() });
+                // Remove used proficiencies
+                List<String> availableOptions = new ArrayList<>();
+                for (String option : options) {
+                    if (!usedProficiencies.contains(option)) {
+                        availableOptions.add(option);
+                    }
+                }
+                choiceToolProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
+                usedProficiencies.add(choiceToolProficiency.getName());
+            }
+        }
+        
         if (firstTime) {
             if (classEquipment[0].get().equals("RANDOM")) {
                 String[] possibleEquipments = new String[] { classes[0].get(), "GOLD" };
@@ -3102,6 +3247,7 @@ public class GameCharacter {
                     }
                     for (int i = 1; i < classEquipment.length; i++) {
                         if (!classEquipment[i].get().equals("RANDOM")) {
+                            System.out.println(classEquipment[i].get());
                             addItem(classEquipment[i].get());
                         }
                     }
@@ -3122,36 +3268,6 @@ public class GameCharacter {
                         }
                     }
                 }
-            }
-        }
-
-        List<String> usedProficiencies = new ArrayList<>();
-        for (String proficiency : toolProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (String proficiency : armorProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (String proficiency : weaponProficiencies.asList()) {
-            usedProficiencies.add(proficiency);
-        }
-        for (Proficiency proficiency : choiceToolProficiencies.asList()) {
-            if (!proficiency.getName().equals("RANDOM")) {
-                usedProficiencies.add(proficiency.getName());
-            }
-        }
-        for (Proficiency choiceToolProficiency : choiceToolProficiencies.asList()) {
-            if (choiceToolProficiency.getName().equals("RANDOM")) {
-                String[] options = getStrings(new String[] {"sets", choiceToolProficiency.getStrings() });
-                // Remove used proficiencies
-                List<String> availableOptions = new ArrayList<>();
-                for (String option : options) {
-                    if (!usedProficiencies.contains(option)) {
-                        availableOptions.add(option);
-                    }
-                }
-                choiceToolProficiency.setName(availableOptions.get((int) (Math.random() * availableOptions.size())));
-                usedProficiencies.add(choiceToolProficiency.getName());
             }
         }
 

@@ -3,10 +3,13 @@ package com.dnd.frontend.language;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import com.dnd.backend.GameCharacter;
 import com.dnd.backend.GroupManager;
+import com.dnd.backend.ItemManager;
+import com.dnd.backend.SpellManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Spell;
 
@@ -24,6 +27,8 @@ import javafx.util.Duration;
 public class DefinitionManager {
     private static final Properties definitions = new Properties();
     private static final Properties tooltips = new Properties();
+    private static List<String> weapons;
+    private static List<String> spells;
 
     public static void initialize(String language) {
         try (var inputStream = DefinitionManager.class.getResourceAsStream("/definitions_" + language + ".properties")) {
@@ -46,6 +51,8 @@ public class DefinitionManager {
                     System.err.println("Error: Failed to load custom translations from " + customFileName);
                 }
             }
+            weapons = Arrays.asList(ItemManager.getInstance().getAllWeapons());
+            spells = Arrays.asList(SpellManager.getInstance().getAllSpells());
         } catch (IOException e) {
             System.err.println("Error: Failed to load definitions file: definitions_" + language + ".properties");
         }
@@ -152,6 +159,11 @@ public class DefinitionManager {
             String attributes[] = item.getAttributes();
             for (String attribute : attributes) {
                 tooltip += " " + getTranslation(attribute);
+            }
+
+            String mastery = item.getMastery();
+            if (!mastery.isEmpty()) {
+                tooltip += " (" + getTranslation("MASTERY") + ": " + getTranslation(mastery) + ")";
             }
             
             String[] tags = item.getTags();
@@ -274,7 +286,14 @@ public class DefinitionManager {
 
     // Get the tooltip text for a given key
     public static String fetchTooltip(String key) {
-        return tooltips.getProperty(key, ""); // Return an empty string if the key is not found
+        String original = getOriginal(key);
+        if (weapons.contains(original)) {
+            return fetchItemTooltip(new Item(original));
+        } else if (spells.contains(original)) {
+            return fetchSpellTooltip(new Spell(original, "", new String[]{}, 0, false));
+        } else {
+            return tooltips.getProperty(key, "");
+        }
     }
 
     // Assign a tooltip to a UI element
@@ -378,6 +397,10 @@ public class DefinitionManager {
 
     private static String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
+    }
+
+    private static String getOriginal(String key) {
+        return TranslationManager.getOriginal(key);
     }
 
     private static String getDescription(String key) {
