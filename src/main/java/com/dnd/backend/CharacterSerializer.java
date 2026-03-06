@@ -52,6 +52,7 @@ public class CharacterSerializer {
         public boolean[] skillExpertises;
         
         public String[][] feats;
+        public String[][] fightingStyles;
         public String[][] featOnes;
         public String[][] featTwos;
         
@@ -207,6 +208,7 @@ public class CharacterSerializer {
             data.levelsShown = new String[character.getMaxClasses()];
             // Feats
             data.feats = new String[character.getMaxClasses()][character.getMaxFeats()];
+            data.fightingStyles = new String[character.getMaxClasses()][character.getMaxFightingStyles()];
             data.featOnes = new String[character.getMaxClasses()][character.getMaxFeats()];
             data.featTwos = new String[character.getMaxClasses()][character.getMaxFeats()];
             for (int i = 0; i < character.getMaxClasses(); i++) {
@@ -217,6 +219,9 @@ public class CharacterSerializer {
                     data.feats[i][j] = character.getFeat(i, j).get();
                     data.featOnes[i][j] = character.getFeatOne(i, j).get();
                     data.featTwos[i][j] = character.getFeatTwo(i, j).get();
+                }
+                for (int j = 0; j < character.getMaxFightingStyles(); j++) {
+                    data.fightingStyles[i][j] = character.getFightingStyle(i, j).get();
                 }
             }
             
@@ -360,6 +365,9 @@ public class CharacterSerializer {
                         character.getFeat(i, j).set(data.feats[i][j]);
                         character.getFeatOne(i, j).set(data.featOnes[i][j]);
                         character.getFeatTwo(i, j).set(data.featTwos[i][j]);
+                    }
+                    for (int j = 0; j < data.fightingStyles[i].length; j++) {
+                        character.getFightingStyle(i, j).set(data.fightingStyles[i][j]);
                     }
                 }
                 

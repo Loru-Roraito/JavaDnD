@@ -64,6 +64,7 @@ public class GameCharacter {
     private final ObservableString[] classEquipment;
     private final ObservableString[] backgroundEquipment;
     private final ObservableString[][] feats;
+    private final ObservableString[][] fightingStyles;
     private final ObservableString[][] featOnes;
     private final ObservableString[][] featTwos;
     private final ObservableString[][][] featsAbilities;
@@ -82,6 +83,7 @@ public class GameCharacter {
     private final CustomObservableList<CustomObservableList<String>> selectableSubclasses = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> possibleFeats = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<String>> selectableFeats = new CustomObservableList<>();
+    private final CustomObservableList<CustomObservableList<String>> selectableFightingStyles = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> selectableCantrips = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> selectableSpells = new CustomObservableList<>();
     private final CustomObservableList<CustomObservableList<Spell>> spells = new CustomObservableList<>();
@@ -89,9 +91,9 @@ public class GameCharacter {
     private final CustomObservableList<Item> items = new CustomObservableList<>();
 
     // TODO: change those arrays into lists
-    private static int maxSubclasses;
     private static int maxLineages;
     private static int maxFeats;
+    private static int maxFightingStyles;
     private static int maxSets;
     private static int maxClasses;
 
@@ -118,6 +120,7 @@ public class GameCharacter {
     private final ObservableInteger[] maxSpells;
     private final ObservableInteger[] maxCantrips;
     private final ObservableInteger[] availableFeats;
+    private final ObservableInteger[] availableFightingStyles;
     private final ObservableInteger[] hitDies;
     private final ObservableInteger[] levels;
     private final ObservableInteger[] abilityBases;
@@ -203,6 +206,7 @@ public class GameCharacter {
         levels = new ObservableInteger[maxClasses];
         hitDies = new ObservableInteger[maxClasses];
         availableFeats = new ObservableInteger[maxClasses];
+        availableFightingStyles = new ObservableInteger[maxClasses];
         maxSpells = new ObservableInteger[maxClasses];
         maxCantrips = new ObservableInteger[maxClasses];
         spellcastingAbilities = new ObservableString[maxClasses];
@@ -222,6 +226,7 @@ public class GameCharacter {
         levels[0] = new ObservableInteger(0);
         hitDies[0] = new ObservableInteger(0);
         availableFeats[0] = new ObservableInteger(0);
+        availableFightingStyles[0] = new ObservableInteger(0);
         maxSpells[0] = new ObservableInteger(0);
         maxCantrips[0] = new ObservableInteger(0);
         spellcastingAbilities[0] = new ObservableString("");
@@ -236,6 +241,7 @@ public class GameCharacter {
             levels[i] = new ObservableInteger(0);
             hitDies[i] = new ObservableInteger(0);
             availableFeats[i] = new ObservableInteger(0);
+            availableFightingStyles[i] = new ObservableInteger(0);
             maxSpells[i] = new ObservableInteger(0);
             maxCantrips[i] = new ObservableInteger(0);
             spellcastingAbilities[i] = new ObservableString("NONE");
@@ -293,7 +299,9 @@ public class GameCharacter {
         }
 
         maxFeats = getInt(new String[] {"max_feats"});
+        maxFightingStyles = getInt(new String[] {"max_fighting_styles"});
         feats = new ObservableString[maxClasses][maxFeats];
+        fightingStyles = new ObservableString[maxClasses][maxFightingStyles];
         featOnes = new ObservableString[maxClasses][maxFeats];
         featTwos = new ObservableString[maxClasses][maxFeats];
         featsAbilities = new ObservableString[maxClasses][maxFeats][abilityCount];
@@ -305,6 +313,10 @@ public class GameCharacter {
                 for (int k = 0; k < abilityCount; k++) {
                     featsAbilities[i][j][k] = new ObservableString("");
                 }
+            }
+
+            for (int j = 0; j < maxFightingStyles; j++) {
+                fightingStyles[i][j] = new ObservableString("RANDOM");
             }
         }
 
@@ -328,7 +340,6 @@ public class GameCharacter {
 
         bindFixedSkills();
 
-        maxSubclasses = getInt(new String[] {"max_subclasses"});
         bindSelectableSubclasses();
 
         bindselectableClasses();
@@ -388,6 +399,8 @@ public class GameCharacter {
 
         bindClassEquipment();
         bindBackgroundEquipment();
+
+        bindFightingStyles();
 
         bindSelectableFeats();
         bindIncapacitated();
@@ -557,6 +570,10 @@ public class GameCharacter {
         return feats[classIndex][featIndex];
     }
 
+    public ObservableString getFightingStyle(int classIndex, int featIndex) {
+        return fightingStyles[classIndex][featIndex];
+    }
+
     public ObservableString getFeatOne(int classIndex, int index) {
         return featOnes[classIndex][index];
     }
@@ -601,16 +618,16 @@ public class GameCharacter {
         return maxLineages;
     }
 
-    public int getMaxSubclasses() {
-        return maxSubclasses;
-    }
-
     public int getMaxSets() {
         return maxSets;
     }
 
     public int getMaxFeats() {
         return maxFeats;
+    }
+
+    public int getMaxFightingStyles() {
+        return maxFightingStyles;
     }
 
     public int getMaxClasses() {
@@ -635,6 +652,10 @@ public class GameCharacter {
 
     public ObservableInteger getAvailableFeats(int index) {
         return availableFeats[index];
+    }
+
+    public ObservableInteger getAvailableFightingStyles(int index) {
+        return availableFightingStyles[index];
     }
 
     public ObservableInteger getMoney(int index) {
@@ -925,6 +946,10 @@ public class GameCharacter {
         return selectableFeats.getList().get(index);
     }
 
+    public CustomObservableList<String> getSelectableFightingStyles(int index) {
+        return selectableFightingStyles.getList().get(index);
+    }
+
     public CustomObservableList<String> getSelectableSubclasses(int index) {
         return selectableSubclasses.getList().get(index);
     }
@@ -1102,11 +1127,11 @@ public class GameCharacter {
             levels[index].addListener(_ -> updateAvailableFeats.run());
 
             availableFeats[index].addListener(
-                    (newVal) -> {
-                        for (int i = newVal; i < feats[index].length; i++) {
-                            feats[index][i].set("RANDOM");
-                        }
-                    });
+                (newVal) -> {
+                    for (int i = newVal; i < feats[index].length; i++) {
+                        feats[index][i].set("RANDOM");
+                    }
+                });
         }
     }
 
@@ -1966,6 +1991,12 @@ public class GameCharacter {
                         }
                     }
                 }
+
+                for (ObservableString fightingStyle : fightingStyles[i]) {
+                    if (!fightingStyle.get().equals("RANDOM")) {
+                        traits.add(fightingStyle.get());
+                    }
+                }
             }
         };
 
@@ -1976,6 +2007,9 @@ public class GameCharacter {
             levels[i].addListener(_ -> updateTraits.run());
             for (ObservableString feat : feats[i]) {
                 feat.addListener(_ -> updateTraits.run());
+            }
+            for (ObservableString fightingStyle : fightingStyles[i]) {
+                fightingStyle.addListener(_ -> updateTraits.run());
             }
             classes[i].addListener(_ -> updateTraits.run());
             subclasses[i].addListener(_ -> updateTraits.run());
@@ -2131,6 +2165,71 @@ public class GameCharacter {
             }
         };
         unconscious.addListener(_ -> updateProne.run());
+    }
+
+    private void bindFightingStyles() {
+        for (int classIndex = 0; classIndex < classes.length; classIndex++) {
+            int index = classIndex;
+            
+            Runnable updateAvailableFightingStyles = () -> {
+                int[] newFightingStyles = getInts(new String[] {"classes", classes[index].get(), "fighting_styles"});
+                int i = 0;
+                for (int fightingStyle : newFightingStyles) {
+                    if (fightingStyle <= levels[index].get()) {
+                        i++;
+                    }
+                }
+                newFightingStyles = getInts(new String[] {"classes", classes[index].get(), "subclasses", subclasses[index].get(), "fighting_styles"});
+                for (int fightingStyle : newFightingStyles) {
+                    if (fightingStyle <= levels[index].get()) {
+                        i++;
+                    }
+                }
+
+                availableFightingStyles[index].set(i);
+            };
+
+            classes[index].addListener(_ -> updateAvailableFightingStyles.run());
+            subclasses[index].addListener(_ -> updateAvailableFightingStyles.run());
+            levels[index].addListener(_ -> updateAvailableFightingStyles.run());
+
+            availableFightingStyles[index].addListener(
+                (newVal) -> {
+                    for (int i = newVal; i < fightingStyles[index].length; i++) {
+                        fightingStyles[index][i].set("RANDOM");
+                    }
+                });
+
+            selectableFightingStyles.getList().add(new CustomObservableList<>());
+            Runnable updateSelectableFightingStyles = () -> {
+                List<String> newFightingStyles = new ArrayList<>(Arrays.asList(getStrings(new String[] {"fighting_styles"})));
+                for (int i = 0; i < classes.length; i++) {
+                    for (ObservableString fightingStyle : fightingStyles[i]) {
+                        if (newFightingStyles.contains(fightingStyle.get())) {
+                            newFightingStyles.remove(fightingStyle.get());
+                        }
+                    }
+                }
+                List<String> removeFightingStyles = new ArrayList<>();
+                for (String fightingStyle : newFightingStyles) {
+                    String[] fightingClasses = getStrings(new String[] {"fighting_styles", fightingStyle, "classes"});
+                    if (fightingClasses.length > 0 && !Arrays.asList(fightingClasses).contains(classes[index].get())) {
+                        removeFightingStyles.add(fightingStyle);
+                    }
+                }
+                newFightingStyles.removeAll(removeFightingStyles);
+                newFightingStyles.add("RANDOM");
+
+                selectableFightingStyles.getList().get(index).setAll(newFightingStyles);
+            };
+
+            for (int i = 0; i < classes.length; i++) {
+                for (ObservableString fightingStyle : fightingStyles[i]) {
+                    fightingStyle.addListener(_ -> updateSelectableFightingStyles.run());
+                }
+            }
+            updateSelectableFightingStyles.run();
+        }
     }
 
     private void bindSelectableFeats() {
@@ -2659,6 +2758,9 @@ public class GameCharacter {
                 copy.featOnes[i][j].set(this.featOnes[i][j].get());
                 copy.featTwos[i][j].set(this.featTwos[i][j].get());
             }
+            for (int j = 0; j < fightingStyles[i].length; j++) {
+                copy.fightingStyles[i][j].set(this.fightingStyles[i][j].get());
+            }
         }
         for (int i = 0; i < classEquipment.length; i++) {
             copy.classEquipment[i].set(this.classEquipment[i].get());
@@ -2862,25 +2964,12 @@ public class GameCharacter {
             }
         }
 
-        // Remove selected non repeatable feats
         for (int k = 0; k < classes.length; k++) {
             int classIndex = k;
             for (int i = 0; i < feats[classIndex].length; i++) {
-                List<String> newFeats = selectableFeats.asList().get(classIndex).asList();
-                for (int j = 0; j < feats[classIndex].length; j++) {
-                    int index = j;
-                    if (!feats[classIndex][j].get().equals("RANDOM") && availableFeats[classIndex].get() > j) {
-                        if (!getBoolean(new String[] {"feats", feats[classIndex][j].get(), "repeatable"})) {
-                            newFeats.removeIf(feat -> feat.equals(feats[classIndex][index].get()));
-                        }
-                    } else if (availableFeats[classIndex].get() <= j) {
-                        break;
-                    }
-                }
-
                 if (feats[classIndex][i].get().equals("RANDOM") && availableFeats[classIndex].get() > i) {
-                    if (!newFeats.isEmpty()) {
-                        feats[classIndex][i].set(newFeats.get((int) (Math.random() * (newFeats.size() - 1))));
+                    if (!selectableFeats.isEmpty()) {
+                        feats[classIndex][i].set(selectableFeats.getList().get(classIndex).getList().get((int) (Math.random() * (selectableFeats.getList().get(classIndex).size() - 1))));
                     }
                 } else if (availableFeats[classIndex].get() <= i) {
                     break;
@@ -2914,6 +3003,16 @@ public class GameCharacter {
                     if (!validAbilities.isEmpty()) {
                         featTwos[classIndex][i].set(validAbilities.get((int) (Math.random() * validAbilities.size())));
                     }
+                }
+            }
+
+            for (int i = 0; i < fightingStyles[classIndex].length; i++) {
+                if (fightingStyles[classIndex][i].get().equals("RANDOM") && availableFightingStyles[classIndex].get() > i) {
+                    if (!selectableFightingStyles.isEmpty()) {
+                        fightingStyles[classIndex][i].set(selectableFightingStyles.getList().get(classIndex).getList().get((int) (Math.random() * (selectableFightingStyles.getList().get(classIndex).size() - 1))));
+                    }
+                } else if (availableFightingStyles[classIndex].get() <= i) {
+                    break;
                 }
             }
         }

@@ -114,6 +114,8 @@ public class TooltipComboBox extends ComboBox<String> {
 
         // TODO: fix
         // If I don't reset the value, it has a visual bug for which the displayed value is wrong
+        setValue("PLACEHOLDER"); // Must be this word, as it's the only one that doesn't trigger an update in ObservableString
+        setValue(currentValue);
     }
 
     public TooltipLabel getLabel() {

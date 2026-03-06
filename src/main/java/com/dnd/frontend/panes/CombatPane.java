@@ -5,17 +5,17 @@ import java.util.Arrays;
 
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.tabs.InfoTab;
 import com.dnd.frontend.tooltip.TooltipButton;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.items.Item;
-import com.dnd.frontend.tabs.InfoTab;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
-import javafx.scene.layout.GridPane;
 import javafx.scene.control.TabPane;
-import javafx.collections.FXCollections;
+import javafx.scene.layout.GridPane;
 
 public class CombatPane extends GridPane {
     private final ViewModel character;
@@ -153,6 +153,8 @@ public class CombatPane extends GridPane {
         }
 
         infoTab.throwDie(hits, damage, modifier, false, false, ability);
+        
+        critical.setSelected(false);
     }
 
     private int dexOrStr(Item weapon) {

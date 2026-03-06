@@ -67,10 +67,16 @@ public class ClassPane extends GridPane {
                 subclassComboBox.setManaged(false);
                 subclassComboBox.getLabel().setManaged(false);
                 subclassLabel.setManaged(false);
+                subclassComboBox.setVisible(false);
+                subclassComboBox.getLabel().setVisible(false);
+                subclassLabel.setVisible(false);
             } else {
                 subclassComboBox.setManaged(true);
                 subclassComboBox.getLabel().setManaged(true);
                 subclassLabel.setManaged(true);
+                subclassComboBox.setVisible(true);
+                subclassComboBox.getLabel().setVisible(false);
+                subclassLabel.setVisible(true);
             }
         };
         character.getSelectableSubclasses(classIndex).addListener((ListChangeListener<String>) (_) -> hideSublcasses.run());
@@ -109,10 +115,6 @@ public class ClassPane extends GridPane {
         List<TooltipComboBox> feats = new ArrayList<>(maxFeats);
         List<TooltipComboBox> featOnes = new ArrayList<>(maxFeats);
         List<TooltipComboBox> featTwos = new ArrayList<>(maxFeats);
-        boolean[] newFeat = new boolean[maxFeats];
-        for (int i = 0; i < maxFeats; i++) {
-            newFeat[i] = false;
-        }
 
         Runnable updateFeatsLabel = () -> {
             if (character.getLevel(classIndex).get() >= 4 || (classIndex == 0 && !character.getBackground().get().equals(getTranslation("RANDOM")))) {
@@ -127,6 +129,25 @@ public class ClassPane extends GridPane {
         character.getLevel(classIndex).addListener(_ -> updateFeatsLabel.run());
         character.getBackground().addListener((_, _, _) -> updateFeatsLabel.run());
         updateFeatsLabel.run();
+
+        TooltipLabel fightingStylesLabel = new TooltipLabel(getTranslation("FIGHTING_STYLES") + ":",getTranslation("FIGHTING_STYLES"), mainTabPane);
+        fightingStylesLabel.getStyleClass().add("bold-label");
+
+        int maxFightingStyles = character.getMaxFightingStyles();
+        List<TooltipComboBox> fightingStyles = new ArrayList<>(maxFightingStyles);
+
+        Runnable updateFightingStylesLabel = () -> {
+            if (character.getAvailableFightingStyles(classIndex).get() > 0) {
+                if (!getChildren().contains(fightingStylesLabel)) {
+                    add(fightingStylesLabel, 0, 9 + maxFeats);
+                }
+            } else {
+                getChildren().remove(fightingStylesLabel);
+            }
+        };
+
+        character.getAvailableFightingStyles(classIndex).addListener(_ -> updateFightingStylesLabel.run());
+        updateFightingStylesLabel.run();
 
         Runnable updateLevels = () -> {
             String classValue = character.getClasses()[classIndex].get();
@@ -194,7 +215,7 @@ public class ClassPane extends GridPane {
             featOnes.add(one);
             featTwos.add(two);
 
-            Runnable disableFeats = () -> {
+            Runnable disableOneTwo = () -> {
                 if (!character.isLevelingUp().get()) {
                     if (character.isEditing().get()) {
                         if (one.getItems().size() > 1) {
@@ -210,23 +231,20 @@ public class ClassPane extends GridPane {
                     } else {
                         one.setDisable(true);
                         two.setDisable(true);
-                        for (int j = 0; j < newFeat.length; j++) {
-                            newFeat[j] = false;
-                        }
                     }
                 }
             };
-            character.isEditing().addListener(_ -> disableFeats.run());
-            character.isLevelingUp().addListener(_ -> disableFeats.run());
+            character.isEditing().addListener(_ -> disableOneTwo.run());
+            character.isLevelingUp().addListener(_ -> disableOneTwo.run());
             observableArrayListOne.addListener((ListChangeListener<String>) c -> {
                 one.updateCombinedItems();
-                disableFeats.run();}
+                disableOneTwo.run();}
             );
             observableArrayListTwo.addListener((ListChangeListener<String>) c -> {
                 two.updateCombinedItems();
-                disableFeats.run();}
+                disableOneTwo.run();}
             );
-            disableFeats.run();
+            disableOneTwo.run();
 
             int index = i;
 
@@ -292,7 +310,6 @@ public class ClassPane extends GridPane {
             int newVal = character.getAvailableFeats(classIndex).get();
             for (int i = 0; i < maxFeats; i++) {
                 if (feats.get(i).getValue().equals(getTranslation("RANDOM"))) {
-                    newFeat[i] = true;
                     feats.get(i).setDisable(false);
                     featOnes.get(i).setDisable(false);
                     featTwos.get(i).setDisable(false);
@@ -309,20 +326,10 @@ public class ClassPane extends GridPane {
 
         character.getAvailableFeats(classIndex).addListener(_ -> updateAvailableFeats.run());
 
-        int counter = 0;
-        for (TooltipComboBox feat : feats) {
-            if (getChildren().contains(feat)) {
-                counter ++;
-                getChildren().remove(feat);
-                getChildren().remove(feat.getLabel());
-            }
-        }
-        feats.clear();
-
         for (int i = 0; i < maxFeats; i++) {
             TooltipComboBox comboBox = new TooltipComboBox(character.getSelectableFeats(classIndex), mainTabPane);
             feats.add(comboBox);
-            if(character.isLevelingUp().get()) {
+            if (character.isLevelingUp().get()) {
                 comboBox.setDisable(true);
             }
 
@@ -339,16 +346,45 @@ public class ClassPane extends GridPane {
             character.isLevelingUp().addListener(_ -> disableFeats.run());
             disableFeats.run();
 
-            comboBox.setPromptText(getTranslation("RANDOM"));
             comboBox.valueProperty().bindBidirectional(character.getFeat(classIndex, i));
         }
 
-        for (int i = 0; i < counter; i++) {
-            add(feats.get(i), 0, 8 + i);
-            add(feats.get(i).getLabel(), 0, 8 + i);
+        updateAvailableFeats.run();
+
+        Runnable updateAvailableFightingStyles = () -> {
+            int newVal = character.getAvailableFightingStyles(classIndex).get();
+            for (int i = 0; i < maxFightingStyles; i++) {
+                if (i < newVal && !getChildren().contains(fightingStyles.get(i))) {
+                    add(fightingStyles.get(i), 0, 10 + maxFeats + i);
+                    add(fightingStyles.get(i).getLabel(), 0, 10 + maxFeats + i);
+                } else if (i >= newVal) {
+                    getChildren().remove(fightingStyles.get(i));
+                    getChildren().remove(fightingStyles.get(i).getLabel());
+                }
+            }
+        };
+
+        character.getAvailableFightingStyles(classIndex).addListener(_ -> updateAvailableFightingStyles.run());
+        
+        for (int i = 0; i < maxFightingStyles; i++) {
+            TooltipComboBox comboBox = new TooltipComboBox(character.getSelectableFightingStyles(classIndex), mainTabPane);
+            fightingStyles.add(comboBox);
+
+            Runnable disableFightingStyles = () -> {
+                if (character.isLevelingUp().get() || character.isEditing().get()) {
+                    comboBox.setDisable(false);
+                } else {
+                    comboBox.setDisable(true);
+                }
+            };
+            character.isLevelingUp().addListener(_ -> disableFightingStyles.run());
+            character.isEditing().addListener(_ -> disableFightingStyles.run());
+            disableFightingStyles.run();
+            
+            comboBox.valueProperty().bindBidirectional(character.getFightingStyle(classIndex, i));
         }
 
-        updateAvailableFeats.run();
+        updateAvailableFightingStyles.run();
     }
 
     // Helper method to get translations

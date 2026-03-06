@@ -18,6 +18,10 @@ public class ObservableString implements Observable<String> {
         
         // Only update and notify if value actually changed
         if (!Objects.equals(oldValue, newValue)) {
+            // TODO: done only to avoid triggering updates when refreshing comboboxes
+            if (oldValue.equals("PLACEHOLDER") || newValue.equals("PLACEHOLDER")) {
+                return;
+            }
             value = newValue;
             notifyListeners();
         }

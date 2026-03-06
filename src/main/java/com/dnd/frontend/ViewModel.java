@@ -62,11 +62,13 @@ public class ViewModel {
     private final StringProperty[] classEquipment;
     private final StringProperty[] backgroundEquipment;
     private final StringProperty[][] feats;
+    private final StringProperty[][] fightingStyles;
     private final StringProperty[][] featOnes;
     private final StringProperty[][] featTwos;
     private final StringProperty[][][] featAbilities;
 
     private final int maxFeats;
+    private final int maxFightingStyles;
     private final int maxClasses;
     private final int[] skillAbilities;
     
@@ -121,6 +123,7 @@ public class ViewModel {
     private final ObservableList<String> totalToolProficiencies;
     private final ObservableList<ObservableList<String>> selectableSubclasses;
     private final ObservableList<ObservableList<String>> selectableFeats;
+    private final ObservableList<ObservableList<String>> selectableFightingStyles;
     private final ObservableList<Proficiency> choiceToolProficiencies;
     private final ObservableList<Item> items;
 
@@ -461,11 +464,16 @@ public class ViewModel {
         updateCustomList(choiceToolProficiencies, backend.getChoiceToolProficiencies());
 
         selectableFeats = FXCollections.observableArrayList();
+        selectableFightingStyles = FXCollections.observableArrayList();
         selectableSubclasses = FXCollections.observableArrayList();
         for (int i = 0; i < maxClasses; i++) {
             ObservableList<String> selectableFeat = FXCollections.observableArrayList();
             selectableFeats.add(selectableFeat);
             updateList(selectableFeat, backend.getNewSelectableFeats(i));
+            
+            ObservableList<String> selectableFightingStyle = FXCollections.observableArrayList();
+            selectableFightingStyles.add(selectableFightingStyle);
+            updateList(selectableFightingStyle, backend.getSelectableFightingStyles(i));
 
             ObservableList<String> selectableSubclass = FXCollections.observableArrayList();
             selectableSubclasses.add(selectableSubclass);
@@ -484,10 +492,12 @@ public class ViewModel {
         updateCustomListNoEdits(items, backend.getItems());
 
         maxFeats = backend.getMaxFeats();
+        maxFightingStyles = backend.getMaxFightingStyles();
         feats = new StringProperty[maxClasses][maxFeats];
         featOnes = new StringProperty[maxClasses][maxFeats];
         featTwos = new StringProperty[maxClasses][maxFeats];
         featAbilities = new StringProperty[maxClasses][maxFeats][abilityCount];
+        fightingStyles = new StringProperty[maxClasses][maxFightingStyles];
         for (int i = 0; i < maxClasses; i++) {
             bindObservableInteger(backend.getAvailableFeats(i));
 
@@ -505,6 +515,11 @@ public class ViewModel {
                     featAbilities[i][j][k] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j, k).get()));
                     bindObservableString(featAbilities[i][j][k], backend.getFeatAbility(i, j, k));
                 }
+            }
+
+            for (int j = 0; j < maxFightingStyles; j++) {
+                fightingStyles[i][j] = new SimpleStringProperty(getTranslation(backend.getFightingStyle(i, j).get()));
+                bindObservableString(fightingStyles[i][j], backend.getFightingStyle(i, j));
             }
         }
     }
@@ -773,6 +788,10 @@ public class ViewModel {
         return selectableFeats.get(index);
     }
 
+    public ObservableList<String> getSelectableFightingStyles(int index) {
+        return selectableFightingStyles.get(index);
+    }
+
     public StringProperty getClassEquipment(int index) {
         return classEquipment[index];
     }
@@ -929,6 +948,10 @@ public class ViewModel {
         return feats[classIndex][index];
     }
 
+    public StringProperty getFightingStyle(int classIndex, int index) {
+        return fightingStyles[classIndex][index];
+    }
+
     public StringProperty getFeatOne(int classIndex, int index) {
         return featOnes[classIndex][index];
     }
@@ -952,6 +975,10 @@ public class ViewModel {
 
     public int getMaxFeats() {
         return maxFeats;
+    }
+
+    public int getMaxFightingStyles() {
+        return maxFightingStyles;
     }
     
     public int getMaxClasses() {
@@ -1024,6 +1051,10 @@ public class ViewModel {
 
     public ObservableInteger getAvailableFeats(int index) {
         return backend.getAvailableFeats(index);
+    }
+
+    public ObservableInteger getAvailableFightingStyles(int index) {
+        return backend.getAvailableFightingStyles(index);
     }
 
     public ObservableInteger getArmorClass() {

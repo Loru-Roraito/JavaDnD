@@ -68,6 +68,7 @@
   "max_lineages": 10,
   "max_subclasses": 4,
   "max_feats": 7,
+  "max_fighting_styles": 2,
   "max_sets": 2,
   "max_classes": 12,
 
@@ -250,6 +251,7 @@
       "skills": ["ACROBATICS", "ANIMAL_HANDLING", "ATHLETICS", "HISTORY", "INSIGHT", "INTIMIDATION", "PERSUASION", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 6, 8, 12, 14, 16, 19],
+      "fighting_styles": [1],
       "equipment": ["FIGHTER_SET"],
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
       "extra_weapons": ["MARTIAL_WEAPONS"],
@@ -259,7 +261,6 @@
       "charges": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
       "masteries": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6],
       "traits": {
-        "FIGHTER_FIGHTING_STYLE": 1,
         "FIGHTER_SECOND_WIND": 1,
         "FIGHTER_ACTION_SURGE": 2,
         "FIGHTER_TACTICAL_MIND": 2,
@@ -273,10 +274,10 @@
       },
       "subclasses": {
         "FIGHTER_CHAMPION": {
+        "fighting_styles": [7],
           "traits": {
             "FIGHTER_CHAMPION_IMPROVED_CRITICAL": 3,
             "FIGHTER_CHAMPION_REMARKABLE_ATHLETE": 3,
-            "FIGHTER_CHAMPION_ADDITIONAL_FIGHTING_STYLE": 7,
             "FIGHTER_CHAMPION_HEROIC_WARRIOR": 10,
             "FIGHTER_CHAMPION_SUPERIOR_CRITICAL": 15,
             "FIGHTER_CHAMPION_SURVIVOR": 18
@@ -341,6 +342,7 @@
       "skills": ["ATHLETICS", "INSIGHT", "INTIMIDATION", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
+      "fighting_styles": [2],
       "equipment": ["CHAIN_MAIL", "SHIELD", "LONGSWORD", "6 JAVELIN", "HOLY_SYMBOL", "PRIESTS_PACK", "9 GOLD"],
       "gold": 150,
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
@@ -354,7 +356,6 @@
       "prepared": [2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 10, 10, 11, 11, 12, 12, 14, 14, 15, 15],
       "traits": {
         "PALADIN_LAY_ON_HANDS": 1,
-        "PALADIN_FIGHTING_STYLE": 2,
         "PALADIN_PALADIN_S_SMITE": 2,
         "PALADIN_CHANNEL_DIVINITY": 3,
         "EXTRA_ATTACK": 5,
@@ -388,6 +389,7 @@
       "skills_number": 3,
       "more_skills": 1,
       "feats": [4, 8, 12, 16, 19],
+      "fighting_styles": [2],
       "equipment": ["STUDDED_LEATHER_ARMOR", "SCIMITAR", "SHORTSWORD", "LONGBOW", "20 ARROW", "QUIVER", "SPRIG_OF_MISTLETOE", "EXPLORERS_PACK", "7 GOLD"],
       "gold": 150,
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
@@ -402,7 +404,6 @@
       "traits": {
         "RANGER_FAVORED_ENEMY": 1,
         "RANGER_DEFT_EXPLORER": 2,
-        "RANGER_FIGHTING_STYLE": 2,
         "EXTRA_ATTACK": 5,
         "RANGER_ROVING": 6,
         "RANGER_EXPERTISE": 9,
@@ -1033,6 +1034,28 @@
       "stats": [0, 0, 0, 0, 0, 0]
     }
   },
+
+  "fighting_styles": {
+    "FIGHTING_STYLE_ARCHERY": {
+      "classes": []
+    },
+    "FIGHTING_STYLE_DEFENSE": {
+      "classes": []
+    },
+    "FIGHTING_STYLE_GREAT_WEAPON_FIGHTING": {
+      "classes": []
+    },
+    "FIGHTING_STYLE_TWO_WEAPON_FIGHTING": {
+      "classes": []
+    },
+
+    "FIGHTING_STYLE_BLESSED_WARRIOR": {
+      "classes": ["PALADIN"]
+    },
+    "FIGHTING_STYLE_DRUIDIC_WARRIOR": {
+      "classes": ["RANGER"]
+    }
+},
 
   "sets": {
     "ARTISAN_TOOLS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS"],
