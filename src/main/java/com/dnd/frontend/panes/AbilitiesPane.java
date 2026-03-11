@@ -224,7 +224,7 @@ public class AbilitiesPane extends GridPane {
                 abilitiesSection.getChildren().remove(plus);
             }
 
-            if (generationType.equals(getTranslation("CUSTOM_M"))) {
+            if (generationType.equals(getTranslation("CUSTOM"))) {
                 abilitiesSection.add(custom, 3, i);
                 custom.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
             } else {

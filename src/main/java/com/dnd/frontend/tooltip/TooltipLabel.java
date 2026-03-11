@@ -6,44 +6,40 @@ import com.dnd.utils.items.Spell;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 
 public class TooltipLabel extends Label {
     private final TabPane mainTabPane;
-    // Constructor that uses the label's text as the tooltip key
+    private final Tooltip tooltip;
+    private String tooltipKey;
+
     public TooltipLabel(Spell spell, TabPane mainTabPane) {
-        super(spell.getName()); // Set the label's text
+        super(spell.getName());
         this.mainTabPane = mainTabPane;
-        assignTooltip(spell);
-        Runnable openTab = () -> {
-            DefinitionManager.openDefinitionTab(spell, mainTabPane);
-        };
-        setupKeyListener(openTab);
+        tooltip = assignTooltip(spell);
+        tooltipKey = spell.getName();
+        setupKeyListener();
     }
 
     public TooltipLabel(Item item, TabPane mainTabPane) {
-        super(item.getName()); // Set the label's text
+        super(item.getName());
         this.mainTabPane = mainTabPane;
-        assignTooltip(item);
-        Runnable openTab = () -> {
-            DefinitionManager.openDefinitionTab(item, mainTabPane);
-        };
-        setupKeyListener(openTab);
+        tooltip = assignTooltip(item);
+        tooltipKey = item.getName();
+        setupKeyListener();
     }
 
     // Constructor that uses the label's text as the tooltip key
     public TooltipLabel(String text, TabPane mainTabPane) {
         super(text); // Set the label's text
         this.mainTabPane = mainTabPane;
-        assignTooltip(text);
-        Runnable openTab = () -> {
-            DefinitionManager.openDefinitionTab(text, mainTabPane);
-        };
-        setupKeyListener(openTab);
+        tooltip = assignTooltip(text);
+        tooltipKey = text;
+        setupKeyListener();
 
         this.textProperty().addListener((_) -> {
-            update();
+            update(this.getText());
         });
     }
 
@@ -51,59 +47,45 @@ public class TooltipLabel extends Label {
     public TooltipLabel(String text, String tooltipKey, TabPane mainTabPane) {
         super(text); // Set the label's text
         this.mainTabPane = mainTabPane;
-        assignTooltip(tooltipKey);
-        Runnable openTab = () -> {
-            DefinitionManager.openDefinitionTab(text, mainTabPane);
-        };
-        setupKeyListener(openTab);
+        tooltip = assignTooltip(tooltipKey);
+        this.tooltipKey = tooltipKey;
+        setupKeyListener();
     }
 
-    private void assignTooltip(String tooltipKey) {
-        DefinitionManager.assignTooltip(this, tooltipKey);
+    public void update(String newTooltipKey) {
+        tooltipKey = newTooltipKey;
+        DefinitionManager.updateTooltip(this, tooltip, tooltipKey);
     }
 
-    public void update() {
-        changeTooltip(this.getText());
-        changeDefinition(this.getText());
+    private Tooltip assignTooltip(String tooltipKey) {
+        return DefinitionManager.assignTooltip(this, tooltipKey);
     }
 
-    public void changeTooltip(String tooltipKey) {
-        DefinitionManager.assignTooltip(this, tooltipKey);
+    private Tooltip assignTooltip(Spell spell) {
+        return DefinitionManager.assignTooltip(this, spell);
     }
 
-    private void assignTooltip(Spell spell) {
-        DefinitionManager.assignTooltip(this, spell);
+    private Tooltip assignTooltip(Item item) {
+        return DefinitionManager.assignTooltip(this, item);
     }
 
-    private void assignTooltip(Item item) {
-        DefinitionManager.assignTooltip(this, item);
-    }
-
-    // Set up a key listener for the "T" key
-    private void setupKeyListener(Runnable openTab) {
-        // Request focus when the mouse enters the label
-        this.setOnMouseEntered(_ -> this.requestFocus());
-
-        // Add a key listener for the "T" key
-        this.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.T) {
-                openTab.run();
+    private void setupKeyListener() {
+        this.setOnMouseEntered(_ -> {
+            if (!FrozenTooltipManager.isFrozen().get()) {
+                this.requestFocus();
             }
         });
-        this.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                openTab.run();
+
+        // Add a key listener for the "T" key to freeze the tooltip in place
+        this.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.T) {
+                FrozenTooltipManager.freeze(tooltip, this, mainTabPane);
+            } else if (event.getCode() == KeyCode.F) {
+                DefinitionManager.openDefinitionTab(tooltipKey, mainTabPane);
             }
         });
 
         // Ensure the label is focusable to capture key events
         this.setFocusTraversable(true);
-    }
-
-    public void changeDefinition(String text) {
-        Runnable newRunnable = () -> {
-            DefinitionManager.openDefinitionTab(text, mainTabPane);
-        };
-        setupKeyListener(newRunnable);
     }
 }

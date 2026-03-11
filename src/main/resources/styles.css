@@ -163,14 +163,14 @@
 
 /* Styling for the tab bar background */
 .tab-pane .tab-header-background {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* Set your desired background color */
+    background-color: transparent; /* Standard CSS background color */
+    -fx-background-color: transparent; /* Set your desired background color */
 }
 
 /* Styling for the tab content area */
 .tab-content-area {
-    background-color: #ffffff; /* Standard CSS background color */
-    -fx-background-color: #ffffff; /* JavaFX-specific background color */
+    background-color: transparent; /* Standard CSS background color */
+    -fx-background-color: transparent; /* JavaFX-specific background color */
 
     padding: 2px; /* Standard CSS padding */
     -fx-padding: 2px; /* JavaFX-specific padding */
@@ -527,12 +527,12 @@
 
 .vBox {
     /* Background color */
-    background-color: #ffffff; /* Standard CSS */
-    -fx-background-color: #ffffff; /* JavaFX-specific */
+    background-color: transparent; /* Standard CSS */
+    -fx-background-color: transparent; /* JavaFX-specific */
 
     /* Border styling */
-    border-color: #ffffff; /* Standard CSS */
-    -fx-border-color: #ffffff; /* JavaFX-specific */
+    border-color: transparent; /* Standard CSS */
+    -fx-border-color: transparent; /* JavaFX-specific */
 
     /* Padding */
     padding: 2px; /* Standard CSS */

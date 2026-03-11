@@ -245,7 +245,7 @@ public class HealthPane extends GridPane {
             hpRandom.setManaged(false);
         }
 
-        if (healthType.equals(getTranslation("CUSTOM_M"))) {
+        if (healthType.equals(getTranslation("CUSTOM"))) {
             hpCustom.setVisible(true);
             hpCustom.setManaged(true);
         } else {

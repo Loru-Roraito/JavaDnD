@@ -1104,7 +1104,7 @@
   ],
 
   "generation_methods": [
-    "CUSTOM_M",
+    "CUSTOM",
     "RANDOM",
     "POINT_BUY",
     "STANDARD_ARRAY"
@@ -1113,7 +1113,7 @@
   "health_methods": [
     "MEDIUM_HP",
     "RANDOM",
-    "CUSTOM_M"
+    "CUSTOM"
   ],
 
   "spell_slots": {

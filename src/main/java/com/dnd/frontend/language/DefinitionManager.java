@@ -3,22 +3,22 @@ package com.dnd.frontend.language;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 import com.dnd.backend.GameCharacter;
 import com.dnd.backend.GroupManager;
-import com.dnd.backend.ItemManager;
-import com.dnd.backend.SpellManager;
+import com.dnd.frontend.tooltip.FrozenTooltipManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Spell;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -27,8 +27,6 @@ import javafx.util.Duration;
 public class DefinitionManager {
     private static final Properties definitions = new Properties();
     private static final Properties tooltips = new Properties();
-    private static List<String> weapons;
-    private static List<String> spells;
 
     public static void initialize(String language) {
         try (var inputStream = DefinitionManager.class.getResourceAsStream("/definitions_" + language + ".properties")) {
@@ -51,8 +49,6 @@ public class DefinitionManager {
                     System.err.println("Error: Failed to load custom translations from " + customFileName);
                 }
             }
-            weapons = Arrays.asList(ItemManager.getInstance().getAllWeapons());
-            spells = Arrays.asList(SpellManager.getInstance().getAllSpells());
         } catch (IOException e) {
             System.err.println("Error: Failed to load definitions file: definitions_" + language + ".properties");
         }
@@ -82,7 +78,7 @@ public class DefinitionManager {
             // Split each line into words and process each word
             String[] tokens = line.split("(?=[.,:;!?])|(?<=[.,:;!?])");
             for (String token : tokens) {
-                String[] subTokens = token.split("(?=\\s)|(?<=\\s)");
+                String[] subTokens = token.split("(?=\\s)|(?<=\\s)|(?=[()])|(?<=[()])");
 
                 for (int j = 0; j < subTokens.length; j++) {
                     String subToken = subTokens[j]; // Trim whitespace from the token
@@ -93,24 +89,30 @@ public class DefinitionManager {
                         String newText = subToken;
 
                         if (j + 6 < subTokens.length) {
-                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]), "");
-                            if (definition != null && !definition.isEmpty()) {
+                            String subText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]);
+                            definition = definitions.getProperty(subText, "");
+                            String tooltipText = fetchTooltip(subText);
+                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
                                 newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]);
                                 wordText.setText(newText.replace("_", " "));
                                 j+=6;
                             }
                         }
                         if (definition == null || definition.isEmpty() && j + 4 < subTokens.length) {
-                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]), "");
-                            if (definition != null && !definition.isEmpty()) {
+                            String subText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
+                            definition = definitions.getProperty(subText, "");
+                            String tooltipText = fetchTooltip(subText);
+                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
                                 newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
                                 wordText.setText(newText.replace("_", " "));
                                 j+=4;
                             }
                         }
                         if(definition == null || definition.isEmpty() && j + 2 < subTokens.length) {
-                            definition = definitions.getProperty(subToken.concat("_").concat(subTokens[j+2]), "");
-                            if (definition != null && !definition.isEmpty()) {
+                            String subText = subToken.concat("_").concat(subTokens[j+2]);
+                            definition = definitions.getProperty(subText, "");
+                            String tooltipText = fetchTooltip(subText);
+                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
                                 newText = subToken.concat("_").concat(subTokens[j+2]);
                                 wordText.setText(newText.replace("_", " "));
                                 j+=2;
@@ -118,6 +120,17 @@ public class DefinitionManager {
                         }
                         if(definition == null || definition.isEmpty()) {
                             definition = definitions.getProperty(subToken, "");
+                        }
+
+                        if (!fetchTooltip(newText).equals("")) {
+                            wordText.setStyle("-fx-fill: #694704ff;");
+
+                            Tooltip tooltip = assignTooltip(wordText, newText);
+                            wordText.setOnKeyPressed(event -> {
+                                if (event.getCode() == KeyCode.T) {
+                                    FrozenTooltipManager.freeze(tooltip, wordText, mainTabPane);
+                                }
+                            });
                         }
 
                         String newerDefinition = definitions.getProperty(definition, "");
@@ -133,9 +146,12 @@ public class DefinitionManager {
                             // Underline the word and make it clickable
                             wordText.getStyleClass().clear();
                             wordText.setStyle("-fx-fill: #694704ff; -fx-cursor: hand;");
+                            wordText.setOnMouseEntered(_ -> {
+                                if (!FrozenTooltipManager.isFrozen().get()) {
+                                    wordText.requestFocus();
+                                }
+                            });
                             wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
-
-                            assignTooltip(wordText, newText);
                         }
                     }
 
@@ -286,24 +302,17 @@ public class DefinitionManager {
 
     // Get the tooltip text for a given key
     public static String fetchTooltip(String key) {
-        String original = getOriginal(key);
-        if (weapons.contains(original)) {
-            return fetchItemTooltip(new Item(original));
-        } else if (spells.contains(original)) {
-            return fetchSpellTooltip(new Spell(original, "", new String[]{}, 0, false));
-        } else {
-            return tooltips.getProperty(key, "");
-        }
+        return tooltips.getProperty(key, "");
     }
 
     // Assign a tooltip to a UI element
-    public static void assignTooltip(javafx.scene.Node node, String key) {
+    public static Tooltip assignTooltip(Node node, String key) {
         String tooltipText = fetchTooltip(key);
-        placeTooltip(node, tooltipText);
+        return placeTooltip(node, tooltipText);
     }
 
     // Assign a tooltip to a UI element
-    public static void assignTooltip(javafx.scene.Node node, Spell spell) {
+    public static Tooltip assignTooltip(Node node, Spell spell) {
         Boolean limited = spell.getLimited();
         String number = " ";
         if (limited) {
@@ -313,12 +322,22 @@ public class DefinitionManager {
         String tooltipText = getTranslation("PREPARE") + number + getTranslation("EVERY") + " " + getTranslation(spell.getPrepare());
         tooltipText += " (" + getTranslation(GameCharacter.getAbilityName(spell.getAbility())) + ")";
         tooltipText += "\n\n" + fetchSpellTooltip(spell);
-        placeTooltip(node, tooltipText);
+        return placeTooltip(node, tooltipText);
     }
 
-    public static void assignTooltip(javafx.scene.Node node, Item item) {
+    public static Tooltip assignTooltip(Node node, Item item) {
         String tooltipText = fetchItemTooltip(item); // Placeholder: replace with actual tooltip fetching logic for Item
-        placeTooltip(node, tooltipText);
+        return placeTooltip(node, tooltipText);
+    }
+
+    public static void updateTooltip(Node node, Tooltip tooltip, String key) {
+        String tooltipText = fetchTooltip(key);
+        tooltip.setText(tooltipText);
+        if (tooltipText == null || tooltipText.isEmpty() || FrozenTooltipManager.isFrozen().get()) {
+            Tooltip.uninstall(node, tooltip);
+        } else {
+            Tooltip.install(node, tooltip);
+        }
     }
     
     private static String fetchSpellTooltip(Spell spell) {
@@ -377,18 +396,27 @@ public class DefinitionManager {
         return tooltip;
     }
 
-    public static void placeTooltip(javafx.scene.Node node, String tooltipText) {
-        if (tooltipText == null || tooltipText.isEmpty()) {
-            return; // No tooltip to place
-        }
+    public static Tooltip placeTooltip(Node node, String tooltipText) {
         Tooltip tooltip = new Tooltip(tooltipText);
         tooltip.setWrapText(true);
         tooltip.setMaxWidth(300);
         tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering
 
         tooltip.setAutoFix(true); // Automatically adjust position to stay on screen
+
+        FrozenTooltipManager.isFrozen().addListener((_, _, newVal) -> {
+            if (newVal) {
+                Tooltip.uninstall(node, tooltip);
+            } else if (tooltip.getText() != null && !tooltip.getText().isEmpty()) {
+                Tooltip.install(node, tooltip);
+            }
+        });
     
-        Tooltip.install(node, tooltip);
+        if (tooltipText != null && !tooltipText.isEmpty()) {
+            Tooltip.install(node, tooltip);
+        }
+
+        return tooltip;
     }
 
     public static String[] getStrings(String[] key) {
@@ -397,10 +425,6 @@ public class DefinitionManager {
 
     private static String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
-    }
-
-    private static String getOriginal(String key) {
-        return TranslationManager.getOriginal(key);
     }
 
     private static String getDescription(String key) {

@@ -30,7 +30,11 @@ public class TooltipButton extends Button {
     // Set up a key listener for the "T" key
     private void setupKeyListener(String text) {
         // Request focus when the mouse enters the label
-        this.setOnMouseEntered(_ -> this.requestFocus());
+        this.setOnMouseEntered(_ -> {
+            if (!FrozenTooltipManager.isFrozen().get()) {
+                this.requestFocus();
+            }
+        });
 
         // Add a key listener for the "T" key
         this.setOnKeyPressed(event -> {

@@ -10,6 +10,7 @@ import com.dnd.backend.GroupManager;
 import com.dnd.backend.ItemManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.tooltip.FrozenTooltipManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.items.Item;
@@ -503,6 +504,10 @@ public class EquipmentPane extends GridPane {
         addItem.setPromptText(getTranslation("ADD_ITEM"));
         add(addItem, 0, 4);
 
+        addItem.setOnMouseClicked(event -> {
+            FrozenTooltipManager.isFrozen().set(true);
+        });
+
         // Create autocomplete popup
         Popup suggestionPopup = new Popup();
         ListView<String> suggestionList = new ListView<>();
@@ -588,6 +593,10 @@ public class EquipmentPane extends GridPane {
                     character.addItem(itemName);
                     addItem.clear();
                 }
+                addItem.getParent().requestFocus();
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                addItem.clear();
+                addItem.getParent().requestFocus();
             }
         });
 
@@ -623,6 +632,7 @@ public class EquipmentPane extends GridPane {
         addItem.focusedProperty().addListener((_, _, isNowFocused) -> {
             if (!isNowFocused && !suggestionList.isFocused()) {
                 suggestionPopup.hide();
+                FrozenTooltipManager.isFrozen().set(false);
             }
         });
     }

@@ -1598,7 +1598,7 @@ public class GameCharacter {
                     } else {
 
                     }
-                    if (newVal.equals("CUSTOM_M")) {
+                    if (newVal.equals("CUSTOM")) {
 
                     } else {
 
@@ -2992,7 +2992,7 @@ public class GameCharacter {
                 }
             }
         }
-        generationMethod.set("CUSTOM_M");
+        generationMethod.set("CUSTOM");
 
         while (givenBonuses.get() < 3) {
             int randomIndex = (int) (Math.random() * abilityBases.length);
@@ -3247,7 +3247,6 @@ public class GameCharacter {
                     }
                     for (int i = 1; i < classEquipment.length; i++) {
                         if (!classEquipment[i].get().equals("RANDOM")) {
-                            System.out.println(classEquipment[i].get());
                             addItem(classEquipment[i].get());
                         }
                     }
@@ -3300,7 +3299,7 @@ public class GameCharacter {
         }
 
         if (healthMethod.get().equals("RANDOM")) {
-            healthMethod.set("CUSTOM_M");
+            healthMethod.set("CUSTOM");
             int hp = 0;
             for (int i = 0; i < classes.length; i++) {
                 hp += Math.max((levels[i].get() - 1) * (int) (Math.random() * hitDies[i].get()), 0);
