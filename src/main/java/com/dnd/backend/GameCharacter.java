@@ -140,6 +140,8 @@ public class GameCharacter {
     private final ObservableInteger[] maximumHitDies = new ObservableInteger[4];
     private final ObservableInteger[] availableHitDies = new ObservableInteger[4];
 
+    private final ObservableBoolean heroicInspiration = new ObservableBoolean(false);
+
     private final ObservableBoolean blinded = new ObservableBoolean(false);
     private final ObservableBoolean charmed = new ObservableBoolean(false);
     private final ObservableBoolean deafened = new ObservableBoolean(false);
@@ -798,6 +800,10 @@ public class GameCharacter {
 
     public ObservableBoolean getBlinded() {
         return blinded;
+    }
+
+    public ObservableBoolean getHeroicInspiration() {
+        return heroicInspiration;
     }
 
     public ObservableBoolean getCharmed() {
@@ -2827,7 +2833,7 @@ public class GameCharacter {
     private String[] getAllSpells() {
         return SpellManager.getInstance().getAllSpells();
     }
-
+ 
     private int getSpellInt(String[] group) {
         return SpellManager.getInstance().getSpellInt(group);
     }
@@ -2906,6 +2912,25 @@ public class GameCharacter {
         copy.finesseAbility.set(finesseAbility.get());
         copy.userDescription.set(userDescription.get());
         copy.currentHealth.set(currentHealth.get());
+
+        copy.heroicInspiration.set(heroicInspiration.get());
+        copy.blinded.set(blinded.get());
+        copy.charmed.set(charmed.get());
+        copy.deafened.set(deafened.get());
+        copy.frightened.set(frightened.get());
+        copy.grappled.set(grappled.get());
+        copy.incapacitation.set(incapacitation.get());
+        copy.incapacitated.set(incapacitated.get());
+        copy.invisible.set(invisible.get());
+        copy.paralyzed.set(paralyzed.get());
+        copy.petrified.set(petrified.get());
+        copy.prone.set(prone.get());
+        copy.proneness.set(proneness.get());
+        copy.restrained.set(restrained.get());
+        copy.stunned.set(stunned.get());
+        copy.unconscious.set(unconscious.get());
+        
+        copy.exhaustion.set(exhaustion.get());
 
         return copy;
     }

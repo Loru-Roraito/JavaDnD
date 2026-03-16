@@ -78,6 +78,8 @@ public class CharacterSerializer {
         public boolean stunned;
         public boolean unconscious;
         
+        public boolean heroicInspiration;
+        
         public ProficiencyData[] choiceToolProficiencies;
         public ProficiencyData[] skillSources;
         public SpellData[][] spells;
@@ -266,6 +268,8 @@ public class CharacterSerializer {
             data.restrained = character.getRestrained().get();
             data.stunned = character.getStunned().get();
             data.unconscious = character.getUnconscious().get();
+
+            data.heroicInspiration = character.getHeroicInspiration().get();
             
             // Proficiencies
             data.choiceToolProficiencies = character.getChoiceToolProficiencies().asList().stream()
@@ -412,6 +416,8 @@ public class CharacterSerializer {
                 character.getRestrained().set(data.restrained);
                 character.getStunned().set(data.stunned);
                 character.getUnconscious().set(data.unconscious);
+
+                character.getHeroicInspiration().set(data.heroicInspiration);
                 
                 // Load proficiencies and spells
                 character.getChoiceToolProficiencies().getList().clear();

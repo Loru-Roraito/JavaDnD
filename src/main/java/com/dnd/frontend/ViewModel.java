@@ -102,6 +102,8 @@ public class ViewModel {
     private final BooleanProperty stunned;
     private final BooleanProperty unconscious;
 
+    private final BooleanProperty heroicInspiration;
+
     private final BooleanProperty[] availablePlusOnes;
     private final BooleanProperty[] availablePlusTwos;
     private final BooleanProperty[] availablePluses;
@@ -280,13 +282,8 @@ public class ViewModel {
         unconscious = new SimpleBooleanProperty(backend.getUnconscious().get());
         bindObservableBoolean(unconscious, backend.getUnconscious());
 
-        bindObservableBoolean(backend.hasShieldProficiency());
-
-        bindObservableBoolean(backend.hasArmorProficiency());
-
-        bindObservableBoolean(backend.hasMainProficiency());
-
-        bindObservableBoolean(backend.hasOffProficiency());
+        heroicInspiration = new SimpleBooleanProperty(backend.getHeroicInspiration().get());
+        bindObservableBoolean(heroicInspiration, backend.getHeroicInspiration());
 
         currentHealthShown = new SimpleStringProperty(getTranslation(backend.getCurrentHealthShown().get()));
         bindObservableString(currentHealthShown, backend.getCurrentHealthShown());
@@ -716,12 +713,6 @@ public class ViewModel {
         front.addListener(_ -> {
             characterTab.newEdit();
             back.set((int) (front.get() / multiplier));
-        });
-    }
-
-    private void bindObservableBoolean(ObservableBoolean bool) {
-        bool.addListener(_ -> {
-            characterTab.newEdit();
         });
     }
 
@@ -1254,6 +1245,10 @@ public class ViewModel {
 
     public BooleanProperty getUnconscious() {
         return unconscious;
+    }
+
+    public BooleanProperty getHeroicInspiration() {
+        return heroicInspiration;
     }
 
     public BooleanProperty getAvailableSkill(int index) {

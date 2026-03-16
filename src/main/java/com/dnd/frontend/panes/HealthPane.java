@@ -7,6 +7,7 @@ import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.observables.ObservableInteger;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -174,8 +175,14 @@ public class HealthPane extends GridPane {
         updateProficiencyBonus.run();
         character.getProficiencyBonus().addListener(_ -> updateProficiencyBonus.run());
         
-        add(proficiencyBonus, 0, 6); // Add the label to the GridPane
+        add(proficiencyBonus, 0, 6);
         GridPane.setColumnSpan(proficiencyBonus, 4);
+
+        TooltipLabel heroicInspirationLabel = new TooltipLabel(getTranslation("HEROIC_INSPIRATION") + ": ", getTranslation("HEROIC_INSPIRATION"), mainTabPane);
+        CheckBox heroicInspirationCheckBox = new CheckBox();
+        heroicInspirationCheckBox.selectedProperty().bindBidirectional(character.getHeroicInspiration());
+        HBox heroicInspirationBox = new HBox(heroicInspirationLabel, heroicInspirationCheckBox);
+        add(heroicInspirationBox, 0, 7, 4, 1);
 
         generateHealthUI();
     }
