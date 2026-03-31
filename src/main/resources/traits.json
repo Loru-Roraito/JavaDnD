@@ -1,0 +1,58 @@
+{
+    "BARBARIAN_RAGE": {
+        "charges": [0, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6],
+        "damages": [0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+        "short_rest": 1,
+        "long_rest": -1
+    },
+    "BARD_BARDIC_INSPIRATION": {
+        "damages": [0, 6, 6, 6, 6, 8, 8, 8, 8, 8, 10, 10, 10 ,10, 10, 12, 12, 12, 12, 12, 12],
+        "chargeAbility": "CHARISMA",
+        "long_rest": -1
+    },
+    "CLERIC_CHANNEL_DIVINITY": {
+        "charges": [0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4],
+        "short_rest": 1,
+        "long_rest": -1
+    },
+    "DRUID_WILD_SHAPE": {
+        "charges": [0, 0, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4],
+        "short_rest": 1,
+        "long_rest": -1
+    },
+    "FIGHTER_SECOND_WIND": {
+        "charges": [0, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+        "short_rest": 1,
+        "long_rest": -1
+    },
+    "MONK_MARTIAL_ARTS": {
+        "damages": [0, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 12, 12, 12, 12]
+    },
+    "MONK_MONKS_FOCUS": {
+        "charges": [0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "short_rest": -1,
+        "long_rest": -1
+    },
+    "MONK_UNARMORED_MOVEMENT": {
+        "damages": [0, 0, 10, 10, 10, 10, 15, 15, 15, 15, 20, 20, 20, 20, 25, 25, 25, 25, 30, 30, 30]
+    },
+    "PALADIN_CHANNEL_DIVINITY": {
+        "charges": [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        "short_rest": 1,
+        "long_rest": -1
+    },
+    "RANGER_FAVORED_ENEMY": {
+        "charges": [0, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6],
+        "long_rest": -1
+    },
+    "ROGUE_SNEAK_ATTACK": {
+        "damages": [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
+    },
+    "SORCERER_FONT_OF_MAGIC": {
+        "charges": [0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "long_rest": -1
+    },
+    "WARLOCK_ELDRITCH_INVOCATIONS": {
+        "damages": [0, 1, 3, 3, 3, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 10]
+    }
+}

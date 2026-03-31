@@ -50,7 +50,7 @@ public class CustomObservableList<T> {
     }
 
     private void notifyListeners() {
-        for (Consumer<CustomObservableList<T>> listener : listeners) {
+        for (Consumer<CustomObservableList<T>> listener : new ArrayList<>(listeners)) {
             listener.accept(this);
         }
     }

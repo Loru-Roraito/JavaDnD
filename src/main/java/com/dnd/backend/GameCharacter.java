@@ -8,6 +8,7 @@ import com.dnd.utils.ThrowManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Proficiency;
 import com.dnd.utils.items.Spell;
+import com.dnd.utils.items.Trait;
 import com.dnd.utils.observables.CustomObservableList;
 import com.dnd.utils.observables.ObservableBoolean;
 import com.dnd.utils.observables.ObservableInteger;
@@ -75,7 +76,7 @@ public class GameCharacter {
     private final CustomObservableList<String> selectableAbilities = new CustomObservableList<>();
     private final CustomObservableList<String> selectableClasses = new CustomObservableList<>();
     private final CustomObservableList<String> mainClasses = new CustomObservableList<>();
-    private final CustomObservableList<String> traits = new CustomObservableList<>();
+    private final CustomObservableList<Trait> traits = new CustomObservableList<>();
     private final CustomObservableList<String> weaponProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> armorProficiencies = new CustomObservableList<>();
     private final CustomObservableList<String> toolProficiencies = new CustomObservableList<>();
@@ -142,6 +143,8 @@ public class GameCharacter {
 
     private final ObservableBoolean heroicInspiration = new ObservableBoolean(false);
 
+    private final ObservableBoolean shortResting = new ObservableBoolean(false);
+    private final ObservableBoolean longResting = new ObservableBoolean(false);
     private final ObservableBoolean blinded = new ObservableBoolean(false);
     private final ObservableBoolean charmed = new ObservableBoolean(false);
     private final ObservableBoolean deafened = new ObservableBoolean(false);
@@ -798,6 +801,14 @@ public class GameCharacter {
         return maxSpells[index];
     }
 
+    public ObservableBoolean isShortResting() {
+        return shortResting;
+    }
+
+    public ObservableBoolean isLongResting() {
+        return longResting;
+    }
+
     public ObservableBoolean getBlinded() {
         return blinded;
     }
@@ -930,7 +941,7 @@ public class GameCharacter {
         return skillAbilities;
     }
 
-    public CustomObservableList<String> getTraits() {
+    public CustomObservableList<Trait> getTraits() {
         return traits;
     }
 
@@ -2044,34 +2055,44 @@ public class GameCharacter {
 
     private void bindTraits() {
         Runnable updateTraits = () -> {
-            traits.clear(); // Keep the list in sync
+            List<Trait> newTraits = new ArrayList<>();
             String[] traitNames = getStrings(new String[] {"species", species.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
-                    traits.add(trait);
+                    newTraits.add(new Trait(this, trait));
                 }
             }
 
             traitNames = getStrings(new String[] {"species", species.get(), "lineages", lineage.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
-                    traits.add(trait);
+                    newTraits.add(new Trait(this, trait));
                 }
             }
 
             traitNames = getStrings(new String[] {"feats", originFeat.get(), "traits"});
             if (traitNames != null) {
                 for (String trait : traitNames) {
-                    traits.add(trait);
+                    newTraits.add(new Trait(this, trait));
                 }
             }
 
+            boolean alreadyAdded;
             for (int i = 0; i < classes.length; i++) {
                 traitNames = getStrings(new String[] {"classes", classes[i].get(), "traits"});
                 if (traitNames != null) {
                     for (String trait : traitNames) {
-                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
-                            traits.add(trait);
+                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "traits", trait })) {
+                            alreadyAdded = false;
+                            for (Trait newTrait : newTraits) {
+                                if (newTrait.getName().equals(trait)) {
+                                    alreadyAdded = true;
+                                    return;
+                                }
+                            }
+                            if (!alreadyAdded) {
+                                newTraits.add(new Trait(this, trait, levels[i]));
+                            }
                         }
                     }
                 }
@@ -2079,8 +2100,17 @@ public class GameCharacter {
                 traitNames = getStrings(new String[] {"classes", classes[i].get(), "subclasses", subclasses[i].get(), "traits"});
                 if (traitNames != null) {
                     for (String trait : traitNames) {
-                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "subclasses",subclasses[i].get(), "traits", trait }) && !traits.getList().contains(trait)) {
-                            traits.add(trait);
+                        if (levels[i].get() >= getInt(new String[] {"classes", classes[i].get(), "subclasses",subclasses[i].get(), "traits", trait})) {
+                            alreadyAdded = false;
+                            for (Trait newTrait : newTraits) {
+                                if (newTrait.getName().equals(trait)) {
+                                    alreadyAdded = true;
+                                    return;
+                                }
+                            }
+                            if (!alreadyAdded) {
+                                newTraits.add(new Trait(this, trait, levels[i]));
+                            }
                         }
                     }
                 }
@@ -2090,8 +2120,15 @@ public class GameCharacter {
                         traitNames = getStrings(new String[] {"feats", feat.get(), "traits"});
                         if (traitNames != null) {
                             for (String trait : traitNames) {
-                                if (!traits.getList().contains(trait)) {
-                                    traits.add(trait);
+                                alreadyAdded = false;
+                                for (Trait newTrait : newTraits) {
+                                    if (newTrait.getName().equals(trait)) {
+                                        alreadyAdded = true;
+                                        return;
+                                    }
+                                }
+                                if (!alreadyAdded) {
+                                    newTraits.add(new Trait(this, trait, levels[i]));
                                 }
                             }
                         }
@@ -2100,10 +2137,22 @@ public class GameCharacter {
 
                 for (ObservableString fightingStyle : fightingStyles[i]) {
                     if (!fightingStyle.get().equals("RANDOM")) {
-                        traits.add(fightingStyle.get());
+                        newTraits.add(new Trait(this, fightingStyle.get(), levels[i]));
                     }
                 }
             }
+
+            for (Trait trait : traits.getList()) {
+                for (Trait newTrait : newTraits) {
+                    if (trait.equals(newTrait)) {
+                        newTraits.remove(newTrait);
+                        newTraits.add(trait);
+                        break;
+                    }
+                }
+            }
+
+            traits.setAll(newTraits);
         };
 
         species.addListener(_ -> updateTraits.run());
@@ -2914,6 +2963,8 @@ public class GameCharacter {
         copy.currentHealth.set(currentHealth.get());
 
         copy.heroicInspiration.set(heroicInspiration.get());
+        copy.shortResting.set(shortResting.get());
+        copy.longResting.set(longResting.get());
         copy.blinded.set(blinded.get());
         copy.charmed.set(charmed.get());
         copy.deafened.set(deafened.get());

@@ -11,8 +11,12 @@ import com.dnd.frontend.language.TranslationManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Proficiency;
 import com.dnd.utils.items.Spell;
+import com.dnd.utils.items.Trait;
+import com.dnd.utils.observables.ObservableInteger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -90,6 +94,8 @@ public class CharacterSerializer {
         public ItemData offHand;
         public ItemData armor;
         public ItemData shield;
+
+        public TraitData[] traits;
     }
 
     public static class ItemData {
@@ -97,6 +103,18 @@ public class CharacterSerializer {
         
         public ItemData(String nominative) {
             this.nominative = nominative;
+        }
+    }
+
+    public static class TraitData {
+        public String nominative;
+        public int level;
+        public int chargesLeft;
+        
+        public TraitData(String nominative, int level, int chargesLeft) {
+            this.nominative = nominative;
+            this.level = level;
+            this.chargesLeft = chargesLeft;
         }
     }
     
@@ -281,6 +299,11 @@ public class CharacterSerializer {
                 .map(i -> new ItemData(i.getName()))
                 .toArray(ItemData[]::new);
 
+
+            data.traits = character.getTraits().asList().stream()
+                .map(t -> new TraitData(t.getNominative(), t.getLevel().get(), t.getChargesLeft().get()))
+                .toArray(TraitData[]::new);
+
             // Spells
             data.spells = character.getSpells().getList().stream()
                 .map(spellList -> spellList.asList().stream()
@@ -302,7 +325,7 @@ public class CharacterSerializer {
             gson.toJson(data, writer);
             return true;
 
-        } catch (IOException e) {
+        } catch (IOException | JsonIOException e) {
             System.err.println("Error saving character: " + e.getMessage());
             return false;
         }
@@ -327,6 +350,11 @@ public class CharacterSerializer {
         if (file != null) {
             try (Reader reader = new FileReader(file)) {
                 CharacterData data = gson.fromJson(reader, CharacterData.class);
+                if (data == null) {
+                    System.err.println("Error loading character: file is empty or invalid JSON.");
+                    return null;
+                }
+
                 GameCharacter character = new GameCharacter();
                 
                 // Load basic properties
@@ -430,6 +458,13 @@ public class CharacterSerializer {
                     character.getItems().add(new Item(item.nominative));
                 }
 
+                character.getTraits().getList().clear();
+                for (TraitData trait : data.traits) {
+                    Trait newTrait = new Trait(character, trait.nominative, new ObservableInteger(trait.level));
+                    newTrait.getChargesLeft().set(trait.chargesLeft);
+                    character.getTraits().add(newTrait);
+                }
+
                 for (int i = 0; i < data.spells.length; i++) {
                     character.getSpells().getList().get(i).getList().clear();
                     for (SpellData spell : data.spells[i]) {
@@ -453,7 +488,7 @@ public class CharacterSerializer {
                 character.setSaveName(file.getName().replace(".dnd", ""));
                 return character;
                 
-            } catch (IOException e) {
+            } catch (IOException | JsonParseException e) {
                 System.err.println("Error loading character: " + e.getMessage());
             }
         }

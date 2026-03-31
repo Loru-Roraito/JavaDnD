@@ -59,7 +59,7 @@ public class InfoTab extends Tab {
         TabPane classTabs = addClass(character, mainTabPane, 2, 1, 3, 2);
         systemPane = new SystemPane(mainTabPane, abilitiesPane, healthPane, classTabs, character, stage, this);
         addTitledPane("SYSTEM", systemPane, 4, 0, 1, 1);
-        addTitledPane("PROFICIENCIES_AND_FEATURES", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
+        addTitledPane("PROFICIENCIES_AND_TRAITS", new ProficienciesPane(character, mainTabPane), 0, 3, 3, 1);
         addTitledPane("COMBAT", new CombatPane(mainTabPane, character, this), 1, 1, 1, 1);
 
         // Set the GridPane as the content of the tab

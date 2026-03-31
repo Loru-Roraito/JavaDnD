@@ -34,7 +34,7 @@ public class ObservableItem implements Observable<Item> {
     }
 
     private void notifyListeners() {
-        for (Consumer<Item> listener : listeners) {
+        for (Consumer<Item> listener : new ArrayList<>(listeners)) {
             listener.accept(item);
         }
     }

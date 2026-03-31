@@ -11,12 +11,14 @@ import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipTitledPane;
+import com.dnd.utils.items.Trait;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -154,6 +156,8 @@ public class ProficienciesPane extends GridPane {
                 }
             };
             character.getAvailableWeaponMasteries().addListener((_) -> showMastery.run());
+            character.isEditing().addListener((_) -> showMastery.run());
+            character.isLongResting().addListener((_) -> showMastery.run());
             showMastery.run();
         }
 
@@ -161,11 +165,9 @@ public class ProficienciesPane extends GridPane {
         
         traitsPane.setText(getTranslation("TRAITS"));
         TextFlow traitsFlow = new TextFlow();
-        updateBox(traitsFlow, character.getTraits());
+        updateBox(traitsFlow, character.getTraits().getList());
 
-        character.getTraits().addListener((ListChangeListener<String>) _
-                -> updateBox(traitsFlow, character.getTraits())
-        );
+        character.getTraits().addListener((_) -> updateBox(traitsFlow, character.getTraits().getList()));
 
         ScrollPane traitsScroll = new ScrollPane(traitsFlow);
         traitsScroll.setFitToWidth(true);
@@ -235,20 +237,52 @@ public class ProficienciesPane extends GridPane {
         }
     }
 
-    private void updateBox(TextFlow textFlow, Iterable<String> properties) {
+    private void updateBox(TextFlow textFlow, Iterable<Trait> properties) {
         textFlow.getChildren().clear();
         Boolean isFirstLine = true;
-        for (String property : properties) {
+        for (Trait property : properties) {
             if (isFirstLine) {
                 isFirstLine = false;
             } else {
                 textFlow.getChildren().add(new Text("\n\n"));
             }
-            String name = property;
+            String name = property.getName();
             String text = getMisc(getOriginal(name));
-            Text wordText = new Text(name + ": ");
+            Text wordText = new Text(name + ":");
             wordText.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
             textFlow.getChildren().add(wordText);
+
+            if (property.getDamage().get() > 0) {
+                textFlow.getChildren().add(new Text("\n"));
+                Text damage = new Text(getTranslation("POWER") + ": " + property.getDamage().get());
+                textFlow.getChildren().add(damage);
+                property.getDamage().addListener((_) -> damage.setText(getTranslation("POWER") + ": " + property.getDamage().get()));
+            }
+
+            if (property.getCharge().get() >= 0) {
+                textFlow.getChildren().add(new Text("\n"));
+                Button charges = new Button();
+                textFlow.getChildren().add(charges);
+                Runnable updateChargesText = () -> {
+                    charges.setText(getTranslation("USES") + ": " + property.getChargesLeft().get() + "/" + property.getCharge().get());
+                };
+                updateChargesText.run();
+                charges.setOnAction(e -> {
+                    if (property.getChargesLeft().get() > 0) {
+                        property.getChargesLeft().set(property.getChargesLeft().get() - 1);
+                    }
+                });
+                property.getChargesLeft().addListener((_) -> updateChargesText.run());
+                property.getCharge().addListener((_) -> updateChargesText.run());
+
+                Runnable updateChargesEnabled = () -> {
+                    charges.setDisable(property.getChargesLeft().get() <= 0 || character.isEditing().get());
+                };
+                updateChargesEnabled.run();
+                property.getChargesLeft().addListener((_) -> updateChargesEnabled.run());
+                character.isEditing().addListener((_) -> updateChargesEnabled.run());
+            }
+
             textFlow.getChildren().add(new Text("\n "));
             DefinitionManager.fillTextFlow(textFlow, text, mainTabPane, "");
         }

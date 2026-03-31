@@ -38,7 +38,7 @@ public class ObservableString implements Observable<String> {
     }
 
     private void notifyListeners() {
-        for (Consumer<String> listener : listeners) {
+        for (Consumer<String> listener : new ArrayList<>(listeners)) {
             listener.accept(value);
         }
     }

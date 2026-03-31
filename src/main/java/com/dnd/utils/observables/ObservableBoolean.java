@@ -33,7 +33,7 @@ public class ObservableBoolean implements Observable<Boolean> {
     }
 
     private void notifyListeners() {
-        for (Consumer<Boolean> listener : listeners) {
+        for (Consumer<Boolean> listener : new ArrayList<>(listeners)) {
             listener.accept(value);
         }
     }

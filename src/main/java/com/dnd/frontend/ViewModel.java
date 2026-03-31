@@ -11,6 +11,7 @@ import com.dnd.utils.items.Item;
 import com.dnd.utils.items.MyItems;
 import com.dnd.utils.items.Proficiency;
 import com.dnd.utils.items.Spell;
+import com.dnd.utils.items.Trait;
 import com.dnd.utils.observables.CustomObservableList;
 import com.dnd.utils.observables.ObservableBoolean;
 import com.dnd.utils.observables.ObservableInteger;
@@ -80,11 +81,11 @@ public class ViewModel {
 
     private final BooleanProperty isGenerator = new SimpleBooleanProperty(true);
     private final BooleanProperty isEditing = new SimpleBooleanProperty(true);
-    private final BooleanProperty isShortResting = new SimpleBooleanProperty(false);
-    private final BooleanProperty isLongResting = new SimpleBooleanProperty(false);
     private final BooleanProperty isLevelingUp = new SimpleBooleanProperty(false);
     private final IntegerProperty areLevelingUp = new SimpleIntegerProperty(-1);
 
+    private final BooleanProperty isShortResting;
+    private final BooleanProperty isLongResting;
     private final BooleanProperty blinded;
     private final BooleanProperty charmed;
     private final BooleanProperty deafened;
@@ -121,7 +122,6 @@ public class ViewModel {
     private final ObservableList<String> selectableAbilities;
     private final ObservableList<String> mainClasses;
     private final ObservableList<String> selectableClasses;
-    private final ObservableList<String> traits;
     private final ObservableList<String> weaponProficiencies;
     private final ObservableList<String> armorProficiencies;
     private final ObservableList<String> toolProficiencies;
@@ -233,6 +233,12 @@ public class ViewModel {
 
         originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
         bindObservableString(originFeat, backend.getOriginFeat());
+
+        isShortResting = new SimpleBooleanProperty(backend.isShortResting().get());
+        bindObservableBoolean(isShortResting, backend.isShortResting());
+
+        isLongResting = new SimpleBooleanProperty(backend.isLongResting().get());
+        bindObservableBoolean(isLongResting, backend.isLongResting());
 
         blinded = new SimpleBooleanProperty(backend.getBlinded().get());
         bindObservableBoolean(blinded, backend.getBlinded());
@@ -455,9 +461,6 @@ public class ViewModel {
         selectableClasses = FXCollections.observableArrayList();
         updateList(selectableClasses, backend.getSelectableClasses());
 
-        traits = FXCollections.observableArrayList();
-        updateList(traits, backend.getTraits());
-
         weaponProficiencies = FXCollections.observableArrayList();
         updateList(weaponProficiencies, backend.getWeaponProficiencies());
 
@@ -500,6 +503,8 @@ public class ViewModel {
 
         items = FXCollections.observableArrayList();
         updateCustomListNoEdits(items, backend.getItems());
+
+        updateCustomListNoEdits(backend.getTraits());
 
         maxFeats = backend.getMaxFeats();
         maxFightingStyles = backend.getMaxFightingStyles();
@@ -768,8 +773,8 @@ public class ViewModel {
         return items;
     }
 
-    public ObservableList<String> getTraits() {
-        return traits;
+    public CustomObservableList<Trait> getTraits() {
+        return backend.getTraits();
     }
 
     public ObservableList<String> getWeaponProficiencies() {
