@@ -28,12 +28,9 @@ public class SystemPane extends GridPane {
         generationLabel.managedProperty().bind(character.isEditing());
 
         ObservableList<String> generations = FXCollections.observableArrayList();
-        for (String generationKey : getStrings(new String[] {"generation_methods"})) {
-            generations.add(getTranslation(generationKey));
-        }
+        generations.addAll(getStrings(new String[] {"generation_methods"}));
 
         TooltipComboBox generationComboBox = new TooltipComboBox(generations, mainTabPane);
-        generationComboBox.setPromptText(getTranslation("STANDARD_ARRAY"));
         add(generationComboBox, 0, 1); // Add the ComboBox to the GridPane (Column 0, Row 1);
         generationComboBox.visibleProperty().bind(character.isEditing());
         generationComboBox.managedProperty().bind(character.isEditing());
@@ -58,7 +55,6 @@ public class SystemPane extends GridPane {
         }
 
         TooltipComboBox healthComboBox = new TooltipComboBox(healths, mainTabPane);
-        healthComboBox.setPromptText(getTranslation("MEDIUM_HP"));
         add(healthComboBox, 1, 1); // Add the ComboBox to the GridPane
         healthComboBox.visibleProperty().bind(character.isEditing());
         healthComboBox.managedProperty().bind(character.isEditing());
@@ -222,7 +218,7 @@ public class SystemPane extends GridPane {
             if (!character.isLevelingUp().get()) {
                 int classIndex;
                 for (classIndex = 0; classIndex < character.getMaxClasses(); classIndex++) {
-                    if (character.getClasse(classIndex).get().equals(getTranslation("NONE"))) {
+                    if (character.getClasse(classIndex).get().equals("NONE")) {
                         break;
                     }
                 }

@@ -43,6 +43,9 @@ public class TranslationManager {
     }
 
     public static String getTranslation(String key) {
+        if (key == null) {
+            return "";
+        }
         return languageProperties.getProperty(key, key);
     }
 

@@ -94,7 +94,14 @@ public class InfoTab extends Tab {
 
         Tab tab = new Tab();
         tab.setClosable(false);
-        tab.textProperty().bind(character.getClasse(0));
+        Runnable updateText = () -> {
+            tab.setText(getTranslation(character.getClasse(0).get()));
+        };
+        updateText.run();
+        character.getClasse(0).addListener((_, _, newVal) -> {
+            updateText.run();
+        });
+
         tab.setContent(scrollPane);
         tabPane.getTabs().add(tab);
 
@@ -115,7 +122,7 @@ public class InfoTab extends Tab {
         }
 
         classes.get(0).valueProperty().addListener((_, _, newVal) -> {
-            if (newVal.equals(getTranslation("NONE"))) {
+            if (newVal.equals("NONE")) {
                 int size = tabPane.getTabs().size();
                 for (int i = 1; i < maxClasses; i++) {
                     character.getClasse(i).set(getTranslation("NONE"));
@@ -137,13 +144,20 @@ public class InfoTab extends Tab {
 
             Tab newTab = new Tab();
             newTab.closableProperty().bind(character.isEditing());
-            newTab.textProperty().bind(character.getClasse(index));
+            Runnable updateTexts = () -> {
+                newTab.setText(getTranslation(character.getClasse(index).get()));
+            };
+            updateText.run();
+            character.getClasse(index).addListener((_, _, newVal) -> {
+                updateTexts.run();
+            });
+
             newTab.setContent(newScrollPane);
 
             tabs[index - 1] = newTab;
 
             classes.get(index).valueProperty().addListener((_, _, newVal) -> {
-                if (newVal.equals(getTranslation("NONE"))) {
+                if (newVal.equals("NONE")) {
                     tabPane.getTabs().remove(newTab);
                     int size = tabPane.getTabs().size();
                     if (size + 1 == character.getMaxClasses() && !tabPane.getTabs().contains(addTab) && character.isEditing().get()) {
@@ -170,11 +184,11 @@ public class InfoTab extends Tab {
         tabPane.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
             int requiredLevels = 0;
             for (StringProperty classe : character.getClasses()) {
-                if (classe.get().equals(getTranslation("RANDOM"))) {
+                if (classe.get().equals("RANDOM")) {
                     requiredLevels ++;
                 }
             }
-            if (newVal.equals(addTab) && character.getTotalLevel().get() + requiredLevels < 20) {
+            if (newVal.equals(addTab) && character.getTotalLevel().get() + requiredLevels < 20 && character.getSelectableClasses().size() > 1) {
                 newClass();
             } else if (newVal.equals(addTab)) {
                 tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
@@ -184,7 +198,7 @@ public class InfoTab extends Tab {
 
         for (int i = 0; i < tabs.length; i++) {
             Tab t = tabs[i];
-            if (!tabPane.getTabs().contains(t) && !character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
+            if (!tabPane.getTabs().contains(t) && !character.getClasse(i + 1).get().equals("NONE")) {
                 tabPane.getTabs().add(Math.min(i + 1, tabPane.getTabs().size()), t);
             }
         }
@@ -198,8 +212,8 @@ public class InfoTab extends Tab {
             Tab t = tabs[i];
             if (!tabPane.getTabs().contains(t)) {
                 tabPane.getTabs().add(i + 1, t);
-                if (character.getClasse(i + 1).get().equals(getTranslation("NONE"))) {
-                    character.getClasse(i + 1).set(getTranslation("RANDOM"));
+                if (character.getClasse(i + 1).get().equals("NONE")) {
+                    character.getClasse(i + 1).set("RANDOM");
                 }
                 break;
             }

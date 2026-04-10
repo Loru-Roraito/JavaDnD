@@ -16,6 +16,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.util.StringConverter;
 
 public class TooltipComboBox extends ComboBox<String> {
     private final TabPane mainTabPane;
@@ -45,16 +46,44 @@ public class TooltipComboBox extends ComboBox<String> {
         
         sortedItems.setComparator((s1, s2) -> {
             // RANDOM always first
-            if (s1.equals(getTranslation("RANDOM"))) return -1;
-            if (s2.equals(getTranslation("RANDOM"))) return 1;
+            if (s1.equals("RANDOM")) return -1;
+            if (s2.equals("RANDOM")) return 1;
             
-            // Both are special or both are regular - alphabetical
+            // Both are special or both are regular -> alphabetical
             if (s1.matches("-?\\d+(\\.\\d+)?") && s2.matches("-?\\d+(\\.\\d+)?")) {
                 double num1 = Double.parseDouble(s1);
                 double num2 = Double.parseDouble(s2);
                 return Double.compare(num1, num2);
             }
             return s1.compareTo(s2);
+        });
+    
+        this.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(String key) {
+                if (key == null || key.isBlank()) {
+                    return "";
+                } else {
+                    return getTranslation(key);
+                }
+            }
+
+            @Override
+            public String fromString(String string) {
+                return getValue();
+            }
+        });
+
+        this.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.isBlank()) {
+                    setText(null);
+                } else {
+                    setText(getTranslation(item));
+                }
+            }
         });
 
         tooltip = assignTooltip();
@@ -122,7 +151,7 @@ public class TooltipComboBox extends ComboBox<String> {
         this.valueProperty().addListener((_, _, _) -> {
             updateLabel();
             if (getValue() != null) {
-                DefinitionManager.updateTooltip(this, tooltip, getValue());
+                DefinitionManager.updateTooltip(this, tooltip, getTranslation(getValue()));
             } else {
                 DefinitionManager.updateTooltip(this, tooltip, "");
             }
@@ -130,8 +159,12 @@ public class TooltipComboBox extends ComboBox<String> {
     }
 
     private void updateLabel() {
-        // Update label text and tooltip
-        String currentValue = getValue();
+        if (getValue() == null || getValue().isBlank()) {
+            replacementLabel.setText("");
+            replacementLabel.update("");
+            return;
+        }
+        String currentValue = getTranslation(getValue());
         if (currentValue != null) {
             // TODO: spaces
             replacementLabel.setText("   " + currentValue);
@@ -149,7 +182,6 @@ public class TooltipComboBox extends ComboBox<String> {
         
         // Apply ComboBox popup CSS classes
         listView.getStyleClass().add("list-view");
-        
         // Create custom cells with tooltips
         listView.setCellFactory(_ -> new ListCell<String>() {
             {
@@ -160,17 +192,17 @@ public class TooltipComboBox extends ComboBox<String> {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item == null || empty) {
+                if (empty || item == null || item.isBlank()) {
                     setText(null);
                 } else {
-                    setText(item);
+                    setText(getTranslation(item));
                 }
             }
 
             {   // Event to track the hovered item
                 this.setOnMouseEntered(_ -> {
                     hoveredItem = getItem();
-                    DefinitionManager.updateTooltip(this, tooltip, hoveredItem);
+                    DefinitionManager.updateTooltip(this, tooltip, getTranslation(hoveredItem));
                 });
                 
                 // Handle mouse clicks on cells
@@ -314,7 +346,7 @@ public class TooltipComboBox extends ComboBox<String> {
             if (event.getCode() == KeyCode.T) {
                 FrozenTooltipManager.freeze(tooltip, this, mainTabPane);
             } else if (event.getCode() == KeyCode.F) {
-                openDefinitionTab(hoveredItem);
+                openDefinitionTab(getTranslation(hoveredItem));
             }
         });
 

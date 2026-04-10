@@ -6,7 +6,7 @@ import java.util.List;
 import com.dnd.backend.GroupManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.DefinitionManager;
-import com.dnd.frontend.language.MiscsManager;
+import com.dnd.frontend.language.DescriptionManager;
 import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
@@ -231,7 +231,7 @@ public class ProficienciesPane extends GridPane {
                 } else {
                     textFlow.getChildren().add(new Text("\n"));
                 }
-                Text wordText = new Text(proficiency);
+                Text wordText = new Text(getTranslation(proficiency));
                 textFlow.getChildren().add(wordText);
             }
         }
@@ -247,8 +247,8 @@ public class ProficienciesPane extends GridPane {
                 textFlow.getChildren().add(new Text("\n\n"));
             }
             String name = property.getName();
-            String text = getMisc(getOriginal(name));
-            Text wordText = new Text(name + ":");
+            String text = getTraitDescription(name);
+            Text wordText = new Text(getTranslation(name) + ":");
             wordText.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
             textFlow.getChildren().add(wordText);
 
@@ -289,12 +289,8 @@ public class ProficienciesPane extends GridPane {
     }
 
     // Helper method to get translations
-    private String getMisc(String key) {
-        return MiscsManager.getMisc(key);
-    }
-
-    private String getOriginal(String translated) {
-        return TranslationManager.getOriginal(translated);
+    private String getTraitDescription(String key) {
+        return DescriptionManager.getTraitDescription(key);
     }
 
     // Helper method to get translations

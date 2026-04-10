@@ -164,49 +164,50 @@ public class DefinitionManager {
 
     private static String fetchItemTooltip(Item item) {
         String tooltip = "";
-        if (item.getType().equals("WEAPON")) {
-            tooltip = String.valueOf(item.getHits()) + "d" + String.valueOf(item.getDamage());
-            
-            String properties[] = item.getProperties();
-            if (Arrays.asList(properties).contains("VERSATILE")) {
-                tooltip += " (" + String.valueOf(item.getVersatileHits()) + "d" + String.valueOf(item.getVersatileDamage()) + ")";
-            }
+        switch (item.getType()) {
+            case "WEAPON" -> {
+                tooltip = String.valueOf(item.getHits()) + "d" + String.valueOf(item.getDamage());
+                
+                String properties[] = item.getProperties();
+                if (Arrays.asList(properties).contains("VERSATILE")) {
+                    tooltip += " (" + String.valueOf(item.getVersatileHits()) + "d" + String.valueOf(item.getVersatileDamage()) + ")";
+                }
 
-            String attributes[] = item.getAttributes();
-            for (String attribute : attributes) {
-                tooltip += " " + getTranslation(attribute);
-            }
+                String attributes[] = item.getAttributes();
+                for (String attribute : attributes) {
+                    tooltip += " " + getTranslation(attribute);
+                }
 
-            String mastery = item.getMastery();
-            if (!mastery.isEmpty()) {
-                tooltip += " (" + getTranslation("MASTERY") + ": " + getTranslation(mastery) + ")";
-            }
-            
-            String[] tags = item.getTags();
-            if (Arrays.asList(tags).contains("RANGED")) {
-                tooltip += ", " + getTranslation("RANGE") + ": " + (int) (item.getShortRange() * Constants.LENGTH_MULTIPLIER) + "/" + (int) (item.getLongRange() * Constants.LENGTH_MULTIPLIER) + " " + getTranslation("LENGTH_UNIT");
-            }
+                String mastery = item.getMastery();
+                if (!mastery.isEmpty()) {
+                    tooltip += " (" + getTranslation("MASTERY") + ": " + getTranslation(mastery) + ")";
+                }
+                
+                String[] tags = item.getTags();
+                if (Arrays.asList(tags).contains("RANGED")) {
+                    tooltip += ", " + getTranslation("RANGE") + ": " + (int) (item.getShortRange() * Constants.LENGTH_MULTIPLIER) + "/" + (int) (item.getLongRange() * Constants.LENGTH_MULTIPLIER) + " " + getTranslation("LENGTH_UNIT");
+                }
 
-            if (Arrays.asList(properties).contains("AMMUNITION")) {
-                tooltip += "\n" + getTranslation("AMMUNITION") + ": " + getTranslation(item.getAmmo());
-            }
+                if (Arrays.asList(properties).contains("AMMUNITION")) {
+                    tooltip += "\n" + getTranslation("AMMUNITION") + ": " + getTranslation(item.getAmmo());
+                }
 
-            tooltip += "\n\n";
-            for (String property : properties) {
-                tooltip += getTranslation(property) + ", ";
-            }
-            tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
+                tooltip += "\n\n";
+                for (String property : properties) {
+                    tooltip += getTranslation(property) + ", ";
+                }
+                tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
 
-            tooltip += "\n";
-            for (String tag : tags) {
-                tooltip += getTranslation(tag) + ", ";
+                tooltip += "\n";
+                for (String tag : tags) {
+                    tooltip += getTranslation(tag) + ", ";
+                }
+                tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
+                tooltip += "\n\n" + getItemDescription(item.getNominative());
             }
-            tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
-
-        } else if (item.getType().equals("ARMOR")) {
-            
+            case "ARMOR", "ITEM" -> tooltip = getItemDescription(item.getNominative());
         }
-
+        
         return tooltip;
     }
 
@@ -302,6 +303,9 @@ public class DefinitionManager {
 
     // Get the tooltip text for a given key
     public static String fetchTooltip(String key) {
+        if (key == null) {
+            return "";
+        }
         return tooltips.getProperty(key, "");
     }
 
@@ -375,7 +379,7 @@ public class DefinitionManager {
             if (components[i]) {
                 tooltip += getTranslation(componentNames[i]);
                 if (i == 2) {
-                    tooltip += " (" + getIngredient(spell.getNominative()) + "), ";
+                    tooltip += " (" + getSpellIngredient(spell.getNominative()) + "), ";
                 } else {
                     tooltip += ", ";  
                 }
@@ -391,7 +395,7 @@ public class DefinitionManager {
             tooltip += "\n" + getTranslation("DURATION") + ": " + duration + " " + getTranslation(durationSpan);
         }
 
-        tooltip += "\n\n" + getDescription(spell.getNominative());
+        tooltip += "\n\n" + getSpellDescription(spell.getNominative());
 
         return tooltip;
     }
@@ -427,11 +431,15 @@ public class DefinitionManager {
         return TranslationManager.getTranslation(key);
     }
 
-    private static String getDescription(String key) {
-        return MiscsManager.getDescription(key);
+    private static String getSpellDescription(String key) {
+        return DescriptionManager.getSpellDescription(key);
     }
 
-    private static String getIngredient(String key) {
-        return MiscsManager.getIngredient(key);
+    private static String getSpellIngredient(String key) {
+        return DescriptionManager.getSpellIngredient(key);
+    }
+
+    private static String getItemDescription(String key) {
+        return DescriptionManager.getItemDescription(key);
     }
 }

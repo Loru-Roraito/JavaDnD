@@ -148,7 +148,7 @@ public class CombatPane extends GridPane {
         if (Arrays.asList(weapon.getProperties()).contains("AMMUNITION")) {
             String ammo = weapon.getAmmo();
             boolean hasAmmo = false;
-            for (Item item : character.getItems()) {
+            for (Item item : character.getItems().getList()) {
                 if (item.getNominative().equals(ammo)) {
                     character.getItems().remove(item);
                     hasAmmo = true;

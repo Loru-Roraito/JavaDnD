@@ -8,7 +8,6 @@ import com.dnd.utils.observables.ObservableString;
 public class Trait implements MyItems<Trait> {
     private final GameCharacter character;
     private final ObservableString name;
-    private final String nominative;
 
     private final ObservableInteger charge;
     private final ObservableInteger chargesLeft;
@@ -39,7 +38,7 @@ public class Trait implements MyItems<Trait> {
     }
 
     public Boolean equals(Trait other) {
-        return this.name.get().equals(other.name.get()) && this.level.get() == other.level.get();
+        return this.name.get().equals(other.name.get()) && this.level.get().equals(other.level.get());
     }
 
     public Trait(GameCharacter character, String name) {
@@ -48,7 +47,6 @@ public class Trait implements MyItems<Trait> {
 
     public Trait(GameCharacter character, String nominative, ObservableInteger level) {
         this.character = character;
-        this.nominative = nominative;
         name = new ObservableString(nominative);
         this.level = level;
         
@@ -63,7 +61,7 @@ public class Trait implements MyItems<Trait> {
                     chargesLeft.set(charge.get());
                 }
             });
-        } else if (chargeAbility != "") {
+        } else if (!chargeAbility.equals("")) {
             charge = character.getAbilityModifier(GameCharacter.getAbilityIndex(chargeAbility));
             chargesLeft = new ObservableInteger(charge.get());
             charge.addListener((newVal) -> {
@@ -120,7 +118,7 @@ public class Trait implements MyItems<Trait> {
     }
 
     public String getNominative() {
-        return nominative;
+        return name.get();
     }
 
     public ObservableInteger getLevel() {

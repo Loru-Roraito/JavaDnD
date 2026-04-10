@@ -244,7 +244,7 @@ public class HealthPane extends GridPane {
             hpMedium.setManaged(false);
         }
 
-        if (healthType.equals(getTranslation("RANDOM"))) {
+        if (healthType.equals("RANDOM")) {
             hpRandom.setVisible(true);
             hpRandom.setManaged(true);
         } else {

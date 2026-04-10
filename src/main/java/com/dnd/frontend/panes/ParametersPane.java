@@ -50,7 +50,6 @@ public class ParametersPane extends GridPane {
         genders.add(0, getTranslation("RANDOM"));
 
         TooltipComboBox genderComboBox = new TooltipComboBox(genders, mainTabPane);
-        genderComboBox.setPromptText(getTranslation("RANDOM"));
         add(genderComboBox, 0, 3);
         add(genderComboBox.getLabel(), 0, 3);
         genderComboBox.disableProperty().bind(character.isEditing().not());
@@ -65,13 +64,10 @@ public class ParametersPane extends GridPane {
 
         // Populate the class list and translation map
         ObservableList<String> species = FXCollections.observableArrayList();
-        for (String classKey : getStrings(new String[] {"species"})) {
-            species.add(getTranslation(classKey));
-        }
-        species.add(0, getTranslation("RANDOM"));
+        species.addAll(getStrings(new String[] {"species"}));
+        species.add(0, "RANDOM");
 
         TooltipComboBox speciesComboBox = new TooltipComboBox(species, mainTabPane);
-        speciesComboBox.setPromptText(getTranslation("RANDOM"));
         add(speciesComboBox, 0, 5);
         add(speciesComboBox.getLabel(), 0, 5);
         speciesComboBox.disableProperty().bind(character.isEditing().not());
@@ -87,7 +83,6 @@ public class ParametersPane extends GridPane {
         // Create the second ComboBox (lineage selection)
         ObservableList<String> lineages = FXCollections.observableArrayList();
         TooltipComboBox lineageComboBox = new TooltipComboBox(lineages, mainTabPane);
-        lineageComboBox.setPromptText(getTranslation("RANDOM"));
         add(lineageComboBox, 0, 7);
         add(lineageComboBox.getLabel(), 0, 7);
         lineageComboBox.disableProperty().bind(character.isEditing().not());
@@ -138,18 +133,13 @@ public class ParametersPane extends GridPane {
         
         // Create the second ComboBox (subclass selection)
         ObservableList<String> backgrounds = FXCollections.observableArrayList();
-        for (String classKey : getStrings(new String[] {"backgrounds"})) {
-            backgrounds.add(getTranslation(classKey));
-        }
-        backgrounds.add(0, getTranslation("RANDOM"));
+        backgrounds.addAll(getStrings(new String[] {"backgrounds"}));
+        backgrounds.add(0, "RANDOM");
 
         TooltipComboBox backgroundComboBox = new TooltipComboBox(backgrounds, mainTabPane);
-        backgroundComboBox.setPromptText(getTranslation("RANDOM"));
         add(backgroundComboBox, 0, 9);
         add(backgroundComboBox.getLabel(), 0, 9);
         backgroundComboBox.disableProperty().bind(character.isEditing().not());
-
-        // Listen for ComboBox changes (Translated → English)
         backgroundComboBox.valueProperty().bindBidirectional(character.getBackground());
 
         // Create a label as the title for the ComboBox
@@ -165,17 +155,13 @@ public class ParametersPane extends GridPane {
         alignments.add(0, getTranslation("RANDOM"));
 
         TooltipComboBox alignmentComboBox = new TooltipComboBox(alignments, mainTabPane);
-        alignmentComboBox.setPromptText(getTranslation("RANDOM"));
-
-        // Listen for ComboBox changes (Translated → English)
-        alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
         add(alignmentComboBox, 0, 11);
         add(alignmentComboBox.getLabel(), 0, 11);
         alignmentComboBox.disableProperty().bind(character.isEditing().not());
-
+        alignmentComboBox.valueProperty().bindBidirectional(character.getAlignment());
 
         ObservableList<String> sizes = FXCollections.observableArrayList();
-        sizes.add(getTranslation("RANDOM"));
+        sizes.add("RANDOM");
 
         for (StringProperty prop : character.getSelectableSizes()) {
             if (prop != null) {
@@ -203,7 +189,7 @@ public class ParametersPane extends GridPane {
                 () -> {
                     StringProperty[] selectableSizes = character.getSelectableSizes();
                     return (selectableSizes[1].get().equals(""))
-                        ? ": " + selectableSizes[0].get()
+                        ? ": " + getTranslation(selectableSizes[0].get())
                         : "";
                 },
                 character.getSpecies()

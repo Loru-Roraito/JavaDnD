@@ -80,7 +80,7 @@ public class MagicTab extends Tab {
         gridPane.add(attack, 2, 0);
         attack.setOnAction(_ -> {
             int index = spellcasting.get(ability.valueProperty().get());
-            int abilityIndex = GameCharacter.getAbilityIndex(getOriginal(ability.valueProperty().get()));
+            int abilityIndex = GameCharacter.getAbilityIndex(ability.valueProperty().get());
             infoTab.throwDie(1, 20, character.getSpellcastingAttackModifier(index).get(), false, false, abilityIndex);
         });
 
@@ -89,7 +89,7 @@ public class MagicTab extends Tab {
             spellcasting.clear();
             abilities.clear();
             for (int i = 0; i < spellcastingAbilities.length; i++) {
-                if (!spellcastingAbilities[i].get().equals(getTranslation("NONE")) && !spellcastingAbilities[i].get().equals(getTranslation("")) && !spellcasting.containsKey(spellcastingAbilities[i].get())) {
+                if (!spellcastingAbilities[i].get().equals("NONE") && !spellcastingAbilities[i].get().equals("") && !spellcasting.containsKey(spellcastingAbilities[i].get())) {
                     spellcasting.put(spellcastingAbilities[i].get(), i);
                     abilities.add(spellcastingAbilities[i].get());
                 }
@@ -214,7 +214,7 @@ public class MagicTab extends Tab {
             for (int i = 0; i < character.getSelectableSpells().size(); i++) {
                 CustomObservableList<Spell> spells = character.getSpells(i);
                 for (Spell spell : spells.getList()) {
-                    int spellLevel = getSpellInt(new String[]{getOriginal(spell.getName()), "level"});
+                    int spellLevel = getSpellInt(new String[]{spell.getName(), "level"});
                     VBox levelBox = levelBoxes[spellLevel - 1];
 
                     TooltipLabel spellLabel = new TooltipLabel(spell, mainTabPane);
@@ -494,10 +494,6 @@ public class MagicTab extends Tab {
     // Helper method to get translations
     private String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
-    }
-
-    private String getOriginal(String spellName) {
-        return TranslationManager.getOriginal(spellName);
     }
 
     private int getSpellInt(String[] key) {

@@ -25,7 +25,7 @@
         "shortRange": 20,
         "longRange": 60
     },
-    "CLUB": {
+    "ITEM_CLUB": {
         "type": "WEAPON",
         "cost": 1,
         "currency": "GOLD",
@@ -39,7 +39,7 @@
         "shortRange": 20,
         "longRange": 60
     },
-    "DAGGER": {
+    "ITEM_DAGGER": {
         "type": "WEAPON",
         "cost": 2,
         "currency": "GOLD",
@@ -51,7 +51,7 @@
         "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
-    "GREATCLUB": {
+    "ITEM_GREATCLUB": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "SILVER",
@@ -63,7 +63,7 @@
         "tags": [],
         "mastery": ""
     },
-    "HANDAXE": {
+    "ITEM_HANDAXE": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "GOLD",
@@ -77,7 +77,7 @@
         "shortRange": 20,
         "longRange": 60
     },
-    "JAVELIN": {
+    "ITEM_JAVELIN": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "SILVER",
@@ -91,7 +91,7 @@
         "shortRange": 30,
         "longRange": 120
     },
-    "LIGHT_HAMMER": {
+    "ITEM_LIGHT_HAMMER": {
         "type": "WEAPON",
         "cost": 2,
         "currency": "GOLD",
@@ -105,7 +105,7 @@
         "shortRange": 20,
         "longRange": 60
     },
-    "MACE": {
+    "ITEM_MACE": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "GOLD",
@@ -117,7 +117,7 @@
         "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
-    "QUARTERSTAFF": {
+    "ITEM_QUARTERSTAFF": {
         "type": "WEAPON",
         "cost": 2,
         "currency": "SILVER",
@@ -131,7 +131,7 @@
         "versatileHits": 1,
         "versatileDamage": 8
     },
-    "SICKLE": {
+    "ITEM_SICKLE": {
         "type": "WEAPON",
         "cost": 1,
         "currency": "GOLD",
@@ -143,7 +143,7 @@
         "tags": ["SIMPLE_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
-    "SPEAR": {
+    "ITEM_SPEAR": {
         "type": "WEAPON",
         "cost": 1,
         "currency": "GOLD",
@@ -159,7 +159,7 @@
         "versatileHits": 1,
         "versatileDamage": 8
     },
-    "DART": {
+    "ITEM_DART": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "SILVER",
@@ -173,7 +173,7 @@
         "shortRange": 20,
         "longRange": 60
     },
-    "CROSSBOW_LIGHT": {
+    "ITEM_CROSSBOW_LIGHT": {
         "type": "WEAPON",
         "cost": 25,
         "currency": "GOLD",
@@ -188,7 +188,7 @@
         "longRange": 320,
         "ammo": "BOLT"
     },
-    "SHORTBOW": {
+    "ITEM_SHORTBOW": {
         "type": "WEAPON",
         "cost": 25,
         "currency": "GOLD",
@@ -203,7 +203,7 @@
         "longRange": 320,
         "ammo": "ARROW"
     },
-    "SLING": {
+    "ITEM_SLING": {
         "type": "WEAPON",
         "cost": 1,
         "currency": "SILVER",
@@ -218,7 +218,7 @@
         "longRange": 120,
         "ammo": "BULLET"
     },
-    "BATTLEAXE": {
+    "ITEM_BATTLEAXE": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -232,7 +232,7 @@
         "versatileHits": 1,
         "versatileDamage": 10
     },
-    "FLAIL": {
+    "ITEM_FLAIL": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -244,7 +244,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
-    "GLAIVE": {
+    "ITEM_GLAIVE": {
         "type": "WEAPON",
         "cost": 20,
         "currency": "GOLD",
@@ -256,7 +256,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "GRAZE"
     },
-    "GREATAXE": {
+    "ITEM_GREATAXE": {
         "type": "WEAPON",
         "cost": 30,
         "currency": "GOLD",
@@ -269,7 +269,7 @@
         "mastery": "CLEAVE"
     },
 
-    "GREATSWORD": {
+    "ITEM_GREATSWORD": {
         "type": "WEAPON",
         "cost": 50,
         "currency": "GOLD",
@@ -281,7 +281,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "GRAZE"
     },
-    "HALBERD": {
+    "ITEM_HALBERD": {
         "type": "WEAPON",
         "cost": 20,
         "currency": "GOLD",
@@ -293,7 +293,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "CLEAVE"
     },
-    "LANCE": {
+    "ITEM_LANCE": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -305,7 +305,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE"
     },
-    "LONGSWORD": {
+    "ITEM_LONGSWORD": {
         "type": "WEAPON",
         "cost": 15,
         "currency": "GOLD",
@@ -319,7 +319,7 @@
         "versatileHits": 1,
         "versatileDamage": 10
     },
-    "MAUL": {
+    "ITEM_MAUL": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -331,7 +331,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "TOPPLE"
     },
-    "MORNINGSTAR": {
+    "ITEM_MORNINGSTAR": {
         "type": "WEAPON",
         "cost": 15,
         "currency": "GOLD",
@@ -343,7 +343,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
-    "PIKE": {
+    "ITEM_PIKE": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "GOLD",
@@ -355,7 +355,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "PUSH"
     },
-    "RAPIER": {
+    "ITEM_RAPIER": {
         "type": "WEAPON",
         "cost": 25,
         "currency": "GOLD",
@@ -367,7 +367,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "VEX"
     },
-    "SCIMITAR": {
+    "ITEM_SCIMITAR": {
         "type": "WEAPON",
         "cost": 25,
         "currency": "GOLD",
@@ -379,7 +379,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "NICK"
     },
-    "SHORTSWORD": {
+    "ITEM_SHORTSWORD": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -391,7 +391,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "VEX"
     },
-    "TRIDENT": {
+    "ITEM_TRIDENT": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "GOLD",
@@ -407,7 +407,7 @@
         "versatileHits": 1,
         "versatileDamage": 8
     },
-    "WARHAMMER": {
+    "ITEM_WARHAMMER": {
         "type": "WEAPON",
         "cost": 15,
         "currency": "GOLD",
@@ -421,7 +421,7 @@
         "versatileHits": 1,
         "versatileDamage": 10
     },
-    "WAR_PICK": {
+    "ITEM_WAR_PICK": {
         "type": "WEAPON",
         "cost": 5,
         "currency": "GOLD",
@@ -433,7 +433,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SAP"
     },
-    "WHIP": {
+    "ITEM_WHIP": {
         "type": "WEAPON",
         "cost": 2,
         "currency": "GOLD",
@@ -445,7 +445,7 @@
         "tags": ["MARTIAL_WEAPONS", "MELEE"],
         "mastery": "SLOW"
     },
-    "BLOWGUN": {
+    "ITEM_BLOWGUN": {
         "type": "WEAPON",
         "cost": 10,
         "currency": "GOLD",
@@ -460,7 +460,7 @@
         "longRange": 100,
         "ammo": "NEEDLE"
     },
-    "CROSSBOW_HAND": {
+    "ITEM_CROSSBOW_HAND": {
         "type": "WEAPON",
         "cost": 75,
         "currency": "GOLD",
@@ -475,7 +475,7 @@
         "longRange": 120,
         "ammo": "BOLT"
     },
-    "CROSSBOW_HEAVY": {
+    "ITEM_CROSSBOW_HEAVY": {
         "type": "WEAPON",
         "cost": 50,
         "currency": "GOLD",
@@ -490,7 +490,7 @@
         "longRange": 400,
         "ammo": "BOLT"
     },
-    "LONGBOW": {
+    "ITEM_LONGBOW": {
         "type": "WEAPON",
         "cost": 50,
         "currency": "GOLD",
@@ -505,7 +505,7 @@
         "longRange": 600,
         "ammo": "ARROW"
     },
-    "MUSKET": {
+    "ITEM_MUSKET": {
         "type": "WEAPON",
         "cost": 500,
         "currency": "GOLD",
@@ -520,7 +520,7 @@
         "longRange": 120,
         "ammo": "BULLET"
     },
-    "PISTOL": {
+    "ITEM_PISTOL": {
         "type": "WEAPON",
         "cost": 250,
         "currency": "GOLD",
@@ -536,29 +536,29 @@
         "ammo": "BULLET"
     },
 
-    "PADDED_ARMOR": {
+    "ITEM_PADDED_ARMOR": {
         "type": "ARMOR",
         "cost": 5,
         "currency": "GOLD",
         "armorClass": 11,
-        "dexterity": 0,
+        "dexterity": -1,
         "strength": 0,
         "stealth": true,
         "weight": 8,
         "tags": ["LIGHT_ARMORS"]
     },
-    "LEATHER_ARMOR": {
+    "ITEM_LEATHER_ARMOR": {
         "type": "ARMOR",
         "cost": 10,
         "currency": "GOLD",
         "armorClass": 11,
-        "dexterity": 0,
+        "dexterity": -1,
         "strength": 0,
         "stealth": false,
         "weight": 10,
         "tags": ["LIGHT_ARMORS"]
     },
-    "STUDDED_LEATHER_ARMOR": {
+    "ITEM_STUDDED_LEATHER_ARMOR": {
         "type": "ARMOR",
         "cost": 45,
         "currency": "GOLD",
@@ -569,7 +569,7 @@
         "weight": 13,
         "tags": ["LIGHT_ARMORS"]
     },
-    "HIDE_ARMOR": {
+    "ITEM_HIDE_ARMOR": {
         "type": "ARMOR",
         "cost": 10,
         "currency": "GOLD",
@@ -580,7 +580,7 @@
         "weight": 12,
         "tags": ["MEDIUM_ARMORS"]
     },
-    "CHAIN_SHIRT": {
+    "ITEM_CHAIN_SHIRT": {
         "type": "ARMOR",
         "cost": 50,
         "currency": "GOLD",
@@ -591,7 +591,7 @@
         "weight": 20,
         "tags": ["MEDIUM_ARMORS"]
     },
-    "SCALE_MAIL": {
+    "ITEM_SCALE_MAIL": {
         "type": "ARMOR",
         "cost": 50,
         "currency": "GOLD",
@@ -602,7 +602,7 @@
         "weight": 45,
         "tags": ["MEDIUM_ARMORS"]
     },
-    "BREASTPLATE": {
+    "ITEM_BREASTPLATE": {
         "type": "ARMOR",
         "cost": 400,
         "currency": "GOLD",
@@ -613,7 +613,7 @@
         "weight": 20,
         "tags": ["MEDIUM_ARMORS"]
     },
-    "HALF_PLATE": {
+    "ITEM_HALF_PLATE": {
         "type": "ARMOR",
         "cost": 750,
         "currency": "GOLD",
@@ -624,52 +624,52 @@
         "weight": 40,
         "tags": ["HEAVY_ARMORS"]
     },
-    "RING_MAIL": {
+    "ITEM_RING_MAIL": {
         "type": "ARMOR",
         "cost": 30,
         "currency": "GOLD",
         "armorClass": 14,
-        "dexterity": 1,
+        "dexterity": 0,
         "strength": 0,
         "stealth": true,
         "weight": 40,
         "tags": ["HEAVY_ARMORS"]
     },
-    "CHAIN_MAIL": {
+    "ITEM_CHAIN_MAIL": {
         "type": "ARMOR",
         "cost": 75,
         "currency": "GOLD",
         "armorClass": 16,
-        "dexterity": 1,
+        "dexterity": 0,
         "strength": 13,
         "stealth": true,
         "weight": 55,
         "tags": ["HEAVY_ARMORS"]
     },
-    "SPLINT_ARMOR": {
+    "ITEM_SPLINT_ARMOR": {
         "type": "ARMOR",
         "cost": 200,
         "currency": "GOLD",
         "armorClass": 17,
-        "dexterity": 1,
+        "dexterity": 0,
         "strength": 15,
         "stealth": true,
         "weight": 60,
         "tags": ["HEAVY_ARMORS"]
     },
-    "PLATE_ARMOR": {
+    "ITEM_PLATE_ARMOR": {
         "type": "ARMOR",
         "cost": 1500,
         "currency": "GOLD",
         "armorClass": 18,
-        "dexterity": 1,
+        "dexterity": 0,
         "strength": 15,
         "stealth": true,
         "weight": 65,
         "tags": ["HEAVY_ARMORS"]
     },
     
-    "SHIELD": {
+    "ITEM_SHIELD": {
         "type": "ARMOR",
         "cost": 10,
         "currency": "GOLD",

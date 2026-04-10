@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dnd.backend.GameCharacter;
 import com.dnd.frontend.language.Constants;
-import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tabs.CharacterTab;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.MyItems;
@@ -129,8 +128,6 @@ public class ViewModel {
     private final ObservableList<ObservableList<String>> selectableSubclasses;
     private final ObservableList<ObservableList<String>> selectableFeats;
     private final ObservableList<ObservableList<String>> selectableFightingStyles;
-    private final ObservableList<Proficiency> choiceToolProficiencies;
-    private final ObservableList<Item> items;
 
     private final ObservableItem mainHand;
     private final ObservableItem offHand;
@@ -157,54 +154,54 @@ public class ViewModel {
         shield = new ObservableItem(backend.getShield().get());
         bindObservableItem(shield, backend.getShield());
 
-        userDescription = new SimpleStringProperty(getTranslation(backend.getUserDescription().get()));
+        userDescription = new SimpleStringProperty(backend.getUserDescription().get());
         bindObservableString(userDescription, backend.getUserDescription());
 
-        finesseAbility = new SimpleStringProperty(getTranslation(backend.getFinesseAbility().get()));
+        finesseAbility = new SimpleStringProperty(backend.getFinesseAbility().get());
         bindObservableString(finesseAbility, backend.getFinesseAbility());
 
         saveName = new SimpleStringProperty(backend.getSaveNameProperty().get());
         bindObservableString(saveName, backend.getSaveNameProperty());
 
-        creatureType = new SimpleStringProperty(getTranslation(backend.getCreatureType().get()));
+        creatureType = new SimpleStringProperty(backend.getCreatureType().get());
         bindObservableString(creatureType, backend.getCreatureType());
 
-        languageOne = new SimpleStringProperty(getTranslation(backend.getLanguageOne().get()));
+        languageOne = new SimpleStringProperty(backend.getLanguageOne().get());
         bindObservableString(languageOne, backend.getLanguageOne());
 
-        languageTwo = new SimpleStringProperty(getTranslation(backend.getLanguageTwo().get()));
+        languageTwo = new SimpleStringProperty(backend.getLanguageTwo().get());
         bindObservableString(languageTwo, backend.getLanguageTwo());
 
-        height = new SimpleStringProperty(getTranslation(backend.getHeight().get()));
+        height = new SimpleStringProperty(backend.getHeight().get());
         bindObservableString(height, backend.getHeight());
 
-        weight = new SimpleStringProperty(getTranslation(backend.getWeight().get()));
+        weight = new SimpleStringProperty(backend.getWeight().get());
         bindObservableString(weight, backend.getWeight());
 
-        name = new SimpleStringProperty(getTranslation(backend.getName().get()));
+        name = new SimpleStringProperty(backend.getName().get());
         bindObservableString(name, backend.getName());
 
-        gender = new SimpleStringProperty(getTranslation(backend.getGender().get()));
+        gender = new SimpleStringProperty(backend.getGender().get());
         bindObservableString(gender, backend.getGender());
 
-        lineage = new SimpleStringProperty(getTranslation(backend.getLineage().get()));
+        lineage = new SimpleStringProperty(backend.getLineage().get());
         bindObservableString(lineage, backend.getLineage());
 
-        alignment = new SimpleStringProperty(getTranslation(backend.getAlignment().get()));
+        alignment = new SimpleStringProperty(backend.getAlignment().get());
         bindObservableString(alignment, backend.getAlignment());
 
-        generationMethod = new SimpleStringProperty(getTranslation(backend.getGenerationMethod().get()));
+        generationMethod = new SimpleStringProperty(backend.getGenerationMethod().get());
         bindObservableString(generationMethod, backend.getGenerationMethod());
 
-        healthMethod = new SimpleStringProperty(getTranslation(backend.getHealthMethod().get()));
+        healthMethod = new SimpleStringProperty(backend.getHealthMethod().get());
         bindObservableString(healthMethod, backend.getHealthMethod());
 
         bindObservableInteger(backend.getTotalLevel());
 
-        species = new SimpleStringProperty(getTranslation(backend.getSpecies().get()));
+        species = new SimpleStringProperty(backend.getSpecies().get());
         bindObservableString(species, backend.getSpecies());
 
-        background = new SimpleStringProperty(getTranslation(backend.getBackground().get()));
+        background = new SimpleStringProperty(backend.getBackground().get());
         bindObservableString(background, backend.getBackground());
 
         bindObservableInteger(backend.getGenerationPoints());
@@ -228,10 +225,10 @@ public class ViewModel {
 
         bindObservableInteger(backend.getExhaustion());
 
-        size = new SimpleStringProperty(getTranslation(backend.getSize().get()));
+        size = new SimpleStringProperty(backend.getSize().get());
         bindObservableString(size, backend.getSize());
 
-        originFeat = new SimpleStringProperty(getTranslation(backend.getOriginFeat().get()));
+        originFeat = new SimpleStringProperty(backend.getOriginFeat().get());
         bindObservableString(originFeat, backend.getOriginFeat());
 
         isShortResting = new SimpleBooleanProperty(backend.isShortResting().get());
@@ -291,16 +288,16 @@ public class ViewModel {
         heroicInspiration = new SimpleBooleanProperty(backend.getHeroicInspiration().get());
         bindObservableBoolean(heroicInspiration, backend.getHeroicInspiration());
 
-        currentHealthShown = new SimpleStringProperty(getTranslation(backend.getCurrentHealthShown().get()));
+        currentHealthShown = new SimpleStringProperty(backend.getCurrentHealthShown().get());
         bindObservableString(currentHealthShown, backend.getCurrentHealthShown());
 
-        temporaryHPShown = new SimpleStringProperty(getTranslation(backend.getTemporaryHPShown().get()));
+        temporaryHPShown = new SimpleStringProperty((backend.getTemporaryHPShown().get()));
         bindObservableString(temporaryHPShown, backend.getTemporaryHPShown());
 
         maxWeaponMasteries = backend.getMaxWeaponMasteries();
         weaponMasteries = new SimpleStringProperty[maxWeaponMasteries];
         for (int i = 0; i < maxWeaponMasteries; i++) {
-            weaponMasteries[i] = new SimpleStringProperty(getTranslation(backend.getWeaponMastery(i).get()));
+            weaponMasteries[i] = new SimpleStringProperty(backend.getWeaponMastery(i).get());
             bindObservableString(weaponMasteries[i], backend.getWeaponMastery(i));
         }
 
@@ -311,13 +308,13 @@ public class ViewModel {
         spellcastingAbilities = new SimpleStringProperty[maxClasses];
 
         for (int i = 0; i < maxClasses; i++) {
-            levelsShown[i] = new SimpleStringProperty(getTranslation(backend.getLevelShown(i).get()));
+            levelsShown[i] = new SimpleStringProperty(backend.getLevelShown(i).get());
             bindObservableString(levelsShown[i], backend.getLevelShown(i));
 
-            classes[i] = new SimpleStringProperty(getTranslation(backend.getClasse(i).get()));
+            classes[i] = new SimpleStringProperty(backend.getClasse(i).get());
             bindObservableString(classes[i], backend.getClasse(i));
 
-            subclasses[i] = new SimpleStringProperty(getTranslation(backend.getSubclass(i).get()));
+            subclasses[i] = new SimpleStringProperty(backend.getSubclass(i).get());
             bindObservableString(subclasses[i], backend.getSubclass(i));
 
             bindObservableInteger(backend.getHitDie(i));
@@ -334,7 +331,7 @@ public class ViewModel {
 
             bindObservableInteger(backend.getSpellcastingSaveDC(i));
 
-            spellcastingAbilities[i] = new SimpleStringProperty(getTranslation(backend.getSpellcastingAbility(i).get()));
+            spellcastingAbilities[i] = new SimpleStringProperty(backend.getSpellcastingAbility(i).get());
             bindObservableString(spellcastingAbilities[i], backend.getSpellcastingAbility(i));
         }
 
@@ -345,13 +342,13 @@ public class ViewModel {
 
         moneysShown = new SimpleStringProperty[5];
         for (int i = 0; i < 5; i++) {
-            moneysShown[i] = new SimpleStringProperty(getTranslation(backend.getMoneyShown(i).get()));
+            moneysShown[i] = new SimpleStringProperty(backend.getMoneyShown(i).get());
             bindObservableString(moneysShown[i], backend.getMoneyShown(i));
         }
 
         selectableSizes = new StringProperty[2];
         for (int i = 0; i < 2; i++) {
-            selectableSizes[i] = new SimpleStringProperty(getTranslation(backend.getAvailableSize(i).get()));
+            selectableSizes[i] = new SimpleStringProperty(backend.getAvailableSize(i).get());
             bindObservableString(selectableSizes[i], backend.getAvailableSize(i));
         }
 
@@ -360,19 +357,19 @@ public class ViewModel {
 
         selectableLineages = new StringProperty[maxLineages];
         for (int i = 0; i < maxLineages; i++) {
-            selectableLineages[i] = new SimpleStringProperty(getTranslation(backend.getSelectableLineage(i).get()));
+            selectableLineages[i] = new SimpleStringProperty(backend.getSelectableLineage(i).get());
             bindObservableString(selectableLineages[i], backend.getSelectableLineage(i));
         }
 
         classEquipment = new StringProperty[maxSets];
         for (int i = 0; i < maxSets; i++) {
-            classEquipment[i] = new SimpleStringProperty(getTranslation(backend.getClassEquipment(i).get()));
+            classEquipment[i] = new SimpleStringProperty(backend.getClassEquipment(i).get());
             bindObservableString(classEquipment[i], backend.getClassEquipment(i));
         }
 
         backgroundEquipment = new StringProperty[maxSets];
         for (int i = 0; i < maxSets; i++) {
-            backgroundEquipment[i] = new SimpleStringProperty(getTranslation(backend.getBackgroundEquipment(i).get()));
+            backgroundEquipment[i] = new SimpleStringProperty(backend.getBackgroundEquipment(i).get());
             bindObservableString(backgroundEquipment[i], backend.getBackgroundEquipment(i));
         }
 
@@ -393,7 +390,7 @@ public class ViewModel {
         abilityPlusTwos = new BooleanProperty[abilityCount];
         savingThrowProficiencies = new BooleanProperty[abilityCount];
         for (int i = 0; i < abilityCount; i++) {
-            abilityBasesShown[i] = new SimpleStringProperty(getTranslation(backend.getAbilityBasesShown(i).get()));
+            abilityBasesShown[i] = new SimpleStringProperty(backend.getAbilityBasesShown(i).get());
             bindObservableString(abilityBasesShown[i], backend.getAbilityBasesShown(i));
             
             bindObservableInteger(backend.getAbility(i));
@@ -473,8 +470,7 @@ public class ViewModel {
         totalToolProficiencies = FXCollections.observableArrayList();
         updateList(totalToolProficiencies, backend.getTotalToolProficiencies());
 
-        choiceToolProficiencies = FXCollections.observableArrayList();
-        updateCustomList(choiceToolProficiencies, backend.getChoiceToolProficiencies());
+        updateCustomList(backend.getChoiceToolProficiencies());
 
         selectableFeats = FXCollections.observableArrayList();
         selectableFightingStyles = FXCollections.observableArrayList();
@@ -492,19 +488,18 @@ public class ViewModel {
             selectableSubclasses.add(selectableSubclass);
             updateList(selectableSubclass, backend.getSelectableSubclasses(i));
 
-            updateCustomListNoEdits(backend.getSelectableCantrips().getList().get(i));
-            updateCustomListNoEdits(backend.getSelectableSpells().getList().get(i));
+            updateCustomList(backend.getSelectableCantrips().getList().get(i));
+            updateCustomList(backend.getSelectableSpells().getList().get(i));
         }
 
         for (int i = 0; i < maxClasses; i++) {
-            updateCustomListNoEdits(backend.getCantrips().getList().get(i));
-            updateCustomListNoEdits(backend.getSpells().getList().get(i));
+            updateCustomList(backend.getCantrips().getList().get(i));
+            updateCustomList(backend.getSpells().getList().get(i));
         }
 
-        items = FXCollections.observableArrayList();
-        updateCustomListNoEdits(items, backend.getItems());
+        updateCustomList(backend.getItems());
 
-        updateCustomListNoEdits(backend.getTraits());
+        updateCustomList(backend.getTraits());
 
         maxFeats = backend.getMaxFeats();
         maxFightingStyles = backend.getMaxFightingStyles();
@@ -517,137 +512,35 @@ public class ViewModel {
             bindObservableInteger(backend.getAvailableFeats(i));
 
             for (int j = 0; j < maxFeats; j++) {
-                feats[i][j] = new SimpleStringProperty(getTranslation(backend.getFeat(i, j).get()));
+                feats[i][j] = new SimpleStringProperty(backend.getFeat(i, j).get());
                 bindObservableString(feats[i][j], backend.getFeat(i, j));
 
-                featOnes[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatOne(i, j).get()));
+                featOnes[i][j] = new SimpleStringProperty(backend.getFeatOne(i, j).get());
                 bindObservableString(featOnes[i][j], backend.getFeatOne(i, j));
 
-                featTwos[i][j] = new SimpleStringProperty(getTranslation(backend.getFeatTwo(i, j).get()));
+                featTwos[i][j] = new SimpleStringProperty(backend.getFeatTwo(i, j).get());
                 bindObservableString(featTwos[i][j], backend.getFeatTwo(i, j));
 
                 for (int k = 0; k < abilityCount; k++) {
-                    featAbilities[i][j][k] = new SimpleStringProperty(getTranslation(backend.getFeatAbility(i, j, k).get()));
+                    featAbilities[i][j][k] = new SimpleStringProperty(backend.getFeatAbility(i, j, k).get());
                     bindObservableString(featAbilities[i][j][k], backend.getFeatAbility(i, j, k));
                 }
             }
 
             for (int j = 0; j < maxFightingStyles; j++) {
-                fightingStyles[i][j] = new SimpleStringProperty(getTranslation(backend.getFightingStyle(i, j).get()));
+                fightingStyles[i][j] = new SimpleStringProperty(backend.getFightingStyle(i, j).get());
                 bindObservableString(fightingStyles[i][j], backend.getFightingStyle(i, j));
             }
         }
     }
 
-    private <T extends MyItems<T>> void updateCustomListNoEdits(CustomObservableList<T> list) {
+    private <T extends MyItems<T>> void updateCustomList(CustomObservableList<T> list) {
         list.addListener(_ -> {
             characterTab.newEdit();
-            for (T item : list.getList()) {
-                item.setName(getTranslation(item.getName()));
-            }
         });
-        for (T item : list.getList()) {
-            item.setName(getTranslation(item.getName()));
-        }
     }
 
-    private <T extends MyItems<T>> void updateCustomListNoEdits(ObservableList<T> front, CustomObservableList<T> back) {
-        AtomicBoolean updating = new AtomicBoolean(false);
-
-        java.util.function.Consumer<ObservableList<T>> updateFtB = (ObservableList<T> newValue) -> {
-            characterTab.newEdit();
-            if (!updating.compareAndSet(false, true)) return;
-            try {
-                List<T> original = new java.util.ArrayList<>();
-                for (T key : newValue) {
-                    T copy = (T) key.copy();
-                    copy.setName(getOriginal(copy.getName()));
-                    original.add(copy);
-                }
-                back.setAll(original);
-            } finally {
-                updating.set(false);
-            }
-        };
-
-        front.addListener((ListChangeListener<T>) _ -> updateFtB.accept(front));
-        
-        java.util.function.Consumer<CustomObservableList<T>> updateBtF = (CustomObservableList<T> newValue) -> {
-            if (!updating.compareAndSet(false, true)) return;
-            try {
-                List<T> translated = new java.util.ArrayList<>();
-                for (T key : newValue.getList()) {
-                    T copy = (T) key.copy();
-                    copy.setName(getTranslation(copy.getName()));
-                    translated.add(copy);
-                }
-                front.setAll(translated);
-            } finally {
-                updating.set(false);
-            }
-        };
-
-        back.addListener(newVal -> updateBtF.accept(newVal));
-        updateBtF.accept(back);
-    }
-
-    private <T extends MyItems<T>> void updateCustomList(ObservableList<T> front, CustomObservableList<T> back) {
-        AtomicBoolean updating = new AtomicBoolean(false);
-
-        java.util.function.Consumer<ObservableList<T>> updateFtB = (ObservableList<T> newValue) -> {
-            characterTab.newEdit();
-            if (!updating.compareAndSet(false, true)) return;
-            try {
-                List<T> original = new java.util.ArrayList<>();
-                for (T key : newValue) {
-                    T copy = (T) key.copy();
-                    copy.setName(getOriginal(copy.getName()));
-                    original.add(copy);
-                    copy.getNameProperty().addListener(newVal -> {
-                        key.setName(getTranslation(newVal));
-                        // System.out.println("Updated front name to: " + key.getName());
-                    });
-                    key.getNameProperty().addListener(newVal -> {
-                        characterTab.newEdit();
-                        copy.setName(getOriginal(newVal));
-                    });
-                }
-                back.setAll(original);
-            } finally {
-                updating.set(false);
-            }
-        };
-
-        front.addListener((ListChangeListener<T>) _ -> updateFtB.accept(front));
-        
-        java.util.function.Consumer<CustomObservableList<T>> updateBtF = (CustomObservableList<T> newValue) -> {
-            if (!updating.compareAndSet(false, true)) return;
-            try {
-                List<T> translated = new java.util.ArrayList<>();
-                for (T key : newValue.getList()) {
-                    T copy = (T) key.copy();
-                    copy.setName(getTranslation(copy.getName()));
-                    translated.add(copy);
-                    copy.getNameProperty().addListener(newVal -> {
-                        characterTab.newEdit();
-                        key.setName(getOriginal(newVal));
-                        // System.out.println("Updated back name to: " + key.getName());
-                    });
-                    key.getNameProperty().addListener(newVal -> {
-                        copy.setName(getTranslation(newVal));
-                    });
-                }
-                front.setAll(translated);
-            } finally {
-                updating.set(false);
-            }
-        };
-
-        back.addListener(newVal -> updateBtF.accept(newVal));
-        updateBtF.accept(back);
-        updateFtB.accept(front);
-    }
-
+    // Might need to redo this
     private void updateList(ObservableList<String> front, CustomObservableList<String> back) {
         AtomicBoolean updating = new AtomicBoolean(false);
         
@@ -657,7 +550,7 @@ public class ViewModel {
             try {
                 List<String> original = new java.util.ArrayList<>();
                 for (String key : front) {
-                    original.add(getOriginal(key));
+                    original.add(key);
                 }
                 back.setAll(original);
             } finally {
@@ -671,8 +564,8 @@ public class ViewModel {
             if (!updating.compareAndSet(false, true)) return;
             try {
                 List<String> translated = new java.util.ArrayList<>();
-                for (String key : back.asList()) {
-                    translated.add(getTranslation(key));
+                for (String key : back.getList()) {
+                    translated.add(key);
                 }
                 front.setAll(translated);
             } finally {
@@ -687,7 +580,6 @@ public class ViewModel {
     private void bindObservableItem(ObservableItem front, ObservableItem back) {
         back.addListener(_ -> {
             front.set(back.get().copy());
-            front.get().setName(getTranslation(back.get().getName()));
         });
         front.addListener(_ -> {
             characterTab.newEdit();
@@ -697,13 +589,11 @@ public class ViewModel {
 
     private void bindObservableString(StringProperty front, ObservableString back) {
         back.addListener(_ -> {
-            // System.out.println("Back changed: " + back.get() + " -> Front: " + getTranslation(back.get()));
-            front.set(getTranslation(back.get()));
+            front.set(back.get());
         });
         front.addListener(_ -> {
             characterTab.newEdit();
-            // System.out.println("Front changed: " + front.get() + " -> Back: " + getOriginal(front.get()));
-            back.set(getOriginal(front.get()));
+            back.set(front.get());
         });
     }
 
@@ -769,8 +659,8 @@ public class ViewModel {
         return backend.getSpells().getList().get(index);
     }
 
-    public ObservableList<Item> getItems() {
-        return items;
+    public CustomObservableList<Item> getItems() {
+        return backend.getItems();
     }
 
     public CustomObservableList<Trait> getTraits() {
@@ -814,7 +704,7 @@ public class ViewModel {
     }
 
     public Proficiency getChoiceToolProficiency(int index) {
-        return choiceToolProficiencies.get(index);
+        return backend.getChoiceToolProficiencies().getList().get(index);
     }
 
     public ObservableList<String> getSelectableLanguages() {
@@ -1297,15 +1187,6 @@ public class ViewModel {
 
     public BooleanProperty getSkillExpertise(int index) {
         return skillExpertises[index];
-    }
-
-
-    private String getTranslation(String key) {
-        return TranslationManager.getTranslation(key);
-    }
-
-    private String getOriginal(String key) {
-        return TranslationManager.getOriginal(key);
     }
 
 

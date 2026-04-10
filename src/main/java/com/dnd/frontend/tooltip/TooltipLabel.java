@@ -1,6 +1,7 @@
 package com.dnd.frontend.tooltip;
 
 import com.dnd.frontend.language.DefinitionManager;
+import com.dnd.frontend.language.TranslationManager;
 import com.dnd.utils.items.Item;
 import com.dnd.utils.items.Spell;
 
@@ -15,7 +16,7 @@ public class TooltipLabel extends Label {
     private String tooltipKey;
 
     public TooltipLabel(Spell spell, TabPane mainTabPane) {
-        super(spell.getName());
+        super(getTranslation(spell.getName()));
         this.mainTabPane = mainTabPane;
         tooltip = assignTooltip(spell);
         tooltipKey = spell.getName();
@@ -23,7 +24,7 @@ public class TooltipLabel extends Label {
     }
 
     public TooltipLabel(Item item, TabPane mainTabPane) {
-        super(item.getName());
+        super(getTranslation(item.getName()));
         this.mainTabPane = mainTabPane;
         tooltip = assignTooltip(item);
         tooltipKey = item.getName();
@@ -87,5 +88,9 @@ public class TooltipLabel extends Label {
 
         // Ensure the label is focusable to capture key events
         this.setFocusTraversable(true);
+    }
+
+    private static String getTranslation(String key) {
+        return TranslationManager.getTranslation(key);
     }
 }

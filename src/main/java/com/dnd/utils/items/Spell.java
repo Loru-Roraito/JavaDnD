@@ -4,8 +4,7 @@ import com.dnd.backend.SpellManager;
 import com.dnd.utils.observables.ObservableString;
 
 public class Spell implements MyItems<Spell> {
-    private final ObservableString name; // Display name
-    private final String nominative; // Original name, used as key in data files
+    private final ObservableString name;
     private final String school;
     private final String timeSpan;
     private final String durationSpan;
@@ -35,7 +34,7 @@ public class Spell implements MyItems<Spell> {
 
     @Override
     public Spell copy() {
-        return new Spell(nominative, prepare, focus, ability, limited);
+        return new Spell(name.get(), prepare, focus, ability, limited);
     }
 
     @Override
@@ -44,7 +43,6 @@ public class Spell implements MyItems<Spell> {
     }
 
     public Spell(String nominative, String prepare, String[] focus, int ability, Boolean limited) {
-        this.nominative = nominative;
         name = new ObservableString(nominative);
         this.prepare = prepare;
         this.focus = focus;
@@ -73,7 +71,7 @@ public class Spell implements MyItems<Spell> {
                 }
             }
         }
-        return nominative.equals(other.nominative)
+        return name.get().equals(other.name.get())
             && prepare.equals(other.prepare)
             && ability == other.ability
             && limited.equals(other.limited)
@@ -81,7 +79,7 @@ public class Spell implements MyItems<Spell> {
     }
 
     public String getNominative() {
-        return nominative;
+        return name.get();
     }
 
     public String getPrepare() {

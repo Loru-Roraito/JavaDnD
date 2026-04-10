@@ -213,7 +213,7 @@ public class CharacterSerializer {
             }
             
             // Skills
-            data.skillSources = character.getSkillSources().asList().stream()
+            data.skillSources = character.getSkillSources().getList().stream()
                 .map(p -> new ProficiencyData(p.getName(), p.getStrings()))
                 .toArray(ProficiencyData[]::new);
 
@@ -290,29 +290,29 @@ public class CharacterSerializer {
             data.heroicInspiration = character.getHeroicInspiration().get();
             
             // Proficiencies
-            data.choiceToolProficiencies = character.getChoiceToolProficiencies().asList().stream()
+            data.choiceToolProficiencies = character.getChoiceToolProficiencies().getList().stream()
                 .map(p -> new ProficiencyData(p.getName(), p.getStrings()))
                 .toArray(ProficiencyData[]::new);
 
             // Items
-            data.items = character.getItems().asList().stream()
+            data.items = character.getItems().getList().stream()
                 .map(i -> new ItemData(i.getName()))
                 .toArray(ItemData[]::new);
 
 
-            data.traits = character.getTraits().asList().stream()
+            data.traits = character.getTraits().getList().stream()
                 .map(t -> new TraitData(t.getNominative(), t.getLevel().get(), t.getChargesLeft().get()))
                 .toArray(TraitData[]::new);
 
             // Spells
             data.spells = character.getSpells().getList().stream()
-                .map(spellList -> spellList.asList().stream()
+                .map(spellList -> spellList.getList().stream()
                     .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
                     .toArray(SpellData[]::new))
                 .toArray(SpellData[][]::new);
             
             data.cantrips = character.getCantrips().getList().stream()
-                .map(cantripList -> cantripList.asList().stream()
+                .map(cantripList -> cantripList.getList().stream()
                     .map(s -> new SpellData(s.getNominative(), s.getPrepare(), s.getFocus(), s.getAbility(), s.getLimited()))
                     .toArray(SpellData[]::new))
                 .toArray(SpellData[][]::new);

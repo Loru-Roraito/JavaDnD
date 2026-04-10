@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dnd.backend.GameCharacter;
+import com.dnd.backend.GroupManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.Constants;
 import com.dnd.frontend.language.DefinitionManager;
-import com.dnd.frontend.language.MiscsManager;
+import com.dnd.frontend.language.DescriptionManager;
 import com.dnd.frontend.language.TranslationManager;
 import com.dnd.frontend.tabs.CharacterTab;
 
@@ -41,7 +42,7 @@ public class App extends Application {
         
         TranslationManager.initialize(language); // Change the language (relevant files need to be present in resources)
         DefinitionManager.initialize(language);
-        MiscsManager.initialize(language);
+        DescriptionManager.initialize(language);
         Constants.initialize(language);
         BorderPane root = new BorderPane();
 
@@ -156,17 +157,26 @@ public class App extends Application {
     private String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
     }
+
+    private String[] getStrings (String[] key) {
+        return GroupManager.getInstance().getStrings(key);
+    }
+
+    private String getString (String[] key) {
+        return GroupManager.getInstance().getString(key);
+    }
     
     private String showLanguageDialog() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Language / Lingua");
         alert.setHeaderText("Select your language / Seleziona la lingua");
         
-        ButtonType englishButton = new ButtonType("English");
-        ButtonType italianButton = new ButtonType("Italiano");
+        for (String language : getStrings(new String[] {"languages"})) {
+            ButtonType buttonType = new ButtonType(language);
+            alert.getButtonTypes().add(buttonType);
+        }
         ButtonType cancelButton = new ButtonType("", ButtonBar.ButtonData.CANCEL_CLOSE);
-        
-        alert.getButtonTypes().setAll(englishButton, italianButton, cancelButton);
+        alert.getButtonTypes().add(cancelButton);
     
         // Hide the cancel button so only the X on the title bar works
         alert.getDialogPane().lookupButton(cancelButton).setVisible(false);
@@ -177,9 +187,6 @@ public class App extends Application {
         if (result.isEmpty() || result.get() == cancelButton) {
             return null;
         }
-        if (result.get() == italianButton) {
-            return "it";
-        }
-        return "en";
+        return getString(new String[] {"languages", result.get().getText()});
     }
 }

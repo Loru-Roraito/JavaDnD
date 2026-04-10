@@ -8,7 +8,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -27,8 +27,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -47,11 +47,11 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -70,8 +70,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "RANGER",
-      "WIZARD"
+      "CLASS_RANGER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -90,8 +90,8 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -110,9 +110,9 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -131,9 +131,9 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": true,
@@ -152,7 +152,7 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -171,8 +171,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -191,9 +191,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -212,7 +212,7 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -231,8 +231,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -251,7 +251,7 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -270,8 +270,8 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -290,7 +290,7 @@
     "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -309,8 +309,8 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -329,7 +329,7 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -348,9 +348,9 @@
     "durationSpan": "DISPELLED",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -369,9 +369,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -390,8 +390,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -410,8 +410,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -430,9 +430,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WARLOCK"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WARLOCK"
     ],
     "concentration": true,
     "ritual": false,
@@ -451,11 +451,11 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -474,8 +474,8 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -494,7 +494,7 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -513,10 +513,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -535,9 +535,9 @@
     "durationSpan": "MINUTE",
     "school": "NECROMANCY",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -556,7 +556,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -575,7 +575,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -594,8 +594,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -614,10 +614,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -636,10 +636,10 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -658,8 +658,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -678,8 +678,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -698,7 +698,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -717,8 +717,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "CLERIC"
+      "CLASS_BARD",
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -737,8 +737,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -757,11 +757,11 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -780,11 +780,11 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -803,9 +803,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -824,8 +824,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -844,9 +844,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -865,10 +865,10 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -887,8 +887,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -907,9 +907,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -928,9 +928,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "PALADIN"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -949,7 +949,7 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": true,
@@ -968,8 +968,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": true,
@@ -988,10 +988,10 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -1010,7 +1010,7 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD"
+      "CLASS_BARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1029,9 +1029,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1050,10 +1050,10 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1072,8 +1072,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -1092,7 +1092,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -1111,8 +1111,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1131,7 +1131,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -1150,8 +1150,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1170,8 +1170,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -1190,8 +1190,8 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -1210,8 +1210,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -1230,7 +1230,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1249,9 +1249,9 @@
     "durationSpan": "DISPELLED",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1270,9 +1270,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1291,8 +1291,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -1311,8 +1311,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -1331,9 +1331,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1352,8 +1352,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1372,11 +1372,11 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -1395,9 +1395,9 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1416,9 +1416,9 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1437,10 +1437,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1459,11 +1459,11 @@
     "durationSpan": "HOUR",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER",
-      "SORCERER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_SORCERER"
     ],
     "concentration": false,
     "ritual": false,
@@ -1482,8 +1482,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -1502,8 +1502,8 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1522,9 +1522,9 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1543,8 +1543,8 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -1563,14 +1563,14 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": true,
@@ -1589,10 +1589,10 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": true,
@@ -1611,9 +1611,9 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1632,10 +1632,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1654,9 +1654,9 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1675,8 +1675,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1695,8 +1695,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -1715,14 +1715,14 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1741,7 +1741,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD"
+      "CLASS_BARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1760,9 +1760,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -1781,7 +1781,7 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "PALADIN"
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -1800,7 +1800,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "PALADIN"
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -1819,7 +1819,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -1838,9 +1838,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER"
     ],
     "concentration": true,
     "ritual": false,
@@ -1859,10 +1859,10 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1881,9 +1881,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1902,8 +1902,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -1922,9 +1922,9 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -1934,7 +1934,7 @@
       true
     ]
   },
-  "SPELL_DRUIDCRAFT": {
+  "SPELL_CLASS_DRUIDCRAFT": {
     "level": 0,
     "range": 30,
     "time": 1,
@@ -1943,7 +1943,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -1962,9 +1962,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER"
     ],
     "concentration": true,
     "ritual": false,
@@ -1983,7 +1983,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "WARLOCK"
+      "CLASS_WARLOCK"
     ],
     "concentration": false,
     "ritual": false,
@@ -2002,9 +2002,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2023,12 +2023,12 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2047,10 +2047,10 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2069,7 +2069,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "RANGER"
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -2088,8 +2088,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -2108,8 +2108,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "WARLOCK"
+      "CLASS_BARD",
+      "CLASS_WARLOCK"
     ],
     "concentration": true,
     "ritual": false,
@@ -2128,11 +2128,11 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2151,9 +2151,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2172,10 +2172,10 @@
     "durationSpan": "MINUTE",
     "school": "NECROMANCY",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2194,7 +2194,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2213,7 +2213,7 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2232,8 +2232,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2252,10 +2252,10 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2274,9 +2274,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2295,7 +2295,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -2314,7 +2314,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "PALADIN"
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -2333,9 +2333,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -2354,9 +2354,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "RANGER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -2375,9 +2375,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2396,8 +2396,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2416,8 +2416,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2436,9 +2436,9 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2457,9 +2457,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER"
     ],
     "concentration": false,
     "ritual": false,
@@ -2478,8 +2478,8 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER"
+      "CLASS_DRUID",
+      "CLASS_SORCERER"
     ],
     "concentration": true,
     "ritual": false,
@@ -2498,7 +2498,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -2517,9 +2517,9 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2538,9 +2538,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2559,7 +2559,7 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -2578,9 +2578,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2599,10 +2599,10 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2621,7 +2621,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": true,
@@ -2640,9 +2640,9 @@
     "durationSpan": "HOUR",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2661,10 +2661,10 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2683,10 +2683,10 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -2705,8 +2705,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2725,9 +2725,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2746,10 +2746,10 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2768,11 +2768,11 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2791,9 +2791,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "PALADIN",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -2812,8 +2812,8 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "WARLOCK"
+      "CLASS_BARD",
+      "CLASS_WARLOCK"
     ],
     "concentration": false,
     "ritual": false,
@@ -2832,8 +2832,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2852,9 +2852,9 @@
     "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2873,8 +2873,8 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -2893,8 +2893,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2913,9 +2913,9 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -2934,8 +2934,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -2954,8 +2954,8 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -2974,7 +2974,7 @@
     "durationSpan": "ROUND",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -2993,10 +2993,10 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3015,7 +3015,7 @@
     "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -3034,10 +3034,10 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3056,7 +3056,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -3075,8 +3075,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3095,8 +3095,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -3115,9 +3115,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -3136,8 +3136,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -3156,7 +3156,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "WARLOCK"
+      "CLASS_WARLOCK"
     ],
     "concentration": false,
     "ritual": false,
@@ -3175,9 +3175,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -3196,8 +3196,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "PALADIN"
+      "CLASS_BARD",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -3216,7 +3216,7 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "WARLOCK"
+      "CLASS_WARLOCK"
     ],
     "concentration": true,
     "ritual": false,
@@ -3235,9 +3235,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3256,10 +3256,10 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3278,7 +3278,7 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -3297,7 +3297,7 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "RANGER"
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -3316,10 +3316,10 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3338,9 +3338,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3359,9 +3359,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3380,8 +3380,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -3400,9 +3400,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -3421,9 +3421,9 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3442,7 +3442,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -3461,9 +3461,9 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER"
     ],
     "concentration": true,
     "ritual": false,
@@ -3482,7 +3482,7 @@
     "durationSpan": "DISPELLED",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -3501,8 +3501,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3521,10 +3521,10 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3543,10 +3543,10 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3565,9 +3565,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3586,9 +3586,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3607,11 +3607,11 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -3630,8 +3630,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3650,10 +3650,10 @@
     "durationSpan": "HOUR",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3672,8 +3672,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3692,9 +3692,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": true,
@@ -3713,12 +3713,12 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3737,12 +3737,12 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3761,10 +3761,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3783,8 +3783,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3803,10 +3803,10 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3825,10 +3825,10 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3847,7 +3847,7 @@
     "durationSpan": "DISPELLED",
     "school": "NECROMANCY",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3866,8 +3866,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3886,8 +3886,8 @@
     "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -3906,10 +3906,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "PALADIN",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_PALADIN",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3928,8 +3928,8 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -3948,10 +3948,10 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -3970,9 +3970,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -3991,7 +3991,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -4010,9 +4010,9 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4031,7 +4031,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4050,9 +4050,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "RANGER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": true,
@@ -4071,11 +4071,11 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4094,10 +4094,10 @@
     "durationSpan": "ROUND",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4116,8 +4116,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4136,8 +4136,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4156,9 +4156,9 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4177,10 +4177,10 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4199,9 +4199,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4220,10 +4220,10 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4242,9 +4242,9 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4263,9 +4263,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4284,8 +4284,8 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4304,7 +4304,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -4323,9 +4323,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4344,9 +4344,9 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "RANGER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_RANGER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4365,7 +4365,7 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4384,8 +4384,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -4404,9 +4404,9 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4425,8 +4425,8 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4445,7 +4445,7 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -4464,7 +4464,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -4483,11 +4483,11 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4506,11 +4506,11 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4529,9 +4529,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -4550,10 +4550,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4572,10 +4572,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4594,10 +4594,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4616,10 +4616,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4638,8 +4638,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -4658,10 +4658,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4680,9 +4680,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4701,8 +4701,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4721,7 +4721,7 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4740,7 +4740,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -4759,8 +4759,8 @@
     "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4779,8 +4779,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4799,11 +4799,11 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4822,11 +4822,11 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4845,10 +4845,10 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -4867,9 +4867,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": true,
@@ -4888,9 +4888,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "PALADIN"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -4909,8 +4909,8 @@
     "durationSpan": "MINUTE",
     "school": "NECROMANCY",
     "lists": [
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -4929,8 +4929,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4949,9 +4949,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -4970,8 +4970,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -4990,10 +4990,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5012,7 +5012,7 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5031,8 +5031,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -5051,8 +5051,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "BARD",
-      "CLERIC"
+      "CLASS_BARD",
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -5071,9 +5071,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5092,10 +5092,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "PALADIN",
-      "RANGER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_PALADIN",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -5114,7 +5114,7 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5133,7 +5133,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -5152,7 +5152,7 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -5171,8 +5171,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5191,11 +5191,11 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5214,7 +5214,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "PALADIN"
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -5233,7 +5233,7 @@
     "durationSpan": "DISPELLED",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5252,9 +5252,9 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5273,9 +5273,9 @@
     "durationSpan": "HOUR",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5294,9 +5294,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5315,7 +5315,7 @@
     "durationSpan": "DISPELLED",
     "school": "TRANSMUTATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5334,8 +5334,8 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5354,9 +5354,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5375,8 +5375,8 @@
     "durationSpan": "ROUND",
     "school": "ABJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5395,8 +5395,8 @@
     "durationSpan": "MINUTE",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -5415,7 +5415,7 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -5434,7 +5434,7 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "PALADIN"
+      "CLASS_PALADIN"
     ],
     "concentration": true,
     "ritual": false,
@@ -5453,8 +5453,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5473,9 +5473,9 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": true,
@@ -5494,9 +5494,9 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5515,7 +5515,7 @@
     "durationSpan": "DISPELLED",
     "school": "ILLUSION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5534,9 +5534,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5555,9 +5555,9 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5576,9 +5576,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5597,7 +5597,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER"
+      "CLASS_SORCERER"
     ],
     "concentration": false,
     "ritual": false,
@@ -5616,8 +5616,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -5636,10 +5636,10 @@
     "durationSpan": "MINUTE",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER",
-      "WARLOCK"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_WARLOCK"
     ],
     "concentration": false,
     "ritual": true,
@@ -5658,9 +5658,9 @@
     "durationSpan": "MINUTE",
     "school": "NECROMANCY",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5679,9 +5679,9 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "RANGER"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": false,
     "ritual": false,
@@ -5700,9 +5700,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5721,8 +5721,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -5741,7 +5741,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -5760,7 +5760,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": true,
     "ritual": false,
@@ -5779,8 +5779,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "DRUID"
+      "CLASS_BARD",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -5799,9 +5799,9 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5820,9 +5820,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5841,10 +5841,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5863,7 +5863,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -5882,10 +5882,10 @@
     "durationSpan": "HOUR",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5904,7 +5904,7 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5923,10 +5923,10 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -5945,10 +5945,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5967,10 +5967,10 @@
     "durationSpan": "DISPELLED",
     "school": "ABJURATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "DRUID",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -5989,8 +5989,8 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6009,8 +6009,8 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -6029,9 +6029,9 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6050,10 +6050,10 @@
     "durationSpan": "ROUND",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6072,7 +6072,7 @@
     "durationSpan": "MINUTE",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -6091,10 +6091,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6113,8 +6113,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "TRANSMUTATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6133,8 +6133,8 @@
     "durationSpan": "HOUR",
     "school": "EVOCATION",
     "lists": [
-      "BARD",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -6153,11 +6153,11 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6176,7 +6176,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -6195,8 +6195,8 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -6215,9 +6215,9 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6236,8 +6236,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "NECROMANCY",
     "lists": [
-      "CLERIC",
-      "DRUID"
+      "CLASS_CLERIC",
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -6256,11 +6256,11 @@
     "durationSpan": "HOUR",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6279,10 +6279,10 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "DIVINATION",
     "lists": [
-      "BARD",
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6301,7 +6301,7 @@
     "durationSpan": "ROUND",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -6320,9 +6320,9 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "BARD",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_BARD",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -6341,9 +6341,9 @@
     "durationSpan": "MINUTE",
     "school": "NECROMANCY",
     "lists": [
-      "SORCERER",
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6362,7 +6362,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD"
+      "CLASS_BARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6381,8 +6381,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "EVOCATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6401,9 +6401,9 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6422,7 +6422,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6441,7 +6441,7 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "WIZARD"
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6460,9 +6460,9 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6481,7 +6481,7 @@
     "durationSpan": "MINUTE",
     "school": "CONJURATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": true,
     "ritual": false,
@@ -6500,8 +6500,8 @@
     "durationSpan": "HOUR",
     "school": "ABJURATION",
     "lists": [
-      "CLERIC",
-      "PALADIN"
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,
@@ -6520,10 +6520,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID",
-      "RANGER",
-      "SORCERER",
-      "WIZARD"
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": true,
@@ -6542,10 +6542,10 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "CLERIC",
-      "DRUID",
-      "RANGER",
-      "SORCERER"
+      "CLASS_CLERIC",
+      "CLASS_DRUID",
+      "CLASS_RANGER",
+      "CLASS_SORCERER"
     ],
     "concentration": false,
     "ritual": true,
@@ -6564,8 +6564,8 @@
     "durationSpan": "HOUR",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6584,8 +6584,8 @@
     "durationSpan": "MINUTE",
     "school": "ILLUSION",
     "lists": [
-      "WARLOCK",
-      "WIZARD"
+      "CLASS_WARLOCK",
+      "CLASS_WIZARD"
     ],
     "concentration": true,
     "ritual": false,
@@ -6604,7 +6604,7 @@
     "durationSpan": "HOUR",
     "school": "TRANSMUTATION",
     "lists": [
-      "DRUID"
+      "CLASS_DRUID"
     ],
     "concentration": false,
     "ritual": false,
@@ -6623,8 +6623,8 @@
     "durationSpan": "MINUTE",
     "school": "EVOCATION",
     "lists": [
-      "DRUID",
-      "RANGER"
+      "CLASS_DRUID",
+      "CLASS_RANGER"
     ],
     "concentration": true,
     "ritual": false,
@@ -6643,8 +6643,8 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "SORCERER",
-      "WIZARD"
+      "CLASS_SORCERER",
+      "CLASS_WIZARD"
     ],
     "concentration": false,
     "ritual": false,
@@ -6663,7 +6663,7 @@
     "durationSpan": "INSTANTANEOUS",
     "school": "CONJURATION",
     "lists": [
-      "CLERIC"
+      "CLASS_CLERIC"
     ],
     "concentration": false,
     "ritual": false,
@@ -6682,9 +6682,9 @@
     "durationSpan": "MINUTE",
     "school": "ENCHANTMENT",
     "lists": [
-      "BARD",
-      "CLERIC",
-      "PALADIN"
+      "CLASS_BARD",
+      "CLASS_CLERIC",
+      "CLASS_PALADIN"
     ],
     "concentration": false,
     "ritual": false,

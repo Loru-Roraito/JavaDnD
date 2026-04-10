@@ -5,7 +5,6 @@ import com.dnd.utils.observables.ObservableString;
 
 public class Item implements MyItems<Item> {
     private final ObservableString name;
-    private final String nominative;
     // private final int cost;
     // private final int weight;
     // private final String currency;
@@ -46,7 +45,7 @@ public class Item implements MyItems<Item> {
 
     @Override
     public Item copy() {
-        return new Item(nominative);
+        return new Item(name.get());
     }
 
     @Override
@@ -55,7 +54,6 @@ public class Item implements MyItems<Item> {
     }
 
     public Item(String nominative) {
-        this.nominative = nominative;
         name = new ObservableString(nominative);
 
         type = getString(new String[] {nominative, "type"});
@@ -87,7 +85,7 @@ public class Item implements MyItems<Item> {
     }
 
     public String getNominative() {
-        return nominative;
+        return name.get();
     }
 
     public String getType() {
@@ -155,7 +153,7 @@ public class Item implements MyItems<Item> {
     }
 
     public Boolean equals(Item other) {
-        return nominative.toLowerCase().equals(other.nominative.toLowerCase());
+        return name.get().toLowerCase().equals(other.name.get().toLowerCase());
     }
 
     private String getString(String[] group) {

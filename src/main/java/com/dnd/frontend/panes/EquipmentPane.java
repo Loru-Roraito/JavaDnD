@@ -18,7 +18,6 @@ import com.dnd.utils.items.Item;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
@@ -123,7 +122,7 @@ public class EquipmentPane extends GridPane {
 
         Runnable selectBackgroundEquipment = () -> {            
             String newVal = character.getBackgroundEquipment(0).get();
-            if(newVal.equals(getTranslation("RANDOM"))) {
+            if(newVal.equals("RANDOM")) {
                 backgroundEquipment.setValue(getTranslation("RANDOM"));
             } else if (newVal.equals(character.getBackground().get())) {
                 backgroundEquipment.setValue(textBackground);
@@ -134,21 +133,21 @@ public class EquipmentPane extends GridPane {
         
         Runnable updateBackgroundEquipment = () -> {
             String currentBackground = character.getBackground().get();
-            if (currentBackground.equals(getTranslation("RANDOM")) || currentBackground.equals(getTranslation("NONE"))) {
+            if (currentBackground.equals("RANDOM") || currentBackground.equals("NONE")) {
                 if(getChildren().contains(backgroundEquipment)) {
                     getChildren().remove(backgroundEquipment);
                     backgroundEquipments.clear();
-                    backgroundEquipments.add(getTranslation("RANDOM"));
+                    backgroundEquipments.add("RANDOM");
                 }
             } else {
                 if (!getChildren().contains(backgroundEquipment)) {
                     add(backgroundEquipment, 0, 1);
                 } else {
                     backgroundEquipments.clear();
-                    backgroundEquipments.add(getTranslation("RANDOM"));
+                    backgroundEquipments.add("RANDOM");
                 }
-                textBackground = getTranslation("EQUIPMENT_OF") + " " + currentBackground;
-                goldBackground = String.valueOf(getInt(new String[] {"backgrounds", getOriginal(currentBackground), "gold"})) + " " + getTranslation("GOLD");
+                textBackground = getTranslation("EQUIPMENT_OF") + " " + getTranslation(currentBackground);
+                goldBackground = String.valueOf(getInt(new String[] {"backgrounds", currentBackground, "gold"})) + " " + getTranslation("GOLD");
                 backgroundEquipments.add(textBackground);
                 backgroundEquipments.add(goldBackground);
             }
@@ -171,13 +170,13 @@ public class EquipmentPane extends GridPane {
             }
             backgroundComboBoxes.clear();
             if (newVal != null) {
-                if (newVal.equals(getTranslation("RANDOM"))) {
+                if (newVal.equals("RANDOM")) {
                     character.getBackgroundEquipment(0).set(newVal);
                 } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + " " + character.getBackground().get())) {
                     String background = character.getBackground().get();
                     character.getBackgroundEquipment(0).set(background);
                     
-                    String[] equips = getStrings(new String[] {"backgrounds", getOriginal(background), "equipment"});
+                    String[] equips = getStrings(new String[] {"backgrounds", background, "equipment"});
                     for (String equip : equips) {
                         if (Arrays.asList(sets).contains(equip)) {
                             String[] set = getTranslations(getStrings(new String[] {"sets", equip}));
@@ -186,7 +185,6 @@ public class EquipmentPane extends GridPane {
                             TooltipComboBox comboBox = new TooltipComboBox(items, mainTabPane);
                             comboBox.managedProperty().bind(character.isGenerator());
                             comboBox.visibleProperty().bind(character.isGenerator());
-                            comboBox.setPromptText(getTranslation("RANDOM"));
                             backgroundComboBoxes.add(comboBox);
                             int index = backgroundComboBoxes.size();
                             add(comboBox, index, 1);
@@ -214,7 +212,7 @@ public class EquipmentPane extends GridPane {
 
         Runnable selectClassEquipment = () -> {
             String newVal = character.getClassEquipment(0).get();
-            if(newVal.equals(getTranslation("RANDOM"))) {
+            if(newVal.equals("RANDOM")) {
                 classEquipment.setValue(getTranslation("RANDOM"));
             } else if (newVal.equals(character.getClasse(0).get())) {
                 classEquipment.setValue(textClass);
@@ -225,7 +223,7 @@ public class EquipmentPane extends GridPane {
 
         Runnable updateClassEquipment = () -> {
             String currentClass = character.getClasse(0).get();
-            if (currentClass.equals(getTranslation("RANDOM")) || currentClass.equals(getTranslation("NONE"))) {
+            if (currentClass.equals("RANDOM") || currentClass.equals("NONE")) {
                 if(getChildren().contains(classEquipment)) {
                     getChildren().remove(classEquipment);
                     classEquipments.clear();
@@ -239,7 +237,7 @@ public class EquipmentPane extends GridPane {
                     classEquipments.add(getTranslation("RANDOM"));
                 }
                 textClass = getTranslation("EQUIPMENT_OF") + " " + getTranslation(currentClass);
-                goldClass = String.valueOf(getInt(new String[] {"classes", getOriginal(currentClass), "gold"})) + " " + getTranslation("GOLD");
+                goldClass = String.valueOf(getInt(new String[] {"classes", currentClass, "gold"})) + " " + getTranslation("GOLD");
                 classEquipments.add(textClass);
                 classEquipments.add(goldClass);
             }
@@ -262,13 +260,13 @@ public class EquipmentPane extends GridPane {
             }
             classComboBoxes.clear();
             if (newVal != null) {
-                if (newVal.equals(getTranslation("RANDOM"))) {
+                if (newVal.equals("RANDOM")) {
                     character.getClassEquipment(0).set(newVal);
-                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + " " + character.getClasse(0).get())) {
+                } else if (newVal.equals(getTranslation("EQUIPMENT_OF") + " " + getTranslation(character.getClasse(0).get()))) {
                     String classe = character.getClasse(0).get();
                     character.getClassEquipment(0).set(character.getClasse(0).get());
 
-                    String[] equips = getStrings(new String[] {"classes", getOriginal(classe), "equipment"});
+                    String[] equips = getStrings(new String[] {"classes", classe, "equipment"});
                     for (String equip : equips) {
                         if (Arrays.asList(sets).contains(equip)) {
                             String[] set = getTranslations(getStrings(new String[] {"sets", equip}));
@@ -277,7 +275,6 @@ public class EquipmentPane extends GridPane {
                             TooltipComboBox comboBox = new TooltipComboBox(items, mainTabPane);
                             comboBox.managedProperty().bind(character.isGenerator());
                             comboBox.visibleProperty().bind(character.isGenerator());
-                            comboBox.setPromptText(getTranslation("RANDOM"));
                             classComboBoxes.add(comboBox);
                             int index = classComboBoxes.size();
                             add(comboBox, index, 2);
@@ -299,7 +296,7 @@ public class EquipmentPane extends GridPane {
         Runnable updateItems = () -> {
             Map<Item, IntegerProperty> itemQuantities = new HashMap<>();
             itemsBox.getChildren().clear();
-            for (Item item : character.getItems()) {
+            for (Item item : character.getItems().getList()) {
                 boolean itemPresent = false;
                 for (Item myItem : itemQuantities.keySet()) {
                     if (myItem.equals(item)) {
@@ -455,12 +452,12 @@ public class EquipmentPane extends GridPane {
 
                     quantityProperty.addListener((_, _, newVal) -> {
                         if (newVal.intValue() > 1) {
-                            itemLabel.setText(newVal.intValue() + "x " + item.getName());
+                            itemLabel.setText(newVal.intValue() + "x " + getTranslation(item.getName()));
                             if (type.equals("WEAPON") && Arrays.asList(properties).contains("LIGHT")) {
                                 off.setVisible(true);
                             }
                         } else {
-                            itemLabel.setText(item.getName());
+                            itemLabel.setText(getTranslation(item.getName()));
                         }
                     });
 
@@ -495,7 +492,7 @@ public class EquipmentPane extends GridPane {
             }
         };
         updateItems.run();
-        character.getItems().addListener((ListChangeListener<Item>) _ -> {
+        character.getItems().addListener((_) -> {
             updateItems.run();
         });
         add(itemsBox, 0, 3);

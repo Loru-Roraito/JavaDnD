@@ -37,10 +37,6 @@ public class CustomObservableList<T> {
         return items.size();
     }
 
-    public List<T> asList() {
-        return new ArrayList<>(items);
-    }
-
     public void addListener(Consumer<CustomObservableList<T>> listener) {
         listeners.add(listener);
     }

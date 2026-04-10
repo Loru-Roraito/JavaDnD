@@ -26,7 +26,7 @@ public class AbilitiesPane extends GridPane {
     private final TabPane mainTabPane;
     private final InfoTab infoTab;
     private final GridPane abilitiesSection = new GridPane();
-    private final String[] abilityNames = getTranslations(getStrings(new String[] {"abilities"}));
+    private final String[] abilityNames = getStrings(new String[] {"abilities"});
     private final List<TooltipComboBox> comboBoxes = new ArrayList<>();
     private final List<Button> minuses = new ArrayList<>();
     private final List<Label> labels = new ArrayList<>();
@@ -75,7 +75,7 @@ public class AbilitiesPane extends GridPane {
             String ability = abilityNames[i];
 
             // Ability name
-            abilitiesSection.add(new TooltipLabel(ability, mainTabPane), 0, i); // Column 0, Row i
+            abilitiesSection.add(new TooltipLabel(getTranslation(ability), mainTabPane), 0, i); // Column 0, Row i
 
             // Checkboxes for +1 and +2 bonuses
             CheckBox bonusOne = new CheckBox();
@@ -136,7 +136,6 @@ public class AbilitiesPane extends GridPane {
 
             // Add the ComboBox to the list
             comboBoxes.add(comboBox);
-            comboBox.setPromptText(getTranslation("RANDOM"));
 
             Button minus = new Button("-");
             minuses.add(minus);
@@ -168,7 +167,7 @@ public class AbilitiesPane extends GridPane {
 
             button.setOnAction(_ -> {
                 String currentValue = button.getText();
-                if (currentValue.equals(getTranslation("RANDOM"))) {
+                if (currentValue.equals("RANDOM")) {
                     int result = rollFourDropLowest();
                     button.setText(String.valueOf(result));
                 } else {
@@ -204,7 +203,7 @@ public class AbilitiesPane extends GridPane {
             Button button = buttons.get(i);
             TextField custom = customs.get(i);
 
-            if (generationType.equals(getTranslation("STANDARD_ARRAY"))) {
+            if (generationType.equals("STANDARD_ARRAY")) {
                 comboBox.valueProperty().bindBidirectional(character.getAbilityBaseShown(i));
 
                 abilitiesSection.add(comboBox, 3, i); // Column 3, Row i
@@ -214,7 +213,7 @@ public class AbilitiesPane extends GridPane {
                 abilitiesSection.getChildren().remove(comboBox);
             }
 
-            if (generationType.equals(getTranslation("POINT_BUY"))) {
+            if (generationType.equals("POINT_BUY")) {
                 abilitiesSection.add(minus, 3, i);
                 abilitiesSection.add(label, 4, i);
                 abilitiesSection.add(plus, 5, i);
@@ -224,7 +223,7 @@ public class AbilitiesPane extends GridPane {
                 abilitiesSection.getChildren().remove(plus);
             }
 
-            if (generationType.equals(getTranslation("CUSTOM"))) {
+            if (generationType.equals("CUSTOM")) {
                 abilitiesSection.add(custom, 3, i);
                 custom.textProperty().bindBidirectional(character.getAbilityBaseShown(i));
             } else {
@@ -233,7 +232,7 @@ public class AbilitiesPane extends GridPane {
                 custom.textProperty().set("10"); // Clear the text field
             }
 
-            if (generationType.equals(getTranslation("RANDOM"))) {
+            if (generationType.equals("RANDOM")) {
                 button.setText(getTranslation("RANDOM"));
 
                 abilitiesSection.add(button, 3, i); // Column 3, Row i
@@ -242,7 +241,7 @@ public class AbilitiesPane extends GridPane {
             }
         }
 
-        if (generationType.equals(getTranslation("POINT_BUY"))) {
+        if (generationType.equals("POINT_BUY")) {
             abilitiesSection.add(points, 0, 6);
             points.textProperty().bind(
                 Bindings.concat(getTranslation("POINTS"), ": ", character.getGenerationPoints().get())
@@ -254,7 +253,7 @@ public class AbilitiesPane extends GridPane {
 
     private void setupSkills(GridPane skillsArea) {
         // Fetch the skills
-        String[] skillNames = getTranslations(getStrings(new String[] {"skills"}));
+        String[] skillNames = getStrings(new String[] {"skills"});
 
         for (int i = 0; i < skillNames.length; i++) {
             int index = i; // Capture the index for use in the lambda
@@ -262,7 +261,7 @@ public class AbilitiesPane extends GridPane {
             String skill = skillNames[i];
 
             // Skill name
-            TooltipLabel label = new TooltipLabel(skill, mainTabPane);
+            TooltipLabel label = new TooltipLabel(getTranslation(skill), mainTabPane);
             skillsArea.add(label, 0, i); // Column 0, Row i
 
             // Checkboxes for proficiency and expertise
@@ -290,7 +289,7 @@ public class AbilitiesPane extends GridPane {
             });
 
             // Add a listener to the button to roll
-            boolean isStealth = skill.equals(getTranslation("STEALTH"));
+            boolean isStealth = skill.equals("STEALTH");
             rollButton.setOnAction(_ -> {
                 infoTab.throwDie(1, 20, character.getSkillModifier(index).get(), false,
                     character.getPoisoned().get() || (isStealth && character.getArmor().get().getStealth()),
@@ -307,7 +306,7 @@ public class AbilitiesPane extends GridPane {
             String savingThrow = abilityNames[i];
             
             // Saving throw name
-            TooltipLabel label = new TooltipLabel(savingThrow, mainTabPane);
+            TooltipLabel label = new TooltipLabel(getTranslation(savingThrow), mainTabPane);
             savingThrowsArea.add(label, 0, i); // Column 0, Row i
     
             // Checkboxes for proficiency and specialty
@@ -349,10 +348,6 @@ public class AbilitiesPane extends GridPane {
     // Helper method to get translations
     private String getTranslation(String key) {
         return TranslationManager.getTranslation(key);
-    }
-
-    private String[] getTranslations(String[] key) {
-        return TranslationManager.getTranslations(key);
     }
 
     private String[] getStrings(String[] key) {

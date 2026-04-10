@@ -84,15 +84,46 @@
     "VEX"
   ],
 
+  "weapon_properties": [
+    "AMMUNITION",
+    "FINESSE",
+    "HEAVY",
+    "LIGHT",
+    "LOADING",
+    "REACH",
+    "THROWN",
+    "TWO_HANDED",
+    "VERSATILE"
+  ],
+
+  "weapon_attributes": [
+    "SLASHING",
+    "PIERCING",
+    "BLUDGEONING"
+  ],
+
+  "weapon_tags": [
+    "SIMPLE_WEAPONS",
+    "MARTIAL_WEAPONS",
+    "RANGED",
+    "MELEE"
+  ],
+
+  "armor_tags": [
+    "LIGHT_ARMOR",
+    "MEDIUM_ARMOR",
+    "HEAVY_ARMOR"
+  ],
+
   "classes": {
-    "BARBARIAN": {
+    "CLASS_BARBARIAN": {
       "primary_ability": ["STRENGTH"],
       "hit_die": 12,
       "abilities": ["STRENGTH", "CONSTITUTION"],
       "skills": ["ANIMAL_HANDLING", "ATHLETICS", "INTIMIDATION", "NATURE", "PERCEPTION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["GREATAXE", "4 HANDAXE", "EXPLORERS_PACK"],
+      "equipment": ["ITEM_GREATAXE", "4 ITEM_HANDAXE", "ITEM_EXPLORERS_PACK"],
       "gold": 75,
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
       "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "SHIELDS"],
@@ -117,7 +148,7 @@
         "BARBARIAN_PRIMAL_CHAMPION": 20
       },
       "subclasses": {
-        "BARBARIAN_PATH_OF_THE_BERSERKER": {
+        "SUBCLASS_BARBARIAN_PATH_OF_THE_BERSERKER": {
           "traits": {
             "BARBARIAN_PATH_OF_THE_BERSERKER_FRENZY": 3,
             "BARBARIAN_PATH_OF_THE_BERSERKER_MINDLESS_RAGE": 6,
@@ -127,7 +158,7 @@
         }
       }
     },
-    "BARD":  {
+    "CLASS_BARD":  {
       "primary_ability": ["CHARISMA"],
       "hit_die": 8,
       "abilities": ["DEXTERITY", "CHARISMA"],
@@ -136,7 +167,7 @@
       "skills_number": 3,
       "more_skills": 1,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["LEATHER_ARMOR", "2 DAGGER", "MUSICAL_INSTRUMENTS", "ENTERTAINERS_PACK", "19 GOLD"],
+      "equipment": ["ITEM_LEATHER_ARMOR", "2 ITEM_DAGGER", "ITEM_MUSICAL_INSTRUMENTS", "ITEM_ENTERTAINERS_PACK", "19 GOLD"],
       "gold": 90,
       "weapons": ["SIMPLE_WEAPONS"],
       "armors": ["LIGHT_ARMORS"],
@@ -159,7 +190,7 @@
         "BARD_WORDS_OF_CREATION": 20
       },
       "subclasses": {
-        "BARD_COLLEGE_OF_LORE": {
+        "SUBCLASS_BARD_COLLEGE_OF_LORE": {
           "traits": {
             "BARD_COLLEGE_OF_LORE_BONUS_PROFICIENCIES": 3,
             "BARD_COLLEGE_OF_LORE_CUTTING_WORDS": 3,
@@ -169,7 +200,7 @@
         }
       }
     },
-    "CLERIC":  {
+    "CLASS_CLERIC":  {
       "primary_ability": ["WISDOM"],
       "hit_die": 8,
       "abilities": ["WISDOM", "CHARISMA"],
@@ -177,7 +208,7 @@
       "skills": ["HISTORY", "INSIGHT", "MEDICINE", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["CHAIN_SHIRT", "SHIELD", "MACE", "HOLY_SYMBOL", "PRIESTS_PACK", "7 GOLD"],
+      "equipment": ["ITEM_CHAIN_SHIRT", "ITEM_SHIELD", "ITEM_MACE", "ITEM_HOLY_SYMBOL", "ITEM_PRIESTS_PACK", "7 GOLD"],
       "gold": 110,
       "weapons": ["SIMPLE_WEAPONS"],
       "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS", "SHIELDS"],
@@ -197,7 +228,7 @@
         "CLERIC_GREATER_DIVINE_INTERVENTION": 20
       },
       "subclasses": {
-        "CLERIC_LIFE_DOMAIN": {
+        "SUBCLASS_CLERIC_LIFE_DOMAIN": {
           "traits": {
             "CLERIC_LIFE_DOMAIN_DISCIPLE_OF_LIFE": 3,
             "CLERIC_LIFE_DOMAIN_LIFE_DOMAIN_SPELLS": 3,
@@ -208,7 +239,7 @@
         }
       }
     },
-    "DRUID":  {
+    "CLASS_DRUID":  {
       "primary_ability": ["WISDOM"],
       "hit_die": 8,
       "abilities": ["INTELLIGENCE", "WISDOM"],
@@ -216,12 +247,12 @@
       "skills": ["ARCANA", "ANIMAL_HANDLING", "INSIGHT", "MEDICINE", "NATURE", "PERCEPTION", "RELIGION", "SURVIVAL"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["LEATHER_ARMOR", "SHIELD", "SICKLE", "QUARTERSTAFF", "EXPLORERS_PACK", "HERBALISM_KIT", "9 GOLD"],
+      "equipment": ["ITEM_LEATHER_ARMOR", "ITEM_SHIELD", "ITEM_SICKLE", "ITEM_QUARTERSTAFF", "ITEM_EXPLORERS_PACK", "ITEM_HERBALISM_KIT", "9 GOLD"],
       "gold": 50,
       "weapons": ["SIMPLE_WEAPONS"],
       "armors": ["LIGHT_ARMORS", "SHIELDS"],
       "extra_armors": ["LIGHT_ARMORS", "SHIELDS"],
-      "tools": ["HERBALISM_KIT"],
+      "tools": ["ITEM_HERBALISM_KIT"],
       "spell_levels": 1,
       "change": "LONG_REST",
       "limited": false,
@@ -239,7 +270,7 @@
         "DRUID_ARCHDRUID": 20
       },
       "subclasses": {
-        "DRUID_CIRCLE_OF_THE_LAND": {
+        "SUBCLASS_DRUID_CIRCLE_OF_THE_LAND": {
           "traits": {
             "DRUID_CIRCLE_OF_THE_LAND_CIRCLE_OF_THE_LAND_SPELLS": 3,
             "DRUID_CIRCLE_OF_THE_LAND_LANDS_AID": 3,
@@ -250,7 +281,7 @@
         }
       }
     },
-    "FIGHTER":  {
+    "CLASS_FIGHTER":  {
       "hit_die": 10,
       "primary_ability": ["STRENGTH", "DEXTERITY"],
       "both_abilities": false,
@@ -279,7 +310,7 @@
         "FIGHTER_THREE_EXTRA_ATTACKS": 20
       },
       "subclasses": {
-        "FIGHTER_CHAMPION": {
+        "SUBCLASS_FIGHTER_CHAMPION": {
         "fighting_styles": [7],
           "traits": {
             "FIGHTER_CHAMPION_IMPROVED_CRITICAL": 3,
@@ -291,7 +322,7 @@
         }
       }
     },
-    "MONK":  {
+    "CLASS_MONK":  {
       "hit_die": 8,
       "primary_ability": ["WISDOM", "DEXTERITY"],
       "both_abilities": true,
@@ -299,7 +330,7 @@
       "skills": ["ACROBATICS", "ATHLETICS", "HISTORY", "INSIGHT", "PERCEPTION", "STEALTH"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["SPEAR", "5 DAGGER", "EXPLORERS_PACK", "11 GOLD"],
+      "equipment": ["ITEM_SPEAR", "5 ITEM_DAGGER", "ITEM_EXPLORERS_PACK", "11 GOLD"],
       "gold": 50,
       "weapons": ["SIMPLE_WEAPONS", "LIGHT_MARTIAL_WEAPONS"],
       "armors": ["LIGHT_ARMORS", "MEDIUM_ARMORS"],
@@ -327,7 +358,7 @@
         "MONK_BODY_AND_MIND": 20
       },
       "subclasses": {
-        "MONK_WARRIOR_OF_THE_OPEN_HAND": {
+        "SUBCLASS_MONK_WARRIOR_OF_THE_OPEN_HAND": {
           "traits": {
             "MONK_WARRIOR_OF_THE_OPEN_HAND_OPEN_HAND_TECHNIQUE": 3,
             "MONK_WARRIOR_OF_THE_OPEN_HAND_WHOLENESS_OF_BODY": 6,
@@ -337,7 +368,7 @@
         }
       }
     },
-    "PALADIN":  {
+    "CLASS_PALADIN":  {
       "hit_die": 10,
       "primary_ability": ["STRENGTH", "CHARISMA"],
       "both_abilities": true,
@@ -347,7 +378,7 @@
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
       "fighting_styles": [2],
-      "equipment": ["CHAIN_MAIL", "SHIELD", "LONGSWORD", "6 JAVELIN", "HOLY_SYMBOL", "PRIESTS_PACK", "9 GOLD"],
+      "equipment": ["ITEM_CHAIN_MAIL", "ITEM_SHIELD", "ITEM_LONGSWORD", "6 ITEM_JAVELIN", "ITEM_HOLY_SYMBOL", "ITEM_PRIESTS_PACK", "9 GOLD"],
       "gold": 150,
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
       "extra_weapons": ["MARTIAL_WEAPONS"],
@@ -372,7 +403,7 @@
         "PALADIN_AURA_EXPANSION": 18
       },
       "subclasses": {
-        "PALADIN_OATH_OF_DEVOTION": {
+        "SUBCLASS_PALADIN_OATH_OF_DEVOTION": {
           "traits": {
             "PALADIN_OATH_OF_DEVOTION_OATH_OF_DEVOTION_SPELLS": 3,
             "PALADIN_OATH_OF_DEVOTION_SACRED_WEAPON": 3,
@@ -383,7 +414,7 @@
         }
       }
     },
-    "RANGER":  {
+    "CLASS_RANGER":  {
       "hit_die": 10,
       "primary_ability": ["DEXTERITY", "WISDOM"],
       "both_abilities": true,
@@ -394,7 +425,7 @@
       "more_skills": 1,
       "feats": [4, 8, 12, 16, 19],
       "fighting_styles": [2],
-      "equipment": ["STUDDED_LEATHER_ARMOR", "SCIMITAR", "SHORTSWORD", "LONGBOW", "20 ARROW", "QUIVER", "SPRIG_OF_MISTLETOE", "EXPLORERS_PACK", "7 GOLD"],
+      "equipment": ["ITEM_STUDDED_LEATHER_ARMOR", "ITEM_SCIMITAR", "ITEM_SHORTSWORD", "ITEM_LONGBOW", "20 ITEM_ARROW", "ITEM_QUIVER", "ITEM_SPRIG_OF_MISTLETOE", "ITEM_EXPLORERS_PACK", "7 GOLD"],
       "gold": 150,
       "weapons": ["SIMPLE_WEAPONS", "MARTIAL_WEAPONS"],
       "extra_weapons": ["MARTIAL_WEAPONS"],
@@ -419,7 +450,7 @@
         "RANGER_FOE_SLAYER": 20
       },
       "subclasses": {
-        "RANGER_HUNTER": {
+        "SUBCLASS_RANGER_HUNTER": {
           "traits": {
             "RANGER_HUNTER_HUNTERS_LORE": 3,
             "RANGER_HUNTER_HUNTERS_PREY": 3,
@@ -430,7 +461,7 @@
         }
       }
     },
-    "ROGUE":  {
+    "CLASS_ROGUE":  {
       "hit_die": 8,
       "primary_ability": ["DEXTERITY"],
       "abilities": ["DEXTERITY", "INTELLIGENCE"],
@@ -438,13 +469,13 @@
       "skills_number": 4,
       "more_skills": 1,
       "feats": [4, 8, 10, 12, 16, 19],
-      "equipment": ["LEATHER_ARMOR", "2 DAGGER", "SHORTSWORD", "SHORTBOW", "20 ARROW", "QUIVER", "THIEVES_TOOLS", "BURGLARS_PACK", "8 GOLD"],
+      "equipment": ["ITEM_LEATHER_ARMOR", "2 ITEM_DAGGER", "ITEM_SHORTSWORD", "ITEM_SHORTBOW", "20 ITEM_ARROW", "ITEM_QUIVER", "ITEM_THIEVES_TOOLS", "ITEM_BURGLARS_PACK", "8 GOLD"],
       "gold": 100,
       "weapons": ["SIMPLE_WEAPONS", "FINESSE_LIGHT_MARTIAL_WEAPONS"],
       "armors": ["LIGHT_ARMORS"],
       "extra_armors": ["LIGHT_ARMORS"],
-      "tools": ["THIEVES_TOOLS"],
-      "extra_tools": ["THIEVES_TOOLS"],
+      "tools": ["ITEM_THIEVES_TOOLS"],
+      "extra_tools": ["ITEM_THIEVES_TOOLS"],
       "masteries": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
       "traits": {
         "ROGUE_EXPERTISE": 1,
@@ -463,7 +494,7 @@
         "ROGUE_STROKE_OF_LUCK": 20
       },
       "subclasses": {
-        "ROGUE_THIEF": {
+        "SUBCLASS_ROGUE_THIEF": {
           "traits": {
             "ROGUE_THIEF_FAST_HANDS": 3,
             "ROGUE_THIEF_SECOND_STORY_WORK": 3,
@@ -474,7 +505,7 @@
         }
       }
     },
-    "SORCERER":  {
+    "CLASS_SORCERER":  {
       "hit_die": 6,
       "primary_ability": ["CHARISMA"],
       "abilities": ["CONSTITUTION", "CHARISMA"],
@@ -482,7 +513,7 @@
       "skills": ["ARCANA", "DECEPTION", "INSIGHT", "INTIMIDATION", "PERSUASION", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["SPEAR", "2 DAGGER", "CRYSTAL", "DUNGEONEERS_PACK", "28 GOLD"],
+      "equipment": ["ITEM_SPEAR", "2 ITEM_DAGGER", "ITEM_CRYSTAL", "ITEM_DUNGEONEERS_PACK", "28 GOLD"],
       "gold": 50,
       "weapons": ["SIMPLE_WEAPONS"],
       "change": "LEVEL_UP",
@@ -499,7 +530,7 @@
         "SORCERER_ARCANE_APOTHEOSIS": 20
       },
       "subclasses": {
-        "SORCERER_DRACONIC_SORCERY": {
+        "SUBCLASS_SORCERER_DRACONIC_SORCERY": {
           "traits": {
             "SORCERER_DRACONIC_SORCERY_DRACONIC_RESILIENCE": 3,
             "SORCERER_DRACONIC_SORCERY_DRACONIC_SPELLS": 3,
@@ -510,7 +541,7 @@
         }
       }
     },
-    "WARLOCK":  {
+    "CLASS_WARLOCK":  {
       "hit_die": 8,
       "primary_ability": ["CHARISMA"],
       "abilities": ["WISDOM", "CHARISMA"],
@@ -518,7 +549,7 @@
       "skills": ["ARCANA", "DECEPTION", "HISTORY", "INTIMIDATION", "INVESTIGATION", "NATURE", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["LEATHER_ARMOR", "SICKLE", "2 DAGGER", "ORB", "BOOK_OCCULT_LORE", "SCHOLARS_PACK", "15 GOLD"],
+      "equipment": ["ITEM_LEATHER_ARMOR", "ITEM_SICKLE", "2 ITEM_DAGGER", "ITEM_ORB", "ITEM_BOOK_OCCULT_LORE", "ITEM_SCHOLARS_PACK", "15 GOLD"],
       "gold": 100,
       "weapons": ["SIMPLE_WEAPONS"],
       "armors": ["LIGHT_ARMORS"],
@@ -559,7 +590,7 @@
         "WARLOCK_ELDRITCH_MASTER": 20
       },
       "subclasses": {
-        "WARLOCK_FIEND_PATRON": {
+        "SUBCLASS_WARLOCK_FIEND_PATRON": {
           "traits": {
             "WARLOCK_FIEND_PATRON_DARK_ONES_BLESSING": 3,
             "WARLOCK_FIEND_PATRON_FIEND_SPELLS": 3,
@@ -570,7 +601,7 @@
         }
       }
     },
-    "WIZARD":  {
+    "CLASS_WIZARD":  {
       "hit_die": 6,
       "primary_ability": ["INTELLIGENCE"],
       "abilities": ["INTELLIGENCE", "WISDOM"],
@@ -578,7 +609,7 @@
       "skills": ["ARCANA", "HISTORY", "INSIGHT", "INVESTIGATION", "MEDICINE", "NATURE", "RELIGION"],
       "skills_number": 2,
       "feats": [4, 8, 12, 16, 19],
-      "equipment": ["2 DAGGER", "QUARTERSTAFF", "ROBE", "SPELLBOOK", "SCHOLARS_PACK", "5 GOLD"],
+      "equipment": ["2 ITEM_DAGGER", "ITEM_QUARTERSTAFF", "ITEM_ROBE", "ITEM_SPELLBOOK", "ITEM_SCHOLARS_PACK", "5 GOLD"],
       "gold": 55,
       "weapons": ["SIMPLE_WEAPONS"],
       "spell_levels": 1,
@@ -595,7 +626,7 @@
         "WIZARD_SIGNATURE_SPELLS": 20
       },
       "subclasses": {
-        "WIZARD_EVOKER": {
+        "SUBCLASS_WIZARD_EVOKER": {
           "traits": {
             "WIZARD_EVOKER_EVOCATION_SAVANT": 3,
             "WIZARD_EVOKER_POTENT_CANTRIP": 3,
@@ -633,7 +664,7 @@
   ],
 
   "species": {
-    "DRAGONBORN": {
+    "SPECIES_DRAGONBORN": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -642,61 +673,61 @@
         "DRAGONBORN_DRACONIC_ANCESTRY": 0
       },
       "lineages": {
-        "DRAGONBORN_SILVER": {
+        "LINEAGE_DRAGONBORN_SILVER": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_SILVER": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_SILVER": 0
           }
         },
-        "DRAGONBORN_WHITE": {
+        "LINEAGE_DRAGONBORN_WHITE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_WHITE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_WHITE": 0
           }
         },
-        "DRAGONBORN_BLUE": {
+        "LINEAGE_DRAGONBORN_BLUE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BLUE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BLUE": 0
           }
         },
-        "DRAGONBORN_BRONZE": {
+        "LINEAGE_DRAGONBORN_BRONZE": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BRONZE": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BRONZE": 0
           }
         },
-        "DRAGONBORN_BLACK": {
+        "LINEAGE_DRAGONBORN_BLACK": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BLACK": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BLACK": 0
           }
         },
-        "DRAGONBORN_GOLD": {
+        "LINEAGE_DRAGONBORN_GOLD": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_GOLD": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_GOLD": 0
           }
         },
-        "DRAGONBORN_BRASS": {
+        "LINEAGE_DRAGONBORN_BRASS": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_BRASS": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_BRASS": 0
           }
         },
-        "DRAGONBORN_COPPER": {
+        "LINEAGE_DRAGONBORN_COPPER": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_COPPER": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_COPPER": 0
           }
         },
-        "DRAGONBORN_RED": {
+        "LINEAGE_DRAGONBORN_RED": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_RED": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_RED": 0
           }
         },
-        "DRAGONBORN_GREEN": {
+        "LINEAGE_DRAGONBORN_GREEN": {
           "traits": {
             "DRAGONBORN_BREATH_WEAPON_GREEN": 0,
             "DRAGONBORN_DAMAGE_RESISTANCE_GREEN": 0
@@ -704,7 +735,7 @@
         }
       }
     },
-    "DWARF": {
+    "SPECIES_DWARF": {
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -714,7 +745,7 @@
         "DWARF_STONECUTTING": 0
       }
     },
-    "ELF": {
+    "SPECIES_ELF": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -725,21 +756,21 @@
         "ELF_ELVEN_LINEAGE": 0
       },
       "lineages": {
-        "ELF_HIGH": {
+        "LINEAGE_ELF_HIGH": {
           "traits": {
             "ELF_HIGH_1": 1,
             "ELF_HIGH_3": 3,
             "ELF_HIGH_5": 5
           }
         },
-        "ELF_WOOD":{
+        "LINEAGE_ELF_WOOD":{
           "traits": {
             "ELF_WOOD_1": 1,
             "ELF_WOOD_3": 3,
             "ELF_WOOD_5": 5
           }
         },
-        "ELF_DROW": {
+        "LINEAGE_ELF_DROW": {
           "traits": {
             "ELF_DROW_1": 1,
             "ELF_DROW_3": 3,
@@ -748,7 +779,7 @@
         }
       }
     },
-    "GNOME": {
+    "SPECIES_GNOME": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["SMALL"],
@@ -757,19 +788,19 @@
         "GNOME_GNOMISH_LINEAGE": 0
       },
       "lineages": {
-        "GNOME_FOREST": {
+        "LINEAGE_GNOME_FOREST": {
           "traits": {
             "GNOME_FOREST": 0
           }
         },
-        "GNOME_ROCK": {
+        "LINEAGE_GNOME_ROCK": {
           "traits": {
             "GNOME_ROCK": 0
           }
         }
       }
     },
-    "GOLIATH": {
+    "SPECIES_GOLIATH": {
       "speed": 35,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -779,39 +810,39 @@
         "GOLIATH_GIANT_ANCESTRY": 0
       },
       "lineages": {
-        "GOLIATH_CLOUD_GIANT": {
+        "LINEAGE_GOLIATH_CLOUD_GIANT": {
           "traits": {
             "GOLIATH_CLOUDS_JAUNT": 0
           }
         },
-        "GOLIATH_FIRE_GIANT": {
+        "LINEAGE_GOLIATH_FIRE_GIANT": {
           "traits": {
             "GOLIATH_FIRES_BURN": 0
           }
         },
-        "GOLIATH_FROST_GIANT": {
+        "LINEAGE_GOLIATH_FROST_GIANT": {
           "traits": {
             "GOLIATH_FROSTS_CHILL": 0
           }
         },
-        "GOLIATH_HILL_GIANT": {
+        "LINEAGE_GOLIATH_HILL_GIANT": {
           "traits": {
             "GOLIATH_HILLS_TUMBLE": 0
           }
         },
-        "GOLIATH_STONE_GIANT": {
+        "LINEAGE_GOLIATH_STONE_GIANT": {
           "traits": {
             "GOLIATH_STONES_ENDURANCE": 0
           }
         },
-        "GOLIATH_STORM_GIANT": {
+        "LINEAGE_GOLIATH_STORM_GIANT": {
           "traits": {
             "GOLIATH_STORMS_THUNDER": 0
           }
         }
       }
     },
-    "HALFLING": {
+    "SPECIES_HALFLING": {
       "type": "HUMANOID",
       "size": ["SMALL"],
       "traits": {
@@ -821,7 +852,7 @@
         "HALFLING_LUCK": 0
       }
     },
-    "HUMAN": {
+    "SPECIES_HUMAN": {
       "type": "HUMANOID",
       "size": ["SMALL", "MEDIUM"],
       "traits": {
@@ -830,7 +861,7 @@
         "HUMAN_VERSATILE_PASSIVE": 0
       }
     },
-    "ORC": {
+    "SPECIES_ORC": {
       "darkvision": 120,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -839,7 +870,7 @@
         "ORC_RELENTLESS_ENDURANCE": 0
       }
     },
-    "TIEFLING": {
+    "SPECIES_TIEFLING": {
       "darkvision": 60,
       "type": "HUMANOID",
       "size": ["MEDIUM"],
@@ -848,21 +879,21 @@
         "TIEFLING_OTHERWORLDLY_PRESENCE": 0
       },
       "lineages": {
-        "TIEFLING_ABYSSAL": {
+        "LINEAGE_TIEFLING_ABYSSAL": {
           "traits": {
             "TIEFLING_ABYSSAL_1": 1,
             "TIEFLING_ABYSSAL_3": 3,
             "TIEFLING_ABYSSAL_5": 5
           }
         },
-        "TIEFLING_CHTONIC": {
+        "LINEAGE_TIEFLING_CHTONIC": {
           "traits": {
             "TIEFLING_CHTONIC_1": 1,
             "TIEFLING_CHTONIC_3": 3,
             "TIEFLING_CHTONIC_5": 5
           }
         },
-        "TIEFLING_INFERNAL": {
+        "LINEAGE_TIEFLING_INFERNAL": {
           "traits": {
             "TIEFLING_INFERNAL_1": 1,
             "TIEFLING_INFERNAL_3": 3,
@@ -874,85 +905,85 @@
   },
 
   "backgrounds": {
-    "ACOLYTE": {
+    "BACKGROUND_ACOLYTE": {
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "RELIGION"],
-      "feat": "MAGIC_INITIATE_CLERIC",
-      "tools": ["CALLIGRAPHERS_SUPPLIES"],
-      "equipment": ["CALLIGRAPHERS_SUPPLIES", "BOOK_PRAYERS", "HOLY_SYMBOL", "10 PARCHMENT_SHEETS", "ROBE", "8 GOLD"],
+      "feat": "FEAT_MAGIC_INITIATE_CLERIC",
+      "tools": ["ITEM_CALLIGRAPHERS_SUPPLIES"],
+      "equipment": ["ITEM_CALLIGRAPHERS_SUPPLIES", "ITEM_BOOK_PRAYERS", "ITEM_HOLY_SYMBOL", "10 ITEM_PARCHMENT_SHEETS", "ITEM_ROBE", "8 GOLD"],
       "gold": 50
     },
-    "CRIMINAL": {
+    "BACKGROUND_CRIMINAL": {
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
       "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
-      "feat": "ALERT",
-      "tools": ["THIEVES_TOOLS"],
-      "equipment": ["THIEVES_TOOLS", "2 DAGGER", "CROWBAR", "2 POUCH", "TRAVELERS_CLOTHES", "16 GOLD"],
+      "feat": "FEAT_ALERT",
+      "tools": ["ITEM_THIEVES_TOOLS"],
+      "equipment": ["ITEM_THIEVES_TOOLS", "2 ITEM_DAGGER", "ITEM_CROWBAR", "2 ITEM_POUCH", "ITEM_TRAVELERS_CLOTHES", "16 GOLD"],
       "gold": 50
     },
-    "SAGE": {
+    "BACKGROUND_SAGE": {
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
-      "feat": "MAGIC_INITIATE_WIZARD",
-      "tools": ["CALLIGRAPHERS_SUPPLIES"],
-      "equipment": ["QUARTERSTAFF", "CALLIGRAPHERS_SUPPLIES", "BOOK_HISTORY", "8 PARCHMENT_SHEETS", "ROBE", "8 GOLD"],
+      "feat": "FEAT_MAGIC_INITIATE_WIZARD",
+      "tools": ["ITEM_CALLIGRAPHERS_SUPPLIES"],
+      "equipment": ["ITEM_QUARTERSTAFF", "ITEM_CALLIGRAPHERS_SUPPLIES", "ITEM_BOOK_HISTORY", "8 ITEM_PARCHMENT_SHEETS", "ITEM_ROBE", "8 GOLD"],
       "gold": 50
     },
-    "SOLDIER": {
+    "BACKGROUND_SOLDIER": {
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
       "skills": ["ATHLETICS", "INTIMIDATION"],
-      "feat": "SAVAGE_ATTACKER",
+      "feat": "FEAT_SAVAGE_ATTACKER",
       "tools": ["GAMING_SETS"],
-      "equipment": ["SPEAR", "SHORTBOW", "20 ARROW", "HEALERS_KIT", "QUIVER", "TRAVELERS_CLOTHES", "14 GOLD"],
+      "equipment": ["ITEM_SPEAR", "ITEM_SHORTBOW", "20 ITEM_ARROW", "ITEM_HEALERS_KIT", "ITEM_QUIVER", "ITEM_TRAVELERS_CLOTHES", "14 GOLD"],
       "gold": 50
     }
   },
 
   "feats": {
-    "ALERT": {
+    "FEAT_ALERT": {
       "traits": ["ALERT_INITIATIVE_PROFICIENCY", "ALERT_INITIATIVE_SWAP"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
-    "MAGIC_INITIATE": {
-      "traits": ["MAGIC_INITIATE"],
+    "FEAT_MAGIC_INITIATE": {
+      "traits": ["MAGIC_INITIATE_MAGIC_INITIATE"],
       "type": "ORIGIN",
       "repeatable": true,
       "abilities": []
     },
-    "MAGIC_INITIATE_CLERIC": {
-      "traits": ["MAGIC_INITIATE_CLERIC"],
+    "FEAT_MAGIC_INITIATE_CLERIC": {
+      "traits": ["MAGIC_INITIATE_CLERIC_MAGIC_INITIATE_CLERIC"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
-    "MAGIC_INITIATE_DRUID": {
-      "traits": ["MAGIC_INITIATE_DRUID"],
+    "FEAT_MAGIC_INITIATE_DRUID": {
+      "traits": ["MAGIC_INITIATE_DRUID_MAGIC_INITIATE_DRUID"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
-    "MAGIC_INITIATE_WIZARD": {
-      "traits": ["MAGIC_INITIATE_WIZARD"],
+    "FEAT_MAGIC_INITIATE_WIZARD": {
+      "traits": ["MAGIC_INITIATE_WIZARD_MAGIC_INITIATE_WIZARD"],
       "type": "",
       "repeatable": false,
       "abilities": []
     },
-    "SAVAGE_ATTACKER": {
-      "traits": ["SAVAGE_ATTACKER"],
+    "FEAT_SAVAGE_ATTACKER": {
+      "traits": ["SAVAGE_ATTACKER_SAVAGE_ATTACKER"],
       "type": "ORIGIN",
       "repeatable": false,
       "abilities": []
     },
-    "SKILLED": {
-      "traits": ["SKILLED"],
+    "FEAT_SKILLED": {
+      "traits": ["SKILLED_SKILLED"],
       "type": "ORIGIN",
       "repeatable": true,
       "abilities": []
     },
 
-    "ABILITY_SCORE_IMPROVEMENT": {
+    "FEAT_ABILITY_SCORE_IMPROVEMENT": {
       "traits": [],
       "type": "GENERAL",
       "repeatable": true,
@@ -961,7 +992,7 @@
       "level": 4,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "GRAPPLER": {
+    "FEAT_GRAPPLER": {
       "traits": ["GRAPPLER_PUNCH_AND_GRAB", "GRAPPLER_ATTACK_ADVANTAGE", "GRAPPLER_FAST_WRESTLER"],
       "type": "GENERAL",
       "repeatable": false,
@@ -971,7 +1002,7 @@
       "stats": [13, 13, 0, 0, 0, 0]
     },
 
-    "BOON_OF_COMBAT_PROWESS": {
+    "FEAT_BOON_OF_COMBAT_PROWESS": {
       "traits": ["BOON_OF_COMBAT_PROWESS_PEERLESS_AIM"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -980,7 +1011,7 @@
       "level": 19,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "BOON_OF_DIMENSIONAL_TRAVEL": {
+    "FEAT_BOON_OF_DIMENSIONAL_TRAVEL": {
       "traits": ["BOON_OF_DIMENSIONAL_TRAVEL_BLINK_STEPS"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -989,7 +1020,7 @@
       "level": 19,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "BOON_OF_FATE": {
+    "FEAT_BOON_OF_FATE": {
       "traits": ["BOON_OF_FATE_IMPROVE_FATE"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -998,7 +1029,7 @@
       "level": 19,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "BOON_OF_IRRESISTIBLE_OFFENSE": {
+    "FEAT_BOON_OF_IRRESISTIBLE_OFFENSE": {
       "traits": ["BOON_OF_IRRESISTIBLE_OFFENSE_OVERWHELMING_STRIKE", "BOON_OF_IRRESISTIBLE_OFFENSE_OVERCOME_DEFENSES"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -1007,7 +1038,7 @@
       "level": 19,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "BOON_OF_SPELL_RECALL": {
+    "FEAT_BOON_OF_SPELL_RECALL": {
       "traits": ["BOON_OF_SPELL_RECALL_FREE_CASTING"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -1017,7 +1048,7 @@
       "stats": [0, 0, 0, 0, 0, 0],
       "magic": true
     },
-    "BOON_OF_THE_NIGHT_SPIRIT": {
+    "FEAT_BOON_OF_THE_NIGHT_SPIRIT": {
       "traits": ["BOON_OF_THE_NIGHT_SPIRIT_MERGE_WITH_SHADOWS", "BOON_OF_THE_NIGHT_SPIRIT_SHADOWY_FORM"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -1026,7 +1057,7 @@
       "level": 19,
       "stats": [0, 0, 0, 0, 0, 0]
     },
-    "BOON_OF_TRUESIGHT": {
+    "FEAT_BOON_OF_TRUESIGHT": {
       "traits": ["BOON_OF_TRUESIGHT_TRUESIGHT"],
       "type": "EPIC_BOON",
       "repeatable": false,
@@ -1060,16 +1091,16 @@
 },
 
   "sets": {
-    "ARTISAN_TOOLS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS"],
-    "GAMING_SETS": ["DICE", "DRAGONCHESS", "PLAYING_CARDS", "THREE_DRAGON_ANTE"],
-    "MUSICAL_INSTRUMENTS": ["BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"],
-    "ARTISAN_TOOLS_MUSICAL_INSTRUMENTS": ["SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS", "BAGPIPES", "DRUM", "DULCIMER", "FLUTE", "HORN", "LUTE", "LYRE", "PAN_FLUTE", "SHAWN", "VIOL"],
+    "ARTISAN_TOOLS": ["ITEM_SMITHS_TOOLS", "BREWERS_SUPPLIES", "MASONRY_TOOLS"],
+    "GAMING_SETS": ["ITEM_DICE", "ITEM_DRAGONCHESS", "ITEM_PLAYING_CARDS", "ITEM_THREE_DRAGON_ANTE"],
+    "MUSICAL_INSTRUMENTS": ["ITEM_BAGPIPES", "ITEM_DRUM", "ITEM_DULCIMER", "ITEM_FLUTE", "ITEM_HORN", "ITEM_LUTE", "ITEM_LYRE", "ITEM_PAN_FLUTE", "ITEM_SHAWN", "ITEM_VIOL"],
+    "ARTISAN_TOOLS_MUSICAL_INSTRUMENTS": ["ITEM_SMITHS_TOOLS", "ITEM_BREWERS_SUPPLIES", "ITEM_MASONRY_TOOLS", "ITEM_BAGPIPES", "ITEM_DRUM", "ITEM_DULCIMER", "ITEM_FLUTE", "ITEM_HORN", "ITEM_LUTE", "ITEM_LYRE", "ITEM_PAN_FLUTE", "ITEM_SHAWN", "ITEM_VIOL"],
     "FIGHTER_SET": ["FIGHTER_A", "FIGHTER_B"]
   },
 
   "packages": {
-    "FIGHTER_A": ["CHAIN_MAIL", "GREATSWORD", "FLAIL", "8 JAVELIN", "DUNGEONEERS_PACK", "4 GOLD"],
-    "FIGHTER_B": ["STUDDED_LEATHER_ARMOR", "SCIMITAR", "SHORTSWORD", "LONGBOW", "20 ARROW", "QUIVER", "DUNGEONEERS_PACK", "11 GOLD"]
+    "FIGHTER_A": ["ITEM_CHAIN_MAIL", "ITEM_GREATSWORD", "ITEM_FLAIL", "8 JAVELIN", "ITEM_DUNGEONEERS_PACK", "4 GOLD"],
+    "FIGHTER_B": [" ITEM_STUDDED_LEATHER_ARMOR", " ITEM_SCIMITAR", " ITEM_SHORTSWORD", " ITEM_LONGBOW", "20 ARROW", " ITEM_QUIVER", " ITEM_DUNGEONEERS_PACK", "11 GOLD"]
   },
 
   "genders": [
@@ -1144,5 +1175,18 @@
       "tag": "MARTIAL_WEAPONS",
       "attributes": ["LIGHT", "FINESSE"]
     }
-  }
+  },
+
+  "money": {
+    "COPPER": 1,
+    "SILVER": 10,
+    "ELECTRUM": 50,
+    "GOLD": 100,
+    "PLATINUM": 1000
+   },
+
+   "languages": {
+      "English": "en",
+      "Italiano": "it"
+   }
 }

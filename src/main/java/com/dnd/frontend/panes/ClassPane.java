@@ -12,7 +12,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 
@@ -32,7 +31,6 @@ public class ClassPane extends GridPane {
         } else {
             classComboBox = new TooltipComboBox(character.getSelectableClasses(), mainTabPane);
         }
-        classComboBox.setPromptText(getTranslation("RANDOM"));
         add(classComboBox, 0, 1);
         add(classComboBox.getLabel(), 0, 1);
 
@@ -88,11 +86,11 @@ public class ClassPane extends GridPane {
         
         ObservableList<String> levels = FXCollections.observableArrayList();
         
-        ComboBox<String> levelComboBox = new ComboBox<>(levels);
+        TooltipComboBox levelComboBox = new TooltipComboBox(levels, mainTabPane);
         levelComboBox.disableProperty().bind(character.isEditing().not());
         add(levelComboBox, 0, 5);
         Runnable hideLevel = () -> {
-            if (character.getClasse(classIndex).get().equals(getTranslation("RANDOM"))) {
+            if (character.getClasse(classIndex).get().equals("RANDOM")) {
                 levelComboBox.setManaged(false);
                 levelComboBox.setVisible(false);
                 levelLabel.setManaged(false);
@@ -117,7 +115,7 @@ public class ClassPane extends GridPane {
         List<TooltipComboBox> featTwos = new ArrayList<>(maxFeats);
 
         Runnable updateFeatsLabel = () -> {
-            if (character.getLevel(classIndex).get() >= 4 || (classIndex == 0 && !character.getBackground().get().equals(getTranslation("RANDOM")))) {
+            if (character.getLevel(classIndex).get() >= 4 || (classIndex == 0 && !character.getBackground().get().equals("RANDOM"))) {
                 if (!getChildren().contains(featsLabel)) {
                     add(featsLabel, 0, 6);
                 }
@@ -152,14 +150,14 @@ public class ClassPane extends GridPane {
         Runnable updateLevels = () -> {
             String classValue = character.getClasses()[classIndex].get();
 
-            if (classValue != null && !classValue.equals(getTranslation("RANDOM")) && !classValue.equals(getTranslation("NONE"))) {
+            if (classValue != null && !classValue.equals("RANDOM") && !classValue.equals("NONE")) {
                 List<String> newLevels = new ArrayList<>();
                 
-                newLevels.add(getTranslation("RANDOM"));
+                newLevels.add("RANDOM");
 
                 int requiredLevels = 0; // minimum levels required by other classes
                 for (int i = 0; i < character.getClasses().length; i++) {
-                    if (character.getClasses()[i].get().equals(getTranslation("RANDOM")) && i != classIndex) {
+                    if (character.getClasses()[i].get().equals("RANDOM") && i != classIndex) {
                         requiredLevels += 1;
                     }
                 }
@@ -170,7 +168,7 @@ public class ClassPane extends GridPane {
 
                 levels.setAll(newLevels);
             } else {
-                levels.setAll(new ArrayList<>(List.of(getTranslation("RANDOM"))));
+                levels.setAll(new ArrayList<>(List.of("RANDOM")));
             }
         };
 
@@ -188,9 +186,9 @@ public class ClassPane extends GridPane {
             
             Runnable updateOriginFeat = () -> {
                 String background = character.getBackground().get();
-                if (!background.equals(getTranslation("RANDOM"))) {
+                if (!background.equals("RANDOM")) {
                     // TODO: spaces
-                    TooltipLabel originFeat = new TooltipLabel("   " + character.getOriginFeat().get(), character.getOriginFeat().get(), mainTabPane);
+                    TooltipLabel originFeat = new TooltipLabel("   " + getTranslation(character.getOriginFeat().get()), getTranslation(character.getOriginFeat().get()), mainTabPane);
                     getChildren().remove(originFeats.get(0));
                     originFeats.remove(0);
                     add(originFeat, 0, 7);
@@ -250,10 +248,10 @@ public class ClassPane extends GridPane {
 
             Runnable updateFeatOne = () -> {
                 String newVal = character.getFeatOne(classIndex, index).get();
-                if (newVal != null && !newVal.equals(getTranslation("NONE")) && !getChildren().contains(one)) {
+                if (newVal != null && !newVal.equals("NONE") && !getChildren().contains(one)) {
                     add(one, 1, 8 + index);
                     add(one.getLabel(), 1, 8 + index);
-                } else if (newVal != null && newVal.equals(getTranslation("NONE")) && getChildren().contains(one)) {
+                } else if (newVal != null && newVal.equals("NONE") && getChildren().contains(one)) {
                     getChildren().remove(one);
                     getChildren().remove(one.getLabel());
                 }
@@ -265,10 +263,10 @@ public class ClassPane extends GridPane {
                         observableArrayListOne.add(val);
                     }
                 }
-                if (observableArrayListOne.size() > 1 && !observableArrayListOne.contains(getTranslation("RANDOM"))) {
-                    observableArrayListOne.add(0, getTranslation("RANDOM"));
+                if (observableArrayListOne.size() > 1 && !observableArrayListOne.contains("RANDOM")) {
+                    observableArrayListOne.add(0, "RANDOM");
                 } else if (observableArrayListOne.size() <= 1) {
-                    observableArrayListOne.remove(getTranslation("RANDOM"));
+                    observableArrayListOne.remove("RANDOM");
                 }
             };
 
@@ -277,10 +275,10 @@ public class ClassPane extends GridPane {
 
             Runnable updateFeatTwo = () -> {
                 String newVal = character.getFeatTwo(classIndex, index).get();
-                if (newVal != null && !newVal.equals(getTranslation("NONE")) && !getChildren().contains(two)) {
+                if (newVal != null && !newVal.equals("NONE") && !getChildren().contains(two)) {
                     add(two, 2, 8 + index);
                     add(two.getLabel(), 2, 8 + index);
-                } else if (newVal != null && newVal.equals(getTranslation("NONE")) && getChildren().contains(two)) {
+                } else if (newVal != null && newVal.equals("NONE") && getChildren().contains(two)) {
                     getChildren().remove(two);
                     getChildren().remove(two.getLabel());
                 }
@@ -292,10 +290,10 @@ public class ClassPane extends GridPane {
                         observableArrayListTwo.add(val);
                     }
                 }
-                if (observableArrayListTwo.size() != 1 && !observableArrayListTwo.contains(getTranslation("RANDOM"))) {
-                    observableArrayListTwo.add(0, getTranslation("RANDOM"));
+                if (observableArrayListTwo.size() != 1 && !observableArrayListTwo.contains("RANDOM")) {
+                    observableArrayListTwo.add(0, "RANDOM");
                 } else if (observableArrayListTwo.size() <= 1) {
-                    observableArrayListTwo.remove(getTranslation("RANDOM"));
+                    observableArrayListTwo.remove("RANDOM");
                 }
             };
 
@@ -309,7 +307,7 @@ public class ClassPane extends GridPane {
         Runnable updateAvailableFeats = () -> {
             int newVal = character.getAvailableFeats(classIndex).get();
             for (int i = 0; i < maxFeats; i++) {
-                if (feats.get(i).getValue().equals(getTranslation("RANDOM"))) {
+                if (feats.get(i).getValue().equals("RANDOM")) {
                     feats.get(i).setDisable(false);
                     featOnes.get(i).setDisable(false);
                     featTwos.get(i).setDisable(false);
