@@ -4,6 +4,7 @@ import com.dnd.frontend.language.DefinitionManager;
 import com.dnd.frontend.language.TranslationManager;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -15,12 +16,13 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 
 public class TooltipComboBox extends ComboBox<String> {
     private final TabPane mainTabPane;
-    private String hoveredItem; // Store the currently hovered item
+    private String hoveredItem;
     private ListView<String> listView;
     private PopupControl popup;
     private TooltipLabel replacementLabel; // Label to show when disabled
@@ -79,7 +81,7 @@ public class TooltipComboBox extends ComboBox<String> {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null || item.isBlank()) {
-                    setText(null);
+                    setText(getPromptText());
                 } else {
                     setText(getTranslation(item));
                 }
@@ -113,8 +115,8 @@ public class TooltipComboBox extends ComboBox<String> {
 
         // TODO: fix
         // If I don't reset the value, it has a visual bug for which the displayed value is wrong
-        setValue("PLACEHOLDER"); // Must be this word, as it's the only one that doesn't trigger an update in ObservableString
-        setValue(currentValue);
+        // setValue("PLACEHOLDER"); // Must be this word, as it's the only one that doesn't trigger an update in ObservableString
+        // setValue(currentValue);
     }
 
     public TooltipLabel getLabel() {
@@ -233,12 +235,6 @@ public class TooltipComboBox extends ComboBox<String> {
         };
     }
 
-    private double calculateCellHeight() {
-        // Use system default font size or a reasonable default
-        double fontSize = javafx.scene.text.Font.getDefault().getSize();
-        return fontSize * 1.5 + 13; // 1.5x font size + 13px padding TODO: need to remove this part somehow
-    }
-
     private double calculateMaxItemWidth() {
         double maxWidth = this.getWidth(); // at minimum, match the ComboBox width
         javafx.scene.text.Font font = javafx.scene.text.Font.getDefault();
@@ -254,16 +250,14 @@ public class TooltipComboBox extends ComboBox<String> {
     }
 
     private void updateListViewSize() {
-        int itemCount = getItems().size();
-        int maxRows = Math.min(itemCount, 10);
-
-        double cellHeight = calculateCellHeight();
-        double padding = 2;
-        double totalHeight = (maxRows * cellHeight) + padding;
-        
-        listView.setPrefHeight(totalHeight);
-        listView.setMinHeight(totalHeight);
-        listView.setMaxHeight(totalHeight);
+        listView.setMinHeight(Region.USE_PREF_SIZE);
+        listView.setMaxHeight(Region.USE_PREF_SIZE);
+        listView.setFixedCellSize(24); // TODO: dynamic
+        listView.prefHeightProperty().bind(
+            Bindings.min(Bindings.size(listView.getItems()), 10)
+                .multiply(listView.getFixedCellSize())
+                .add(5)
+        );
         double width = calculateMaxItemWidth();
         listView.setPrefWidth(width);
         listView.setMinWidth(width);

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.dnd.backend.GameCharacter;
 import com.dnd.backend.GroupManager;
@@ -27,6 +29,8 @@ import javafx.util.Duration;
 public class DefinitionManager {
     private static final Properties definitions = new Properties();
     private static final Properties tooltips = new Properties();
+
+    // TODO: standardize spaces and _
 
     public static void initialize(String language) {
         try (var inputStream = DefinitionManager.class.getResourceAsStream("/definitions_" + language + ".properties")) {
@@ -64,101 +68,44 @@ public class DefinitionManager {
     }
 
     public static void fillTextFlow(TextFlow textFlow, String definition, TabPane mainTabPane, String text) {
-        // Split the definition into lines by \n
-        String[] lines = definition.split("\n");
-        Boolean isFirstLine = true; // Flag to check if it's the first line
-        for (String line : lines) {
-            if (isFirstLine) {
-                isFirstLine = false; // Set the flag to false after the first line
-            } else {
-                // Add a newline before each subsequent line
-                textFlow.getChildren().add(new Text("\n "));
-            }
+        Pattern pattern = Pattern.compile("(\\[\\[.*?\\]\\]|[^\\[\\[]*(?=\\[\\[|$))");
+        Matcher matcher = pattern.matcher(definition);
+        
+        while (matcher.find()) {
+            String part = matcher.group();
+            Text wordText = new Text();
+            
+            if (part.startsWith("[[") && part.endsWith("]]")) {
+                part = part.replace("[[", "").replace("]]", "");
 
-            // Split each line into words and process each word
-            String[] tokens = line.split("(?=[.,:;!?])|(?<=[.,:;!?])");
-            for (String token : tokens) {
-                String[] subTokens = token.split("(?=\\s)|(?<=\\s)|(?=[()])|(?<=[()])");
-
-                for (int j = 0; j < subTokens.length; j++) {
-                    String subToken = subTokens[j]; // Trim whitespace from the token
-                    Text wordText = new Text(subToken); // Create a Text node for the word
-                    // Check if the token is a word (not just punctuation or whitespace)
-                    if (subToken.matches("\\w+")) { // Matches words (alphanumeric characters)
-                        definition = "";
-                        String newText = subToken;
-
-                        if (j + 6 < subTokens.length) {
-                            String subText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]);
-                            definition = definitions.getProperty(subText, "");
-                            String tooltipText = fetchTooltip(subText);
-                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
-                                newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]).concat("_").concat(subTokens[j+6]);
-                                wordText.setText(newText.replace("_", " "));
-                                j+=6;
-                            }
+                if (!fetchTooltip(part).equals("")) {
+                    wordText.setStyle("-fx-fill: #694704ff;");
+                    Tooltip tooltip = assignTooltip(wordText, part);
+                    wordText.setOnKeyPressed(event -> {
+                        if (event.getCode() == KeyCode.T) {
+                            FrozenTooltipManager.freeze(tooltip, wordText, mainTabPane);
                         }
-                        if (definition == null || definition.isEmpty() && j + 4 < subTokens.length) {
-                            String subText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
-                            definition = definitions.getProperty(subText, "");
-                            String tooltipText = fetchTooltip(subText);
-                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
-                                newText = subToken.concat("_").concat(subTokens[j+2]).concat("_").concat(subTokens[j+4]);
-                                wordText.setText(newText.replace("_", " "));
-                                j+=4;
-                            }
-                        }
-                        if(definition == null || definition.isEmpty() && j + 2 < subTokens.length) {
-                            String subText = subToken.concat("_").concat(subTokens[j+2]);
-                            definition = definitions.getProperty(subText, "");
-                            String tooltipText = fetchTooltip(subText);
-                            if ((definition != null && !definition.isEmpty()) || (tooltipText != null && !tooltipText.isEmpty())) {
-                                newText = subToken.concat("_").concat(subTokens[j+2]);
-                                wordText.setText(newText.replace("_", " "));
-                                j+=2;
-                            }
-                        }
-                        if(definition == null || definition.isEmpty()) {
-                            definition = definitions.getProperty(subToken, "");
-                        }
+                    });
+                }
 
-                        if (!fetchTooltip(newText).equals("")) {
-                            wordText.setStyle("-fx-fill: #694704ff;");
+                definition = definitions.getProperty(part.replace(" ", "_"), "").replace("_", " ");
+                if (definition != null && !definition.isEmpty() && !text.equals(part) && !text.equals(definition)) {
+                    // Use a final variable to capture the value for the lambda
+                    final String clickableText = part;
 
-                            Tooltip tooltip = assignTooltip(wordText, newText);
-                            wordText.setOnKeyPressed(event -> {
-                                if (event.getCode() == KeyCode.T) {
-                                    FrozenTooltipManager.freeze(tooltip, wordText, mainTabPane);
-                                }
-                            });
+                    // Underline the word and make it clickable
+                    wordText.setStyle("-fx-fill: #694704ff;-fx-cursor: hand;");
+                    wordText.setOnMouseEntered(_ -> {
+                        if (!FrozenTooltipManager.isFrozen().get()) {
+                            wordText.requestFocus();
                         }
-
-                        String newerDefinition = definitions.getProperty(definition, "");
-                        if (newerDefinition != null && !newerDefinition.isEmpty()) {
-                            newText = definition;
-                            definition = newerDefinition; // Update the definition if a new one is found
-                        }
-
-                        if (definition != null && !definition.isEmpty() && !newText.equals(text) && !subToken.equals(text)) {
-                            // Use a final variable to capture the value of newText for the lambda
-                            final String clickableText = newText;
-
-                            // Underline the word and make it clickable
-                            wordText.getStyleClass().clear();
-                            wordText.setStyle("-fx-fill: #694704ff; -fx-cursor: hand;");
-                            wordText.setOnMouseEntered(_ -> {
-                                if (!FrozenTooltipManager.isFrozen().get()) {
-                                    wordText.requestFocus();
-                                }
-                            });
-                            wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
-                        }
-                    }
-
-                    // Add the word and the space to the TextFlow
-                    textFlow.getChildren().add(wordText);
+                    });
+                    wordText.setOnMouseClicked(_ -> openDefinitionTab(clickableText, mainTabPane));
                 }
             }
+            
+            wordText.setText(part);
+            textFlow.getChildren().add(wordText);
         }
     }
 
@@ -264,7 +211,7 @@ public class DefinitionManager {
     public static void displayDefinitionTab(String text, String definition, TabPane mainTabPane) {
         // Check if a tab with the same title already exists
         for (Tab tab : mainTabPane.getTabs()) {
-            if (tab.getText().replace(" ", "_").equals(text)) {
+            if (tab.getText().equals(text.replace("_", " "))) {
                 // If the tab exists, select it and return
                 mainTabPane.getSelectionModel().select(tab);
                 return;

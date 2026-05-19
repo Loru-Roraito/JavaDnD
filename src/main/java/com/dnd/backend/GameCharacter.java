@@ -1643,7 +1643,7 @@ public class GameCharacter {
         // Bind the skillModifier to the corresponding ability
         Runnable updateSkillModifier = () -> {
             skillModifiers[index].set(
-                    abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get());
+                abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get());
         };
         abilityModifiers[skillAbilities[index]].addListener(_ -> updateSkillModifier.run());
         skillBonuses[index].addListener(_ -> updateSkillModifier.run());

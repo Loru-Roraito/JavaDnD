@@ -9,8 +9,10 @@ import java.util.Properties;
 public class TranslationManager {
     private static final Properties languageProperties = new Properties();
     private static final Map<String, String> translationToKey = new HashMap<>();
+    private static String lang;
 
     public static void initialize(String language) {
+        lang = language;
         try (var inputStream = TranslationManager.class.getResourceAsStream("/translations_" + language + ".properties")) {
             if (inputStream == null) {
                 throw new IOException("Resource not found: translations_" + language + ".properties");
@@ -40,6 +42,10 @@ public class TranslationManager {
         } catch (IOException e) {
             System.err.println("Error: Failed to load translations file: translations_" + language + ".properties");
         }
+    }
+
+    public static void refresh() {
+        initialize(lang);
     }
 
     public static String getTranslation(String key) {

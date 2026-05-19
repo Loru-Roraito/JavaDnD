@@ -934,7 +934,7 @@
       "skills": ["ATHLETICS", "INTIMIDATION"],
       "feat": "FEAT_SAVAGE_ATTACKER",
       "tools": ["GAMING_SETS"],
-      "equipment": ["ITEM_SPEAR", "ITEM_SHORTBOW", "20 ITEM_ARROW", "ITEM_HEALERS_KIT", "ITEM_QUIVER", "ITEM_TRAVELERS_CLOTHES", "14 GOLD"],
+      "equipment": ["GAMING_SETS", "ITEM_SPEAR", "ITEM_SHORTBOW", "20 ITEM_ARROW", "ITEM_HEALERS_KIT", "ITEM_QUIVER", "ITEM_TRAVELERS_CLOTHES", "14 GOLD"],
       "gold": 50
     }
   },

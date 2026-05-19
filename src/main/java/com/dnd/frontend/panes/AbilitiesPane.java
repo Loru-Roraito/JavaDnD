@@ -262,18 +262,22 @@ public class AbilitiesPane extends GridPane {
 
             // Skill name
             TooltipLabel label = new TooltipLabel(getTranslation(skill), mainTabPane);
-            skillsArea.add(label, 0, i); // Column 0, Row i
+            skillsArea.add(label, 3, i);
 
             // Checkboxes for proficiency and expertise
             CheckBox proficiency = new CheckBox();
             skillsArea.add(proficiency, 1, i);
 
             CheckBox expertise = new CheckBox();
-            skillsArea.add(expertise, 2, i);
+            skillsArea.add(expertise, 0, i);
 
             Runnable enableProficiency = () -> {
-                proficiency.setDisable(!character.getAvailableSkill(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillProficiency(index).get())));
-                expertise.setDisable(!character.getAvailableExpertise(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillExpertise(index).get())));
+                boolean proficiencyDisable = !character.getAvailableSkill(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillProficiency(index).get()));
+                proficiency.setDisable(proficiencyDisable);
+                proficiency.setManaged(!proficiencyDisable || character.getSkillProficiency(index).get());
+                boolean expertiseDisable = !character.getAvailableExpertise(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillExpertise(index).get()));
+                expertise.setDisable(expertiseDisable);
+                expertise.setManaged(!expertiseDisable || character.getSkillExpertise(index).get());
             };
             enableProficiency.run();
             character.getAvailableSkill(index).addListener(_ -> enableProficiency.run());
@@ -295,7 +299,7 @@ public class AbilitiesPane extends GridPane {
                     character.getPoisoned().get() || (isStealth && character.getArmor().get().getStealth()),
                     character.getSkillAbilities()[index]);
             });
-            skillsArea.add(rollButton, 3, i); // Column 3, Row i
+            skillsArea.add(rollButton, 2, i);
         }
     }
 

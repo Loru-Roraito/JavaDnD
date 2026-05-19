@@ -236,7 +236,7 @@ public class HealthPane extends GridPane {
     public void chooseHealthUI() {
         String healthType = character.getHealthMethod().get();
         
-        if (healthType.equals(getTranslation("MEDIUM_HP"))) {
+        if (healthType.equals("MEDIUM_HP")) {
             hpMedium.setVisible(true);
             hpMedium.setManaged(true);
         } else {
@@ -252,7 +252,7 @@ public class HealthPane extends GridPane {
             hpRandom.setManaged(false);
         }
 
-        if (healthType.equals(getTranslation("CUSTOM"))) {
+        if (healthType.equals("CUSTOM")) {
             hpCustom.setVisible(true);
             hpCustom.setManaged(true);
         } else {

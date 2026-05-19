@@ -72,7 +72,6 @@ public class ViewModel {
     private final int maxFightingStyles;
     private final int maxClasses;
     private final int maxWeaponMasteries;
-    private final int[] skillAbilities;
     
     // Maybe unnecessary? Int or Float could work? Right now I'll leave it like this, but is probably unoptimal (probably negligible, though).
     private final DoubleProperty speed;
@@ -142,8 +141,6 @@ public class ViewModel {
         this.stage = stage;
         this.backend = backend;
         this.characterTab = characterTab;
-
-        skillAbilities = backend.getSkillAbilities();
 
         mainHand = new ObservableItem(backend.getMainHand().get());
         bindObservableItem(mainHand, backend.getMainHand());
@@ -632,7 +629,15 @@ public class ViewModel {
     // Getters for all properties
 
     public int[] getSkillAbilities() {
-        return skillAbilities;
+        return backend.getSkillAbilities();
+    }
+
+    public String[] getSkillNames() {
+        return backend.getSkillNames();
+    }
+
+    public String[] getAbilityNames() {
+        return backend.getAbilityNames();
     }
 
     public ObservableItem getMainHand() {

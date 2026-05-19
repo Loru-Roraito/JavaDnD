@@ -147,7 +147,7 @@ public class InfoTab extends Tab {
             Runnable updateTexts = () -> {
                 newTab.setText(getTranslation(character.getClasse(index).get()));
             };
-            updateText.run();
+            updateTexts.run();
             character.getClasse(index).addListener((_, _, newVal) -> {
                 updateTexts.run();
             });

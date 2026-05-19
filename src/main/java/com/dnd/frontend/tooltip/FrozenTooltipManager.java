@@ -24,10 +24,8 @@ public class FrozenTooltipManager {
     // TODO: done quickly with AI (besides the main structure)
     private static final List<Popup> frozenTooltips = new ArrayList<>();
     private static final BooleanProperty isFrozen = new SimpleBooleanProperty(false);
-    private static TabPane mainTabPane;
 
     public static void freeze(Tooltip tooltip, Node sourceNode, TabPane mainTabPane) {
-        FrozenTooltipManager.mainTabPane = mainTabPane;
         if (tooltip == null || tooltip.getText() == null || tooltip.getText().isEmpty()) {
             closeAll();
             return;
@@ -143,7 +141,6 @@ public class FrozenTooltipManager {
             popup.hide();
         }
         frozenTooltips.clear();
-        mainTabPane.requestFocus();
     }
 
     private static boolean isDescendantOf(Node node, Node ancestor) {

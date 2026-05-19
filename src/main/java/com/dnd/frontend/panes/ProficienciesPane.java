@@ -14,6 +14,10 @@ import com.dnd.frontend.tooltip.TooltipTitledPane;
 import com.dnd.utils.items.Trait;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -138,15 +142,26 @@ public class ProficienciesPane extends GridPane {
         character.getAvailableWeaponMasteries().addListener((_) -> showMasteries.run());
         showMasteries.run();
 
+        IntegerProperty changedMastery = new SimpleIntegerProperty(-1);
+        final StringProperty oldMastery = new SimpleStringProperty("");
+        Runnable resetMastery = () -> {
+                changedMastery.set(-1);
+                oldMastery.set("");
+        };
+        character.isEditing().addListener((_) -> resetMastery.run());
+        character.isLongResting().addListener((_) -> resetMastery.run());
+
         for (int i = 0; i < character.getMaxWeaponMasteries(); i++) {
+            int index = i;
             TooltipComboBox masteryComboBox = new TooltipComboBox(character.getSelectableWeaponMasteries(), mainTabPane);
             masteryComboBox.valueProperty().bindBidirectional(character.getWeaponMastery(i));
-            masteryComboBox.disableProperty().bind(character.isEditing().not().and(character.isLongResting().not()));
-            masteryGrid.add(masteryComboBox, 0, i + 1);
-            masteryGrid.add(masteryComboBox.getLabel(), 0, i + 1);
 
-            int index = i;
-            Runnable showMastery = () -> {
+            Runnable enableMastery = () -> {
+                if ((character.isEditing().get() || character.isLongResting().get()) && (changedMastery.get() == -1 || index == changedMastery.get())) {
+                    masteryComboBox.setDisable(false);
+                } else {
+                    masteryComboBox.setDisable(true);
+                }
                 if (index < character.getAvailableWeaponMasteries().get() && !masteryComboBox.isDisabled()) {
                     masteryComboBox.setManaged(true);
                     masteryComboBox.setVisible(true);
@@ -154,6 +169,25 @@ public class ProficienciesPane extends GridPane {
                     masteryComboBox.setManaged(false);
                     masteryComboBox.setVisible(false);
                 }
+            };
+            character.isEditing().addListener((_) -> enableMastery.run());
+            character.isLongResting().addListener((_) -> enableMastery.run());
+            changedMastery.addListener((_) -> enableMastery.run());
+            enableMastery.run();
+            masteryComboBox.valueProperty().addListener((_, oldVal, _) -> {
+                if (!masteryComboBox.getValue().equals(oldMastery.get())) {
+                    changedMastery.set(index);
+                    oldMastery.set(oldVal);
+                } else {
+                    changedMastery.set(-1);
+                    oldMastery.set("");
+                }
+            });
+
+            masteryGrid.add(masteryComboBox, 0, i + 1);
+            masteryGrid.add(masteryComboBox.getLabel(), 0, i + 1);
+
+            Runnable showMastery = () -> {
             };
             character.getAvailableWeaponMasteries().addListener((_) -> showMastery.run());
             character.isEditing().addListener((_) -> showMastery.run());
