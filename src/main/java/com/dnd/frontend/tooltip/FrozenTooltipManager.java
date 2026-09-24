@@ -30,7 +30,7 @@ public class FrozenTooltipManager {
             closeAll();
             return;
         }
-        String tooltipText = tooltip.getText();
+        String tooltipText = tooltip.getProperties().get("rawText").toString();
         double tooltipX = tooltip.getX();
         double tooltipY = tooltip.getY();
         tooltip.hide();

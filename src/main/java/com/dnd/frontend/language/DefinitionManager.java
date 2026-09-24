@@ -122,32 +122,32 @@ public class DefinitionManager {
 
                 String attributes[] = item.getAttributes();
                 for (String attribute : attributes) {
-                    tooltip += " " + getTranslation(attribute);
+                    tooltip += " [[" + getTranslation(attribute) + "]]";
                 }
 
                 String mastery = item.getMastery();
                 if (!mastery.isEmpty()) {
-                    tooltip += " (" + getTranslation("MASTERY") + ": " + getTranslation(mastery) + ")";
+                    tooltip += " ([[" + getTranslation("MASTERY") + "]]: [[" + getTranslation(mastery) + "]])";
                 }
                 
                 String[] tags = item.getTags();
                 if (Arrays.asList(tags).contains("RANGED")) {
-                    tooltip += ", " + getTranslation("RANGE") + ": " + (int) (item.getShortRange() * Constants.LENGTH_MULTIPLIER) + "/" + (int) (item.getLongRange() * Constants.LENGTH_MULTIPLIER) + " " + getTranslation("LENGTH_UNIT");
+                    tooltip += ", [[" + getTranslation("RANGE") + "]]: " + (int) (item.getShortRange() * Constants.LENGTH_MULTIPLIER) + "/" + (int) (item.getLongRange() * Constants.LENGTH_MULTIPLIER) + " " + getTranslation("LENGTH_UNIT");
                 }
 
                 if (Arrays.asList(properties).contains("AMMUNITION")) {
-                    tooltip += "\n" + getTranslation("AMMUNITION") + ": " + getTranslation(item.getAmmo());
+                    tooltip += "\n[[" + getTranslation("AMMUNITION") + "]]: [[" + getTranslation(item.getAmmo() + "]]");
                 }
 
                 tooltip += "\n\n";
                 for (String property : properties) {
-                    tooltip += getTranslation(property) + ", ";
+                    tooltip += "[[" + getTranslation(property) + "]], ";
                 }
                 tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
 
                 tooltip += "\n";
                 for (String tag : tags) {
-                    tooltip += getTranslation(tag) + ", ";
+                    tooltip += "[[" + getTranslation(tag) + "]], ";
                 }
                 tooltip = tooltip.substring(0, tooltip.length() - 2); // Remove trailing comma and space
                 tooltip += "\n\n" + getItemDescription(item.getNominative());
@@ -295,36 +295,36 @@ public class DefinitionManager {
         String tooltip = getTranslation(spell.getSchool());
 
         if (spell.getRitual()) {
-            tooltip += ", " + getTranslation("RITUAL");
+            tooltip += ", [[" + getTranslation("RITUAL") + "]]";
         }
 
         if (spell.getConcentration()) {
-            tooltip += ", " + getTranslation("CONCENTRATION");
+            tooltip += ", [[" + getTranslation("CONCENTRATION") + "]]";
         }
 
         int time = spell.getTime();
         String timeSpan = spell.getTimeSpan();
         if (timeSpan.equals("DISPELLED")) {
-            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + getTranslation(timeSpan);
+            tooltip += "\n[[" + getTranslation("CASTING_TIME") + "]]: " + getTranslation(timeSpan);
         } else {
-            tooltip += "\n" + getTranslation("CASTING_TIME") + ": " + time + " " + getTranslation(timeSpan);
+            tooltip += "\n[[" + getTranslation("CASTING_TIME") + "]]: " + time + " " + getTranslation(timeSpan);
         }
 
         int range = spell.getRange();
         if (range > 0) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + range * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
+            tooltip += "\n[[" + getTranslation("RANGE") + "]]: " + range * Constants.LENGTH_MULTIPLIER + " " + getTranslation("LENGTH_UNIT");
         } else if (range == 0) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("TOUCH");
+            tooltip += "\n[[" + getTranslation("RANGE") + "]]: " + getTranslation("TOUCH");
         } else if (range == -1) {
-            tooltip += "\n" + getTranslation("RANGE") + ": " + getTranslation("SELF");
+            tooltip += "\n[[" + getTranslation("RANGE") + "]]: " + getTranslation("SELF");
         }
 
-        tooltip += "\n" + getTranslation("COMPONENTS") + ": ";
+        tooltip += "\n[[" + getTranslation("COMPONENTS") + "]]: ";
         Boolean[] components = spell.getComponents();
-        String[] componentNames = {"V", "S", "M"};
+        String[] componentNames = {"[[V]]", "[[S]]", "[[M]]"};
         for (int i = 0; i < components.length; i++) {
             if (components[i]) {
-                tooltip += getTranslation(componentNames[i]);
+                tooltip += "[[" + getTranslation(componentNames[i]) + "]]";
                 if (i == 2) {
                     tooltip += " (" + getSpellIngredient(spell.getNominative()) + "), ";
                 } else {
@@ -337,9 +337,9 @@ public class DefinitionManager {
         int duration = spell.getDuration();
         String durationSpan = spell.getDurationSpan();
         if (durationSpan.equals("INSTANTANEOUS")) {
-            tooltip += "\n" + getTranslation("DURATION") + ": " + getTranslation(durationSpan);
+            tooltip += "\n[[" + getTranslation("DURATION") + "]]: " + getTranslation(durationSpan);
         } else {
-            tooltip += "\n" + getTranslation("DURATION") + ": " + duration + " " + getTranslation(durationSpan);
+            tooltip += "\n[[" + getTranslation("DURATION") + "]]: " + duration + " " + getTranslation(durationSpan);
         }
 
         tooltip += "\n\n" + getSpellDescription(spell.getNominative());
@@ -348,7 +348,9 @@ public class DefinitionManager {
     }
 
     public static Tooltip placeTooltip(Node node, String tooltipText) {
-        Tooltip tooltip = new Tooltip(tooltipText);
+        String displayText = tooltipText.replace("[[", "").replace("]]", "");
+        Tooltip tooltip = new Tooltip(displayText);
+        tooltip.getProperties().put("rawText", tooltipText); // Used when freezing to know whic words were in bracket
         tooltip.setWrapText(true);
         tooltip.setMaxWidth(300);
         tooltip.setShowDuration(Duration.INDEFINITE); // Stay visible while hovering

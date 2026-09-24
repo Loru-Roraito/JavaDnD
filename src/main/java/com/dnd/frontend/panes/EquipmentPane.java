@@ -2,9 +2,7 @@ package com.dnd.frontend.panes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.dnd.backend.GroupManager;
 import com.dnd.backend.ItemManager;
@@ -14,9 +12,8 @@ import com.dnd.frontend.tooltip.FrozenTooltipManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.utils.items.Item;
+import com.dnd.utils.observables.ObservableInteger;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
@@ -294,201 +291,191 @@ public class EquipmentPane extends GridPane {
 
         VBox itemsBox = new VBox();
         Runnable updateItems = () -> {
-            Map<Item, IntegerProperty> itemQuantities = new HashMap<>();
             itemsBox.getChildren().clear();
             for (Item item : character.getItems().getList()) {
-                boolean itemPresent = false;
-                for (Item myItem : itemQuantities.keySet()) {
-                    if (myItem.equals(item)) {
-                        itemQuantities.get(myItem).set(itemQuantities.get(myItem).get() + 1);
-                        itemPresent = true;
-                        break;
-                    }
+                HBox itemBox = new HBox();
+                ObservableInteger quantityProperty = item.getQuantityProperty();
+                TooltipLabel itemLabel = new TooltipLabel(item, mainTabPane);
+
+                String type = item.getType();
+                String[] properties = item.getProperties();
+                String[] tags = item.getTags();
+                CheckBox main = new CheckBox();
+                CheckBox off = new CheckBox();
+
+                if (character.getMainHand().get().equals(item) || character.getArmor().get().equals(item)) {
+                    main.setSelected(true);
                 }
-                if (!itemPresent) {
-                    HBox itemBox = new HBox();
-                    IntegerProperty quantityProperty = new SimpleIntegerProperty(1);
-                    itemQuantities.put(item, quantityProperty);
-                    TooltipLabel itemLabel = new TooltipLabel(item, mainTabPane);
+                if (character.getOffHand().get().equals(item) || character.getShield().get().equals(item)) {
+                    off.setSelected(true);
+                }
 
-                    String type = item.getType();
-                    String[] properties = item.getProperties();
-                    String[] tags = item.getTags();
-                    CheckBox main = new CheckBox();
-                    CheckBox off = new CheckBox();
+                if (!type.equals("WEAPON") && !type.equals("ARMOR")) {
+                    main.setVisible(false);
+                    off.setVisible(false);
+                } else if (Arrays.asList(tags).contains("SHIELDS")) {
+                    main.setVisible(false);
+                } else if (!Arrays.asList(properties).contains("VERSATILE") && !Arrays.asList(properties).contains("TWO_HANDED")) {
+                    off.setVisible(false);
+                }
 
-                    if (character.getMainHand().get().equals(item) || character.getArmor().get().equals(item)) {
-                        main.setSelected(true);
-                    }
-                    if (character.getOffHand().get().equals(item) || character.getShield().get().equals(item)) {
-                        off.setSelected(true);
-                    }
-
-                    if (!type.equals("WEAPON") && !type.equals("ARMOR")) {
-                        main.setVisible(false);
-                        off.setVisible(false);
-                    } else if (Arrays.asList(tags).contains("SHIELDS")) {
-                        main.setVisible(false);
-                    } else if (!Arrays.asList(properties).contains("VERSATILE") && !Arrays.asList(properties).contains("TWO_HANDED")) {
-                        off.setVisible(false);
-                    }
-
-                    Runnable updateMain = () -> {
-                        if (type.equals("WEAPON")) {
-                            Item mainHand = character.getMainHand().get();
-                            Item offHand = character.getOffHand().get();
-                            Item shield = character.getShield().get();
-                            boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
-                            if (isTwoHanded && ((!offHand.getNominative().equals("NONE") && !offHand.equals(item)) || !shield.getNominative().equals("NONE"))) {
-                                main.disableProperty().set(true);
-                            } else {
-                                if (mainHand.equals(item) || mainHand.getNominative().equals("UNARMED_STRIKE")) {
-                                    main.disableProperty().set(false);
-                                } else {
-                                    main.disableProperty().set(true);
-                                }
-                            }
-                        } else if (type.equals("ARMOR")) {
-                            Item armor = character.getArmor().get();
-                            if (armor.equals(item) || armor.getNominative().equals("NONE")) {
+                Runnable updateMain = () -> {
+                    if (type.equals("WEAPON")) {
+                        Item mainHand = character.getMainHand().get();
+                        Item offHand = character.getOffHand().get();
+                        Item shield = character.getShield().get();
+                        boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
+                        if (isTwoHanded && ((!offHand.getNominative().equals("NONE") && !offHand.equals(item)) || !shield.getNominative().equals("NONE"))) {
+                            main.disableProperty().set(true);
+                        } else {
+                            if (mainHand.equals(item) || mainHand.getNominative().equals("UNARMED_STRIKE")) {
                                 main.disableProperty().set(false);
                             } else {
                                 main.disableProperty().set(true);
                             }
                         }
-                    };
-                    updateMain.run();
-                    character.getMainHand().addListener(_ -> updateMain.run());
-                    if (Arrays.asList(properties).contains("TWO_HANDED")) {
-                        character.getOffHand().addListener(_ -> updateMain.run());
-                        character.getShield().addListener(_ -> updateMain.run());
+                    } else if (type.equals("ARMOR")) {
+                        Item armor = character.getArmor().get();
+                        if (armor.equals(item) || armor.getNominative().equals("NONE")) {
+                            main.disableProperty().set(false);
+                        } else {
+                            main.disableProperty().set(true);
+                        }
                     }
-                    character.getArmor().addListener(_ -> updateMain.run());
+                };
+                updateMain.run();
+                character.getMainHand().addListener(_ -> updateMain.run());
+                if (Arrays.asList(properties).contains("TWO_HANDED")) {
+                    character.getOffHand().addListener(_ -> updateMain.run());
+                    character.getShield().addListener(_ -> updateMain.run());
+                }
+                character.getArmor().addListener(_ -> updateMain.run());
 
-                    Runnable updateOff = () -> {
-                        if (type.equals("WEAPON")) {
-                            Item shield = character.getShield().get();
-                            if (shield.getNominative().equals("NONE")) {
-                                Item offHand = character.getOffHand().get();
-                                Item mainHand = character.getMainHand().get();
-                                boolean isVersatile = Arrays.asList(properties).contains("VERSATILE");
-                                boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
-                                if (isTwoHanded) {
-                                    if (mainHand.equals(item)) {
-                                        off.setSelected(true);
-                                    } else {
-                                        off.setSelected(false);
-                                    }
-                                    off.disableProperty().set(true);
-                                } else if (isVersatile && !mainHand.equals(item)) {
-                                    off.setSelected(false);
-                                    off.disableProperty().set(true);
-                                } else {
-                                    if (offHand.equals(item) ||  offHand.getNominative().equals("NONE")) {
-                                        off.disableProperty().set(false);
-                                    } else {
-                                        off.disableProperty().set(true);
-                                    }
-                                }
-                            } else {
-                                off.disableProperty().set(true);
-                            }
-                        } else if (type.equals("ARMOR")) {
-                            Item shield = character.getShield().get();
+                Runnable updateOff = () -> {
+                    if (type.equals("WEAPON")) {
+                        Item shield = character.getShield().get();
+                        if (shield.getNominative().equals("NONE")) {
                             Item offHand = character.getOffHand().get();
-                            if (offHand.getNominative().equals("NONE") && (shield.equals(item) || shield.getNominative().equals("NONE"))) {
-                                off.disableProperty().set(false);
-                            } else {
+                            Item mainHand = character.getMainHand().get();
+                            boolean isVersatile = Arrays.asList(properties).contains("VERSATILE");
+                            boolean isTwoHanded = Arrays.asList(properties).contains("TWO_HANDED");
+                            if (isTwoHanded) {
+                                if (mainHand.equals(item)) {
+                                    off.setSelected(true);
+                                } else {
+                                    off.setSelected(false);
+                                }
                                 off.disableProperty().set(true);
+                            } else if (isVersatile && !mainHand.equals(item)) {
+                                off.setSelected(false);
+                                off.disableProperty().set(true);
+                            } else {
+                                if (offHand.equals(item) ||  offHand.getNominative().equals("NONE")) {
+                                    off.disableProperty().set(false);
+                                } else {
+                                    off.disableProperty().set(true);
+                                }
                             }
+                        } else {
+                            off.disableProperty().set(true);
                         }
-                    };
-                    updateOff.run();
-                    character.getOffHand().addListener(_ -> updateOff.run());
-                    if (Arrays.asList(properties).contains("VERSATILE") || Arrays.asList(properties).contains("TWO_HANDED")) {
-                        character.getMainHand().addListener(_ -> updateOff.run());
+                    } else if (type.equals("ARMOR")) {
+                        Item shield = character.getShield().get();
+                        Item offHand = character.getOffHand().get();
+                        if (offHand.getNominative().equals("NONE") && (shield.equals(item) || shield.getNominative().equals("NONE"))) {
+                            off.disableProperty().set(false);
+                        } else {
+                            off.disableProperty().set(true);
+                        }
                     }
-                    character.getShield().addListener(_ -> updateOff.run());
+                };
+                updateOff.run();
+                character.getOffHand().addListener(_ -> updateOff.run());
+                if (Arrays.asList(properties).contains("VERSATILE") || Arrays.asList(properties).contains("TWO_HANDED")) {
+                    character.getMainHand().addListener(_ -> updateOff.run());
+                }
+                character.getShield().addListener(_ -> updateOff.run());
 
-                    main.selectedProperty().addListener((_, _, newVal) -> {
-                        if (newVal) {
-                            if (type.equals("WEAPON")) {
-                                character.getMainHand().set(item);
-                            } else if (type.equals("ARMOR")) {
-                                character.getArmor().set(item);
-                            }
-                        } else {
-                            if (type.equals("WEAPON")) {
-                                if (character.getMainHand().get().equals(item)) {
-                                    character.getMainHand().set(new Item("UNARMED_STRIKE"));
-                                }
-                            } else if (type.equals("ARMOR")) {
-                                if (character.getArmor().get().equals(item)) {
-                                    character.getArmor().set(new Item("NONE"));
-                                }
-                            }
+                main.selectedProperty().addListener((_, _, newVal) -> {
+                    if (newVal) {
+                        if (type.equals("WEAPON")) {
+                            character.getMainHand().set(item);
+                        } else if (type.equals("ARMOR")) {
+                            character.getArmor().set(item);
                         }
-                    });
-
-                    off.selectedProperty().addListener((_, _, newVal) -> {
-                        if (newVal) {
-                            if (type.equals("WEAPON")) {
-                                character.getOffHand().set(item);
-                            } else if (type.equals("ARMOR")) {
-                                character.getShield().set(item);
-                            }
-                        } else {
-                            if (type.equals("WEAPON")) {
-                                if (character.getOffHand().get().equals(item)) {
-                                    character.getOffHand().set(new Item("NONE"));
-                                }
-                            } else if (type.equals("ARMOR")) {
-                                if (character.getShield().get().equals(item)) {
-                                    character.getShield().set(new Item("NONE"));
-                                }
-                            }
-                        }
-                    });
-
-                    quantityProperty.addListener((_, _, newVal) -> {
-                        if (newVal.intValue() > 1) {
-                            itemLabel.setText(newVal.intValue() + "x " + getTranslation(item.getName()));
-                            if (type.equals("WEAPON") && Arrays.asList(properties).contains("LIGHT")) {
-                                off.setVisible(true);
-                            }
-                        } else {
-                            itemLabel.setText(getTranslation(item.getName()));
-                        }
-                    });
-
-                    Button remove = new Button("-");
-                    remove.setOnAction(_ -> {
-                        int quantity = quantityProperty.get();
-                        if (quantity > 1) {
-                            quantityProperty.set(quantity - 1);
-                            if (character.getMainHand().get().equals(item) && character.getOffHand().get().equals(item) && quantity - 1 == 1) {
-                                character.getOffHand().set(new Item("NONE"));
-                            }
-                        } else {
+                    } else {
+                        if (type.equals("WEAPON")) {
                             if (character.getMainHand().get().equals(item)) {
                                 character.getMainHand().set(new Item("UNARMED_STRIKE"));
                             }
+                        } else if (type.equals("ARMOR")) {
+                            if (character.getArmor().get().equals(item)) {
+                                character.getArmor().set(new Item("NONE"));
+                            }
+                        }
+                    }
+                });
+
+                off.selectedProperty().addListener((_, _, newVal) -> {
+                    if (newVal) {
+                        if (type.equals("WEAPON")) {
+                            character.getOffHand().set(item);
+                        } else if (type.equals("ARMOR")) {
+                            character.getShield().set(item);
+                        }
+                    } else {
+                        if (type.equals("WEAPON")) {
                             if (character.getOffHand().get().equals(item)) {
                                 character.getOffHand().set(new Item("NONE"));
                             }
-                            else if (character.getArmor().get().equals(item)) {
-                                character.getArmor().set(new Item("NONE"));
-                            }
-                            else if (character.getShield().get().equals(item)) {
+                        } else if (type.equals("ARMOR")) {
+                            if (character.getShield().get().equals(item)) {
                                 character.getShield().set(new Item("NONE"));
                             }
                         }
-                        character.getItems().remove(item);
-                    });
+                    }
+                });
 
-                    itemBox.getChildren().addAll(remove, main, off, itemLabel);
-                    itemsBox.getChildren().add(itemBox);
-                }
+                Runnable updateQuantityLabel = () -> {
+                    if (quantityProperty.get() > 1) {
+                        itemLabel.setText(quantityProperty.get() + "x " + getTranslation(item.getName()));
+                    } else {
+                        itemLabel.setText(getTranslation(item.getName()));
+                    }
+                };
+                updateQuantityLabel.run();
+
+                quantityProperty.addListener((newVal) -> {
+                    updateQuantityLabel.run();
+                });
+
+                Button remove = new Button("-");
+                remove.setOnAction(_ -> {
+                    int quantity = quantityProperty.get();
+                    if (quantity > 1) {
+                        item.setQuantity(quantity - 1);
+                        if (character.getMainHand().get().equals(item) && character.getOffHand().get().equals(item) && quantity - 1 == 1) {
+                            character.getOffHand().set(new Item("NONE"));
+                        }
+                    } else {
+                        if (character.getMainHand().get().equals(item)) {
+                            character.getMainHand().set(new Item("UNARMED_STRIKE"));
+                        }
+                        if (character.getOffHand().get().equals(item)) {
+                            character.getOffHand().set(new Item("NONE"));
+                        }
+                        else if (character.getArmor().get().equals(item)) {
+                            character.getArmor().set(new Item("NONE"));
+                        }
+                        else if (character.getShield().get().equals(item)) {
+                            character.getShield().set(new Item("NONE"));
+                        }
+                        character.getItems().remove(item);
+                    }
+                });
+
+                itemBox.getChildren().addAll(remove, main, off, itemLabel);
+                itemsBox.getChildren().add(itemBox);
             }
         };
         updateItems.run();
@@ -590,7 +577,6 @@ public class EquipmentPane extends GridPane {
                     character.addItem(itemName);
                     addItem.clear();
                 }
-                addItem.getParent().requestFocus();
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 addItem.clear();
                 addItem.getParent().requestFocus();

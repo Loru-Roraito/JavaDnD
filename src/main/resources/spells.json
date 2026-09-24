@@ -320,7 +320,7 @@
       true
     ]
   },
-  "SPELL_ARCANIST’S_MAGIC_AURA": {
+  "SPELL_ARCANIST'S_MAGIC_AURA": {
     "level": 2,
     "range": 0,
     "time": 1,
@@ -1893,7 +1893,7 @@
       false
     ]
   },
-  "SPELL_DRAGON’S_BREATH": {
+  "SPELL_DRAGON'S_BREATH": {
     "level": 2,
     "range": 0,
     "time": 1,
@@ -3166,7 +3166,7 @@
       false
     ]
   },
-  "SPELL_HEROES’_FEAST": {
+  "SPELL_HEROES'_FEAST": {
     "level": 6,
     "range": -1,
     "time": 10,
@@ -3288,7 +3288,7 @@
       true
     ]
   },
-  "SPELL_HUNTER’S_MARK": {
+  "SPELL_HUNTER'S_MARK": {
     "level": 1,
     "range": 90,
     "time": 1,

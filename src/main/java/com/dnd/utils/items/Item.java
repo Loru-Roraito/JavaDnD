@@ -2,6 +2,7 @@ package com.dnd.utils.items;
 
 import com.dnd.backend.ItemManager;
 import com.dnd.utils.observables.ObservableString;
+import com.dnd.utils.observables.ObservableInteger;
 
 public class Item implements MyItems<Item> {
     private final ObservableString name;
@@ -11,6 +12,8 @@ public class Item implements MyItems<Item> {
     // private final String alias; // Used if a slightly different weapon still needs to be cathegorised as another (like a fire sword being considered a sword)
     private final String type;
     private final String[] tags;
+
+    private final ObservableInteger quantity = new ObservableInteger(1);
     
     // Weapons attributes
     private final int hits;
@@ -53,6 +56,11 @@ public class Item implements MyItems<Item> {
         return name;
     }
 
+    public Item(String nominative, int quantity) {
+        this(nominative);
+        this.quantity.set(quantity);
+    }
+
     public Item(String nominative) {
         name = new ObservableString(nominative);
 
@@ -82,6 +90,18 @@ public class Item implements MyItems<Item> {
         stealth = getBoolean(new String[] {nominative, "stealth"});
 
         // uses = getInt(new String[] {nominative, "uses"});
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity.set(quantity);
+    }
+
+    public ObservableInteger getQuantityProperty() {
+        return quantity;
+    }
+
+    public int getQuantity() {
+        return quantity.get();
     }
 
     public String getNominative() {

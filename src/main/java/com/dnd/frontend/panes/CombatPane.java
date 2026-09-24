@@ -150,7 +150,12 @@ public class CombatPane extends GridPane {
             boolean hasAmmo = false;
             for (Item item : character.getItems().getList()) {
                 if (item.getNominative().equals(ammo)) {
-                    character.getItems().remove(item);
+                    int quantity = item.getQuantity();
+                    if (quantity > 1) {
+                        item.setQuantity(quantity - 1);
+                    } else {
+                        character.getItems().remove(item);
+                    }
                     hasAmmo = true;
                     break;
                 }

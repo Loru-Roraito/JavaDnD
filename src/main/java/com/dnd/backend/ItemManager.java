@@ -54,6 +54,7 @@ public class ItemManager extends Manager{
 
     public void addItem(GameCharacter character, String itemName) {
         if (!itemName.equals("") && !sets.contains(itemName)) {
+            int quantity = 1;
             if (packages.contains(itemName)) {
                 for (String item : getNormalStrings(new String[] {"packages", itemName})) {
                     addItem(character, item);
@@ -105,15 +106,18 @@ public class ItemManager extends Manager{
                     return;
                 }
             } else if (itemName.split(" ")[0].matches("\\d+")) {
-                int quantity = Integer.parseInt(itemName.split(" ")[0]);
-                String singleItem = itemName.substring(itemName.indexOf(" ") + 1);
-                for (int i = 0; i < quantity; i++) {
-                    addItem(character, singleItem);
-                }
-                return;
+                quantity = Integer.parseInt(itemName.split(" ")[0]);
+                itemName = itemName.substring(itemName.indexOf(" ") + 1);
             }
             
-            Item item = new Item(itemName);
+            Item item = new Item(itemName, quantity);
+
+            for (Item existingItem : character.getItems().getList()) {
+                if (existingItem.equals(item)) {
+                    existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+                    return;
+                }
+            }
             character.getItems().add(item);
         }
     }

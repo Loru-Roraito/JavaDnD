@@ -1727,7 +1727,7 @@ public class GameCharacter {
                 default -> modifier = abilityModifiers[1].get();
             }
             armorClass.set(
-                    Math.max(base, 10) + modifier + shieldAC);
+                Math.max(base, 10) + modifier + shieldAC);
         };
         abilityModifiers[1].addListener(_ -> updateArmorClass.run());
         armorProficiencies.addListener(_ -> updateArmorClass.run());

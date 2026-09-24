@@ -18,11 +18,13 @@ public abstract class Manager {
 
     public void initialize() {
         String fileName = getJsonFileName();
-        try (var inputStream = Manager.class.getResourceAsStream("/" + fileName);
+        var inputStream = Manager.class.getResourceAsStream("/" + fileName);
+        if (inputStream == null) {
+            throw new IllegalStateException("Resource not found on the runtime classpath: /" + fileName);
+        }
+
+        try (inputStream;
             var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-            if (inputStream == null) {
-                throw new IOException("Resource not found: " + fileName);
-            }
             rootNode = JsonParser.parseReader(reader).getAsJsonObject();
 
             // Try to load and merge custom version
