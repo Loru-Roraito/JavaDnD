@@ -66,4 +66,8 @@ public class TranslationManager {
         }
         return translations;
     }
+
+    public static String getLang() {
+        return lang;
+    }
 }

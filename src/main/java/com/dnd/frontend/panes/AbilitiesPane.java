@@ -275,14 +275,18 @@ public class AbilitiesPane extends GridPane {
                 boolean proficiencyDisable = !character.getAvailableSkill(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillProficiency(index).get()));
                 proficiency.setDisable(proficiencyDisable);
                 proficiency.setManaged(!proficiencyDisable || character.getSkillProficiency(index).get());
+                proficiency.setVisible(!proficiencyDisable || character.getSkillProficiency(index).get());
                 boolean expertiseDisable = !character.getAvailableExpertise(index).get() || (!character.isEditing().get() && (!character.isLevelingUp().get() || character.getSkillExpertise(index).get()));
                 expertise.setDisable(expertiseDisable);
                 expertise.setManaged(!expertiseDisable || character.getSkillExpertise(index).get());
+                expertise.setVisible(!expertiseDisable || character.getSkillExpertise(index).get());
             };
             enableProficiency.run();
             character.getAvailableSkill(index).addListener(_ -> enableProficiency.run());
             character.isEditing().addListener(_ -> enableProficiency.run());
             character.isLevelingUp().addListener(_ -> enableProficiency.run());
+            character.getSkillProficiency(index).addListener(_ -> enableProficiency.run());
+            character.getSkillExpertise(index).addListener(_ -> enableProficiency.run());
 
             proficiency.selectedProperty().bindBidirectional(character.getSkillProficiency(index));
             expertise.selectedProperty().bindBidirectional(character.getSkillExpertise(index));

@@ -152,9 +152,8 @@ public class ParametersPane extends GridPane {
         for (String alignmentKey : getStrings(new String[] {"alignments"})) {
             alignments.add(getTranslation(alignmentKey));
         }
-        alignments.add(0, getTranslation("RANDOM"));
 
-        TooltipComboBox alignmentComboBox = new TooltipComboBox(alignments, mainTabPane);
+        TooltipComboBox alignmentComboBox = new TooltipComboBox(alignments, mainTabPane, false);
         add(alignmentComboBox, 0, 11);
         add(alignmentComboBox.getLabel(), 0, 11);
         alignmentComboBox.disableProperty().bind(character.isEditing().not());

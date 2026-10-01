@@ -24,6 +24,16 @@ public class ItemManager extends Manager{
         return "items.json";
     }
 
+    public String[] getTools() {
+        List<String> keys = new ArrayList<>();
+        for (String itemName : rootNode.keySet()) {
+            if (getString(new String[] {itemName, "type"}).equals("TOOL")) {
+                keys.add(itemName);
+            }
+        }
+        return keys.toArray(String[]::new);
+    }
+
     public String[] getAllItems() {
         List<String> keys = new ArrayList<>();
         for (String itemName : rootNode.keySet()) {

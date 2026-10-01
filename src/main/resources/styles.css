@@ -297,6 +297,12 @@
     -fx-background-color: #f7eed8;
 }
 
+.auto-fit-list-view .list-cell:selected:hover {
+    background-color: #d6ad55;
+    -fx-background-color: #d6ad55;
+    -fx-text-fill: #2a1a10;
+}
+
 .popup .list-cell {
     background-color: transparent;
     -fx-background-color: transparent;

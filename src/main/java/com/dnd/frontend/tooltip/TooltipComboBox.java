@@ -32,10 +32,18 @@ public class TooltipComboBox extends ComboBox<String> {
     private final Tooltip tooltip;
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane) {
-        this(items, mainTabPane, FXCollections.observableArrayList());
+        this(items, mainTabPane, FXCollections.observableArrayList(), true);
+    }
+
+    public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane, boolean sort) {
+        this(items, mainTabPane, FXCollections.observableArrayList(), sort);
     }
 
     public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane, ObservableList<String> forbiddenItems) {
+        this(items, mainTabPane, forbiddenItems, true);
+    }
+
+    public TooltipComboBox(ObservableList<String> items, TabPane mainTabPane, ObservableList<String> forbiddenItems, boolean sort) {
         super(FXCollections.observableArrayList());
         this.mainTabPane = mainTabPane;
         sourceItems = items;
@@ -45,20 +53,27 @@ public class TooltipComboBox extends ComboBox<String> {
         // Create a sorted view of the items
         SortedList<String> sortedItems = new SortedList<>(combinedItems);
         setItems(sortedItems);
-        
-        sortedItems.setComparator((s1, s2) -> {
-            // RANDOM always first
-            if (s1.equals("RANDOM")) return -1;
-            if (s2.equals("RANDOM")) return 1;
-            
-            // Both are special or both are regular -> alphabetical
-            if (s1.matches("-?\\d+(\\.\\d+)?") && s2.matches("-?\\d+(\\.\\d+)?")) {
-                double num1 = Double.parseDouble(s1);
-                double num2 = Double.parseDouble(s2);
-                return Double.compare(num1, num2);
-            }
-            return s1.compareTo(s2);
-        });
+        if (sort) {
+            sortedItems.setComparator((s1, s2) -> {
+                // RANDOM always first
+                if (s1.equals("RANDOM")) return -1;
+                if (s2.equals("RANDOM")) return 1;
+                
+                // Both are special or both are regular -> alphabetical
+                if (s1.matches("-?\\d+(\\.\\d+)?") && s2.matches("-?\\d+(\\.\\d+)?")) {
+                    double num1 = Double.parseDouble(s1);
+                    double num2 = Double.parseDouble(s2);
+                    return Double.compare(num1, num2);
+                }
+                return s1.compareTo(s2);
+            });
+        } else {
+            sortedItems.setComparator((s1, s2) -> {
+                // RANDOM always first
+                if (s1.equals("RANDOM")) return -1;
+                return 1;
+            });
+        }
     
         this.setConverter(new StringConverter<>() {
             @Override
@@ -112,11 +127,6 @@ public class TooltipComboBox extends ComboBox<String> {
         // selection model doesn't shift to a wrong index during setAll.
         // Then restore it afterward to force the display cell to refresh.
         combinedItems.setAll(newItems);
-
-        // TODO: fix
-        // If I don't reset the value, it has a visual bug for which the displayed value is wrong
-        // setValue("PLACEHOLDER"); // Must be this word, as it's the only one that doesn't trigger an update in ObservableString
-        // setValue(currentValue);
     }
 
     public TooltipLabel getLabel() {

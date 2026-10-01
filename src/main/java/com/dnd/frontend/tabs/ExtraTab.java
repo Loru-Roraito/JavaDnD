@@ -5,18 +5,22 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 
 import com.dnd.backend.CustomItemWriter;
+import com.dnd.backend.CustomBackgroundWriter;
 import com.dnd.backend.GroupManager;
 import com.dnd.backend.ItemManager;
 import com.dnd.frontend.ViewModel;
 import com.dnd.frontend.language.TranslationManager;
+import com.dnd.frontend.tooltip.FrozenTooltipManager;
 import com.dnd.frontend.tooltip.TooltipComboBox;
 import com.dnd.frontend.tooltip.TooltipLabel;
 import com.dnd.frontend.tooltip.TooltipListView;
+import com.dnd.utils.observables.CustomObservableList;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -26,13 +30,16 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 
 public class ExtraTab extends Tab{
     public ExtraTab(ViewModel character, TabPane mainTabPane){
@@ -40,7 +47,7 @@ public class ExtraTab extends Tab{
         GridPane gridPane = new GridPane();
         gridPane.getStyleClass().add("grid-pane");
         
-        VBox parametersBox = new VBox();
+        VBox parametersBox = new VBox(5);
         TooltipLabel heightLabel = new TooltipLabel(getTranslation("HEIGHT"), mainTabPane);
         parametersBox.getChildren().add(heightLabel); // Add the label to the VBox
 
@@ -96,8 +103,9 @@ public class ExtraTab extends Tab{
 
         TitledPane customValues = new TitledPane();
         customValues.setText(getTranslation("CUSTOM_VALUES"));
-        gridPane.add(customValues, 1, 0, 2, 1);
+        gridPane.add(customValues, 0, 1);
         GridPane customGrid = new GridPane();
+        customGrid.getStyleClass().add("grid-pane");
         customValues.setContent(customGrid);
 
         TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS_BONUS") + ": ", getTranslation("HIT_POINTS_BONUS"), mainTabPane);
@@ -109,7 +117,24 @@ public class ExtraTab extends Tab{
             }
             return null;
         }));
-        HBox hpBox = new HBox();
+
+        
+        hpField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                hpField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+            if (!newValue.isEmpty()) {
+                character.getCustomHealth().set(Integer.parseInt(newValue));
+            } else {
+                character.getCustomHealth().set(0);
+            }
+        });
+        character.getCustomHealth().addListener(newVal -> {
+            hpField.setText(String.valueOf(newVal));
+        });
+        hpField.setText(String.valueOf(character.getCustomHealth().get()));
+
+        HBox hpBox = new HBox(5);
         hpBox.getChildren().add(hpLabel);
         hpBox.getChildren().add(hpField);
         customGrid.add(hpBox, 0, 0, 3 ,1);
@@ -123,25 +148,52 @@ public class ExtraTab extends Tab{
             }
             return null;
         }));
-        HBox customArmorClassBox = new HBox();
+
+        customArmorClassField.textProperty().addListener((_, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Allow only digits
+                customArmorClassField.setText(oldValue); // Revert to the old value if invalid input is detected
+            }
+            if (!newValue.isEmpty()) {
+                character.getCustomAC().set(Integer.parseInt(newValue));
+            } else {
+                character.getCustomAC().set(0);
+            }
+        });
+        character.getCustomAC().addListener(newVal -> {
+            customArmorClassField.setText(String.valueOf(newVal));
+        });
+        customArmorClassField.setText(String.valueOf(character.getCustomAC().get()));
+
+        HBox customArmorClassBox = new HBox(5);
         customArmorClassBox.getChildren().add(customArmorClassLabel);
         customArmorClassBox.getChildren().add(customArmorClassField);
         customGrid.add(customArmorClassBox, 0, 1, 3 ,1);
 
         for (int i = 0; i < character.getSkillNames().length; i++) {
-            String skillName = character.getSkillNames()[i];
+            int index = i;
+            String skillName = character.getSkillNames()[index];
             Label skillLabel = new Label(getTranslation(skillName));
             CheckBox expertise = new CheckBox();
             CheckBox skillCheckbox = new CheckBox();
-            customGrid.add(skillLabel, 2, i + 2);
-            customGrid.add(skillCheckbox, 1, i + 2);
-            customGrid.add(expertise, 0, i + 2);
+            expertise.selectedProperty().bindBidirectional(character.getCustomExpertise(index));
+            skillCheckbox.selectedProperty().bindBidirectional(character.getCustomSkill(index));
+            customGrid.add(skillLabel, 2, index + 2);
+            customGrid.add(skillCheckbox, 1, index + 2);
+            customGrid.add(expertise, 0, index + 2);
+
+            Runnable updateExpertiseVisibility = () -> {
+                boolean isProficient = character.getSkillProficiency(index).get();
+                expertise.setVisible(isProficient);
+                expertise.setManaged(isProficient);
+            };
+            character.getSkillProficiency(index).addListener(_ -> updateExpertiseVisibility.run());
+            updateExpertiseVisibility.run();
         } 
 
         TitledPane customItemsPane = new TitledPane();
         customItemsPane.setText(getTranslation("CUSTOM_ITEMS"));
-        gridPane.add(customItemsPane, 0, 1);
-        VBox itemBox = new VBox();
+        gridPane.add(customItemsPane, 1, 0, 1, 2);
+        VBox itemBox = new VBox(5);
         customItemsPane.setContent(itemBox);
 
         ObservableList<String> itemTypes = FXCollections.observableArrayList("ITEM", "WEAPON", "ARMOR", "SHIELD");
@@ -153,7 +205,7 @@ public class ExtraTab extends Tab{
         itemName.setPromptText(getTranslation("ITEM_NAME"));
         itemBox.getChildren().add(itemName);
 
-        HBox itemWeightBox = new HBox();
+        HBox itemWeightBox = new HBox(5);
 
         TextField itemWeight = new TextField();
         itemWeight.setPromptText(getTranslation("ITEM_WEIGHT"));
@@ -168,7 +220,7 @@ public class ExtraTab extends Tab{
         itemWeightBox.getChildren().addAll(itemWeight, itemWeightUnitLabel);
         itemBox.getChildren().add(itemWeightBox);
 
-        HBox costBox = new HBox();
+        HBox costBox = new HBox(5);
 
         TextField itemCost = new TextField();
         itemCost.setPromptText(getTranslation("ITEM_COST"));
@@ -197,9 +249,9 @@ public class ExtraTab extends Tab{
         String[] weaponTags = getStrings(new String[] {"weapon_tags"});
         String[] armorTags = getStrings(new String[] {"armor_tags"});
 
-        VBox weaponBox = new VBox();
+        VBox weaponBox = new VBox(5);
 
-        HBox damageBox = new HBox();
+        HBox damageBox = new HBox(5);
         TextField hits = new TextField();
         hits.setPromptText(getTranslation("NUMBER_OF_HITS"));
         hits.setTextFormatter(new TextFormatter<>(change -> {
@@ -246,7 +298,7 @@ public class ExtraTab extends Tab{
         masteryComboBox.getSelectionModel().selectFirst();
         weaponBox.getChildren().addAll(masteryLabel, masteryComboBox);
 
-        HBox rangeBox = new HBox();
+        HBox rangeBox = new HBox(5);
         TextField shortRange = new TextField();
         shortRange.setPromptText(getTranslation("SHORT_RANGE"));
         shortRange.setTextFormatter(new TextFormatter<>(change -> {
@@ -272,7 +324,7 @@ public class ExtraTab extends Tab{
         ammoComboBox.getSelectionModel().selectFirst();
         weaponBox.getChildren().add(ammoComboBox);
 
-        HBox versatileDamageBox = new HBox();
+        HBox versatileDamageBox = new HBox(5);
         TextField versatileHits = new TextField();
         versatileHits.setPromptText(getTranslation("NUMBER_OF_HITS"));
         versatileHits.setTextFormatter(new TextFormatter<>(change -> {
@@ -326,10 +378,10 @@ public class ExtraTab extends Tab{
         weaponTagsList.getSelectionModel().getSelectedItems().addListener((javafx.collections.ListChangeListener.Change<? extends String> _) -> updateWeaponConditionalFields.run());
 
         // Armor-specific fields
-        VBox armorBox = new VBox();
+        VBox armorBox = new VBox(5);
         TextField armorClass = new TextField();
 
-        HBox armorClassBox = new HBox();
+        HBox armorClassBox = new HBox(5);
         armorClass.setPromptText(getTranslation("STARTING_ARMOR_CLASS"));
         armorClass.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -342,7 +394,7 @@ public class ExtraTab extends Tab{
         armorClassBox.getChildren().addAll(acLabel, armorClass);
         armorBox.getChildren().add(armorClassBox);
 
-        HBox dexterityBox = new HBox();
+        HBox dexterityBox = new HBox(5);
         ObservableList<String> dexterityModes = FXCollections.observableArrayList("NO_BONUS", "FULL_BONUS", "LIMITED_BONUS");
         TooltipComboBox dexterityMode = new TooltipComboBox(dexterityModes, mainTabPane);
         dexterityMode.setValue(getTranslation("FULL_BONUS"));
@@ -369,7 +421,7 @@ public class ExtraTab extends Tab{
             }
         });
 
-        HBox strengthBox = new HBox();
+        HBox strengthBox = new HBox(5);
         CheckBox strengthRequirement = new CheckBox(getTranslation("STRENGTH_REQUIREMENT"));
         TextField requiredStrength = new TextField();
         requiredStrength.setPromptText(getTranslation("STRENGTH_REQUIREMENT") + " ");
@@ -400,7 +452,7 @@ public class ExtraTab extends Tab{
         armorTagsComboBox.getSelectionModel().selectFirst();
         armorBox.getChildren().add(armorTagsComboBox);
 
-        VBox shieldBox = new VBox();
+        VBox shieldBox = new VBox(5);
         TextField shieldArmorClass = new TextField();
         shieldArmorClass.setPromptText(getTranslation("ARMOR_CLASS_BONUS"));
         shieldArmorClass.setTextFormatter(new TextFormatter<>(change -> {
@@ -542,7 +594,7 @@ public class ExtraTab extends Tab{
                 }
                 
                 loadedItemKey[0] = data.getKey();
-                itemSaveResultLabel.setText("Loaded " + data.getKey());
+                itemSaveResultLabel.setText(getTranslation("LOADED") + " " + data.getKey());
             } catch (IOException ex) {
                 itemSaveResultLabel.setText(getTranslation("FAILED_TO_LOAD_ITEM") + ": " + ex.getMessage());
             }
@@ -555,7 +607,7 @@ public class ExtraTab extends Tab{
         deleteItem.setOnAction(_ -> {
             String selectedKey = existingItems.getValue();
             if (selectedKey == null || selectedKey.isBlank()) {
-                itemSaveResultLabel.setText("Select an item to delete.");
+                itemSaveResultLabel.setText(getTranslation("SELECT_ITEM_TO_DELETE"));
                 return;
             }
 
@@ -790,6 +842,373 @@ public class ExtraTab extends Tab{
         );
         refreshItems.run();
 
+        TitledPane customBackgroundsPane = new TitledPane();
+        customBackgroundsPane.setText(getTranslation("CUSTOM_BACKGROUNDS"));
+        gridPane.add(customBackgroundsPane, 2, 0, 1, 2);
+        VBox backgroundBox = new VBox(5);
+        customBackgroundsPane.setContent(backgroundBox);
+
+        TextField backgroundName = new TextField();
+        backgroundName.setPromptText(getTranslation("BACKGROUND_NAME"));
+        backgroundBox.getChildren().add(backgroundName);
+
+        Label abilitiesLabel = new Label(getTranslation("ABILITIES") + " (" + getTranslation("HOLD_MESSAGE") + ")");
+        TooltipListView abilitiesList = new TooltipListView(FXCollections.observableArrayList(getStrings(new String[] {"abilities"})), mainTabPane);
+        configListView(abilitiesList);
+        backgroundBox.getChildren().addAll(abilitiesLabel, abilitiesList);
+
+        Label skillsLabel = new Label(getTranslation("SKILLS") + " (" + getTranslation("HOLD_MESSAGE") + ")");
+        TooltipListView skillsList = new TooltipListView(FXCollections.observableArrayList(getStrings(new String[] {"skills"})), mainTabPane);
+        configListView(skillsList);
+        backgroundBox.getChildren().addAll(skillsLabel, skillsList);
+
+        HBox featsBox = new HBox(5);
+        Label featLabel = new Label(getTranslation("FEAT") + ": ");
+        TooltipComboBox featComboBox = new TooltipComboBox(FXCollections.observableArrayList(getOriginFeats()), mainTabPane);
+        featComboBox.getSelectionModel().selectFirst();
+        featsBox.getChildren().addAll(featLabel, featComboBox);
+        backgroundBox.getChildren().add(featsBox);
+
+        HBox toolsBox = new HBox(5);
+        Label toolLabel = new Label(getTranslation("TOOL") + ": ");
+        TooltipComboBox toolComboBox = new TooltipComboBox(FXCollections.observableArrayList(getTools()), mainTabPane);
+        toolComboBox.getSelectionModel().selectFirst();
+        toolsBox.getChildren().addAll(toolLabel, toolComboBox);
+        backgroundBox.getChildren().add(toolsBox);
+
+        Label equipmentLabel = new Label(getTranslation("EQUIPMENT_A") + ":");
+
+        CustomObservableList<String> equipmentItems = new CustomObservableList<>();
+        VBox itemsBox = new VBox(5);
+        Runnable updateEquipmentList = () -> {
+            itemsBox.getChildren().clear();
+            for (String item : equipmentItems.getList()) {
+                HBox newItemBox = new HBox(5);
+                String itemText;
+                String quantity = item.split(" ")[0];
+                if (quantity.matches("\\d+")) {
+                    itemText = quantity + " " + getTranslation(item.split(" ")[1]);
+                } else {
+                    itemText = getTranslation(item);
+                }
+                Label itemLabel = new Label("    " + itemText);
+                Button removeButton = new Button(getTranslation("-"));
+                removeButton.setOnAction(_ -> {
+                    equipmentItems.remove(item);
+                });
+                newItemBox.getChildren().addAll(removeButton, itemLabel);
+                itemsBox.getChildren().add(newItemBox);
+            }
+        };
+        updateEquipmentList.run();
+        equipmentItems.addListener(_ -> updateEquipmentList.run());
+        
+        TextField equipmentsA = new TextField();
+        equipmentsA.setPromptText(getTranslation("ADD_ITEM"));
+        equipmentsA.setOnMouseClicked(event -> {
+            FrozenTooltipManager.isFrozen().set(true);
+        });
+        
+        Popup suggestionPopup = new Popup();
+        ListView<String> suggestionList = new ListView<>();
+        suggestionPopup.getContent().add(suggestionList);
+        suggestionPopup.setAutoHide(true);
+
+        // Get all available items
+        ObservableList<String> allItemsList = FXCollections.observableArrayList(getTranslations(getAllItems()));
+
+        // Listen to text changes for autocomplete
+        equipmentsA.textProperty().addListener((_, _, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                suggestionPopup.hide();
+                return;
+            }
+
+            // Extract the item name (remove quantity prefix if present)
+            String searchText = newValue.trim();
+            if (searchText.split(" ")[0].matches("\\d+") && searchText.split(" ").length > 1) {
+                searchText = searchText.substring(searchText.indexOf(" ") + 1);
+            }
+
+            // Filter items based on input
+            ObservableList<String> filteredItems = FXCollections.observableArrayList();
+            for (String item : allItemsList) {
+                if (item.toLowerCase().contains(searchText.toLowerCase())) {
+                    filteredItems.add(item);
+                }
+            }
+
+            if (filteredItems.isEmpty()) {
+                suggestionPopup.hide();
+            } else {
+                suggestionList.setItems(filteredItems);
+        
+                // Adjust height based on number of items (max 5 visible)
+                int visibleItems = Math.min(filteredItems.size(), 5);
+                suggestionList.setPrefHeight(visibleItems * 24 + 2); // TODO: make dynamic
+                suggestionList.getSelectionModel().selectFirst();
+                
+                // Show popup below the text field
+                if (!suggestionPopup.isShowing()) {
+                    Bounds bounds = equipmentsA.localToScreen(equipmentsA.getBoundsInLocal());
+                    if (bounds != null) {
+                        suggestionPopup.show(equipmentsA, bounds.getMinX(), bounds.getMaxY());
+                    }
+                }
+            }
+        });
+
+        // Handle selection from suggestion list
+        Runnable suggestionHandler = () -> {
+            String selectedItem = suggestionList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                // Preserve quantity prefix if it exists
+                String currentText = equipmentsA.getText().trim();
+                if (currentText.split(" ")[0].matches("\\d+")) {
+                    String quantity = currentText.split(" ")[0];
+                    equipmentsA.setText(quantity + " " + selectedItem);
+                } else {
+                    equipmentsA.setText(selectedItem);
+                }
+                suggestionPopup.hide();
+                equipmentsA.requestFocus();
+                equipmentsA.positionCaret(equipmentsA.getText().length());
+            }
+        };
+
+        suggestionList.setOnMouseClicked(_ -> {
+            suggestionHandler.run();
+        });
+        
+        // Handle keyboard navigation
+        equipmentsA.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                suggestionHandler.run();
+                equipmentsA.requestFocus();
+                suggestionList.getSelectionModel().clearSelection();
+                String nameItem = equipmentsA.getText().trim();
+                if (nameItem.split(" ")[0].matches("\\d+")) {
+                    nameItem = nameItem.split(" ")[0] + " " + getOriginal(nameItem.substring(nameItem.indexOf(" ") + 1));
+                } else {
+                    nameItem = getOriginal(nameItem);
+                }
+                if (!nameItem.isEmpty()) {
+                    equipmentItems.add(nameItem);
+                    equipmentsA.clear();
+                }
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                equipmentsA.clear();
+                equipmentsA.getParent().requestFocus();
+            }
+        });
+
+        suggestionList.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case TAB -> {
+                    suggestionHandler.run();
+                    equipmentsA.requestFocus();
+                    suggestionList.getSelectionModel().clearSelection();
+                }
+                case ESCAPE -> {
+                    suggestionPopup.hide();
+                    equipmentsA.requestFocus();
+                }
+                case ENTER -> {
+                    suggestionHandler.run();
+                    equipmentsA.requestFocus();
+                    suggestionList.getSelectionModel().clearSelection();
+                    String nameItem = equipmentsA.getText().trim();
+                    if (nameItem.split(" ")[0].matches("\\d+")) {
+                        nameItem = nameItem.split(" ")[0] + " " + getOriginal(nameItem.substring(nameItem.indexOf(" ") + 1));
+                    } else {
+                        nameItem = getOriginal(nameItem);
+                    }
+                    if (!nameItem.isEmpty()) {
+                        equipmentItems.add(nameItem);
+                        equipmentsA.clear();
+                    }
+                }
+                default -> {
+                }
+            }
+        });
+
+        // Hide popup when text field loses focus (unless clicking on suggestion list)
+        equipmentsA.focusedProperty().addListener((_, _, isNowFocused) -> {
+            if (!isNowFocused && !suggestionList.isFocused()) {
+                suggestionPopup.hide();
+                FrozenTooltipManager.isFrozen().set(false);
+            }
+        });
+
+        HBox equipmentsBox = new HBox(5);
+        TextField equipmentsB = new TextField();
+        equipmentsB.setPromptText(getTranslation("EQUIPMENT_B"));
+        equipmentsB.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^\\d*$")) {
+                return change;
+            }
+            return null;
+        }));
+        Label labelB = new Label(getTranslation("GOLD"));
+        equipmentsBox.getChildren().addAll(equipmentsB, labelB);
+
+        backgroundBox.getChildren().addAll(equipmentLabel, itemsBox, equipmentsA, equipmentsBox);
+
+        TextArea backgroundDescription = new TextArea();
+        backgroundDescription.setPromptText(getTranslation("BACKGROUND_DESCRIPTION"));
+        backgroundBox.getChildren().add(backgroundDescription);
+
+        Button saveBackground = new Button(getTranslation("ADD_UPDATE_BACKGROUND"));
+        Button loadBackground = new Button(getTranslation("LOAD_SELECTED"));
+        Button deleteBackground = new Button(getTranslation("DELETE_SELECTED"));
+        Button clearBackground = new Button(getTranslation("CLEAR_SELECTION"));
+        ObservableList<String> customBackgrounds = FXCollections.observableArrayList();
+        TooltipComboBox existingBackgrounds = new TooltipComboBox(customBackgrounds, mainTabPane);
+        existingBackgrounds.setPromptText(getTranslation("SELECT_BACKGROUND_TO_LOAD"));
+
+        Label backgroundSaveResultLabel = new Label();
+        final String[] loadedBackgroundKey = new String[] {null};
+
+        Runnable refreshBackgrounds = () -> {
+            try {
+                List<String> keys = CustomBackgroundWriter.getCustomBackgroundKeys();
+                customBackgrounds.setAll(keys);
+            } catch (IOException ex) {
+                System.err.println("Failed to load custom backgrounds: " + ex.getMessage());
+            }
+
+            existingBackgrounds.getSelectionModel().clearSelection();
+            existingBackgrounds.updateCombinedItems();
+            TranslationManager.refresh();
+        };
+        refreshBackgrounds.run();
+
+        loadBackground.setOnAction((ActionEvent event) -> {
+            String selectedKey = existingBackgrounds.getValue();
+            if (selectedKey == null || selectedKey.isBlank()) {
+                backgroundSaveResultLabel.setText(getTranslation("SELECT_BACKGROUND_TO_LOAD"));
+                return;
+            }
+            
+            try {
+                CustomBackgroundWriter.CustomBackgroundData data = CustomBackgroundWriter.getCustomBackground(selectedKey);
+                if (data == null) {
+                    backgroundSaveResultLabel.setText(getTranslation("BACKGROUND_NOT_FOUND") + selectedKey);
+                    refreshBackgrounds.run();
+                    return;
+                }
+
+                backgroundName.setText(data.getName());
+                selectListValues(abilitiesList, data.getAbilities());
+                selectListValues(skillsList, data.getSkills());
+                featComboBox.setValue(data.getFeat() != null && !data.getFeat().isBlank()
+                    ? data.getFeat()
+                    : null);
+                toolComboBox.setValue(data.getTool() != null && !data.getTool().isBlank()
+                    ? data.getTool()
+                    : null);
+                equipmentItems.setAll(List.of(data.getEquipmentA()));
+                equipmentsA.clear();
+                equipmentsB.setText(data.getEquipmentB() > 0 ? String.valueOf(data.getEquipmentB()) : "");
+                backgroundDescription.setText(data.getDescription());
+
+                loadedBackgroundKey[0] = data.getKey();
+                backgroundSaveResultLabel.setText(getTranslation("LOADED") + " " + data.getKey());
+            } catch (IOException ex) {
+                backgroundSaveResultLabel.setText(getTranslation("FAILED_TO_LOAD_BACKGROUND") + ": " + ex.getMessage());
+            }
+        });
+
+        clearBackground.setOnAction(_ -> {
+            refreshBackgrounds.run();
+        });
+
+        deleteBackground.setOnAction(_ -> {
+            String selectedKey = existingBackgrounds.getValue();
+            if (selectedKey == null || selectedKey.isBlank()) {
+                backgroundSaveResultLabel.setText(getTranslation("SELECT_BACKGROUND_TO_DELETE"));
+                return;
+            }
+
+            try {
+                CustomBackgroundWriter.deleteBackground(selectedKey);
+                if (selectedKey.equals(loadedBackgroundKey[0])) {
+                    loadedBackgroundKey[0] = null;
+                    backgroundName.clear();
+                    abilitiesList.getSelectionModel().clearSelection();
+                    skillsList.getSelectionModel().clearSelection();
+                    featComboBox.setValue(null);
+                    toolComboBox.setValue(null);
+                    equipmentItems.clear();
+                    equipmentsA.clear();
+                    equipmentsB.clear();
+                    backgroundDescription.clear();
+                }
+                refreshBackgrounds.run();
+                backgroundSaveResultLabel.setText(getTranslation("DELETED") + ": " + selectedKey);
+            } catch (java.io.IOException ex) {
+                backgroundSaveResultLabel.setText(getTranslation("FAILED_TO_DELETE") + ": " + ex.getMessage());
+            }
+        });
+
+        saveBackground.setOnAction(_ -> {
+            String name = backgroundName.getText();
+            String description = backgroundDescription.getText();
+            List<String> abilities = List.copyOf(abilitiesList.getSelectionModel().getSelectedItems());
+            List<String> skills = List.copyOf(skillsList.getSelectionModel().getSelectedItems());
+            String tool = toolComboBox.getValue();
+            String feat = featComboBox.getValue();
+            List<String> equipmentA = List.copyOf(equipmentItems.getList());
+            String equipmentBValue = equipmentsB.getText();
+
+            if (name == null || name.trim().isEmpty()) {
+                backgroundSaveResultLabel.setText(getTranslation("BACKGROUND_NAME_REQUIRED"));
+                return;
+            }
+
+            if (equipmentBValue == null || equipmentBValue.isBlank()) {
+                backgroundSaveResultLabel.setText(getTranslation("EQUIPMENT_B_REQUIRED"));
+            }
+
+            try {
+                int equipmentB = Integer.parseInt(equipmentBValue);
+                String key = CustomBackgroundWriter.upsertBackground(
+                    name, description, tool, feat, abilities.toArray(String[]::new), skills.toArray(String[]::new), equipmentA.toArray(String[]::new), equipmentB
+                );
+
+                if (loadedBackgroundKey[0] != null && !loadedBackgroundKey[0].equals(key)) {
+                    CustomBackgroundWriter.deleteBackground(loadedBackgroundKey[0]);
+                }
+
+                backgroundSaveResultLabel.setText(getTranslation("SAVED_AS") + ": " + key);
+                loadedBackgroundKey[0] = null;
+                backgroundName.clear();
+                abilitiesList.getSelectionModel().clearSelection();
+                skillsList.getSelectionModel().clearSelection();
+                featComboBox.setValue(null);
+                toolComboBox.setValue(null);
+                equipmentItems.clear();
+                equipmentsA.clear();
+                equipmentsB.clear();
+                backgroundDescription.clear();
+                refreshBackgrounds.run();
+            } catch (IllegalArgumentException | java.io.IOException ex) {
+                backgroundSaveResultLabel.setText(getTranslation("FAILED_TO_SAVE") + ": " + ex.getMessage());
+            }
+        });
+
+        backgroundBox.getChildren().addAll(
+            saveBackground,
+            existingBackgrounds,
+            loadBackground,
+            deleteBackground,
+            clearBackground,
+            backgroundSaveResultLabel
+        );
+        refreshBackgrounds.run();
+
         // Set the GridPane inside a ScrollPane so long forms remain usable.
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
@@ -833,5 +1252,25 @@ public class ExtraTab extends Tab{
 
     private String[] getAmmos() {
         return ItemManager.getInstance().getAmmos();
+    }
+
+    private String[] getOriginFeats() {
+        return GroupManager.getInstance().getOriginFeats();
+    }
+
+    private String[] getAllItems() {
+        return ItemManager.getInstance().getAllItems();
+    }
+
+    private String getOriginal(String translated) {
+        return TranslationManager.getOriginal(translated);
+    }
+
+    private String[] getTranslations(String[] originals) {
+        return TranslationManager.getTranslations(originals);
+    }
+
+    private String[] getTools() {
+        return ItemManager.getInstance().getTools();
     }
 }

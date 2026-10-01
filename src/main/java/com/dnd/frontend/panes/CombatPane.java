@@ -41,9 +41,9 @@ public class CombatPane extends GridPane {
         add(versatileDamage, 1, 2);
         TooltipLabel finesseLabel = new TooltipLabel(getTranslation("FINESSE_ABILITY"), mainTabPane);
         ObservableList<String> finesses = FXCollections.observableArrayList(
-            getTranslation("BEST_ONE"),
-            getTranslation("STRENGTH"),
-            getTranslation("DEXTERITY")
+            "BEST_ONE",
+            "STRENGTH",
+            "DEXTERITY"
         );
         TooltipComboBox finesse = new TooltipComboBox(finesses, mainTabPane);
         finesse.valueProperty().bindBidirectional(character.getFinesseAbility());

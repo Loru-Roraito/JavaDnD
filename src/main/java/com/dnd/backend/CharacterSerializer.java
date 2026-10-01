@@ -48,12 +48,16 @@ public class CharacterSerializer {
         public int health;
         public int temporaryHP;
         public int currentHealth;
+        public int customHealth;
+        public int customAC;
         public int exhaustion;
         
         public int[] abilityBases;
         public boolean[] abilityPlusOnes;
         public boolean[] abilityPlusTwos;
         public boolean[] skillProficiencies;
+        public boolean[] customSkills;
+        public boolean[] customExpertises;
         public boolean[] skillExpertises;
         
         public String[][] feats;
@@ -200,6 +204,8 @@ public class CharacterSerializer {
             data.health = character.getHealth().get();
             data.temporaryHP = character.getTemporaryHP().get();
             data.currentHealth = character.getCurrentHealth().get();
+            data.customHealth = character.getCustomHealth().get();
+            data.customAC = character.getCustomAC().get();
             data.exhaustion = character.getExhaustion().get();
             
             // Abilities
@@ -219,9 +225,13 @@ public class CharacterSerializer {
 
             data.skillProficiencies = new boolean[character.getSkillNames().length];
             data.skillExpertises = new boolean[character.getSkillNames().length];
+            data.customExpertises = new boolean[character.getSkillNames().length];
+            data.customSkills = new boolean[character.getSkillNames().length];
             for (int i = 0; i < character.getSkillNames().length; i++) {
                 data.skillProficiencies[i] = character.getSkillProficiency(i).get();
                 data.skillExpertises[i] = character.getSkillExpertise(i).get();
+                data.customSkills[i] = character.getCustomSkill(i).get();
+                data.customExpertises[i] = character.getCustomExpertise(i).get();
             }
             
             data.classes = new String[character.getMaxClasses()];
@@ -374,6 +384,8 @@ public class CharacterSerializer {
                 character.getHealth().set(data.health);
                 character.getTemporaryHP().set(data.temporaryHP);
                 character.getCurrentHealth().set(data.currentHealth);
+                character.getCustomHealth().set(data.customHealth);
+                character.getCustomAC().set(data.customAC);
                 character.getExhaustion().set(data.exhaustion);
                 
                 // Load abilities
@@ -392,6 +404,8 @@ public class CharacterSerializer {
                 for (int i = 0; i < data.skillProficiencies.length; i++) {
                     character.getSkillProficiency(i).set(data.skillProficiencies[i]);
                     character.getSkillExpertise(i).set(data.skillExpertises[i]);
+                    character.getCustomSkill(i).set(data.customSkills[i]);
+                    character.getCustomExpertise(i).set(data.customExpertises[i]);
                 }
                 
                 for (int i = 0; i < data.classes.length; i++) {

@@ -53,6 +53,8 @@ public class GameCharacter {
     private final ObservableString size = new ObservableString("");
     private final ObservableString originFeat = new ObservableString("");
     private final ObservableString currentHealthShown = new ObservableString("1");
+    private final ObservableString customHealthShown = new ObservableString("0");
+    private final ObservableString customACShown = new ObservableString("0");
     private final ObservableString temporaryHPShown = new ObservableString("0");
     private final ObservableString[] spellcastingAbilities;
     private final ObservableString[] moneysShown = new ObservableString[5];
@@ -114,6 +116,8 @@ public class GameCharacter {
     private final ObservableInteger health = new ObservableInteger(1);
     private final ObservableInteger temporaryHP = new ObservableInteger(0);
     private final ObservableInteger currentHealth = new ObservableInteger(1);
+    private final ObservableInteger customHealth = new ObservableInteger(0);
+    private final ObservableInteger customAC = new ObservableInteger(0);
     private final ObservableInteger fixedHealth = new ObservableInteger(0);
     private final ObservableInteger givenBonuses = new ObservableInteger(0);
     private final ObservableInteger generationPoints = new ObservableInteger(0);
@@ -171,6 +175,9 @@ public class GameCharacter {
     private final ObservableBoolean[] abilityPlusOnes;
     private final ObservableBoolean[] abilityPlusTwos;
     private final ObservableBoolean[] fixedSkills;
+    private final ObservableBoolean[] fixedExpertises;
+    private final ObservableBoolean[] customSkills;
+    private final ObservableBoolean[] customExpertises;
     private final ObservableBoolean[] savingThrowProficiencies;
     private final ObservableBoolean[] availablePluses;
     private final ObservableBoolean[] availableMinuses;
@@ -200,6 +207,8 @@ public class GameCharacter {
         abilityPlusTwos = new ObservableBoolean[abilityCount];
         savingThrowProficiencies = new ObservableBoolean[abilityCount];
         skillProficiencies = new ObservableBoolean[skillCount];
+        customSkills = new ObservableBoolean[skillCount];
+        customExpertises = new ObservableBoolean[skillCount];
         skillExpertises = new ObservableBoolean[skillCount];
 
         abilityBasesShown = new ObservableString[abilityCount];
@@ -207,6 +216,7 @@ public class GameCharacter {
         availableSkills = new ObservableBoolean[skillCount];
         availableExpertises = new ObservableBoolean[skillCount];
         fixedSkills = new ObservableBoolean[skillCount];
+        fixedExpertises = new ObservableBoolean[skillCount];
 
         maxClasses = getInt(new String[] {"max_classes"});
         classes = new ObservableString[maxClasses];
@@ -353,8 +363,6 @@ public class GameCharacter {
 
         bindGivenBonuses();
 
-        bindFixedSkills();
-
         bindSelectableSubclasses();
 
         bindSelectableClasses();
@@ -371,14 +379,20 @@ public class GameCharacter {
             skillBonuses[i] = new ObservableInteger(0);
             skillModifiers[i] = new ObservableInteger(0);
             skillProficiencies[i] = new ObservableBoolean(false);
+            customSkills[i] = new ObservableBoolean(false);
+            customExpertises[i] = new ObservableBoolean(false);
             skillExpertises[i] = new ObservableBoolean(false);
             availableSkills[i] = new ObservableBoolean(false);
             availableExpertises[i] = new ObservableBoolean(false);
+            fixedSkills[i] = new ObservableBoolean(false);
+            fixedExpertises[i] = new ObservableBoolean(false);
 
             bindSkillProficiency(i);
             bindSkillBonus(i);
             bindSkillModifier(i);
         }
+        bindFixedSkills();
+        bindFixedExpertises();
         bindSkills();
 
         maxLineages = getInt(new String[] {"max_lineages"});
@@ -535,6 +549,14 @@ public class GameCharacter {
 
     public ObservableString getCurrentHealthShown() {
         return currentHealthShown;
+    }
+
+    public ObservableString getCustomHealthShown() {
+        return customHealthShown;
+    }
+
+    public ObservableString getCustomACShown() {
+        return customACShown;
     }
 
     public ObservableString getTemporaryHPShown() {
@@ -741,6 +763,14 @@ public class GameCharacter {
         return currentHealth;
     }
 
+    public ObservableInteger getCustomHealth() {
+        return customHealth;
+    }
+
+    public ObservableInteger getCustomAC() {
+        return customAC;
+    }
+
     public ObservableInteger getFixedHealth() {
         return fixedHealth;
     }
@@ -915,6 +945,14 @@ public class GameCharacter {
 
     public ObservableBoolean getSkillProficiency(int index) {
         return skillProficiencies[index];
+    }
+
+    public ObservableBoolean getCustomSkill(int index) {
+        return customSkills[index];
+    }
+
+    public ObservableBoolean getCustomExpertise(int index) {
+        return customExpertises[index];
     }
 
     public ObservableBoolean getSkillExpertise(int index) {
@@ -1476,20 +1514,42 @@ public class GameCharacter {
         for (int i = 0; i < skillProficiencies.length; i++) {
             fixedSkills[i].addListener(_ -> updateSkill.run());
         }
+
+        Runnable updateExpertise = () -> {
+            for (int i = 0; i < skillExpertises.length; i++) {
+                skillExpertises[i].set(fixedExpertises[i].get());
+            }
+        };
+        for (int i = 0; i < skillExpertises.length; i++) {
+            fixedExpertises[i].addListener(_ -> updateExpertise.run());
+            skillProficiencies[i].addListener(_ -> updateExpertise.run());
+        }
+        updateExpertise.run();
     }
 
     private void bindFixedSkills() {
-        background.addListener(
-            (newVal) -> {
-                String[] possibleSkills = getStrings(new String[] {"backgrounds", newVal, "skills"});
-                for (int i = 0; i < fixedSkills.length; i++) {
-                    fixedSkills[i].set(java.util.Arrays.asList(possibleSkills).contains(skillNames[i]));
-                }
-            });
-
+        Runnable updateFixedSkills = () -> {
+            String[] possibleSkills = getStrings(new String[] {"backgrounds", background.get(), "skills"});
+            for (int i = 0; i < fixedSkills.length; i++) {
+                fixedSkills[i].set(customSkills[i].get() || Arrays.asList(possibleSkills).contains(skillNames[i]));
+            }
+        };
+        background.addListener(_ -> updateFixedSkills.run());
         for (int i = 0; i < fixedSkills.length; i++) {
-            fixedSkills[i] = new ObservableBoolean(false);
+            customSkills[i].addListener(_ -> updateFixedSkills.run());
         }
+        updateFixedSkills.run();
+    }
+
+    private void bindFixedExpertises() {
+        for (int i = 0; i < fixedExpertises.length; i++) {
+            final int index = i;
+            Runnable updateFixedExpertise = () -> {
+                fixedExpertises[index].set(customExpertises[index].get());
+            };
+            customExpertises[index].addListener(_ -> updateFixedExpertise.run());
+            updateFixedExpertise.run();
+        };
     }
 
     private void bindFinalAbility(int index) {
@@ -1633,7 +1693,8 @@ public class GameCharacter {
         // Bind the abilityModifier to the corresponding ability
         Runnable updateSavingThrowModifier = () -> {
             savingThrowModifiers[index].set(
-                    abilityModifiers[index].get() + savingThrowBonuses[index].get());
+                abilityModifiers[index].get() + savingThrowBonuses[index].get()
+            );
         };
         abilityModifiers[index].addListener(_ -> updateSavingThrowModifier.run());
         savingThrowBonuses[index].addListener(_ -> updateSavingThrowModifier.run());
@@ -1642,11 +1703,17 @@ public class GameCharacter {
     private void bindSkillModifier(int index) {
         // Bind the skillModifier to the corresponding ability
         Runnable updateSkillModifier = () -> {
+            int prof = 1;
+            if (skillExpertises[index].get()) {
+                prof = 2;
+            }
             skillModifiers[index].set(
-                abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get());
+                abilityModifiers[skillAbilities[index]].get() + skillBonuses[index].get() * prof
+            );
         };
         abilityModifiers[skillAbilities[index]].addListener(_ -> updateSkillModifier.run());
         skillBonuses[index].addListener(_ -> updateSkillModifier.run());
+        skillExpertises[index].addListener(_ -> updateSkillModifier.run());
     }
 
     private void bindSkillBonus(int index) {
@@ -1654,7 +1721,8 @@ public class GameCharacter {
             Boolean isProficient = skillProficiencies[index].get();
             Integer profBonus = proficiencyBonus.get();
             skillBonuses[index].set(
-                    (isProficient != null && isProficient && profBonus != null) ? profBonus : 0);
+                (isProficient != null && isProficient && profBonus != null) ? profBonus : 0
+            );
         };
         skillProficiencies[index].addListener(_ -> updateSkillBonus.run());
         proficiencyBonus.addListener(_ -> updateSkillBonus.run());
@@ -1726,8 +1794,11 @@ public class GameCharacter {
                 case 2 -> modifier = Math.max(abilityModifiers[1].get(), 2); // max +2 bonus
                 default -> modifier = abilityModifiers[1].get();
             }
-            armorClass.set(
-                Math.max(base, 10) + modifier + shieldAC);
+            if (customAC.get() > 0) {
+                armorClass.set(customAC.get());
+            } else {
+                armorClass.set(Math.max(base, 10) + modifier + shieldAC);
+            }
         };
         abilityModifiers[1].addListener(_ -> updateArmorClass.run());
         armorProficiencies.addListener(_ -> updateArmorClass.run());
@@ -1824,7 +1895,7 @@ public class GameCharacter {
             }
 
             fixedHealth.set(Math.max(fix, 1));
-            health.set(Math.max(fixedHealth.get() + var, 1));
+            health.set(Math.max(fixedHealth.get() + var + customHealth.get(), 1));
 
             if (health.get() > oldHealth) {
                 currentHealth.set(currentHealth.get() + (health.get() - oldHealth));
@@ -1858,6 +1929,36 @@ public class GameCharacter {
         currentHealth.addListener((newValue) -> {
             if (newValue != null) {
                 currentHealthShown.set(String.valueOf(newValue));
+            }
+        });
+
+        customHealthShown.addListener((newValue) -> {
+            if (newValue != null) {
+                int parsedValue = Integer.parseInt(newValue);
+                customHealth.set(parsedValue); // Update property
+            } else {
+                customHealth.set(0); // Set a default value
+            }
+        });
+
+        customHealth.addListener((newValue) -> {
+            if (newValue != null) {
+                customHealthShown.set(String.valueOf(newValue));
+            }
+        });
+
+        customACShown.addListener((newValue) -> {
+            if (newValue != null) {
+                int parsedValue = Integer.parseInt(newValue);
+                customAC.set(parsedValue); // Update property
+            } else {
+                customAC.set(0); // Set a default value
+            }
+        });
+
+        customAC.addListener((newValue) -> {
+            if (newValue != null) {
+                customACShown.set(String.valueOf(newValue));
             }
         });
 
@@ -2255,16 +2356,12 @@ public class GameCharacter {
             List<String> newTools = new ArrayList<>();
             // in the 2024 rules only one tool proficiency is given for each background.
             // Done like this for future compatibility
-            String[] tools = getStrings(new String[] {"backgrounds", background.get(), "tools"});
-            if (tools != null) {
-                for (String tool : tools) {
-                    if (tool != null && !takenTools.contains(tool)) {
-                        newTools.add(tool);
-                        takenTools.add(tool);
-                    } else if (tool != null && Arrays.asList(sets).contains(tool)) {
-                        newTools.add(tool);
-                    }
-                }
+            String tool = getString(new String[] {"backgrounds", background.get(), "tool"});
+            if (tool != null && !takenTools.contains(tool)) {
+                newTools.add(tool);
+                takenTools.add(tool);
+            } else if (tool != null && Arrays.asList(sets).contains(tool)) {
+                newTools.add(tool);
             }
 
             for (int i = 0; i < classes.length; i++) {
@@ -2272,14 +2369,14 @@ public class GameCharacter {
                 if (i == 0) {
                     cathegory = "tools";
                 }
-                tools = getStrings(new String[] {"classes", classes[i].get(), cathegory});
+                String[] tools = getStrings(new String[] {"classes", classes[i].get(), cathegory});
                 if (tools != null) {
-                    for (String tool : tools) {
-                        if (tool != null && !takenTools.contains(tool)) {
-                            newTools.add(tool);
-                            takenTools.add(tool);
-                        } else if (tool != null && Arrays.asList(sets).contains(tool)) {
-                            newTools.add(tool);
+                    for (String classTool : tools) {
+                        if (classTool != null && !takenTools.contains(classTool)) {
+                            newTools.add(classTool);
+                            takenTools.add(classTool);
+                        } else if (classTool != null && Arrays.asList(sets).contains(classTool)) {
+                            newTools.add(classTool);
                         }
                     }
                 }
@@ -2972,6 +3069,8 @@ public class GameCharacter {
         for (int i = 0; i < skillProficiencies.length; i++) {
             copy.skillProficiencies[i].set(this.skillProficiencies[i].get());
             copy.skillExpertises[i].set(this.skillExpertises[i].get());
+            copy.customSkills[i].set(this.customSkills[i].get());
+            copy.customExpertises[i].set(this.customExpertises[i].get());
         }
         for (int i = 0; i < moneys.length; i++) {
             copy.moneys[i].set(this.moneys[i].get());
@@ -2989,6 +3088,8 @@ public class GameCharacter {
         copy.finesseAbility.set(finesseAbility.get());
         copy.userDescription.set(userDescription.get());
         copy.currentHealth.set(currentHealth.get());
+        copy.customHealth.set(customHealth.get());
+        copy.customAC.set(customAC.get());
 
         copy.heroicInspiration.set(heroicInspiration.get());
         copy.shortResting.set(shortResting.get());

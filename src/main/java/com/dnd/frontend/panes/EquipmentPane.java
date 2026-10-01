@@ -289,11 +289,11 @@ public class EquipmentPane extends GridPane {
             updateClasss.run();
         });
 
-        VBox itemsBox = new VBox();
+        VBox itemsBox = new VBox(5);
         Runnable updateItems = () -> {
             itemsBox.getChildren().clear();
             for (Item item : character.getItems().getList()) {
-                HBox itemBox = new HBox();
+                HBox itemBox = new HBox(5);
                 ObservableInteger quantityProperty = item.getQuantityProperty();
                 TooltipLabel itemLabel = new TooltipLabel(item, mainTabPane);
 

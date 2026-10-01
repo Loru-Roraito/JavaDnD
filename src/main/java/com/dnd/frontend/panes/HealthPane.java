@@ -23,7 +23,7 @@ public class HealthPane extends GridPane {
         this.character = character;
         getStyleClass().add("grid-pane");
 
-        HBox healthBox = new HBox();
+        HBox healthBox = new HBox(5);
         TooltipLabel hpLabel = new TooltipLabel(getTranslation("HIT_POINTS") + ": ", getTranslation("HIT_POINTS"), mainTabPane);
         healthBox.getChildren().add(hpLabel);
         add(healthBox, 0, 0, 4, 1);
@@ -84,7 +84,7 @@ public class HealthPane extends GridPane {
         add(temporaryBox, 0, 1, 4, 1); // Span across 4 columns
 
         int[] hitDies = {6, 8, 10, 12};
-        HBox hitDieBox = new HBox();
+        HBox hitDieBox = new HBox(5);
         for (int i = 0; i < 4; i++) {
             int index = i;
             Button button = new Button();

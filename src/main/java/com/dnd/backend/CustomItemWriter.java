@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import com.dnd.frontend.language.TranslationManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -171,8 +172,9 @@ public final class CustomItemWriter {
         String costUnit = item.has("currency") ? item.get("currency").getAsString() : "";
         String type = item.has("type") ? item.get("type").getAsString() : "ITEM";
 
-        String name = getPropertyValue(customDir.resolve("translations_en.properties"), cleanKey, cleanKey);
-        String description = getPropertyValue(customDir.resolve("itemDescriptions_en.properties"), cleanKey, "");
+        String lan = TranslationManager.getLang();
+        String name = getPropertyValue(customDir.resolve("translations_" + lan + ".properties"), cleanKey, cleanKey);
+        String description = getPropertyValue(customDir.resolve("itemDescriptions_" + lan + ".properties"), cleanKey, "");
 
         int hits = item.has("hits") ? item.get("hits").getAsInt() : 0;
         int damage = item.has("damage") ? item.get("damage").getAsInt() : 0;

@@ -909,7 +909,7 @@
       "abilities": ["INTELLIGENCE", "WISDOM", "CHARISMA"],
       "skills": ["INSIGHT", "RELIGION"],
       "feat": "FEAT_MAGIC_INITIATE_CLERIC",
-      "tools": ["ITEM_CALLIGRAPHERS_SUPPLIES"],
+      "tool": "ITEM_CALLIGRAPHERS_SUPPLIES",
       "equipment": ["ITEM_CALLIGRAPHERS_SUPPLIES", "ITEM_BOOK_PRAYERS", "ITEM_HOLY_SYMBOL", "10 ITEM_PARCHMENT_SHEETS", "ITEM_ROBE", "8 GOLD"],
       "gold": 50
     },
@@ -917,7 +917,7 @@
       "abilities": ["DEXTERITY", "CONSTITUTION", "INTELLIGENCE"],
       "skills": ["SLEIGHT_OF_HAND", "STEALTH"],
       "feat": "FEAT_ALERT",
-      "tools": ["ITEM_THIEVES_TOOLS"],
+      "tool": "ITEM_THIEVES_TOOLS",
       "equipment": ["ITEM_THIEVES_TOOLS", "2 ITEM_DAGGER", "ITEM_CROWBAR", "2 ITEM_POUCH", "ITEM_TRAVELERS_CLOTHES", "16 GOLD"],
       "gold": 50
     },
@@ -925,7 +925,7 @@
       "abilities": ["CONSTITUTION", "INTELLIGENCE", "WISDOM"],
       "skills": ["ARCANA", "HISTORY"],
       "feat": "FEAT_MAGIC_INITIATE_WIZARD",
-      "tools": ["ITEM_CALLIGRAPHERS_SUPPLIES"],
+      "tool": "ITEM_CALLIGRAPHERS_SUPPLIES",
       "equipment": ["ITEM_QUARTERSTAFF", "ITEM_CALLIGRAPHERS_SUPPLIES", "ITEM_BOOK_HISTORY", "8 ITEM_PARCHMENT_SHEETS", "ITEM_ROBE", "8 GOLD"],
       "gold": 50
     },
@@ -933,7 +933,7 @@
       "abilities": ["STRENGTH", "DEXTERITY", "CONSTITUTION"],
       "skills": ["ATHLETICS", "INTIMIDATION"],
       "feat": "FEAT_SAVAGE_ATTACKER",
-      "tools": ["GAMING_SETS"],
+      "tool": "GAMING_SETS",
       "equipment": ["GAMING_SETS", "ITEM_SPEAR", "ITEM_SHORTBOW", "20 ITEM_ARROW", "ITEM_HEALERS_KIT", "ITEM_QUIVER", "ITEM_TRAVELERS_CLOTHES", "14 GOLD"],
       "gold": 50
     }

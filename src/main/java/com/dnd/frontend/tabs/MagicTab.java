@@ -140,13 +140,13 @@ public class MagicTab extends Tab {
         for (int i = 0; i < 9; i++) {
             int index = i;
             TooltipLabel titleLabel = new TooltipLabel(getTranslation("LEVEL") + " " + (index + 1), mainTabPane);
-            HBox customHeader = new HBox(10);
+            HBox customHeader = new HBox(5);
             customHeader.getChildren().add(titleLabel);
             // Spacer to push checkboxes to the right
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
             customHeader.getChildren().add(spacer);
-            HBox checkBoxes = new HBox();
+            HBox checkBoxes = new HBox(5);
             customHeader.getChildren().add(checkBoxes);
 
             Runnable updateSpellSlots = () -> {
@@ -271,20 +271,20 @@ public class MagicTab extends Tab {
         Stage parentStage = (Stage) getTabPane().getScene().getWindow();
         spellStage.initOwner(parentStage);
 
-        VBox spellLayout = new VBox(10);
+        VBox spellLayout = new VBox(5);
         ScrollPane spellScroll = new ScrollPane(spellLayout);
         spellScroll.setFitToWidth(true);
         Scene spellScene = new Scene(spellScroll, 400, 600);
         spellScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         spellStage.setScene(spellScene);
 
-        VBox cantripsGrid = new VBox();
+        VBox cantripsGrid = new VBox(5);
         TooltipTitledPane cantripsPane = new TooltipTitledPane(getTranslation("CANTRIPS"), cantripsGrid);
         spellLayout.getChildren().add(cantripsPane);
 
         VBox[] levelGrids = new VBox[9];
         for (int i = 0; i < 9; i++) {
-            VBox levelGrid = new VBox();
+            VBox levelGrid = new VBox(5);
             levelGrids[i] = levelGrid;
             TooltipTitledPane levelPane = new TooltipTitledPane(getTranslation("LEVEL") + " " + (i + 1), levelGrid);
             spellLayout.getChildren().add(levelPane);
@@ -384,7 +384,7 @@ public class MagicTab extends Tab {
                 character.getMaxCantrips(index).addListener(_ -> updateCantripDisable.run());
                 character.getCantrips(index).addListener(_ -> updateCantripDisable.run());
 
-                HBox cantripHBox = new HBox();
+                HBox cantripHBox = new HBox(5);
                 cantripHBox.getChildren().addAll(cantripCheckBox, cantripLabel);
 
                 cantripsGrid.getChildren().add(cantripHBox);
@@ -481,7 +481,7 @@ public class MagicTab extends Tab {
                 character.getMaxSpells(index).addListener(_ -> updateSpellDisable.run());
                 character.getSpells(index).addListener(_ -> updateSpellDisable.run());
 
-                HBox spellHBox = new HBox();
+                HBox spellHBox = new HBox(5);
                 spellHBox.getChildren().addAll(spellCheckBox, spellLabel);
                 levelGrid.getChildren().add(spellHBox);
             }

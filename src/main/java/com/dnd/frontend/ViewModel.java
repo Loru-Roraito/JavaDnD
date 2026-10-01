@@ -50,6 +50,8 @@ public class ViewModel {
     private final StringProperty size;
     private final StringProperty originFeat;
     private final StringProperty currentHealthShown;
+    private final StringProperty customHealthShown;
+    private final StringProperty customACShown;
     private final StringProperty temporaryHPShown;
     private final StringProperty[] classes;
     private final StringProperty[] weaponMasteries;
@@ -114,6 +116,8 @@ public class ViewModel {
     private final BooleanProperty[] savingThrowProficiencies;
     private final BooleanProperty[] skillProficiencies;
     private final BooleanProperty[] skillExpertises;
+    private final BooleanProperty[] customSkills;
+    private final BooleanProperty[] customExpertises;
     
     private final ObservableList<String> selectableLanguages;
     private final ObservableList<String> selectableWeaponMasteries;
@@ -288,6 +292,12 @@ public class ViewModel {
         currentHealthShown = new SimpleStringProperty(backend.getCurrentHealthShown().get());
         bindObservableString(currentHealthShown, backend.getCurrentHealthShown());
 
+        customHealthShown = new SimpleStringProperty(backend.getCustomHealthShown().get());
+        bindObservableString(customHealthShown, backend.getCustomHealthShown());
+
+        customACShown = new SimpleStringProperty(backend.getCustomACShown().get());
+        bindObservableString(customACShown, backend.getCustomACShown());
+
         temporaryHPShown = new SimpleStringProperty((backend.getTemporaryHPShown().get()));
         bindObservableString(temporaryHPShown, backend.getTemporaryHPShown());
 
@@ -423,6 +433,8 @@ public class ViewModel {
         availableSkills = new BooleanProperty[skillCount];
         availableExpertises = new BooleanProperty[skillCount];
         skillProficiencies = new BooleanProperty[skillCount];
+        customSkills = new BooleanProperty[skillCount];
+        customExpertises = new BooleanProperty[skillCount];
         skillExpertises = new BooleanProperty[skillCount];
         for (int i = 0; i < skillCount; i++) {
             bindObservableInteger(backend.getSkillModifier(i));
@@ -435,6 +447,12 @@ public class ViewModel {
             
             skillProficiencies[i] = new SimpleBooleanProperty(backend.getSkillProficiency(i).get());
             bindObservableBoolean(skillProficiencies[i], backend.getSkillProficiency(i));
+
+            customSkills[i] = new SimpleBooleanProperty(backend.getCustomSkill(i).get());
+            bindObservableBoolean(customSkills[i], backend.getCustomSkill(i));
+
+            customExpertises[i] = new SimpleBooleanProperty(backend.getCustomExpertise(i).get());
+            bindObservableBoolean(customExpertises[i], backend.getCustomExpertise(i));
 
             skillExpertises[i] = new SimpleBooleanProperty(backend.getSkillExpertise(i).get());
             bindObservableBoolean(skillExpertises[i], backend.getSkillExpertise(i));
@@ -804,6 +822,14 @@ public class ViewModel {
         return currentHealthShown;
     }
 
+    public StringProperty getCustomHealthShown() {
+        return customHealthShown;
+    }
+
+    public StringProperty getCustomACShown() {
+        return customACShown;
+    }
+
     public StringProperty getTemporaryHPShown() {
         return temporaryHPShown;
     }
@@ -983,6 +1009,14 @@ public class ViewModel {
 
     public ObservableInteger getHealth() {
         return backend.getHealth();
+    }
+
+    public ObservableInteger getCustomHealth() {
+        return backend.getCustomHealth();
+    }
+
+    public ObservableInteger getCustomAC() {
+        return backend.getCustomAC();
     }
 
     public ObservableInteger getCurrentHealth() {
@@ -1188,6 +1222,14 @@ public class ViewModel {
 
     public BooleanProperty getSkillProficiency(int index) {
         return skillProficiencies[index];
+    }
+
+    public BooleanProperty getCustomSkill(int index) {
+        return customSkills[index];
+    }
+
+    public BooleanProperty getCustomExpertise(int index) {
+        return customExpertises[index];
     }
 
     public BooleanProperty getSkillExpertise(int index) {

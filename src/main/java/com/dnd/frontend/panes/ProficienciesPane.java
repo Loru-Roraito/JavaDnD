@@ -38,7 +38,7 @@ public class ProficienciesPane extends GridPane {
     private final String[] choiceArrays;
     private final List<TooltipComboBox> choiceComboBoxes;
     private final ViewModel character;
-    private final VBox proficienciesBox = new VBox();
+    private final VBox proficienciesBox = new VBox(5);
 
     public ProficienciesPane(ViewModel character, TabPane mainTabPane) {
         getStyleClass().add("grid-pane");

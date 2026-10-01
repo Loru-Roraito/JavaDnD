@@ -21,19 +21,29 @@ public class GroupManager extends Manager {
     public String[] getSelectableFeats() {
         String[] allFeats = getStrings(new String[] {"feats"});
         return Arrays.stream(allFeats)
-                .filter(feat -> {
-                    String type = getString(new String[] {"feats", feat, "type"});
-                    return type.equals("ORIGIN") || type.equals("GENERAL") || type.equals("EPIC_BOON");
-                })
-                .toArray(String[]::new);
+            .filter(feat -> {
+                String type = getString(new String[] {"feats", feat, "type"});
+                return type.equals("ORIGIN") || type.equals("GENERAL") || type.equals("EPIC_BOON");
+            })
+            .toArray(String[]::new);
     }
 
     public String[] getRepeatableFeats() {
         String[] selectableFeats = getSelectableFeats();
         return Arrays.stream(selectableFeats)
-                .filter(feat -> {
-                    return getBoolean(new String[] {"feats", feat, "repeatable"});
-                })
-                .toArray(String[]::new);
+            .filter(feat -> {
+                return getBoolean(new String[] {"feats", feat, "repeatable"});
+            })
+            .toArray(String[]::new);
+    }
+
+    public String[] getOriginFeats() {
+        String[] selectableFeats = getSelectableFeats();
+        return Arrays.stream(selectableFeats)
+            .filter(feat -> {
+                String type = getString(new String[] {"feats", feat, "type"});
+                return type.equals("ORIGIN");
+            })
+            .toArray(String[]::new);
     }
 }
